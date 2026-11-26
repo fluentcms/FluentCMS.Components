@@ -121,8 +121,11 @@
     --fl-space-6: 1.5rem;
     --fl-space-7: 1.75rem;
     --fl-space-8: 2rem;
+    --fl-space-9: 2.25rem;
     --fl-space-10: 2.5rem;
+    --fl-space-11: 2.75rem;
     --fl-space-12: 3rem;
+    --fl-space-14: 3.5rem;
     --fl-space-16: 4rem;
     --fl-space-20: 5rem;
     --fl-space-24: 6rem;
@@ -162,6 +165,7 @@
     --fl-duration-normal: 160ms;
     --fl-duration-slow: 240ms;
     --fl-duration-spin: 800ms;
+    --fl-duration-pulse: 1500ms;
     --fl-ease-standard: cubic-bezier(0.2, 0, 0, 1);
     --fl-ease-exit: cubic-bezier(0.4, 0, 1, 1);
 
