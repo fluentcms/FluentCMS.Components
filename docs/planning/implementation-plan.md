@@ -25,7 +25,7 @@ FluentCMS Components is an opinionated, minimal Blazor component library. It is 
 | D6 | The library is opinionated and minimal (section 3). |
 | D7 | The library lives in its own repository with its own tests, CI and releases, and is published on nuget.org. |
 | D8 | The FluentCMS admin and the admin halves of plugins use `Fl*` directly. `FluentCMS.Admin.Components` is removed; no wrapper layer replaces it. |
-| D9 | The visual direction is the selected admin mockup: a grouped sidebar, a header with global search, bordered inputs, data tables and a blue accent. It becomes the FluentCMS design system. |
+| D9 | The visual direction is the selected admin mockup: a grouped sidebar, a header with global search, bordered inputs, data tables and a blue accent. It becomes the FluentCMS design system. The mockup is a draft: its direction is settled, and its details may change with later requirements. |
 | D10 | The stylesheet is plain CSS: no CSS framework, no preprocessor and no build tool beyond MSBuild joining the files (section 4.2). |
 | D11 | The repository is public, since 26 November 2026, and the library is under the MIT license, as FluentCMS is. |
 
@@ -300,7 +300,7 @@ Sizes are S (hours), M (a day or two) and L (several days). FluentCMS issues are
 | --- | --- | --- |
 | C-01 | Scaffolding: solution, build properties, central package versions, `.editorconfig`, `.gitignore`, `.gitattributes`, `nuget.config`, contributing guide, markdownlint | S |
 | C-02 | Decision records: the render mode contract, the styling architecture, the script policy, the forms model | M |
-| C-03 | Design system page (section 6), with the reference mockup moved into `design/` | L |
+| C-03 | Design system page (section 6), made from the reference design in `design/reference/admin.html` | L |
 | C-04 | Token stylesheet: tokens, both themes, both densities, base rules, layers | M |
 | C-05 | Gallery that runs every page in static SSR, interactive server and WebAssembly, with theme, density and direction switches | M |
 | C-06 | Test harness: the bUnit project, and the browser project with the render mode matrix, axe-core, a keyboard-only helper and the WCAG 2.2 checks | L |

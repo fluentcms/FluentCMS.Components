@@ -1,0 +1,1395 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-view="dashboard">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FluentCMS admin: reference design</title>
+<script>try{var t=localStorage.getItem('fl-reference-theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Tokens */
+:root{
+  --bg:#F6F7F9;--surface:#FFFFFF;--surface-2:#F9FAFB;--surface-3:#F0F2F5;
+  --border:#E3E6EB;--border-strong:#CDD2DA;
+  --text:#0E131E;--text-2:#454C5A;--text-3:#5F6877;
+  --accent:#154EF2;--accent-hover:#0E3FD1;--accent-text:#154EF2;--accent-soft:#EBF0FF;--accent-soft-2:#DAE4FF;
+  --accent-ring:rgba(21,78,242,.2);--on-accent:#FFFFFF;--focus:#154EF2;--mark:#154EF2;--ink-tile:#0E131E;
+  --ok-bg:#E7F6EC;--ok-fg:#0B6B34;--ok-dot:#1A9B4B;
+  --warn-bg:#FFF3D6;--warn-fg:#8A5A00;--warn-dot:#D99200;
+  --neutral-bg:#EEF0F3;--neutral-fg:#4A5160;--neutral-dot:#8A93A3;
+  --danger-bg:#FDECEC;--danger-fg:#A3262B;--danger-dot:#D4474C;
+  --sched-bg:#EFEBFF;--sched-fg:#5333C7;--sched-dot:#7556E8;
+  --o-api-bg:#E1F4F8;--o-api-fg:#0B6477;--o-mcp-bg:#F8E8FC;--o-mcp-fg:#8A1C9C;--o-job-bg:#EDF0F4;--o-job-fg:#475264;
+  --shadow-pop:0 8px 24px rgba(14,19,30,.12),0 2px 6px rgba(14,19,30,.06);
+  --font:Inter,"Segoe UI Variable","Segoe UI",system-ui,-apple-system,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:#0D1118;--surface:#141922;--surface-2:#181E29;--surface-3:#1F2633;
+  --border:#262E3B;--border-strong:#3A4454;
+  --text:#EEF1F6;--text-2:#B9BFCB;--text-3:#8D95A3;
+  --accent:#2F64F5;--accent-hover:#4274F7;--accent-text:#8FB0FF;--accent-soft:#18244A;--accent-soft-2:#22336A;
+  --accent-ring:rgba(95,138,255,.35);--on-accent:#FFFFFF;--focus:#8FB0FF;--mark:#6F97FF;--ink-tile:#2A3342;
+  --ok-bg:#11301F;--ok-fg:#6FD99A;--ok-dot:#3CC47A;
+  --warn-bg:#3A2C0B;--warn-fg:#F2C15C;--warn-dot:#E0A52A;
+  --neutral-bg:#232B38;--neutral-fg:#B9BFCB;--neutral-dot:#8D95A3;
+  --danger-bg:#3A1719;--danger-fg:#F29A9D;--danger-dot:#E5676C;
+  --sched-bg:#251F4A;--sched-fg:#B8A8FF;--sched-dot:#8E78F5;
+  --o-api-bg:#0F2F38;--o-api-fg:#7FD4E6;--o-mcp-bg:#35173C;--o-mcp-fg:#E9A6F5;--o-job-bg:#232B38;--o-job-fg:#B9BFCB;
+  --shadow-pop:0 12px 32px rgba(0,0,0,.55),0 2px 8px rgba(0,0,0,.4);
+  color-scheme:dark;
+}
+
+/* Base */
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{block-size:100%}
+body{margin:0;font-family:var(--font);font-size:14px;line-height:1.45;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+h1,h2,h3,p,ul,ol,dl,dd{margin:0;padding:0}
+ul,ol{list-style:none}
+a{color:var(--accent-text);text-decoration:none}
+a:hover{text-decoration:underline}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+.ic{inline-size:1em;block-size:1em;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;font-size:16px}
+.tnum{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono);font-size:.92em}
+.sr{position:absolute;inline-size:1px;block-size:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.muted{color:var(--text-3)}
+.grow{flex:1;min-inline-size:0}
+.end{margin-inline-start:auto}
+
+/* Controls */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;block-size:32px;padding-inline:12px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);color:var(--text);font-size:13px;font-weight:500;white-space:nowrap;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--surface-3);text-decoration:none}
+.btn .ic{color:var(--text-2)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn-primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+.btn-primary .ic{color:inherit}
+.btn-ghost{background:transparent;border-color:transparent;color:var(--text-2)}
+.btn-ghost:hover{background:var(--surface-3);color:var(--text)}
+.btn-icon{inline-size:32px;padding:0}
+.btn-sm{block-size:28px;padding-inline:10px;font-size:12.5px}
+.btn-sm.btn-icon{inline-size:28px;padding:0}
+.btn.danger,.btn.danger .ic{color:var(--danger-fg)}
+.split{display:inline-flex}
+.split .btn:first-child{border-start-end-radius:0;border-end-end-radius:0}
+.split .btn:last-child{border-start-start-radius:0;border-end-start-radius:0;padding-inline:8px;border-inline-start-color:rgba(255,255,255,.32)}
+.kbd{display:inline-flex;align-items:center;block-size:20px;padding-inline:5px;border:1px solid var(--border-strong);border-block-end-width:2px;border-radius:4px;background:var(--surface);color:var(--text-2);font-size:11px;font-weight:500;line-height:1;white-space:nowrap}
+.input{inline-size:100%;block-size:36px;padding-inline:10px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);color:var(--text);font-size:14px}
+.input:hover{border-color:var(--text-3)}
+.input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-ring)}
+.input[readonly]{background:var(--surface-2);color:var(--text-2)}
+.select-wrap{position:relative}
+.select-wrap select{appearance:none;padding-inline-end:32px}
+.select-wrap .ic{position:absolute;inset-inline-end:10px;inset-block-start:50%;transform:translateY(-50%);pointer-events:none;color:var(--text-3)}
+input[type="checkbox"]{inline-size:16px;block-size:16px;margin:0;accent-color:var(--accent);cursor:pointer;vertical-align:middle}
+.menu-wrap{position:relative;display:inline-flex}
+.menu{position:absolute;inset-inline-end:0;inset-block-start:calc(100% + 6px);z-index:30;min-inline-size:232px;padding:4px;border:1px solid var(--border);border-radius:8px;background:var(--surface);box-shadow:var(--shadow-pop)}
+.menu button{display:flex;align-items:center;gap:10px;inline-size:100%;block-size:32px;padding-inline:8px;border:0;border-radius:5px;background:transparent;font-size:13px;text-align:start;cursor:pointer}
+.menu button:hover{background:var(--surface-3)}
+.menu button .ic{color:var(--text-3)}
+.menu button.danger,.menu button.danger .ic{color:var(--danger-fg)}
+.menu hr{margin:4px 0;border:0;border-block-start:1px solid var(--border)}
+
+/* Status, origin, avatars */
+.is-published{--s-bg:var(--ok-bg);--s-fg:var(--ok-fg);--s-dot:var(--ok-dot)}
+.is-modified{--s-bg:var(--warn-bg);--s-fg:var(--warn-fg);--s-dot:var(--warn-dot)}
+.is-draft{--s-bg:var(--neutral-bg);--s-fg:var(--neutral-fg);--s-dot:var(--neutral-dot)}
+.is-unpublished{--s-bg:var(--danger-bg);--s-fg:var(--danger-fg);--s-dot:var(--danger-dot)}
+.is-scheduled{--s-bg:var(--sched-bg);--s-fg:var(--sched-fg);--s-dot:var(--sched-dot)}
+.pill{display:inline-flex;align-items:center;gap:6px;block-size:22px;padding-inline:8px 9px;border-radius:999px;background:var(--s-bg);color:var(--s-fg);font-size:12px;font-weight:500;white-space:nowrap}
+.pill::before{content:"";inline-size:6px;block-size:6px;border-radius:50%;background:var(--s-dot)}
+.lps{display:inline-flex;gap:4px}
+.lp{display:inline-flex;align-items:center;gap:5px;block-size:22px;padding-inline:6px;border:1px solid transparent;border-radius:5px;background:var(--s-bg);color:var(--s-fg);font-size:11.5px;font-weight:500;white-space:nowrap}
+.lp b{font-weight:700;letter-spacing:.02em}
+.lp.is-missing{background:transparent;border:1px dashed var(--border-strong);color:var(--text-3)}
+.sched{display:inline-flex;align-items:center;gap:4px;block-size:18px;padding-inline:5px 6px;border-radius:4px;background:var(--sched-bg);color:var(--sched-fg);font-family:var(--font);font-size:11.5px;font-weight:500;white-space:nowrap}
+.sched .ic{font-size:12px}
+.sched.is-un{background:var(--danger-bg);color:var(--danger-fg)}
+.origin{display:inline-flex;align-items:center;block-size:18px;padding-inline:6px;border:1px solid var(--border-strong);border-radius:4px;color:var(--text-2);font-size:11px;font-weight:600;letter-spacing:.02em;white-space:nowrap}
+.origin.o-api{border-color:transparent;background:var(--o-api-bg);color:var(--o-api-fg)}
+.origin.o-mcp{border-color:transparent;background:var(--o-mcp-bg);color:var(--o-mcp-fg)}
+.origin.o-job{border-color:transparent;background:var(--o-job-bg);color:var(--o-job-fg)}
+.av{display:inline-grid;place-items:center;flex:none;inline-size:24px;block-size:24px;border-radius:50%;background:#5F6877;color:#fff;font-size:10px;font-weight:600;letter-spacing:.02em}
+.av .ic{font-size:13px}
+.av-lg{inline-size:28px;block-size:28px;font-size:11px}
+.av-jw{background:#0F766E}.av-al{background:#7C3AED}.av-pn{background:#C2410C}.av-em{background:#154EF2}.av-bot{background:#8A1C9C}.av-job{background:#475264}
+.tagx{display:inline-flex;align-items:center;block-size:18px;padding-inline:6px;border-radius:4px;background:var(--surface-3);color:var(--text-2);font-size:11px;font-weight:500}
+.dot{display:inline-block;inline-size:8px;block-size:8px;border-radius:50%;background:var(--neutral-dot)}
+.dot.ok{background:var(--ok-dot)}.dot.warn{background:var(--warn-dot)}
+
+/* Shell */
+.app{display:grid;grid-template-columns:256px minmax(0,1fr);block-size:100vh}
+.sidebar{display:flex;flex-direction:column;min-block-size:0;background:var(--surface);border-inline-end:1px solid var(--border)}
+.sb-brand{display:flex;align-items:center;gap:10px;block-size:56px;flex:none;padding-inline:16px;border-block-end:1px solid var(--border);color:var(--text)}
+.sb-brand:hover{text-decoration:none}
+.mark{inline-size:24px;block-size:25px;flex:none;color:var(--mark)}
+.wm{font-size:17px;font-weight:700;letter-spacing:-.02em}
+.wm b{color:var(--mark);font-weight:700}
+.site{display:flex;align-items:center;gap:10px;margin:12px 12px 4px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);text-align:start;cursor:pointer}
+.site:hover{background:var(--surface-2);border-color:var(--border-strong)}
+.site-badge{display:grid;place-items:center;flex:none;inline-size:28px;block-size:28px;border-radius:6px;background:var(--ink-tile);color:#fff;font-size:11px;font-weight:700;letter-spacing:.02em}
+.site-t{display:grid;min-inline-size:0;line-height:1.25}
+.site-t b{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.site-t span{font-size:11.5px;color:var(--text-3)}
+.site>.ic{margin-inline-start:auto;color:var(--text-3)}
+.nav{flex:1;min-block-size:0;overflow-y:auto;padding:4px 12px 16px;scrollbar-width:thin}
+.nav-label{padding:16px 8px 6px;color:var(--text-3);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.nav-sub{padding:10px 8px 4px;color:var(--text-3);font-size:11.5px;font-weight:500}
+.nav-item{position:relative;display:flex;align-items:center;gap:10px;inline-size:100%;block-size:30px;margin-block-end:1px;padding-inline:8px;border:0;border-radius:6px;background:transparent;color:var(--text-2);font-size:13px;font-weight:500;text-align:start;cursor:pointer}
+.nav-item .ic{color:var(--text-3)}
+.nav-item:hover{background:var(--surface-3);color:var(--text);text-decoration:none}
+.nav-item .count{margin-inline-start:auto;color:var(--text-3);font-size:12px;font-weight:400;font-variant-numeric:tabular-nums}
+.nav-item .tagx{margin-inline-start:2px}
+.nav-item .chev{margin-inline-start:auto;font-size:14px;transition:transform .15s}
+.nav-item[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.nav-children{display:grid;margin:2px 0 6px 15px;padding-inline-start:10px;border-inline-start:1px solid var(--border)}
+html[data-view="dashboard"] .nav-item[data-nav="home"],html[data-view="list"] .nav-item[data-nav="articles"],html[data-view="editor"] .nav-item[data-nav="articles"]{background:var(--accent-soft);color:var(--accent-text);font-weight:600}
+html[data-view="dashboard"] .nav-item[data-nav="home"] .ic,html[data-view="list"] .nav-item[data-nav="articles"] .ic,html[data-view="editor"] .nav-item[data-nav="articles"] .ic,html[data-view="list"] .nav-item[data-nav="articles"] .count,html[data-view="editor"] .nav-item[data-nav="articles"] .count{color:var(--accent-text)}
+html[data-view="dashboard"] .nav-item[data-nav="home"]::before,html[data-view="list"] .nav-item[data-nav="articles"]::before,html[data-view="editor"] .nav-item[data-nav="articles"]::before{content:"";position:absolute;inset-inline-start:0;inset-block:7px;inline-size:2px;border-radius:2px;background:var(--accent)}
+.sb-foot{display:flex;align-items:center;gap:4px;flex:none;padding:8px 12px;border-block-start:1px solid var(--border)}
+.sb-foot .nav-item{margin:0}
+.sb-foot .btn{flex:none}
+html[data-sb="collapsed"] .app{grid-template-columns:64px minmax(0,1fr)}
+html[data-sb="collapsed"] .sb-t,html[data-sb="collapsed"] .nav-children,html[data-sb="collapsed"] .site>.ic{display:none}
+html[data-sb="collapsed"] .sb-brand,html[data-sb="collapsed"] .nav-item,html[data-sb="collapsed"] .site{justify-content:center;padding-inline:0}
+html[data-sb="collapsed"] .site{border-color:transparent}
+html[data-sb="collapsed"] .nav-label,html[data-sb="collapsed"] .nav-sub{block-size:1px;margin:8px;padding:0;background:var(--border);font-size:0}
+html[data-sb="collapsed"] .sb-foot{flex-direction:column}
+
+.main{display:flex;flex-direction:column;min-inline-size:0;min-block-size:0}
+.topbar{display:flex;align-items:center;gap:16px;block-size:56px;flex:none;padding-inline:24px;background:var(--surface);border-block-end:1px solid var(--border)}
+.tb-start{display:flex;align-items:center;gap:8px;flex:1 1 0;min-inline-size:0}
+.tb-menu{display:none}
+.crumbs{display:none;align-items:center;gap:6px;min-inline-size:0;color:var(--text-3);font-size:13px;white-space:nowrap}
+html[data-view="dashboard"] .crumbs[data-for="dashboard"],html[data-view="list"] .crumbs[data-for="list"],html[data-view="editor"] .crumbs[data-for="editor"]{display:flex}
+.crumbs a{color:var(--text-2)}
+.crumbs .ic{font-size:14px;color:var(--border-strong)}
+.crumbs [aria-current]{overflow:hidden;text-overflow:ellipsis;color:var(--text);font-weight:500}
+.search{display:flex;align-items:center;gap:8px;flex:0 1 440px;block-size:36px;padding-inline:10px 8px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text-3);cursor:text}
+.search:hover{border-color:var(--border-strong)}
+.search:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-ring);background:var(--surface)}
+.search input{flex:1;min-inline-size:0;border:0;outline:0;background:transparent;font-size:13px;color:var(--text)}
+.search input::placeholder{color:var(--text-3);opacity:1}
+.tb-end{display:flex;align-items:center;justify-content:flex-end;gap:4px;flex:1 1 0}
+.tb-locale{gap:6px;padding-inline:10px 8px;margin-inline-end:4px}
+.tb-locale b{font-weight:600}
+.bell{position:relative}
+.bell::after{content:"";position:absolute;inset-block-start:6px;inset-inline-end:7px;inline-size:8px;block-size:8px;border:2px solid var(--surface);border-radius:50%;background:var(--danger-dot)}
+.th-dark{display:none}
+[data-theme="dark"] .th-dark{display:block}
+[data-theme="dark"] .th-light{display:none}
+.tb-div{inline-size:1px;block-size:24px;margin-inline:8px;background:var(--border)}
+.user{display:flex;align-items:center;gap:8px;block-size:40px;padding-inline:6px;border:0;border-radius:8px;background:transparent;text-align:start;cursor:pointer}
+.user:hover{background:var(--surface-3)}
+.user-t{display:grid;line-height:1.2;white-space:nowrap}
+.user-t b{font-size:13px;font-weight:600}
+.user-t span{font-size:11.5px;color:var(--text-3)}
+.user>.ic{color:var(--text-3);font-size:14px}
+.content{flex:1;min-block-size:0;overflow-y:auto;padding-block-end:48px}
+.page{max-inline-size:1440px;margin-inline:auto;padding:24px 24px 96px}
+.page-h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-block-end:20px}
+.page-h h1{font-size:22px;font-weight:600;letter-spacing:-.015em;line-height:1.25}
+.page-h .sub{margin-block-start:4px;color:var(--text-3);font-size:13px}
+.page-actions{display:flex;align-items:center;gap:8px}
+.count-badge{display:inline-flex;align-items:center;block-size:22px;margin-inline-start:8px;padding-inline:8px;border-radius:999px;background:var(--surface-3);color:var(--text-2);font-size:12px;font-weight:600;vertical-align:3px;letter-spacing:0}
+
+/* Cards */
+.card{border:1px solid var(--border);border-radius:8px;background:var(--surface)}
+.card-h{display:flex;align-items:center;gap:8px;min-block-size:48px;padding:8px 16px;border-block-end:1px solid var(--border)}
+.card-h h2{font-size:14px;font-weight:600}
+.card-h .link{margin-inline-start:auto;font-size:13px;font-weight:500}
+.card-b{padding:16px}
+
+/* Dashboard */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-block-end:16px}
+.kpi{display:grid;gap:10px;padding:16px;color:inherit}
+.kpi:hover{border-color:var(--border-strong);text-decoration:none}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;color:var(--text-2);font-size:13px;font-weight:500}
+.kpi-top .ic{color:var(--text-3)}
+.kpi-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.kpi-val{font-size:30px;font-weight:600;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpi-foot{display:flex;align-items:center;gap:6px;color:var(--text-3);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi-foot .up{display:inline-flex;align-items:center;gap:3px;color:var(--ok-fg);font-weight:600}
+.kpi-foot .up .ic{font-size:13px}
+.spark{inline-size:100px;block-size:32px;flex:none;overflow:visible}
+.spark-line{fill:none;stroke:var(--accent-text);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.spark-area{fill:var(--accent-text);opacity:.1}
+.spark-dot{fill:var(--accent-text)}
+.spark .bar{fill:var(--accent-soft-2)}
+.spark .bar.now{fill:var(--accent)}
+.spark .bar.off{fill:var(--surface-3)}
+.spark .day{fill:var(--surface-3)}
+.spark .day.on{fill:var(--sched-dot)}
+.spark .seg-a{fill:var(--warn-dot);opacity:.45}
+.spark .seg-b{fill:var(--warn-dot)}
+.dash-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:16px;align-items:start}
+.col{display:grid;gap:16px;min-inline-size:0}
+.mini-tbl{inline-size:100%;border-collapse:collapse;font-size:13px}
+.mini-tbl td{padding:10px 16px;border-block-end:1px solid var(--border);vertical-align:middle}
+.mini-tbl tr:last-child td{border-block-end:0}
+.mini-tbl tr{cursor:pointer}
+.mini-tbl tr:hover td{background:var(--surface-2)}
+.mini-tbl .t{display:block;color:var(--text);font-weight:500}
+.mini-tbl .m{display:flex;align-items:center;gap:6px;margin-block-start:2px;color:var(--text-3);font-size:12px}
+.mini-tbl .go{inline-size:1%;color:var(--text-3)}
+.tl{padding:6px 16px 8px}
+.tl li{position:relative;display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:start;padding-block:10px}
+.tl li:not(:last-child)::before{content:"";position:absolute;inset-inline-start:13.5px;inset-block:40px -8px;inline-size:1px;background:var(--border)}
+.tl .tx{font-size:13px;color:var(--text-2)}
+.tl .tx b{color:var(--text);font-weight:600}
+.tl .tx a{font-weight:500}
+.tl .mt{display:flex;align-items:center;gap:6px;margin-block-start:3px;color:var(--text-3);font-size:12px}
+.tl .wh{display:flex;align-items:center;gap:8px;color:var(--text-3);font-size:12px;white-space:nowrap;padding-block-start:2px}
+.bars{display:grid;gap:10px}
+.bars li{display:grid;grid-template-columns:72px minmax(0,1fr) 36px;gap:12px;align-items:center;font-size:13px}
+.bars .v{text-align:end;font-weight:600;font-variant-numeric:tabular-nums}
+.track{block-size:8px;border-radius:4px;background:var(--surface-3);overflow:hidden}
+.track i{display:block;block-size:100%;border-radius:4px;background:var(--accent)}
+.track.thin{block-size:6px}
+.sch li{display:flex;align-items:center;gap:12px;padding:10px 16px;border-block-end:1px solid var(--border)}
+.sch li:last-child{border-block-end:0}
+.date{flex:none;inline-size:40px;border:1px solid var(--border);border-radius:6px;overflow:hidden;text-align:center;line-height:1.2}
+.date span{display:block;padding-block:2px;background:var(--surface-3);color:var(--text-2);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.date b{display:block;padding-block:3px;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.sch .t{display:block;font-size:13px;font-weight:500;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sch .m{display:flex;align-items:center;gap:6px;margin-block-start:3px;color:var(--text-3);font-size:12px}
+.cov{display:grid;gap:12px}
+.cov li{display:grid;grid-template-columns:28px minmax(0,1fr) 40px;gap:10px;align-items:center;font-size:13px}
+.cov b{font-size:12px;font-weight:600}
+.cov .v{text-align:end;color:var(--text-2);font-variant-numeric:tabular-nums}
+.facts li{display:flex;align-items:center;gap:10px;padding-block:8px;border-block-end:1px solid var(--border);font-size:13px}
+.facts li:first-child{padding-block-start:0}
+.facts li:last-child{padding-block-end:0;border-block-end:0}
+.facts .k{color:var(--text-2)}
+.facts .v{margin-inline-start:auto;font-weight:500;font-variant-numeric:tabular-nums}
+.facts .tile{display:grid;place-items:center;flex:none;inline-size:28px;block-size:28px;border-radius:6px;background:var(--surface-3);color:var(--text-2)}
+.facts .two{display:grid;line-height:1.3;min-inline-size:0}
+.facts .two span{color:var(--text-3);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.budget{margin-block-start:12px;padding-block-start:12px;border-block-start:1px solid var(--border);font-size:13px}
+.budget .r{display:flex;justify-content:space-between;margin-block-end:6px}
+.budget small{display:block;margin-block-start:6px;color:var(--text-3);font-size:12px}
+
+/* List */
+.tabs{display:flex;align-items:center;gap:4px;padding-inline:12px;border-block-end:1px solid var(--border)}
+.tab{display:inline-flex;align-items:center;gap:8px;block-size:44px;margin-block-end:-1px;padding-inline:10px;border:0;border-block-end:2px solid transparent;background:transparent;color:var(--text-2);font-size:13px;font-weight:500;cursor:pointer}
+.tab:hover{color:var(--text)}
+.tab .n{padding:1px 6px;border-radius:999px;background:var(--surface-3);color:var(--text-2);font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums}
+.tab.is-active{border-block-end-color:var(--accent);color:var(--accent-text);font-weight:600}
+.tab.is-active .n{background:var(--accent-soft);color:var(--accent-text)}
+.toolbar{display:flex;align-items:center;gap:8px;padding:12px}
+.tsearch{display:flex;align-items:center;gap:8px;inline-size:232px;block-size:32px;padding-inline:10px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);color:var(--text-3)}
+.tsearch:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-ring)}
+.tsearch input{flex:1;min-inline-size:0;border:0;outline:0;background:transparent;font-size:13px;color:var(--text)}
+.tsearch input::placeholder{color:var(--text-3);opacity:1}
+.chip{display:inline-flex;align-items:center;gap:6px;block-size:32px;padding-inline:10px 8px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);color:var(--text-2);font-size:13px;cursor:pointer;white-space:nowrap}
+.chip:hover{background:var(--surface-3)}
+.chip b{color:var(--text);font-weight:500}
+.chip .ic{font-size:14px;color:var(--text-3)}
+.chip.is-add{border-style:dashed;padding-inline:8px 10px}
+.seg{display:inline-flex;padding:2px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface)}
+.seg button{display:grid;place-items:center;inline-size:28px;block-size:26px;border:0;border-radius:4px;background:transparent;color:var(--text-3);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface-3);color:var(--text)}
+.bulk{display:flex;align-items:center;gap:8px;padding:8px 12px;border-block:1px solid var(--accent-soft-2);background:var(--accent-soft);font-size:13px}
+.bulk .n{font-weight:600}
+.bulk .lnk{border:0;background:transparent;color:var(--accent-text);font-size:13px;font-weight:500;cursor:pointer;padding:0}
+.bulk .lnk:hover{text-decoration:underline}
+.bulk .sep{inline-size:1px;block-size:20px;margin-inline:4px;background:var(--accent-soft-2)}
+.tbl{inline-size:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
+.tbl th{block-size:36px;padding-inline:12px;border-block-end:1px solid var(--border);background:var(--surface-2);color:var(--text-2);font-size:12px;font-weight:500;text-align:start;white-space:nowrap}
+.tbl th button{display:inline-flex;align-items:center;gap:4px;border:0;background:transparent;padding:0;font-weight:500;color:inherit;cursor:pointer}
+.tbl th button .ic{font-size:13px}
+.tbl th[aria-sort] button{color:var(--text);font-weight:600}
+.tbl td{block-size:52px;padding:6px 12px;border-block-end:1px solid var(--border);vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tbl tbody tr{cursor:pointer}
+.tbl tbody tr:hover td{background:var(--surface-2)}
+.tbl tbody tr.is-selected td{background:var(--accent-soft)}
+.tbl .c-chk{inline-size:40px;padding-inline:12px 0}
+.tbl .c-status{inline-size:204px}.tbl .c-author{inline-size:164px}.tbl .c-cat{inline-size:112px}.tbl .c-upd{inline-size:104px}.tbl .c-act{inline-size:80px;padding-inline:4px 8px;text-align:end}
+.tt{display:flex;align-items:center;gap:8px;min-inline-size:0}
+.tt a{overflow:hidden;text-overflow:ellipsis;color:var(--text);font-weight:500}
+.tt a:hover{color:var(--accent-text)}
+.ts{display:flex;align-items:center;gap:8px;margin-block-start:2px;min-inline-size:0;color:var(--text-3);font-family:var(--mono);font-size:11.5px}
+.ts span:first-child{overflow:hidden;text-overflow:ellipsis}
+.who{display:flex;align-items:center;gap:8px;min-inline-size:0}
+.who span:last-child{overflow:hidden;text-overflow:ellipsis}
+.row-act{display:inline-flex;gap:2px;color:var(--text-3)}
+.tfoot{display:flex;align-items:center;gap:16px;padding:10px 12px;color:var(--text-2);font-size:13px}
+.legend{display:flex;align-items:center;gap:12px;margin-inline:auto;color:var(--text-3);font-size:12px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{inline-size:8px;block-size:8px;border-radius:50%;background:var(--s-dot)}
+.legend i.miss{background:transparent;border:1px dashed var(--text-3)}
+.pager{display:flex;align-items:center;gap:4px}
+.pager .pg{display:grid;place-items:center;min-inline-size:28px;block-size:28px;padding-inline:6px;border:1px solid transparent;border-radius:6px;background:transparent;color:var(--text-2);font-size:13px;font-variant-numeric:tabular-nums;cursor:pointer}
+.pager .pg:hover{background:var(--surface-3)}
+.pager .pg[aria-current]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-text);font-weight:600}
+.pager .pg[disabled]{opacity:.45;cursor:default}
+.per{display:inline-flex;align-items:center;gap:6px}
+.per .select-wrap select{inline-size:64px;block-size:28px;font-size:13px;padding-inline:8px 24px}
+.per .select-wrap .ic{inset-inline-end:6px;font-size:13px}
+
+/* Editor */
+.ed-bar{position:sticky;inset-block-start:0;z-index:10;display:flex;align-items:center;gap:12px;padding:10px 24px;background:var(--surface);border-block-end:1px solid var(--border)}
+.ed-title{display:grid;gap:2px;min-inline-size:0}
+.ed-title .l1{display:flex;align-items:center;gap:10px;min-inline-size:0}
+.ed-title h1{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.ed-title .l2{display:flex;align-items:center;gap:6px;color:var(--text-3);font-size:12px;white-space:nowrap}
+.ed-actions{display:flex;align-items:center;gap:8px;margin-inline-start:auto;flex:none}
+.ed-loc{display:flex;align-items:center;gap:4px;padding-inline:24px;background:var(--surface);border-block-end:1px solid var(--border)}
+.ltab{display:inline-flex;align-items:center;gap:8px;block-size:42px;margin-block-end:-1px;padding-inline:10px;border:0;border-block-end:2px solid transparent;background:transparent;color:var(--text-2);font-size:13px;font-weight:500;cursor:pointer}
+.ltab b{font-weight:600}
+.ltab i{inline-size:7px;block-size:7px;border-radius:50%;background:var(--s-dot)}
+.ltab small{color:var(--text-3);font-size:12px;font-weight:400}
+.ltab.is-active{border-block-end-color:var(--accent);color:var(--text)}
+.ed-body{display:grid;grid-template-columns:minmax(0,780px) 340px;justify-content:center;gap:24px;padding:20px 24px 96px}
+.ed-main,.ed-side{display:grid;gap:16px;align-content:start;min-inline-size:0}
+.gtabs{display:inline-flex;gap:2px;padding:3px;border:1px solid var(--border);border-radius:8px;background:var(--surface);justify-self:start}
+.gtabs a{display:inline-flex;align-items:center;gap:6px;block-size:28px;padding-inline:12px;border-radius:5px;color:var(--text-2);font-size:13px;font-weight:500}
+.gtabs a:hover{background:var(--surface-3);text-decoration:none}
+.gtabs a.is-active{background:var(--accent-soft);color:var(--accent-text);font-weight:600}
+.gtabs .n{color:var(--text-3);font-size:12px;font-weight:400}
+.field{display:grid;gap:6px;margin-block-end:20px}
+.field:last-child{margin-block-end:0}
+.lbl{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500}
+.lbl .req{color:var(--danger-fg)}
+.lbl .ic{font-size:13px;color:var(--text-3)}
+.lbl .meta{margin-inline-start:auto;color:var(--text-3);font-size:12px;font-weight:400;font-variant-numeric:tabular-nums}
+.help{color:var(--text-3);font-size:12px}
+.igroup{display:flex}
+.igroup .pre{display:flex;align-items:center;padding-inline:10px;border:1px solid var(--border-strong);border-inline-end:0;border-start-start-radius:6px;border-end-start-radius:6px;background:var(--surface-2);color:var(--text-3);font-family:var(--mono);font-size:12.5px}
+.igroup .input{border-radius:0;font-family:var(--mono);font-size:13px}
+.igroup .btn{block-size:36px;border-inline-start:0;border-start-start-radius:0;border-end-start-radius:0}
+.igroup .btn[aria-pressed="true"]{background:var(--surface-3)}
+.rte{border:1px solid var(--border-strong);border-radius:8px;background:var(--surface);overflow:hidden}
+.rte-bar{display:flex;align-items:center;gap:2px;padding:6px 8px;border-block-end:1px solid var(--border);background:var(--surface-2)}
+.rte-style{gap:6px;block-size:28px;padding-inline:8px 6px;border-color:transparent;background:transparent;font-size:13px}
+.rte-btn{display:grid;place-items:center;inline-size:28px;block-size:28px;border:0;border-radius:5px;background:transparent;color:var(--text-2);cursor:pointer}
+.rte-btn:hover{background:var(--surface-3);color:var(--text)}
+.rte-btn[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent-text)}
+.rte-sep{inline-size:1px;block-size:18px;margin-inline:6px;background:var(--border)}
+.rte-ai{margin-inline-start:auto;block-size:28px;padding-inline:8px 10px;border-color:var(--accent-soft-2);background:var(--accent-soft);color:var(--accent-text);font-size:12.5px}
+.rte-ai:hover{background:var(--accent-soft-2)}
+.rte-ai .ic{color:inherit;font-size:14px}
+.rte-body{padding:16px 18px 6px;font-size:15px;line-height:1.65;outline:0}
+.rte-body h3{margin:18px 0 6px;font-size:18px;font-weight:600;letter-spacing:-.01em;line-height:1.3}
+.rte-body p{margin-block-end:12px}
+.rte-body a{text-decoration:underline;text-underline-offset:2px}
+.rte-foot{display:flex;justify-content:space-between;padding:6px 12px;border-block-start:1px solid var(--border);color:var(--text-3);font-size:12px}
+.block{border:1px solid var(--border);border-radius:8px;background:var(--surface);margin-block-end:8px}
+.block.is-open{border-color:var(--border-strong)}
+.block-h{display:flex;align-items:center;gap:8px;block-size:44px;padding-inline:6px 8px}
+.grip{display:grid;place-items:center;inline-size:24px;block-size:28px;border:0;border-radius:5px;background:transparent;color:var(--text-3);cursor:grab}
+.grip:hover{background:var(--surface-3)}
+.b-ico{display:grid;place-items:center;flex:none;inline-size:26px;block-size:26px;border-radius:6px;background:var(--surface-3);color:var(--text-2)}
+.b-ico .ic{font-size:14px}
+.b-type{font-size:13px;font-weight:600}
+.b-sum{flex:1;min-inline-size:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-3);font-size:13px}
+.b-thumbs{display:inline-flex;gap:3px;flex:none}
+.b-thumbs i{inline-size:22px;block-size:22px;border-radius:4px}
+.block-b{display:grid;grid-template-columns:minmax(0,1fr) 208px;gap:16px 20px;padding:16px;border-block-start:1px solid var(--border)}
+.block-b .field{margin:0}
+.add-block{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px dashed var(--border-strong);border-radius:8px;color:var(--text-2);font-size:13px}
+.add-block .lead{display:inline-flex;align-items:center;gap:6px;margin-inline-end:4px;font-weight:500}
+.ph{background:radial-gradient(circle at 72% 30%,rgba(255,238,178,.95) 0 9%,transparent 10%),radial-gradient(120% 80% at 18% 118%,#6FBF8E 0 45%,transparent 46%),radial-gradient(120% 90% at 86% 128%,#3F9D7A 0 48%,transparent 49%),linear-gradient(180deg,#9CC4FF 0%,#DCEBFF 72%)}
+.ph.v2{background:radial-gradient(circle at 30% 34%,rgba(255,246,214,.95) 0 10%,transparent 11%),radial-gradient(120% 80% at 80% 120%,#C9736B 0 46%,transparent 47%),radial-gradient(120% 90% at 10% 130%,#8F4F63 0 48%,transparent 49%),linear-gradient(180deg,#FFC2A1 0%,#FFE8D6 72%)}
+.ph.v3{background:radial-gradient(120% 80% at 30% 120%,#7D6BD6 0 46%,transparent 47%),radial-gradient(120% 90% at 90% 132%,#4B3FA8 0 48%,transparent 49%),linear-gradient(180deg,#C9BEFF 0%,#F0ECFF 72%)}
+.ph.v4{background:radial-gradient(circle at 60% 28%,rgba(255,255,255,.9) 0 8%,transparent 9%),radial-gradient(120% 80% at 70% 118%,#2F9AA8 0 46%,transparent 47%),radial-gradient(120% 90% at 8% 130%,#1F6E86 0 48%,transparent 49%),linear-gradient(180deg,#A7E3EC 0%,#E3F7FA 72%)}
+.ph.v5{background:radial-gradient(120% 80% at 22% 120%,#E0A52A 0 46%,transparent 47%),radial-gradient(120% 90% at 88% 130%,#B8791A 0 48%,transparent 49%),linear-gradient(180deg,#FFE3A3 0%,#FFF6DD 72%)}
+.ph.v6{background:radial-gradient(circle at 76% 32%,rgba(255,240,200,.9) 0 9%,transparent 10%),radial-gradient(120% 80% at 60% 122%,#5B7FD6 0 46%,transparent 47%),radial-gradient(120% 90% at 0% 130%,#3355B0 0 48%,transparent 49%),linear-gradient(180deg,#B6CBFF 0%,#EAF0FF 72%)}
+.media{display:grid;gap:8px}
+.media-img{position:relative;aspect-ratio:16/9;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.focal{position:absolute;inset-inline-start:72%;inset-block-start:30%;inline-size:20px;block-size:20px;margin:-10px;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 1px rgba(14,19,30,.5),inset 0 0 0 1px rgba(14,19,30,.5)}
+.media-meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-3)}
+.media-meta b{color:var(--text);font-weight:500;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.serp{padding:12px 14px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2)}
+.serp small{display:block;margin-block-end:6px;color:var(--text-3);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.serp .u{color:var(--text-3);font-size:12px}
+.serp .h{margin-block:2px;color:var(--accent-text);font-size:16px;font-weight:500}
+.serp .d{color:var(--text-2);font-size:13px}
+.note{display:flex;gap:8px;padding:10px 12px;border-radius:6px;background:var(--warn-bg);color:var(--warn-fg);font-size:12.5px;line-height:1.4}
+.note .ic{margin-block-start:1px}
+.note.info{background:var(--surface-3);color:var(--text-2)}
+.locs{margin-block:12px}
+.locs li{display:flex;align-items:center;gap:8px;block-size:34px;border-block-end:1px solid var(--border);font-size:13px}
+.locs li:last-child{border-block-end:0}
+.locs b{inline-size:24px;font-size:12px;font-weight:600}
+.locs .pill{margin-inline-start:auto}
+.sbox{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:6px}
+.sbox>.ic{color:var(--text-3)}
+.sbox div{display:grid;line-height:1.3;min-inline-size:0;flex:1}
+.sbox b{font-size:13px;font-weight:500}
+.sbox span{color:var(--text-3);font-size:12px}
+.side-actions{display:flex;gap:4px;margin:12px -6px -4px}
+.rel{display:flex;align-items:center;gap:8px;block-size:36px;padding-inline:8px 4px;border:1px solid var(--border-strong);border-radius:6px;font-size:13px}
+.rel .acts{display:inline-flex;margin-inline-start:auto;color:var(--text-3)}
+.tagbox{display:flex;flex-wrap:wrap;gap:6px;padding:5px;border:1px solid var(--border-strong);border-radius:6px}
+.tchip{display:inline-flex;align-items:center;gap:2px;block-size:24px;padding-inline:2px;border-radius:5px;background:var(--surface-3);font-size:12.5px;font-weight:500}
+.tchip .ic{font-size:12px;color:var(--text-3)}
+.tchip button{display:grid;place-items:center;inline-size:24px;block-size:24px;margin-inline:-1px -2px;border:0;border-radius:5px;background:transparent;color:var(--text-3);cursor:pointer}
+.tchip button:hover{color:var(--text)}
+.tadd{display:inline-flex;align-items:center;gap:4px;block-size:24px;padding-inline:6px;border:0;border-radius:5px;background:transparent;color:var(--text-3);font-size:12.5px;cursor:pointer}
+.tadd:hover{background:var(--surface-3);color:var(--text)}
+.vers li{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:8px;align-items:center;padding:9px 16px;border-block-end:1px solid var(--border);font-size:13px}
+.vers li:last-child{border-block-end:0}
+.vers li.is-current{background:var(--surface-2)}
+.vers .v{color:var(--text-2);font-family:var(--mono);font-size:12px;font-weight:500}
+.vers .w{display:grid;line-height:1.3;min-inline-size:0}
+.vers .w b{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vers .w span{display:flex;align-items:center;gap:6px;color:var(--text-3);font-size:12px}
+.live{display:inline-flex;align-items:center;gap:4px;color:var(--ok-fg);font-weight:500}
+.live::before{content:"";inline-size:6px;block-size:6px;border-radius:50%;background:var(--ok-dot)}
+.info{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 16px;font-size:13px}
+.info dt{color:var(--text-3)}
+.info dd{text-align:end;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.idrow{display:flex;align-items:center;gap:4px;margin-block-end:12px;padding:6px 4px 6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface-2);font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
+.idrow span{flex:1;min-inline-size:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Prototype control */
+.proto{position:fixed;inset-block-end:16px;inset-inline-start:50%;transform:translateX(-50%);z-index:100;display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;background:#0E131E;color:#fff;box-shadow:0 6px 24px rgba(14,19,30,.28);font-size:12px}
+[data-theme="dark"] .proto{background:#2A3342;box-shadow:0 0 0 1px #3A4454,0 6px 24px rgba(0,0,0,.5)}
+.proto-name{padding-inline:12px 10px;font-weight:600;white-space:nowrap;color:rgba(255,255,255,.82)}
+.proto button{display:inline-flex;align-items:center;block-size:26px;padding-inline:10px;border:0;border-radius:999px;background:transparent;color:rgba(255,255,255,.78);font-size:12px;font-weight:500;cursor:pointer}
+.proto button:hover{background:rgba(255,255,255,.14);color:#fff}
+.proto button.is-current{background:#fff;color:#0E131E}
+.proto button:focus-visible{outline-color:#fff}
+.proto .ic{font-size:14px}
+
+/* Smaller windows */
+@media (max-width:1360px){.search{flex-basis:340px}}
+@media (max-width:1180px){.user-t,.user>.ic{display:none}.dash-grid{grid-template-columns:minmax(0,1fr)}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.ed-body{grid-template-columns:minmax(0,1fr)}.legend{display:none}}
+@media (max-width:1023px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .sidebar{position:fixed;inset-block:0;inset-inline-start:0;z-index:60;inline-size:256px;transform:translateX(-100%);transition:transform .18s;box-shadow:var(--shadow-pop)}
+  html[data-drawer="open"] .sidebar{transform:none}
+  .tb-menu{display:inline-flex}
+  .tbl .c-cat,.tbl .c-author{display:none}
+  .block-b{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<!-- icons:start -->
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="logo-mark" viewBox="12 9 59 62"><g fill="currentColor" stroke="none"><path d="M36.171 36.3545L24.5878 43.0105H24.5855L13 49.6689V62.9856L24.5855 69.644H24.5878V56.3273L36.171 49.6689H36.1733L47.7565 43.0105L36.171 36.3545Z"/><path d="M58.4132 36.3545V49.6689V49.6712L46.8277 56.3296L35.2422 62.9856V62.988L46.8277 69.644L58.4132 62.988H58.4155L69.9987 56.3296V43.0129L58.4132 36.3545Z"/><path d="M35.9381 23.1759H35.9404L47.4072 29.7651L58.8785 36.3542V23.1759L47.4072 16.5891V16.5868L35.9404 10H35.9381L24.4714 16.5868V16.5891L13 23.1759V36.3542L24.4714 29.7651L35.9381 23.1759Z"/></g></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-dashboard" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+<symbol id="i-user-check" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></symbol>
+<symbol id="i-tag" viewBox="0 0 24 24"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol>
+<symbol id="i-images" viewBox="0 0 24 24"><path d="M18 22H4a2 2 0 0 1-2-2V6"/><path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18"/><circle cx="12" cy="8" r="2"/><rect width="16" height="16" x="6" y="2" rx="2"/></symbol>
+<symbol id="i-folder" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-sliders" viewBox="0 0 24 24"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="i-chevron-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
+<symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+<symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+<symbol id="i-chevrons-up-down" viewBox="0 0 24 24"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></symbol>
+<symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></symbol>
+<symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></symbol>
+<symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+<symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+<symbol id="i-sort" viewBox="0 0 24 24"><path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/></symbol>
+<symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></symbol>
+<symbol id="i-columns" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="M15 3v18"/></symbol>
+<symbol id="i-rows" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+<symbol id="i-more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></symbol>
+<symbol id="i-more-vertical" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></symbol>
+<symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+<symbol id="i-languages" viewBox="0 0 24 24"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></symbol>
+<symbol id="i-calendar" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+<symbol id="i-timer" viewBox="0 0 24 24"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></symbol>
+<symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></symbol>
+<symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+<symbol id="i-save" viewBox="0 0 24 24"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></symbol>
+<symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></symbol>
+<symbol id="i-external" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+<symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+<symbol id="i-key" viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></symbol>
+<symbol id="i-plug" viewBox="0 0 24 24"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></symbol>
+<symbol id="i-zap" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></symbol>
+<symbol id="i-bot" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></symbol>
+<symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></symbol>
+<symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
+<symbol id="i-trending-up" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></symbol>
+<symbol id="i-server" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></symbol>
+<symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></symbol>
+<symbol id="i-terminal" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></symbol>
+<symbol id="i-code" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
+<symbol id="i-monitor" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></symbol>
+<symbol id="i-smartphone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></symbol>
+<symbol id="i-panel-left" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></symbol>
+<symbol id="i-panel-right" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/></symbol>
+<symbol id="i-maximize" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+<symbol id="i-command" viewBox="0 0 24 24"><path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+<symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+<symbol id="i-log-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+<symbol id="i-message" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
+<symbol id="i-quote" viewBox="0 0 24 24"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/></symbol>
+<symbol id="i-bold" viewBox="0 0 24 24"><path d="M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8"/></symbol>
+<symbol id="i-italic" viewBox="0 0 24 24"><line x1="19" x2="10" y1="4" y2="4"/><line x1="14" x2="5" y1="20" y2="20"/><line x1="15" x2="9" y1="4" y2="20"/></symbol>
+<symbol id="i-heading" viewBox="0 0 24 24"><path d="M6 12h12"/><path d="M6 20V4"/><path d="M18 20V4"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/></symbol>
+<symbol id="i-type" viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></symbol>
+<symbol id="i-hash" viewBox="0 0 24 24"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></symbol>
+</svg>
+<!-- icons:end -->
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" aria-label="Navigation">
+    <a class="sb-brand" href="#dashboard" data-go="dashboard" aria-label="FluentCMS, home">
+      <svg class="mark" aria-hidden="true"><use href="#logo-mark"/></svg>
+      <span class="wm sb-t">Fluent<b>CMS</b></span>
+    </a>
+    <button class="site" type="button" aria-label="Site: Northwind Journal. Switch site">
+      <span class="site-badge">NJ</span>
+      <span class="site-t sb-t"><b>Northwind Journal</b><span>Site · 3 locales</span></span>
+      <svg class="ic" aria-hidden="true"><use href="#i-chevrons-up-down"/></svg>
+    </button>
+    <nav class="nav" aria-label="Main">
+      <a class="nav-item" href="#dashboard" data-go="dashboard" data-nav="home"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg><span class="sb-t">Home</span></a>
+      <a class="nav-item" href="#"><svg class="ic" aria-hidden="true"><use href="#i-activity"/></svg><span class="sb-t">Activity</span></a>
+
+      <div class="nav-label"><span class="sb-t">Content</span></div>
+      <a class="nav-item" href="#list" data-go="list" data-nav="articles"><svg class="ic" aria-hidden="true"><use href="#i-file"/></svg><span class="sb-t">Articles</span><span class="count sb-t">128</span></a>
+      <a class="nav-item" href="#"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg><span class="sb-t">Authors</span><span class="count sb-t">14</span></a>
+      <a class="nav-item" href="#"><svg class="ic" aria-hidden="true"><use href="#i-layers"/></svg><span class="sb-t">Pages</span><span class="count sb-t">23</span></a>
+      <a class="nav-item" href="#"><svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg><span class="sb-t">Events</span><span class="count sb-t">9</span></a>
+      <a class="nav-item" href="#"><svg class="ic" aria-hidden="true"><use href="#i-tag"/></svg><span class="sb-t">Tags</span><span class="tagx sb-t" title="Shared by all sites">Global</span><span class="count sb-t">36</span></a>
+      <div class="nav-sub"><span class="sb-t">Singletons</span></div>
+      <a class="nav-item" href="#"><svg class="ic" aria-hidden="true"><use href="#i-box"/></svg><span class="sb-t">Homepage</span></a>
+      <a class="nav-item" href="#"><svg class="ic" aria-hidden="true"><use href="#i-menu"/></svg><span class="sb-t">Navigation</span></a>
+      <a class="nav-item" href="#"><svg class="ic" aria-hidden="true"><use href="#i-sliders"/></svg><span class="sb-t">Site settings</span></a>
+
+      <div class="nav-label"><span class="sb-t">Media</span></div>
+      <a class="nav-item" href="#"><svg class="ic" aria-hidden="true"><use href="#i-image"/></svg><span class="sb-t">Library</span></a>
+      <a class="nav-item" href="#"><svg class="ic" aria-hidden="true"><use href="#i-maximize"/></svg><span class="sb-t">Image presets</span></a>
+
+      <div class="nav-label"><span class="sb-t">Agents and AI</span></div>
+      <a class="nav-item" href="#"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg><span class="sb-t">MCP clients</span><span class="count sb-t">3</span></a>
+      <a class="nav-item" href="#"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg><span class="sb-t">Agent instructions</span></a>
+      <a class="nav-item" href="#"><svg class="ic" aria-hidden="true"><use href="#i-message"/></svg><span class="sb-t">Prompts</span></a>
+      <a class="nav-item" href="#"><svg class="ic" aria-hidden="true"><use href="#i-history"/></svg><span class="sb-t">MCP activity</span></a>
+      <a class="nav-item" href="#"><svg class="ic" aria-hidden="true"><use href="#i-sparkles"/></svg><span class="sb-t">AI usage</span></a>
+
+      <div class="nav-label"><span class="sb-t">Manage</span></div>
+      <button class="nav-item" type="button" data-group aria-expanded="false" aria-controls="g-int"><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg><span class="sb-t">Integrations</span><svg class="ic chev sb-t" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
+      <div class="nav-children" id="g-int" hidden>
+        <a class="nav-item" href="#">Webhooks</a>
+        <a class="nav-item" href="#">Search index</a>
+      </div>
+      <button class="nav-item" type="button" data-group aria-expanded="true" aria-controls="g-adm"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><span class="sb-t">Administration</span><svg class="ic chev sb-t" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
+      <div class="nav-children" id="g-adm">
+        <a class="nav-item" href="#">Users</a>
+        <a class="nav-item" href="#">Roles</a>
+        <a class="nav-item" href="#">API keys</a>
+        <a class="nav-item" href="#">Members</a>
+      </div>
+      <button class="nav-item" type="button" data-group aria-expanded="false" aria-controls="g-sys"><svg class="ic" aria-hidden="true"><use href="#i-server"/></svg><span class="sb-t">System</span><svg class="ic chev sb-t" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
+      <div class="nav-children" id="g-sys" hidden>
+        <a class="nav-item" href="#">Plugins</a>
+        <a class="nav-item" href="#">Jobs</a>
+        <a class="nav-item" href="#">Diagnostics</a>
+      </div>
+      <button class="nav-item" type="button" data-group aria-expanded="false" aria-controls="g-set"><svg class="ic" aria-hidden="true"><use href="#i-settings"/></svg><span class="sb-t">Settings</span><svg class="ic chev sb-t" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
+      <div class="nav-children" id="g-set" hidden>
+        <a class="nav-item" href="#">Site settings</a>
+        <a class="nav-item" href="#">Sites</a>
+        <a class="nav-item" href="#">Locales</a>
+      </div>
+    </nav>
+    <div class="sb-foot">
+      <a class="nav-item" href="#"><svg class="ic" aria-hidden="true"><use href="#i-help"/></svg><span class="sb-t">Docs and help</span></a>
+      <button class="btn btn-ghost btn-icon" type="button" data-collapse aria-label="Collapse the sidebar" title="Collapse the sidebar"><svg class="ic" aria-hidden="true"><use href="#i-panel-left"/></svg></button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <!-- Header -->
+    <header class="topbar">
+      <div class="tb-start">
+        <button class="btn btn-ghost btn-icon tb-menu" type="button" data-drawer aria-label="Open navigation"><svg class="ic" aria-hidden="true"><use href="#i-menu"/></svg></button>
+        <nav class="crumbs" data-for="dashboard" aria-label="Breadcrumb"><span aria-current="page">Home</span></nav>
+        <nav class="crumbs" data-for="list" aria-label="Breadcrumb"><a href="#dashboard" data-go="dashboard">Home</a><svg class="ic" aria-hidden="true"><use href="#i-chevron-right"/></svg><span>Content</span><svg class="ic" aria-hidden="true"><use href="#i-chevron-right"/></svg><span aria-current="page">Articles</span></nav>
+        <nav class="crumbs" data-for="editor" aria-label="Breadcrumb"><span>Content</span><svg class="ic" aria-hidden="true"><use href="#i-chevron-right"/></svg><a href="#list" data-go="list">Articles</a><svg class="ic" aria-hidden="true"><use href="#i-chevron-right"/></svg><span aria-current="page">What's new in the spring release</span></nav>
+      </div>
+      <label class="search">
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <input type="search" placeholder="Search content, media, settings…" aria-label="Search content, media and settings">
+        <span class="kbd">Ctrl K</span>
+      </label>
+      <div class="tb-end">
+        <button class="btn tb-locale" type="button" aria-label="Content locale: English. Change"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg><b>EN</b><svg class="ic" aria-hidden="true" style="font-size:14px"><use href="#i-chevron-down"/></svg></button>
+        <button class="btn btn-ghost btn-icon bell" type="button" aria-label="Notifications, 2 new"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button>
+        <button class="btn btn-ghost btn-icon" type="button" data-theme-toggle aria-label="Switch between light and dark theme"><svg class="ic th-light" aria-hidden="true"><use href="#i-moon"/></svg><svg class="ic th-dark" aria-hidden="true"><use href="#i-sun"/></svg></button>
+        <span class="tb-div" aria-hidden="true"></span>
+        <button class="user" type="button" aria-label="Elena Marsh, Super Admin. Open the user menu">
+          <span class="av av-lg av-em">EM</span>
+          <span class="user-t"><b>Elena Marsh</b><span>Super Admin</span></span>
+          <svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="content" id="main">
+
+      <!-- ============ Dashboard ============ -->
+      <section class="page" data-screen="dashboard" style="max-inline-size:1320px">
+        <div class="page-h">
+          <div>
+            <h1>Good morning, Elena</h1>
+            <p class="sub">Thursday, 26 November 2026 · Northwind Journal</p>
+          </div>
+          <div class="page-actions">
+            <a class="btn" href="#"><svg class="ic" aria-hidden="true"><use href="#i-external"/></svg>Open site</a>
+            <div class="split">
+              <button class="btn btn-primary" type="button"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg>New entry</button>
+              <button class="btn btn-primary" type="button" aria-label="Choose a content type"><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="kpis">
+          <a class="card kpi" href="#list" data-go="list">
+            <div class="kpi-top"><span>Drafts waiting for you</span><svg class="ic" aria-hidden="true"><use href="#i-edit"/></svg></div>
+            <div class="kpi-row"><span class="kpi-val">7</span>
+              <svg class="spark" viewBox="0 0 100 32" aria-hidden="true"><path class="spark-area" d="M0 22L14 18L28 20L42 12L56 15L70 9L84 11L96 7V32H0Z"/><polyline class="spark-line" points="0,22 14,18 28,20 42,12 56,15 70,9 84,11 96,7"/><circle class="spark-dot" cx="96" cy="7" r="2.5"/></svg>
+            </div>
+            <div class="kpi-foot">3 updated today</div>
+          </a>
+          <a class="card kpi" href="#">
+            <div class="kpi-top"><span>Scheduled</span><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg></div>
+            <div class="kpi-row"><span class="kpi-val">3</span>
+              <svg class="spark" viewBox="0 0 100 32" aria-hidden="true"><rect class="day" x="0" y="12" width="11" height="14" rx="3"/><rect class="day" x="14.8" y="12" width="11" height="14" rx="3"/><rect class="day" x="29.6" y="12" width="11" height="14" rx="3"/><rect class="day" x="44.4" y="12" width="11" height="14" rx="3"/><rect class="day on" x="59.2" y="12" width="11" height="14" rx="3"/><rect class="day" x="74" y="12" width="11" height="14" rx="3"/><rect class="day on" x="88.8" y="12" width="11" height="14" rx="3"/></svg>
+            </div>
+            <div class="kpi-foot">Next: 1 Dec, 09:00 · 2 in the next 7 days</div>
+          </a>
+          <a class="card kpi" href="#">
+            <div class="kpi-top"><span>Published this week</span><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg></div>
+            <div class="kpi-row"><span class="kpi-val">12</span>
+              <svg class="spark" viewBox="0 0 100 32" aria-hidden="true"><rect class="bar" x="0" y="10" width="10" height="18" rx="2"/><rect class="bar" x="14.8" y="16" width="10" height="12" rx="2"/><rect class="bar" x="29.6" y="4" width="10" height="24" rx="2"/><rect class="bar now" x="44.4" y="10" width="10" height="18" rx="2"/><rect class="bar off" x="59.2" y="25" width="10" height="3" rx="1.5"/><rect class="bar off" x="74" y="25" width="10" height="3" rx="1.5"/><rect class="bar off" x="88.8" y="25" width="10" height="3" rx="1.5"/></svg>
+            </div>
+            <div class="kpi-foot"><span class="up"><svg class="ic" aria-hidden="true"><use href="#i-trending-up"/></svg>+4</span> compared with last week</div>
+          </a>
+          <a class="card kpi" href="#">
+            <div class="kpi-top"><span>Missing translations</span><svg class="ic" aria-hidden="true"><use href="#i-languages"/></svg></div>
+            <div class="kpi-row"><span class="kpi-val">18</span>
+              <svg class="spark" viewBox="0 0 100 32" aria-hidden="true"><rect class="seg-a" x="0" y="16" width="32" height="8" rx="4"/><rect class="seg-b" x="35" y="16" width="65" height="8" rx="4"/></svg>
+            </div>
+            <div class="kpi-foot">FR 6 · DE 12</div>
+          </a>
+        </div>
+
+        <div class="dash-grid">
+          <div class="col">
+            <div class="card">
+              <div class="card-h"><h2>Continue editing</h2><a class="link" href="#list" data-go="list">All my drafts</a></div>
+              <table class="mini-tbl">
+                <tbody>
+                  <tr data-go="editor">
+                    <td><a class="t" href="#editor" data-go="editor">What's new in the spring release</a><span class="m">Article · EN</span></td>
+                    <td><span class="pill is-modified">Modified</span></td>
+                    <td class="muted tnum">12 min ago</td>
+                    <td class="go"><svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></td>
+                  </tr>
+                  <tr data-go="editor">
+                    <td><a class="t" href="#editor" data-go="editor">Release notes 1.0</a><span class="m">Article · EN <span class="sched"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Publishes 1 Dec, 09:00</span></span></td>
+                    <td><span class="pill is-draft">Draft</span></td>
+                    <td class="muted tnum">3 h ago</td>
+                    <td class="go"><svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></td>
+                  </tr>
+                  <tr data-go="editor">
+                    <td><a class="t" href="#editor" data-go="editor">A field guide to structured rich text</a><span class="m">Article · EN</span></td>
+                    <td><span class="pill is-draft">Draft</span></td>
+                    <td class="muted tnum">Yesterday</td>
+                    <td class="go"><svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="card">
+              <div class="card-h"><h2>Recent activity</h2><a class="link" href="#">Activity log</a></div>
+              <ol class="tl">
+                <li><span class="av av-lg av-jw">JW</span>
+                  <div><p class="tx"><b>Jonas Weber</b> saved <a href="#editor" data-go="editor">What's new in the spring release</a></p><p class="mt">Article · EN · v14</p></div>
+                  <span class="wh tnum">12 min ago <span class="origin">Admin</span></span></li>
+                <li><span class="av av-lg av-al">AL</span>
+                  <div><p class="tx"><b>Ada Lindqvist</b> published <a href="#">Designing a content model that lasts</a></p><p class="mt">Article · FR <span class="pill is-published" style="block-size:18px;font-size:11px">Published</span></p></div>
+                  <span class="wh tnum">2 h ago <span class="origin">Admin</span></span></li>
+                <li><span class="av av-lg av-bot"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span>
+                  <div><p class="tx"><b>Content Agent</b> drafted <a href="#">How we localize at scale</a></p><p class="mt">Article · EN · waiting for review</p></div>
+                  <span class="wh tnum">5 h ago <span class="origin o-mcp">MCP</span></span></li>
+                <li><span class="av av-lg av-job"><svg class="ic" aria-hidden="true"><use href="#i-timer"/></svg></span>
+                  <div><p class="tx"><b>Scheduled job</b> published <a href="#">Typed content, no magic</a></p><p class="mt">Article · DE</p></div>
+                  <span class="wh tnum">Yesterday <span class="origin o-job">Job</span></span></li>
+                <li><span class="av av-lg av-pn">PN</span>
+                  <div><p class="tx"><b>Priya Nair</b> uploaded 6 images to <a href="#">Media / Spring release</a></p><p class="mt">Media library</p></div>
+                  <span class="wh tnum">Yesterday <span class="origin">Admin</span></span></li>
+                <li><span class="av av-lg av-em">EM</span>
+                  <div><p class="tx">API key <a href="#">Website (delivery)</a> rotated by <b>Elena Marsh</b></p><p class="mt">API keys</p></div>
+                  <span class="wh tnum">24 Nov <span class="origin o-api">API</span></span></li>
+              </ol>
+            </div>
+
+            <div class="card">
+              <div class="card-h"><h2>Content by type</h2><span class="muted end" style="font-size:12px">210 entries in this site</span></div>
+              <div class="card-b">
+                <ul class="bars">
+                  <li><span>Articles</span><span class="track"><i style="inline-size:100%"></i></span><span class="v">128</span></li>
+                  <li><span>Tags</span><span class="track"><i style="inline-size:28%"></i></span><span class="v">36</span></li>
+                  <li><span>Pages</span><span class="track"><i style="inline-size:18%"></i></span><span class="v">23</span></li>
+                  <li><span>Authors</span><span class="track"><i style="inline-size:11%"></i></span><span class="v">14</span></li>
+                  <li><span>Events</span><span class="track"><i style="inline-size:7%"></i></span><span class="v">9</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card">
+              <div class="card-h"><h2>Scheduled</h2><a class="link" href="#">Calendar</a></div>
+              <ul class="sch">
+                <li><span class="date"><span>Dec</span><b>1</b></span>
+                  <div class="grow"><a class="t" href="#">Release notes 1.0</a><span class="m"><span class="sched"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Publishes 09:00</span> Article · EN</span></div></li>
+                <li><span class="date"><span>Dec</span><b>3</b></span>
+                  <div class="grow"><a class="t" href="#">Winter events</a><span class="m"><span class="sched"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Publishes 08:00</span> Page · EN</span></div></li>
+                <li><span class="date"><span>Dec</span><b>31</b></span>
+                  <div class="grow"><a class="t" href="#">Migrating from a page builder</a><span class="m"><span class="sched is-un"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Unpublishes 00:00</span> Article · EN</span></div></li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <div class="card-h"><h2>Translation coverage</h2><a class="link" href="#">18 missing</a></div>
+              <div class="card-b">
+                <ul class="cov">
+                  <li><b>EN</b><span class="track thin"><i style="inline-size:100%"></i></span><span class="v">100%</span></li>
+                  <li><b>FR</b><span class="track thin"><i style="inline-size:82%"></i></span><span class="v">82%</span></li>
+                  <li><b>DE</b><span class="track thin"><i style="inline-size:61%"></i></span><span class="v">61%</span></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-h"><h2>Agents and AI</h2><a class="link" href="#">MCP activity</a></div>
+              <div class="card-b">
+                <ul class="facts">
+                  <li><span class="tile"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span class="two"><b style="font-weight:500">3 MCP clients connected</b><span>Content Agent, Docs Agent, IDE</span></span><span class="dot ok end" title="Connected"></span></li>
+                  <li><span class="tile"><svg class="ic" aria-hidden="true"><use href="#i-edit"/></svg></span><span class="two"><b style="font-weight:500">14 agent drafts this week</b><span>Agents draft, people publish</span></span><a class="end" href="#" style="font-size:13px;font-weight:500">Review</a></li>
+                </ul>
+                <div class="budget">
+                  <div class="r"><span>AI assist, daily token budget</span><b class="tnum">42%</b></div>
+                  <span class="track thin"><i style="inline-size:42%"></i></span>
+                  <small>Resets at midnight UTC</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-h"><h2>System</h2><span class="pill is-published end">Healthy</span></div>
+              <div class="card-b">
+                <ul class="facts">
+                  <li><span class="k">API</span><span class="v">Healthy</span><span class="dot ok"></span></li>
+                  <li><span class="k">Jobs</span><span class="v">2 running</span></li>
+                  <li><span class="k">Dead letters</span><span class="v">0</span></li>
+                  <li><span class="k">Webhooks</span><span class="v">99.2% delivered</span></li>
+                  <li><span class="k">Plugins</span><span class="v">6 enabled</span></li>
+                  <li><span class="k">Version</span><span class="v mono">v1.0.0-preview.2</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ List ============ -->
+      <section class="page" data-screen="list" hidden>
+        <div class="page-h">
+          <div>
+            <h1>Articles<span class="count-badge tnum">128</span></h1>
+            <p class="sub">Collection · Localized in EN, FR and DE</p>
+          </div>
+          <div class="page-actions">
+            <div class="menu-wrap">
+              <button class="btn btn-icon" type="button" data-menu aria-expanded="false" aria-controls="m-list" aria-label="More actions"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button>
+              <div class="menu" id="m-list" hidden>
+                <button type="button"><svg class="ic" aria-hidden="true"><use href="#i-upload"/></svg>Import entries</button>
+                <button type="button"><svg class="ic" aria-hidden="true"><use href="#i-external"/></svg>Export as JSON or CSV</button>
+                <hr>
+                <button type="button"><svg class="ic" aria-hidden="true"><use href="#i-code"/></svg>View the type's schema</button>
+              </div>
+            </div>
+            <button class="btn btn-primary" type="button"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg>New article</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="tabs" role="tablist" aria-label="Saved views">
+            <button class="tab is-active" role="tab" aria-selected="true" type="button">All <span class="n">128</span></button>
+            <button class="tab" role="tab" aria-selected="false" type="button">My drafts <span class="n">7</span></button>
+            <button class="tab" role="tab" aria-selected="false" type="button">Scheduled <span class="n">3</span></button>
+            <button class="tab" role="tab" aria-selected="false" type="button">Needs translation <span class="n">18</span></button>
+            <button class="btn btn-ghost btn-sm end" type="button"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg>Save view</button>
+          </div>
+
+          <div class="toolbar">
+            <label class="tsearch"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><input type="search" placeholder="Search articles…" aria-label="Search articles"></label>
+            <button class="chip" type="button">Status: <b>any</b><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></button>
+            <button class="chip" type="button">Author<svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></button>
+            <button class="chip" type="button">Category<svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></button>
+            <button class="chip is-add" type="button"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg>Add filter</button>
+            <span class="end"></span>
+            <button class="chip" type="button"><svg class="ic" aria-hidden="true"><use href="#i-languages"/></svg>Locales: <b>All</b><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></button>
+            <button class="chip" type="button"><svg class="ic" aria-hidden="true"><use href="#i-columns"/></svg>Columns</button>
+            <div class="seg" role="group" aria-label="Row density">
+              <button type="button" aria-pressed="true" aria-label="Comfortable rows" title="Comfortable"><svg class="ic" aria-hidden="true"><use href="#i-rows"/></svg></button>
+              <button type="button" aria-pressed="false" aria-label="Compact rows" title="Compact"><svg class="ic" aria-hidden="true"><use href="#i-menu"/></svg></button>
+            </div>
+          </div>
+
+          <div class="bulk" role="region" aria-label="Bulk actions">
+            <span class="n tnum">2 selected</span>
+            <button class="lnk" type="button">Select all 128 that match</button>
+            <span class="sep" aria-hidden="true"></span>
+            <button class="btn btn-sm" type="button"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg>Publish</button>
+            <button class="btn btn-sm" type="button">Unpublish</button>
+            <button class="btn btn-sm" type="button"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Schedule</button>
+            <button class="btn btn-sm danger" type="button"><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg>Delete</button>
+            <button class="btn btn-ghost btn-sm btn-icon end" type="button" aria-label="Clear the selection"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+          </div>
+
+          <table class="tbl" aria-label="Articles" aria-rowcount="128">
+            <thead>
+              <tr>
+                <th class="c-chk"><input type="checkbox" id="chk-all" aria-label="Select all rows on this page"></th>
+                <th><button type="button">Title</button></th>
+                <th class="c-status">Status</th>
+                <th class="c-author"><button type="button">Author</button></th>
+                <th class="c-cat"><button type="button">Category</button></th>
+                <th class="c-upd" aria-sort="descending"><button type="button">Updated<svg class="ic" aria-hidden="true"><use href="#i-arrow-down"/></svg></button></th>
+                <th class="c-act"><span class="sr">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="is-selected" data-go="editor" aria-selected="true">
+                <td class="c-chk"><input type="checkbox" checked aria-label="Select What's new in the spring release"></td>
+                <td><div class="tt"><a href="#editor" data-go="editor">What's new in the spring release</a></div><div class="ts"><span>whats-new-spring-release</span></div></td>
+                <td class="c-status"><span class="lps"><span class="lp is-modified" title="EN: Modified"><b>EN</b>Modified</span><span class="lp is-draft" title="FR: Draft"><b>FR</b><span class="sr">Draft</span></span><span class="lp is-published" title="DE: Published"><b>DE</b><span class="sr">Published</span></span></span></td>
+                <td class="c-author"><span class="who"><span class="av av-jw">JW</span><span>Jonas Weber</span></span></td>
+                <td class="c-cat">News</td>
+                <td class="c-upd tnum muted">12 min ago</td>
+                <td class="c-act"><span class="row-act"><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="Open in a side panel" title="Open in a side panel"><svg class="ic" aria-hidden="true"><use href="#i-panel-right"/></svg></button><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="More actions"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button></span></td>
+              </tr>
+              <tr data-go="editor">
+                <td class="c-chk"><input type="checkbox" aria-label="Select Designing a content model that lasts"></td>
+                <td><div class="tt"><a href="#editor" data-go="editor">Designing a content model that lasts</a></div><div class="ts"><span>designing-a-content-model</span></div></td>
+                <td class="c-status"><span class="lps"><span class="lp is-published" title="EN: Published"><b>EN</b>Published</span><span class="lp is-published" title="FR: Published"><b>FR</b><span class="sr">Published</span></span><span class="lp is-missing" title="DE: no translation"><b>DE</b><span class="sr">No translation</span></span></span></td>
+                <td class="c-author"><span class="who"><span class="av av-al">AL</span><span>Ada Lindqvist</span></span></td>
+                <td class="c-cat">Guide</td>
+                <td class="c-upd tnum muted">2 h ago</td>
+                <td class="c-act"><span class="row-act"><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="Open in a side panel"><svg class="ic" aria-hidden="true"><use href="#i-panel-right"/></svg></button><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="More actions"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button></span></td>
+              </tr>
+              <tr class="is-selected" data-go="editor" aria-selected="true">
+                <td class="c-chk"><input type="checkbox" checked aria-label="Select Release notes 1.0"></td>
+                <td><div class="tt"><a href="#editor" data-go="editor">Release notes 1.0</a></div><div class="ts"><span>release-notes-1-0</span><span class="sched"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Publishes 1 Dec, 09:00</span></div></td>
+                <td class="c-status"><span class="lps"><span class="lp is-draft" title="EN: Draft"><b>EN</b>Draft</span><span class="lp is-draft" title="FR: Draft"><b>FR</b><span class="sr">Draft</span></span><span class="lp is-missing" title="DE: no translation"><b>DE</b><span class="sr">No translation</span></span></span></td>
+                <td class="c-author"><span class="who"><span class="av av-jw">JW</span><span>Jonas Weber</span></span></td>
+                <td class="c-cat">News</td>
+                <td class="c-upd tnum muted">3 h ago</td>
+                <td class="c-act"><span class="row-act"><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="Open in a side panel"><svg class="ic" aria-hidden="true"><use href="#i-panel-right"/></svg></button><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="More actions"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button></span></td>
+              </tr>
+              <tr data-go="editor">
+                <td class="c-chk"><input type="checkbox" aria-label="Select How we localize at scale"></td>
+                <td><div class="tt"><a href="#editor" data-go="editor">How we localize at scale</a><span class="origin o-mcp" title="Written by Content Agent over MCP">MCP</span></div><div class="ts"><span>how-we-localize-at-scale</span></div></td>
+                <td class="c-status"><span class="lps"><span class="lp is-draft" title="EN: Draft"><b>EN</b>Draft</span><span class="lp is-missing" title="FR: no translation"><b>FR</b><span class="sr">No translation</span></span><span class="lp is-missing" title="DE: no translation"><b>DE</b><span class="sr">No translation</span></span></span></td>
+                <td class="c-author"><span class="who"><span class="av av-bot"><svg class="ic" aria-hidden="true"><use href="#i-bot"/></svg></span><span>Content Agent</span></span></td>
+                <td class="c-cat">Engineering</td>
+                <td class="c-upd tnum muted">5 h ago</td>
+                <td class="c-act"><span class="row-act"><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="Open in a side panel"><svg class="ic" aria-hidden="true"><use href="#i-panel-right"/></svg></button><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="More actions"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button></span></td>
+              </tr>
+              <tr data-go="editor">
+                <td class="c-chk"><input type="checkbox" aria-label="Select Typed content, no magic"></td>
+                <td><div class="tt"><a href="#editor" data-go="editor">Typed content, no magic</a></div><div class="ts"><span>typed-content-no-magic</span></div></td>
+                <td class="c-status"><span class="lps"><span class="lp is-published" title="EN: Published"><b>EN</b>Published</span><span class="lp is-published" title="FR: Published"><b>FR</b><span class="sr">Published</span></span><span class="lp is-published" title="DE: Published"><b>DE</b><span class="sr">Published</span></span></span></td>
+                <td class="c-author"><span class="who"><span class="av av-al">AL</span><span>Ada Lindqvist</span></span></td>
+                <td class="c-cat">Engineering</td>
+                <td class="c-upd tnum muted">Yesterday</td>
+                <td class="c-act"><span class="row-act"><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="Open in a side panel"><svg class="ic" aria-hidden="true"><use href="#i-panel-right"/></svg></button><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="More actions"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button></span></td>
+              </tr>
+              <tr data-go="editor">
+                <td class="c-chk"><input type="checkbox" aria-label="Select A field guide to structured rich text"></td>
+                <td><div class="tt"><a href="#editor" data-go="editor">A field guide to structured rich text</a></div><div class="ts"><span>field-guide-rich-text</span></div></td>
+                <td class="c-status"><span class="lps"><span class="lp is-draft" title="EN: Draft"><b>EN</b>Draft</span><span class="lp is-missing" title="FR: no translation"><b>FR</b><span class="sr">No translation</span></span><span class="lp is-missing" title="DE: no translation"><b>DE</b><span class="sr">No translation</span></span></span></td>
+                <td class="c-author"><span class="who"><span class="av av-pn">PN</span><span>Priya Nair</span></span></td>
+                <td class="c-cat">Guide</td>
+                <td class="c-upd tnum muted">Yesterday</td>
+                <td class="c-act"><span class="row-act"><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="Open in a side panel"><svg class="ic" aria-hidden="true"><use href="#i-panel-right"/></svg></button><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="More actions"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button></span></td>
+              </tr>
+              <tr data-go="editor">
+                <td class="c-chk"><input type="checkbox" aria-label="Select Customer story: Fabrikam goes headless"></td>
+                <td><div class="tt"><a href="#editor" data-go="editor">Customer story: Fabrikam goes headless</a></div><div class="ts"><span>fabrikam-goes-headless</span></div></td>
+                <td class="c-status"><span class="lps"><span class="lp is-published" title="EN: Published"><b>EN</b>Published</span><span class="lp is-modified" title="FR: Modified"><b>FR</b><span class="sr">Modified</span></span><span class="lp is-published" title="DE: Published"><b>DE</b><span class="sr">Published</span></span></span></td>
+                <td class="c-author"><span class="who"><span class="av av-al">AL</span><span>Ada Lindqvist</span></span></td>
+                <td class="c-cat">Video</td>
+                <td class="c-upd tnum muted">24 Nov</td>
+                <td class="c-act"><span class="row-act"><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="Open in a side panel"><svg class="ic" aria-hidden="true"><use href="#i-panel-right"/></svg></button><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="More actions"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button></span></td>
+              </tr>
+              <tr data-go="editor">
+                <td class="c-chk"><input type="checkbox" aria-label="Select Migrating from a page builder"></td>
+                <td><div class="tt"><a href="#editor" data-go="editor">Migrating from a page builder</a></div><div class="ts"><span>migrating-from-a-page-builder</span><span class="sched is-un"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Unpublishes 31 Dec</span></div></td>
+                <td class="c-status"><span class="lps"><span class="lp is-published" title="EN: Published"><b>EN</b>Published</span><span class="lp is-published" title="FR: Published"><b>FR</b><span class="sr">Published</span></span><span class="lp is-draft" title="DE: Draft"><b>DE</b><span class="sr">Draft</span></span></span></td>
+                <td class="c-author"><span class="who"><span class="av av-jw">JW</span><span>Jonas Weber</span></span></td>
+                <td class="c-cat">Guide</td>
+                <td class="c-upd tnum muted">23 Nov</td>
+                <td class="c-act"><span class="row-act"><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="Open in a side panel"><svg class="ic" aria-hidden="true"><use href="#i-panel-right"/></svg></button><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="More actions"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button></span></td>
+              </tr>
+              <tr data-go="editor">
+                <td class="c-chk"><input type="checkbox" aria-label="Select Image presets and focal points explained"></td>
+                <td><div class="tt"><a href="#editor" data-go="editor">Image presets and focal points explained</a></div><div class="ts"><span>image-presets-focal-points</span></div></td>
+                <td class="c-status"><span class="lps"><span class="lp is-modified" title="EN: Modified"><b>EN</b>Modified</span><span class="lp is-published" title="FR: Published"><b>FR</b><span class="sr">Published</span></span><span class="lp is-published" title="DE: Published"><b>DE</b><span class="sr">Published</span></span></span></td>
+                <td class="c-author"><span class="who"><span class="av av-pn">PN</span><span>Priya Nair</span></span></td>
+                <td class="c-cat">Guide</td>
+                <td class="c-upd tnum muted">21 Nov</td>
+                <td class="c-act"><span class="row-act"><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="Open in a side panel"><svg class="ic" aria-hidden="true"><use href="#i-panel-right"/></svg></button><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="More actions"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button></span></td>
+              </tr>
+              <tr data-go="editor">
+                <td class="c-chk"><input type="checkbox" aria-label="Select Editor's handbook: the publishing workflow"></td>
+                <td><div class="tt"><a href="#editor" data-go="editor">Editor's handbook: the publishing workflow</a></div><div class="ts"><span>editors-handbook-publishing</span></div></td>
+                <td class="c-status"><span class="lps"><span class="lp is-unpublished" title="EN: Unpublished"><b>EN</b>Unpublished</span><span class="lp is-unpublished" title="FR: Unpublished"><b>FR</b><span class="sr">Unpublished</span></span><span class="lp is-missing" title="DE: no translation"><b>DE</b><span class="sr">No translation</span></span></span></td>
+                <td class="c-author"><span class="who"><span class="av av-em">EM</span><span>Elena Marsh</span></span></td>
+                <td class="c-cat">Guide</td>
+                <td class="c-upd tnum muted">18 Nov</td>
+                <td class="c-act"><span class="row-act"><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="Open in a side panel"><svg class="ic" aria-hidden="true"><use href="#i-panel-right"/></svg></button><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="More actions"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button></span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="tfoot">
+            <span class="tnum">1 to 10 of 128</span>
+            <span class="legend" aria-hidden="true">
+              <span class="is-published"><i></i>Published</span>
+              <span class="is-modified"><i></i>Modified</span>
+              <span class="is-draft"><i></i>Draft</span>
+              <span class="is-unpublished"><i></i>Unpublished</span>
+              <span><i class="miss"></i>No translation</span>
+            </span>
+            <label class="per">Per page
+              <span class="select-wrap"><select class="input" aria-label="Entries per page"><option>10</option><option selected>25</option><option>50</option><option>100</option></select><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></span>
+            </label>
+            <nav class="pager" aria-label="Pages">
+              <button class="pg" type="button" disabled aria-label="Previous page"><svg class="ic" aria-hidden="true"><use href="#i-chevron-left"/></svg></button>
+              <button class="pg" type="button" aria-current="page">1</button>
+              <button class="pg" type="button">2</button>
+              <button class="pg" type="button">3</button>
+              <span class="muted" aria-hidden="true">…</span>
+              <button class="pg" type="button">6</button>
+              <button class="pg" type="button" aria-label="Next page"><svg class="ic" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
+            </nav>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ Editor ============ -->
+      <section data-screen="editor" hidden>
+        <div class="ed-bar">
+          <a class="btn btn-ghost btn-icon" href="#list" data-go="list" aria-label="Back to Articles"><svg class="ic" aria-hidden="true"><use href="#i-chevron-left"/></svg></a>
+          <div class="ed-title">
+            <div class="l1"><h1>What's new in the spring release</h1><span class="pill is-modified">Modified</span></div>
+            <div class="l2"><svg class="ic" aria-hidden="true" style="font-size:13px"><use href="#i-check"/></svg>Saved 12 min ago by Jonas Weber · Version 14 · Article</div>
+          </div>
+          <div class="ed-actions">
+            <button class="btn" type="button"><svg class="ic" aria-hidden="true"><use href="#i-eye"/></svg>Preview</button>
+            <button class="btn" type="button" title="Ctrl S">Save draft</button>
+            <div class="menu-wrap">
+              <div class="split">
+                <button class="btn btn-primary" type="button" title="Ctrl Shift Enter"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg>Publish</button>
+                <button class="btn btn-primary" type="button" data-menu aria-expanded="false" aria-controls="m-pub" aria-label="More publishing actions"><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></button>
+              </div>
+              <div class="menu" id="m-pub" hidden>
+                <button type="button"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg>Publish now<span class="kbd end">Ctrl Shift Enter</span></button>
+                <button type="button"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Schedule…</button>
+                <hr>
+                <button type="button"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg>Unpublish EN</button>
+                <button class="danger" type="button"><svg class="ic" aria-hidden="true"><use href="#i-undo"/></svg>Discard changes</button>
+              </div>
+            </div>
+            <div class="menu-wrap">
+              <button class="btn btn-ghost btn-icon" type="button" data-menu aria-expanded="false" aria-controls="m-entry" aria-label="More entry actions"><svg class="ic" aria-hidden="true"><use href="#i-more-vertical"/></svg></button>
+              <div class="menu" id="m-entry" hidden>
+                <button type="button"><svg class="ic" aria-hidden="true"><use href="#i-history"/></svg>Version history</button>
+                <button type="button"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg>Duplicate</button>
+                <button type="button"><svg class="ic" aria-hidden="true"><use href="#i-languages"/></svg>Copy from locale…</button>
+                <hr>
+                <button class="danger" type="button"><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg>Move to trash</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ed-loc" role="tablist" aria-label="Content locale of this entry">
+          <button class="ltab is-active is-modified" role="tab" aria-selected="true" type="button"><i></i><b>EN</b>English<small>Modified</small></button>
+          <button class="ltab is-draft" role="tab" aria-selected="false" type="button"><i></i><b>FR</b>French<small>Draft</small></button>
+          <button class="ltab is-published" role="tab" aria-selected="false" type="button"><i></i><b>DE</b>German<small>Published</small></button>
+          <button class="btn btn-ghost btn-sm end" type="button"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg>Copy from locale</button>
+          <button class="btn btn-sm" type="button"><svg class="ic" aria-hidden="true"><use href="#i-columns"/></svg>Compare locales</button>
+        </div>
+
+        <div class="ed-body">
+          <div class="ed-main">
+            <nav class="gtabs" aria-label="Field groups">
+              <a class="is-active" href="#f-content" aria-current="true">Content</a>
+              <a href="#f-sections">Sections <span class="n">3</span></a>
+              <a href="#f-seo">SEO</a>
+            </nav>
+
+            <div class="card" id="f-content">
+              <div class="card-b">
+                <div class="field">
+                  <label class="lbl" for="f-title">Title <span class="req" aria-hidden="true">*</span><svg class="ic" role="img" aria-label="Localized"><title>A value per locale</title><use href="#i-globe"/></svg><span class="meta">32 / 200</span></label>
+                  <input class="input" id="f-title" type="text" required maxlength="200" value="What's new in the spring release" style="block-size:40px;font-size:16px;font-weight:500">
+                </div>
+                <div class="field">
+                  <label class="lbl" for="f-slug">Slug <svg class="ic" role="img" aria-label="Localized"><use href="#i-globe"/></svg><span class="meta">Unique</span></label>
+                  <div class="igroup">
+                    <span class="pre">/articles/</span>
+                    <input class="input" id="f-slug" type="text" value="whats-new-spring-release" readonly>
+                    <button class="btn btn-icon" type="button" aria-pressed="true" aria-label="Slug is locked to the title. Unlock to edit" title="Locked to the title"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg></button>
+                  </div>
+                  <p class="help">Generated from the title. Unlock to write your own.</p>
+                </div>
+                <div class="field">
+                  <span class="lbl" id="l-body">Body <svg class="ic" role="img" aria-label="Localized"><use href="#i-globe"/></svg></span>
+                  <div class="rte">
+                    <div class="rte-bar" role="toolbar" aria-label="Formatting">
+                      <button class="btn rte-style" type="button">Paragraph<svg class="ic" aria-hidden="true" style="font-size:14px"><use href="#i-chevron-down"/></svg></button>
+                      <span class="rte-sep" aria-hidden="true"></span>
+                      <button class="rte-btn" type="button" aria-label="Heading"><svg class="ic" aria-hidden="true"><use href="#i-heading"/></svg></button>
+                      <button class="rte-btn" type="button" aria-pressed="true" aria-label="Bold"><svg class="ic" aria-hidden="true"><use href="#i-bold"/></svg></button>
+                      <button class="rte-btn" type="button" aria-label="Italic"><svg class="ic" aria-hidden="true"><use href="#i-italic"/></svg></button>
+                      <button class="rte-btn" type="button" aria-label="Link to an entry or a URL"><svg class="ic" aria-hidden="true"><use href="#i-link"/></svg></button>
+                      <span class="rte-sep" aria-hidden="true"></span>
+                      <button class="rte-btn" type="button" aria-label="List"><svg class="ic" aria-hidden="true"><use href="#i-list"/></svg></button>
+                      <button class="rte-btn" type="button" aria-label="Quote"><svg class="ic" aria-hidden="true"><use href="#i-quote"/></svg></button>
+                      <button class="rte-btn" type="button" aria-label="Insert media"><svg class="ic" aria-hidden="true"><use href="#i-image"/></svg></button>
+                      <button class="rte-btn" type="button" aria-label="Insert a block"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></button>
+                      <button class="btn rte-ai" type="button"><svg class="ic" aria-hidden="true"><use href="#i-sparkles"/></svg>AI assist</button>
+                    </div>
+                    <div class="rte-body" contenteditable="true" role="textbox" aria-multiline="true" aria-labelledby="l-body" spellcheck="false">
+                      <p>Spring is the season we ship the things you asked for most. This release brings a <strong>faster editor</strong>, scheduled publishing per locale, and a media library that finally understands focal points.</p>
+                      <h3>A calmer editor</h3>
+                      <p>We rebuilt the editor around the way teams really publish. Drafts save without getting in your way, the status of every locale sits beside the title, and a version is kept on every write, so nothing is lost when two people work on the same story.</p>
+                      <p>Scheduling is now per locale. Publish the English story on Tuesday morning and hold the French one until the translation is reviewed; the <a href="#">content calendar</a> shows both.</p>
+                    </div>
+                    <div class="rte-foot"><span class="tnum">118 words · about 1 min read</span><span>Markdown shortcuts are on</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" id="f-sections">
+              <div class="card-h"><h2>Sections</h2><span class="muted" style="font-size:12px">3 blocks · drag to reorder</span><button class="btn btn-ghost btn-sm end" type="button">Collapse all</button></div>
+              <div class="card-b">
+                <div class="block is-open">
+                  <div class="block-h">
+                    <button class="grip" type="button" aria-label="Move the Hero block"><svg class="ic" aria-hidden="true"><use href="#i-grip"/></svg></button>
+                    <span class="b-ico"><svg class="ic" aria-hidden="true"><use href="#i-image"/></svg></span>
+                    <span class="b-type">Hero</span>
+                    <span class="b-sum">Spring is here</span>
+                    <button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="Duplicate the block"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="More block actions"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" type="button" aria-expanded="true" aria-label="Collapse the block"><svg class="ic" aria-hidden="true"><use href="#i-chevron-up"/></svg></button>
+                  </div>
+                  <div class="block-b">
+                    <div style="display:grid;gap:16px;align-content:start">
+                      <div class="field"><label class="lbl" for="b-h">Heading</label><input class="input" id="b-h" type="text" value="Spring is here"></div>
+                      <div class="field"><label class="lbl" for="b-s">Subheading</label><input class="input" id="b-s" type="text" value="A faster editor, scheduling per locale and smarter media."></div>
+                    </div>
+                    <div class="field">
+                      <span class="lbl">Image</span>
+                      <div class="media">
+                        <div class="media-img ph" role="img" aria-label="Spring hills under a low sun"></div>
+                        <div class="media-meta"><b>spring-hero.jpg</b><span class="tnum end">2400 × 1350</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="block">
+                  <div class="block-h">
+                    <button class="grip" type="button" aria-label="Move the Quote block"><svg class="ic" aria-hidden="true"><use href="#i-grip"/></svg></button>
+                    <span class="b-ico"><svg class="ic" aria-hidden="true"><use href="#i-quote"/></svg></span>
+                    <span class="b-type">Quote</span>
+                    <span class="b-sum">“We rebuilt the editor around the way teams really publish.” Ada Lindqvist</span>
+                    <button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="More block actions"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" type="button" aria-expanded="false" aria-label="Expand the block"><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></button>
+                  </div>
+                </div>
+                <div class="block">
+                  <div class="block-h">
+                    <button class="grip" type="button" aria-label="Move the Gallery block"><svg class="ic" aria-hidden="true"><use href="#i-grip"/></svg></button>
+                    <span class="b-ico"><svg class="ic" aria-hidden="true"><use href="#i-images"/></svg></span>
+                    <span class="b-type">Gallery</span>
+                    <span class="b-sum">Behind the release · 3 columns · 6 images</span>
+                    <span class="b-thumbs" aria-hidden="true"><i class="ph"></i><i class="ph v2"></i><i class="ph v3"></i><i class="ph v4"></i><i class="ph v5"></i><i class="ph v6"></i></span>
+                    <button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="More block actions"><svg class="ic" aria-hidden="true"><use href="#i-more"/></svg></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" type="button" aria-expanded="false" aria-label="Expand the block"><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></button>
+                  </div>
+                </div>
+                <div class="add-block">
+                  <span class="lead"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg>Add block</span>
+                  <button class="btn btn-sm" type="button"><svg class="ic" aria-hidden="true"><use href="#i-image"/></svg>Hero</button>
+                  <button class="btn btn-sm" type="button"><svg class="ic" aria-hidden="true"><use href="#i-quote"/></svg>Quote</button>
+                  <button class="btn btn-sm" type="button"><svg class="ic" aria-hidden="true"><use href="#i-images"/></svg>Gallery</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" id="f-seo">
+              <div class="card-h"><h2>SEO</h2><span class="tagx">Component</span></div>
+              <div class="card-b">
+                <div class="field">
+                  <label class="lbl" for="f-mt">Meta title <span class="meta">52 / 70</span></label>
+                  <input class="input" id="f-mt" type="text" maxlength="70" value="What's new in the spring release | Northwind Journal">
+                </div>
+                <div class="field">
+                  <label class="lbl" for="f-md">Meta description <span class="meta">148 / 160</span></label>
+                  <input class="input" id="f-md" type="text" maxlength="160" value="Faster editor, scheduled publishing per locale and a media library that understands focal points: see everything that shipped in the spring release.">
+                  <p class="help">Shown under the title in search results. Keep it under 160 characters.</p>
+                </div>
+                <div class="serp">
+                  <small>Search preview</small>
+                  <div class="u">journal.northwind.example › articles › whats-new-spring-release</div>
+                  <div class="h">What's new in the spring release | Northwind Journal</div>
+                  <div class="d">Faster editor, scheduled publishing per locale and a media library that understands focal points: see everything that shipped in the spring release.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Inspector -->
+          <aside class="ed-side" aria-label="Entry details">
+            <div class="card">
+              <div class="card-h"><h2>Status and schedule</h2></div>
+              <div class="card-b">
+                <p class="note"><svg class="ic" aria-hidden="true"><use href="#i-info"/></svg><span>Version 12 is live in EN. This draft has changes that are not published yet.</span></p>
+                <ul class="locs">
+                  <li><b>EN</b>English<span class="pill is-modified">Modified</span></li>
+                  <li><b>FR</b>French<span class="pill is-draft">Draft</span></li>
+                  <li><b>DE</b>German<span class="pill is-published">Published</span></li>
+                </ul>
+                <div class="sbox">
+                  <svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg>
+                  <div><b>No schedule for EN</b><span>Publish or unpublish at a set time</span></div>
+                  <button class="btn btn-sm" type="button">Schedule</button>
+                </div>
+                <div class="side-actions">
+                  <button class="btn btn-ghost btn-sm" type="button">Unpublish</button>
+                  <button class="btn btn-ghost btn-sm danger" type="button"><svg class="ic" aria-hidden="true"><use href="#i-undo"/></svg>Discard changes</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-h"><h2>Details</h2></div>
+              <div class="card-b">
+                <div class="field">
+                  <span class="lbl">Author</span>
+                  <div class="rel"><span class="av av-jw">JW</span><span>Jonas Weber</span>
+                    <span class="acts"><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="Open Jonas Weber in a side panel"><svg class="ic" aria-hidden="true"><use href="#i-panel-right"/></svg></button><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="Choose another author"><svg class="ic" aria-hidden="true"><use href="#i-chevrons-up-down"/></svg></button></span>
+                  </div>
+                </div>
+                <div class="field">
+                  <span class="lbl">Tags <span class="meta">Ordered</span></span>
+                  <div class="tagbox">
+                    <span class="tchip"><svg class="ic" aria-hidden="true"><use href="#i-grip"/></svg>Releases<button type="button" aria-label="Remove Releases"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button></span>
+                    <span class="tchip"><svg class="ic" aria-hidden="true"><use href="#i-grip"/></svg>Product<button type="button" aria-label="Remove Product"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button></span>
+                    <span class="tchip"><svg class="ic" aria-hidden="true"><use href="#i-grip"/></svg>Editor<button type="button" aria-label="Remove Editor"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button></span>
+                    <button class="tadd" type="button"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg>Add</button>
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="lbl" for="f-cat">Category</label>
+                  <span class="select-wrap"><select class="input" id="f-cat"><option selected>News</option><option>Guide</option><option>Engineering</option><option>Video</option></select><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></span>
+                  <p class="help">Choosing Video adds a required Video URL field.</p>
+                </div>
+                <div class="field">
+                  <label class="lbl" for="f-pub">Published on <span class="meta">Europe/Berlin</span></label>
+                  <span class="select-wrap"><input class="input" id="f-pub" type="text" value="24 Nov 2026, 10:00"><svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-h"><h2>Hero image</h2><button class="btn btn-ghost btn-sm end" type="button">Replace</button></div>
+              <div class="card-b">
+                <div class="media">
+                  <div class="media-img ph" role="img" aria-label="Spring hills under a low sun"><span class="focal" title="Focal point"></span></div>
+                  <div class="media-meta"><b>spring-release-hero.jpg</b><span class="tnum end">412 KB</span></div>
+                </div>
+                <div class="field" style="margin-block-start:12px">
+                  <label class="lbl" for="f-alt">Alt text <svg class="ic" role="img" aria-label="Localized"><use href="#i-globe"/></svg></label>
+                  <input class="input" id="f-alt" type="text" value="Green hills under a low spring sun">
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-h"><h2>Version history</h2><a class="link" href="#">View all</a></div>
+              <ol class="vers">
+                <li class="is-current"><span class="v">v14</span><span class="w"><b>Jonas Weber</b><span class="tnum">12 min ago · this draft</span></span><span class="origin">Admin</span></li>
+                <li><span class="v">v13</span><span class="w"><b>Content Agent</b><span class="tnum">2 h ago</span></span><span class="origin o-mcp">MCP</span></li>
+                <li><span class="v">v12</span><span class="w"><b>Elena Marsh</b><span class="tnum">Yesterday · <span class="live">Live</span></span></span><span class="origin">Admin</span></li>
+                <li><span class="v">v11</span><span class="w"><b>Scheduled publish</b><span class="tnum">24 Nov</span></span><span class="origin o-job">Job</span></li>
+              </ol>
+            </div>
+
+            <div class="card">
+              <div class="card-h"><h2>Info</h2></div>
+              <div class="card-b">
+                <div class="idrow"><span title="0193a7c4-5e1b-7c2a-9f3d-2b8e6a41d0c7">0193a7c4-5e1b-7c2a-9f3d-2b8e6a41d0c7</span><button class="btn btn-ghost btn-sm btn-icon" type="button" aria-label="Copy the id"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg></button></div>
+                <dl class="info">
+                  <dt>Created</dt><dd>18 Nov 2026 by Jonas Weber</dd>
+                  <dt>Updated</dt><dd>26 Nov 2026, 12 min ago</dd>
+                  <dt>Version</dt><dd class="tnum">14</dd>
+                  <dt>Type</dt><dd class="mono">article</dd>
+                </dl>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- Prototype control: not part of the design -->
+<div class="proto" role="group" aria-label="Prototype controls">
+  <span class="proto-name">Reference</span>
+  <button type="button" data-go="dashboard">Dashboard</button>
+  <button type="button" data-go="list">List</button>
+  <button type="button" data-go="editor">Editor</button>
+  <button type="button" data-theme-toggle aria-label="Toggle the theme"><svg class="ic th-light" aria-hidden="true"><use href="#i-moon"/></svg><svg class="ic th-dark" aria-hidden="true"><use href="#i-sun"/></svg></button>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var screens = ['dashboard', 'list', 'editor'];
+  var content = document.getElementById('main');
+
+  function show(name) {
+    if (screens.indexOf(name) < 0) { name = 'dashboard'; }
+    document.querySelectorAll('[data-screen]').forEach(function (s) { s.hidden = s.dataset.screen !== name; });
+    root.dataset.view = name;
+    document.querySelectorAll('.proto [data-go]').forEach(function (b) {
+      var on = b.dataset.go === name;
+      b.classList.toggle('is-current', on);
+      b.setAttribute('aria-pressed', String(on));
+    });
+    document.querySelectorAll('.nav-item[data-nav]').forEach(function (a) {
+      var on = (a.dataset.nav === 'home' && name === 'dashboard') || (a.dataset.nav === 'articles' && name !== 'dashboard');
+      if (on) { a.setAttribute('aria-current', 'page'); } else { a.removeAttribute('aria-current'); }
+    });
+    root.removeAttribute('data-drawer');
+    content.scrollTop = 0;
+    try { history.replaceState(null, '', '#' + name); } catch (e) { location.hash = name; }
+  }
+
+  function closeMenus(except) {
+    document.querySelectorAll('.menu:not([hidden])').forEach(function (m) {
+      if (m === except) { return; }
+      m.hidden = true;
+      var b = document.querySelector('[aria-controls="' + m.id + '"]');
+      if (b) { b.setAttribute('aria-expanded', 'false'); }
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var menuButton = e.target.closest('[data-menu]');
+    var menu = menuButton ? document.getElementById(menuButton.getAttribute('aria-controls')) : null;
+    closeMenus(menu);
+    if (menu) {
+      menu.hidden = !menu.hidden;
+      menuButton.setAttribute('aria-expanded', String(!menu.hidden));
+      return;
+    }
+
+    var theme = e.target.closest('[data-theme-toggle]');
+    if (theme) {
+      var next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try { localStorage.setItem('fl-reference-theme', next); } catch (err) { /* storage may be blocked */ }
+      return;
+    }
+
+    var group = e.target.closest('[data-group]');
+    if (group) {
+      var panel = document.getElementById(group.getAttribute('aria-controls'));
+      panel.hidden = !panel.hidden;
+      group.setAttribute('aria-expanded', String(!panel.hidden));
+      return;
+    }
+
+    if (e.target.closest('[data-collapse]')) {
+      if (root.dataset.sb === 'collapsed') { root.removeAttribute('data-sb'); } else { root.dataset.sb = 'collapsed'; }
+      return;
+    }
+
+    if (e.target.closest('[data-drawer]')) {
+      if (root.dataset.drawer === 'open') { root.removeAttribute('data-drawer'); } else { root.dataset.drawer = 'open'; }
+      return;
+    }
+
+    var go = e.target.closest('[data-go]');
+    if (go) {
+      // A row opens its entry, but its checkbox and its buttons keep their own meaning.
+      if (go.tagName === 'TR' && e.target.closest('input, button, label')) { return; }
+      e.preventDefault();
+      show(go.dataset.go);
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { closeMenus(null); root.removeAttribute('data-drawer'); }
+  });
+  window.addEventListener('hashchange', function () { show(location.hash.slice(1)); });
+
+  var all = document.getElementById('chk-all');
+  if (all) { all.indeterminate = true; }
+  show(location.hash.slice(1));
+})();
+</script>
+</body>
+</html>
