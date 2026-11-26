@@ -12,6 +12,8 @@ One static page with three screens of the admin (dashboard, content list, entry 
 
 It sets the direction: a grouped sidebar, a header with global search, bordered inputs, data tables, a right-hand inspector in the editor and a blue accent.
 
+It is a draft. The direction is settled; details may still change as requirements arrive, and no major change is expected.
+
 It is a mockup, not a specification:
 
 - its markup and styles are written for the picture, and none of them is the library's code;

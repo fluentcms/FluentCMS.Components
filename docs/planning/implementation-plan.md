@@ -25,7 +25,7 @@ FluentCMS Components is an opinionated, minimal Blazor component library. It is 
 | D6 | The library is opinionated and minimal (section 3). |
 | D7 | The library lives in its own repository with its own tests, CI and releases, and is published on nuget.org. |
 | D8 | The FluentCMS admin and the admin halves of plugins use `Fl*` directly. `FluentCMS.Admin.Components` is removed; no wrapper layer replaces it. |
-| D9 | The visual direction is the selected admin mockup: a grouped sidebar, a header with global search, bordered inputs, data tables and a blue accent. It becomes the FluentCMS design system. |
+| D9 | The visual direction is the selected admin mockup: a grouped sidebar, a header with global search, bordered inputs, data tables and a blue accent. It becomes the FluentCMS design system. The mockup is a draft: its direction is settled, and its details may change with later requirements. |
 | D10 | The stylesheet is plain CSS: no CSS framework, no preprocessor and no build tool beyond MSBuild joining the files (section 4.2). |
 | D11 | The repository is public, since 26 November 2026, and the library is under the MIT license, as FluentCMS is. |
 
