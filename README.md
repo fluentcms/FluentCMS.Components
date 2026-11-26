@@ -12,3 +12,7 @@ An opinionated, minimal Blazor component library: the user interface layer of th
 - **Accessible by default.** WCAG 2.2 AA, full keyboard use, right-to-left layout.
 - **Small.** Fewer than 40 components, prefixed `Fl`, in the package `FluentCMS.Components`.
 - **Designed from scratch.** Its components and API come from the design system and from HTML, not from an earlier library.
+
+## License
+
+[MIT](LICENSE)
