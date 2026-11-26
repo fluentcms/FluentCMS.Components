@@ -1,0 +1,198 @@
+/* Input: the bordered box around an <input>, with its optional icon, affixes
+   and action. The text input is this box alone; the number, date and time
+   inputs are the same box with parts of their own. */
+
+@layer fl.components {
+  .fl-input {
+    --fl-input-height: var(--fl-control-height-m);
+    --fl-input-padding: var(--fl-control-padding-m);
+    --fl-input-font-size: var(--fl-control-font-size);
+    --fl-input-inner-radius: calc(var(--fl-control-radius) - var(--fl-border-width));
+
+    display: flex;
+    align-items: stretch;
+    inline-size: 100%;
+    min-inline-size: 0;
+    block-size: var(--fl-input-height);
+    border: var(--fl-border-width) solid var(--fl-color-border-control);
+    border-radius: var(--fl-control-radius);
+    background-color: var(--fl-color-surface);
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-input-font-size);
+    line-height: var(--fl-line-height-tight);
+
+    & > .fl-input__control {
+      flex: 1;
+      inline-size: 100%;
+      min-inline-size: 0;
+      margin: 0;
+      padding-block: 0;
+      padding-inline: var(--fl-input-padding);
+      border: 0;
+      border-radius: var(--fl-input-inner-radius);
+      outline: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      text-overflow: ellipsis;
+
+      &::placeholder {
+        color: var(--fl-color-text-subtle);
+        opacity: 1;
+      }
+
+      &::-webkit-search-cancel-button {
+        display: none;
+      }
+    }
+
+    /* The icon lies over the start of the control, so a click on it lands in the control. */
+    & > .fl-input__icon {
+      position: relative;
+      z-index: var(--fl-z-raised);
+      align-self: center;
+      margin-inline: var(--fl-input-padding) calc(-1 * (var(--fl-input-padding) + var(--fl-icon-size-m)));
+      color: var(--fl-color-text-subtle);
+      pointer-events: none;
+
+      & + .fl-input__control {
+        padding-inline-start: calc(var(--fl-input-padding) + var(--fl-icon-size-m) + var(--fl-space-2));
+      }
+    }
+
+    /* Affix: fixed text before or after the value. */
+    & > .fl-input__affix {
+      display: flex;
+      align-items: center;
+      padding-inline: var(--fl-input-padding);
+      border-inline-end: var(--fl-border-width) solid var(--fl-color-border-strong);
+      border-start-start-radius: var(--fl-input-inner-radius);
+      border-end-start-radius: var(--fl-input-inner-radius);
+      background-color: var(--fl-color-surface-subtle);
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-s);
+      white-space: nowrap;
+    }
+
+    & > .fl-input__control ~ .fl-input__affix {
+      border-inline: var(--fl-border-width) solid var(--fl-color-border-strong);
+      border-inline-end-width: 0;
+      border-radius: 0;
+      border-start-end-radius: var(--fl-input-inner-radius);
+      border-end-end-radius: var(--fl-input-inner-radius);
+    }
+
+    /* Action: a button inside the box, such as clear or show. Its transparent
+       border lies over the border of the box, so the target has the full height. */
+    & > .fl-input__action {
+      display: grid;
+      place-items: center;
+      flex: none;
+      inline-size: var(--fl-input-height);
+      margin: calc(-1 * var(--fl-border-width));
+      margin-inline-start: 0;
+      padding: 0;
+      border: var(--fl-border-width) solid transparent;
+      border-radius: var(--fl-control-radius);
+      background: transparent padding-box;
+      color: var(--fl-color-text-subtle);
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--fl-color-hover);
+        color: var(--fl-color-text);
+      }
+
+      &:active {
+        background-color: var(--fl-color-pressed);
+      }
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: calc(-1 * var(--fl-focus-ring-width));
+      }
+
+      &[aria-pressed="true"] {
+        color: var(--fl-color-accent-text);
+      }
+
+      &:disabled {
+        background-color: transparent;
+        color: var(--fl-color-disabled-text);
+        cursor: not-allowed;
+      }
+    }
+
+    /* Modifiers set tokens only. */
+
+    &.fl-input--s {
+      --fl-input-height: var(--fl-control-height-s);
+      --fl-input-padding: var(--fl-control-padding-s);
+      --fl-input-font-size: var(--fl-font-size-s);
+    }
+
+    &.fl-input--l {
+      --fl-input-height: var(--fl-control-height-l);
+      --fl-input-padding: var(--fl-control-padding-l);
+    }
+
+    /* For a value that is code: a path, a key, an identifier. */
+    &.fl-input--mono {
+      font-family: var(--fl-font-family-mono);
+      font-size: var(--fl-font-size-s);
+    }
+
+    /* States, once and in this order: a later one wins over an earlier one. */
+
+    &:hover {
+      border-color: var(--fl-color-text-subtle);
+    }
+
+    &:has(> .fl-input__control:focus-visible) {
+      outline: var(--fl-focus-ring);
+      outline-offset: calc(-1 * var(--fl-border-width));
+    }
+
+    &:has(> .fl-input__control[readonly]) {
+      border-color: var(--fl-color-border-strong);
+      background-color: var(--fl-color-surface-subtle);
+    }
+
+    &:has(> .fl-input__control[aria-invalid="true"]) {
+      border-color: var(--fl-color-danger-solid);
+    }
+
+    &:has(> .fl-input__control:disabled) {
+      border-color: var(--fl-color-disabled-border);
+      background-color: var(--fl-color-disabled-fill);
+      color: var(--fl-color-disabled-text);
+      cursor: not-allowed;
+
+      & > .fl-input__control {
+        cursor: not-allowed;
+        /* Safari dims the text of a disabled input a second time. */
+        -webkit-text-fill-color: currentColor;
+        opacity: 1;
+
+        &::placeholder {
+          color: var(--fl-color-disabled-text);
+        }
+      }
+
+      & > .fl-input__icon,
+      & > .fl-input__affix {
+        border-color: var(--fl-color-disabled-border);
+        background-color: transparent;
+        color: var(--fl-color-disabled-text);
+      }
+    }
+
+    @media (forced-colors: active) {
+      &:has(> .fl-input__control:disabled) {
+        border-color: GrayText;
+        color: GrayText;
+      }
+    }
+  }
+}

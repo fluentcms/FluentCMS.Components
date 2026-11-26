@@ -1,0 +1,196 @@
+/* Button: on a <button>, or on an <a> that goes somewhere. */
+
+@layer fl.components {
+  .fl-button {
+    --fl-button-height: var(--fl-control-height-m);
+    --fl-button-padding: var(--fl-control-padding-m);
+    --fl-button-font-size: var(--fl-font-size-s);
+    --fl-button-bg: var(--fl-color-surface);
+    /* Hover and pressed are painted over the fill, so a see-through colour
+       serves every surface and a solid one replaces the fill. */
+    --fl-button-bg-hover: var(--fl-color-hover);
+    --fl-button-bg-pressed: var(--fl-color-pressed);
+    --fl-button-border: var(--fl-color-border-strong);
+    --fl-button-fg: var(--fl-color-text);
+    --fl-button-fg-hover: var(--fl-button-fg);
+    --fl-button-icon: var(--fl-color-text-muted);
+    --fl-button-overlay: transparent;
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--fl-space-1-5);
+    min-inline-size: var(--fl-button-height);
+    block-size: var(--fl-button-height);
+    margin: 0;
+    padding-block: 0;
+    padding-inline: var(--fl-button-padding);
+    border: var(--fl-border-width) solid var(--fl-button-border);
+    border-radius: var(--fl-control-radius);
+    background: linear-gradient(var(--fl-button-overlay) 0 0) var(--fl-button-bg);
+    color: var(--fl-button-fg);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-button-font-size);
+    font-weight: var(--fl-font-weight-medium);
+    line-height: var(--fl-line-height-tight);
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+
+    & > .fl-icon {
+      color: var(--fl-button-icon);
+    }
+
+    /* Variants and sizes set tokens only. */
+
+    &.fl-button--primary {
+      --fl-button-bg: var(--fl-color-accent);
+      --fl-button-bg-hover: var(--fl-color-accent-hover);
+      --fl-button-bg-pressed: var(--fl-color-accent-pressed);
+      --fl-button-border: transparent;
+      --fl-button-fg: var(--fl-color-on-accent);
+      --fl-button-icon: currentColor;
+    }
+
+    &.fl-button--subtle {
+      --fl-button-bg: transparent;
+      --fl-button-border: transparent;
+      --fl-button-fg: var(--fl-color-text-muted);
+      --fl-button-fg-hover: var(--fl-color-text);
+      --fl-button-icon: currentColor;
+    }
+
+    /* Danger is a tone on top of a variant. */
+    &.fl-button--danger {
+      --fl-button-bg-hover: var(--fl-color-danger-soft);
+      --fl-button-bg-pressed: var(--fl-color-danger-border);
+      --fl-button-fg: var(--fl-color-danger-text);
+      --fl-button-fg-hover: var(--fl-color-danger-text);
+      --fl-button-icon: currentColor;
+    }
+
+    &.fl-button--danger.fl-button--primary {
+      --fl-button-bg: var(--fl-color-danger-solid);
+      --fl-button-bg-hover: var(--fl-color-danger-solid-hover);
+      --fl-button-bg-pressed: var(--fl-color-danger-solid-pressed);
+      --fl-button-fg: var(--fl-color-danger-on-solid);
+      --fl-button-fg-hover: var(--fl-color-danger-on-solid);
+    }
+
+    &.fl-button--s {
+      --fl-button-height: var(--fl-control-height-s);
+      --fl-button-padding: var(--fl-control-padding-s);
+    }
+
+    &.fl-button--l {
+      --fl-button-height: var(--fl-control-height-l);
+      --fl-button-padding: var(--fl-control-padding-l);
+      --fl-button-font-size: var(--fl-font-size-m);
+    }
+
+    &.fl-button--icon {
+      inline-size: var(--fl-button-height);
+      padding-inline: 0;
+    }
+
+    &.fl-button--block {
+      display: flex;
+      inline-size: 100%;
+    }
+
+    /* States, once and in this order: a later one wins over an earlier one. */
+
+    &:hover {
+      --fl-button-overlay: var(--fl-button-bg-hover);
+
+      color: var(--fl-button-fg-hover);
+    }
+
+    &:active {
+      --fl-button-overlay: var(--fl-button-bg-pressed);
+    }
+
+    &:focus-visible {
+      outline: var(--fl-focus-ring);
+      outline-offset: var(--fl-focus-ring-offset);
+      box-shadow: var(--fl-focus-halo);
+    }
+
+    &[aria-pressed="true"] {
+      --fl-button-bg: var(--fl-color-accent-soft);
+      --fl-button-bg-hover: var(--fl-color-accent-soft-hover);
+      --fl-button-bg-pressed: var(--fl-color-accent-soft-hover);
+      --fl-button-fg: var(--fl-color-accent-text);
+      --fl-button-fg-hover: var(--fl-color-accent-text);
+      --fl-button-icon: currentColor;
+
+      border-color: var(--fl-color-accent-border);
+    }
+
+    &:disabled,
+    &[aria-disabled="true"]:not([aria-busy="true"]) {
+      --fl-button-overlay: transparent;
+
+      border-color: var(--fl-color-disabled-border);
+      background-color: var(--fl-color-disabled-fill);
+      color: var(--fl-color-disabled-text);
+      cursor: not-allowed;
+
+      & > .fl-icon {
+        color: currentColor;
+      }
+    }
+
+    &.fl-button--subtle:is(:disabled, [aria-disabled="true"], [aria-pressed="true"]) {
+      border-color: transparent;
+    }
+
+    &.fl-button--subtle:is(:disabled, [aria-disabled="true"]:not([aria-busy="true"])) {
+      background-color: transparent;
+    }
+
+    /* Busy: the content keeps its place and the spinner lies over it, so the
+       width does not change. A busy button keeps its colours and takes no click. */
+    &[aria-busy="true"] {
+      color: transparent;
+      pointer-events: none;
+
+      & > .fl-icon:not(.fl-button__spinner) {
+        visibility: hidden;
+      }
+    }
+
+    & > .fl-button__spinner {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      color: var(--fl-button-fg);
+    }
+
+    @media (forced-colors: active) {
+      &[aria-pressed="true"] {
+        border-color: Highlight;
+        color: Highlight;
+      }
+
+      &:disabled,
+      &[aria-disabled="true"]:not([aria-busy="true"]) {
+        border-color: GrayText;
+        color: GrayText;
+      }
+
+      /* The system would force the hidden text back to a visible colour. */
+      &[aria-busy="true"] {
+        forced-color-adjust: none;
+        border-color: ButtonBorder;
+        background: ButtonFace;
+        color: transparent;
+
+        & > .fl-button__spinner {
+          color: ButtonText;
+        }
+      }
+    }
+  }
+}

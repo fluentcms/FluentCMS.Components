@@ -1,0 +1,22 @@
+/* Keyboard key: on a <kbd>. */
+
+@layer fl.components {
+  .fl-kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: var(--fl-space-5);
+    block-size: var(--fl-space-5);
+    padding-inline: var(--fl-space-1);
+    border: var(--fl-border-width) solid var(--fl-color-border-strong);
+    border-block-end-width: var(--fl-border-width-strong);
+    border-radius: var(--fl-radius-s);
+    background-color: var(--fl-color-surface);
+    color: var(--fl-color-text-muted);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-2xs);
+    font-weight: var(--fl-font-weight-medium);
+    line-height: 1;
+    white-space: nowrap;
+  }
+}

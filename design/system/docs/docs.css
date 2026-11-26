@@ -1,0 +1,740 @@
+/* The chrome of the design system pages: layout, demo frames, spec blocks and
+   token specimens. It is not part of the library and never ships with it.
+   It reads the library's tokens, so it follows the theme and the density. */
+
+html {
+  scroll-padding-block-start: 1rem;
+}
+
+body.docs {
+  min-block-size: 100vh;
+  margin: 0;
+}
+
+.docs *,
+.docs *::before,
+.docs *::after {
+  box-sizing: border-box;
+}
+
+/* Header */
+
+.docs-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--fl-space-2) var(--fl-space-6);
+  min-block-size: 3.5rem;
+  padding: var(--fl-space-2) var(--fl-space-6);
+  border-block-end: 1px solid var(--fl-color-border);
+  background-color: var(--fl-color-surface);
+}
+
+.docs-brand {
+  display: flex;
+  align-items: baseline;
+  gap: var(--fl-space-2);
+  color: var(--fl-color-text);
+  font-size: var(--fl-font-size-l);
+  font-weight: var(--fl-font-weight-bold);
+  letter-spacing: var(--fl-letter-spacing-tight);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.docs-brand small {
+  color: var(--fl-color-text-subtle);
+  font-size: var(--fl-font-size-xs);
+  font-weight: var(--fl-font-weight-regular);
+  letter-spacing: 0;
+}
+
+.docs-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fl-space-1);
+  margin-inline-end: auto;
+}
+
+.docs-nav a,
+.docs-nav span {
+  display: inline-flex;
+  align-items: center;
+  block-size: 2rem;
+  padding-inline: var(--fl-space-3);
+  border-radius: var(--fl-radius-m);
+  color: var(--fl-color-text-muted);
+  font-size: var(--fl-font-size-s);
+  font-weight: var(--fl-font-weight-medium);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.docs-nav span {
+  color: var(--fl-color-disabled-text);
+}
+
+.docs-nav a:hover {
+  background-color: var(--fl-color-hover);
+  color: var(--fl-color-text);
+}
+
+.docs-nav a[aria-current="page"] {
+  background-color: var(--fl-color-accent-soft);
+  color: var(--fl-color-accent-text);
+}
+
+.docs-switches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fl-space-2);
+}
+
+.docs-switch {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid var(--fl-color-border-strong);
+  border-radius: var(--fl-radius-m);
+  background-color: var(--fl-color-surface);
+}
+
+.docs-switch button {
+  min-inline-size: 1.75rem;
+  block-size: 1.5rem;
+  padding-inline: var(--fl-space-2);
+  border: 0;
+  border-radius: var(--fl-radius-s);
+  background: transparent;
+  color: var(--fl-color-text-muted);
+  font: inherit;
+  font-size: var(--fl-font-size-xs);
+  font-weight: var(--fl-font-weight-medium);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.docs-switch button:hover {
+  color: var(--fl-color-text);
+}
+
+.docs-switch button[aria-pressed="true"] {
+  background-color: var(--fl-color-accent-soft);
+  color: var(--fl-color-accent-text);
+}
+
+.docs a:focus-visible,
+.docs-switch button:focus-visible {
+  outline: var(--fl-focus-ring);
+  outline-offset: var(--fl-focus-ring-offset);
+}
+
+/* Page */
+
+.docs-layout {
+  display: grid;
+  grid-template-columns: 13rem minmax(0, 1fr);
+  gap: var(--fl-space-10);
+  max-inline-size: 84rem;
+  margin-inline: auto;
+  padding: var(--fl-space-8) var(--fl-space-6) var(--fl-space-24);
+}
+
+.docs-toc {
+  position: sticky;
+  inset-block-start: 1.5rem;
+  align-self: start;
+  max-block-size: calc(100vh - 3rem);
+  overflow-y: auto;
+  font-size: var(--fl-font-size-s);
+}
+
+.docs-toc strong {
+  display: block;
+  margin-block-end: var(--fl-space-2);
+  color: var(--fl-color-text-subtle);
+  font-size: var(--fl-font-size-2xs);
+  font-weight: var(--fl-font-weight-semibold);
+  letter-spacing: var(--fl-letter-spacing-caps);
+  text-transform: uppercase;
+}
+
+.docs-toc a {
+  display: block;
+  padding: var(--fl-space-1) var(--fl-space-3);
+  border-inline-start: 1px solid var(--fl-color-border);
+  color: var(--fl-color-text-muted);
+  text-decoration: none;
+}
+
+.docs-toc a:hover {
+  border-color: var(--fl-color-accent);
+  color: var(--fl-color-text);
+}
+
+.docs-main {
+  min-inline-size: 0;
+}
+
+.docs-main > h1 {
+  margin: 0;
+  font-size: var(--fl-font-size-3xl);
+  font-weight: var(--fl-font-weight-semibold);
+  letter-spacing: var(--fl-letter-spacing-tight);
+  line-height: var(--fl-line-height-tight);
+}
+
+.docs-lede {
+  max-inline-size: var(--fl-measure);
+  margin-block: var(--fl-space-3) var(--fl-space-12);
+  color: var(--fl-color-text-muted);
+  font-size: var(--fl-font-size-l);
+}
+
+.docs-section {
+  margin-block-end: var(--fl-space-16);
+}
+
+.docs-section > h2 {
+  margin-block: 0 var(--fl-space-2);
+  padding-block-start: var(--fl-space-6);
+  border-block-start: 1px solid var(--fl-color-border);
+  font-size: var(--fl-font-size-2xl);
+  font-weight: var(--fl-font-weight-semibold);
+  letter-spacing: var(--fl-letter-spacing-tight);
+  line-height: var(--fl-line-height-tight);
+}
+
+.docs-section h3 {
+  margin-block: var(--fl-space-8) var(--fl-space-2);
+  font-size: var(--fl-font-size-l);
+  font-weight: var(--fl-font-weight-semibold);
+}
+
+.docs-section h4 {
+  margin-block: var(--fl-space-5) var(--fl-space-2);
+  color: var(--fl-color-text-muted);
+  font-size: var(--fl-font-size-xs);
+  font-weight: var(--fl-font-weight-semibold);
+}
+
+.docs-section > p,
+.docs-section > ul,
+.docs-section > ol {
+  max-inline-size: var(--fl-measure);
+  margin-block: 0 var(--fl-space-3);
+  color: var(--fl-color-text-muted);
+}
+
+.docs-section > ul,
+.docs-section > ol {
+  padding-inline-start: var(--fl-space-5);
+}
+
+.docs code {
+  padding: 1px 4px;
+  border-radius: var(--fl-radius-s);
+  background-color: var(--fl-color-surface-muted);
+  color: var(--fl-color-text);
+  font-family: var(--fl-font-family-mono);
+  font-size: 0.9em;
+  /* Code reads left to right in a right-to-left page too. */
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.docs-swatch > span,
+.docs-swatch > small {
+  unicode-bidi: plaintext;
+}
+
+.docs-scroll {
+  overflow-x: auto;
+}
+
+/* Demo frame: holds library markup, and nothing in it is restyled. */
+
+.docs-demo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--fl-space-3) var(--fl-space-4);
+  margin-block-end: var(--fl-space-3);
+  padding: var(--fl-space-5);
+  border: 1px solid var(--fl-color-border);
+  border-radius: var(--fl-radius-l);
+  background-color: var(--fl-color-surface);
+}
+
+.docs-demo--canvas {
+  background-color: var(--fl-color-canvas);
+}
+
+.docs-demo--column {
+  flex-flow: column nowrap;
+  align-items: stretch;
+}
+
+.docs-demo--narrow > * {
+  max-inline-size: 26rem;
+}
+
+/* Widths for a control that fills its container. These are the only docs
+   classes that go on library markup. */
+
+.docs-narrow {
+  flex: none;
+  inline-size: 11rem;
+}
+
+.docs-medium {
+  flex: none;
+  inline-size: 16rem;
+}
+
+/* Matrix: variants down, states across. */
+
+.docs-matrix {
+  border-collapse: collapse;
+  font-size: var(--fl-font-size-xs);
+}
+
+.docs-matrix th {
+  padding: var(--fl-space-2) var(--fl-space-4) var(--fl-space-2) 0;
+  color: var(--fl-color-text-subtle);
+  font-weight: var(--fl-font-weight-medium);
+  text-align: start;
+  white-space: nowrap;
+}
+
+.docs-matrix td {
+  padding: var(--fl-space-2) var(--fl-space-4) var(--fl-space-2) 0;
+  vertical-align: middle;
+}
+
+/* Modes: the same markup in the other theme, density and direction. */
+
+.docs-modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: var(--fl-space-3);
+  margin-block-end: var(--fl-space-3);
+}
+
+.docs-mode {
+  min-inline-size: 0;
+  margin: 0;
+  border: 1px solid var(--fl-color-border);
+  border-radius: var(--fl-radius-l);
+  overflow: hidden;
+}
+
+.docs-mode > figcaption {
+  padding: var(--fl-space-2) var(--fl-space-4);
+  border-block-end: 1px solid var(--fl-color-border);
+  color: var(--fl-color-text-subtle);
+  font-size: var(--fl-font-size-xs);
+  font-weight: var(--fl-font-weight-medium);
+}
+
+.docs-mode > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--fl-space-3);
+  padding: var(--fl-space-4);
+  background-color: var(--fl-color-surface);
+}
+
+.docs-mode > div.docs-demo--column {
+  flex-flow: column nowrap;
+  align-items: stretch;
+}
+
+/* Spec block and other tables of the documentation */
+
+.docs-spec,
+.docs-table {
+  inline-size: 100%;
+  margin-block: var(--fl-space-4) var(--fl-space-3);
+  border-collapse: collapse;
+  font-size: var(--fl-font-size-s);
+}
+
+.docs-spec caption,
+.docs-table caption {
+  padding-block-end: var(--fl-space-2);
+  color: var(--fl-color-text-subtle);
+  font-size: var(--fl-font-size-2xs);
+  font-weight: var(--fl-font-weight-semibold);
+  letter-spacing: var(--fl-letter-spacing-caps);
+  text-align: start;
+  text-transform: uppercase;
+}
+
+.docs-spec th,
+.docs-spec td,
+.docs-table th,
+.docs-table td {
+  padding: var(--fl-space-2) var(--fl-space-4) var(--fl-space-2) 0;
+  border-block-start: 1px solid var(--fl-color-border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.docs-spec th {
+  inline-size: 9rem;
+  color: var(--fl-color-text-muted);
+  font-weight: var(--fl-font-weight-medium);
+}
+
+.docs-table thead th {
+  border-block-start: 0;
+  color: var(--fl-color-text-subtle);
+  font-size: var(--fl-font-size-xs);
+  font-weight: var(--fl-font-weight-medium);
+  white-space: nowrap;
+}
+
+.docs-spec td,
+.docs-table td {
+  color: var(--fl-color-text-muted);
+}
+
+.docs-spec ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.docs-spec li + li {
+  margin-block-start: var(--fl-space-1);
+}
+
+.docs-num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Note: a decision or a recommendation */
+
+.docs-note {
+  max-inline-size: var(--fl-measure);
+  margin-block: var(--fl-space-4);
+  padding: var(--fl-space-3) var(--fl-space-4);
+  border: 1px solid var(--fl-color-accent-border);
+  border-radius: var(--fl-radius-l);
+  background-color: var(--fl-color-accent-soft);
+  color: var(--fl-color-text);
+  font-size: var(--fl-font-size-s);
+}
+
+.docs-note strong {
+  font-weight: var(--fl-font-weight-semibold);
+}
+
+/* Token specimens */
+
+.docs-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 11.5rem), 1fr));
+  gap: var(--fl-space-3);
+  margin-block-end: var(--fl-space-4);
+}
+
+.docs-swatch {
+  min-inline-size: 0;
+  border: 1px solid var(--fl-color-border);
+  border-radius: var(--fl-radius-l);
+  background-color: var(--fl-color-surface);
+  overflow: hidden;
+}
+
+.docs-swatch > i {
+  display: block;
+  block-size: 3rem;
+  border-block-end: 1px solid var(--fl-color-border);
+}
+
+.docs-swatch > span {
+  display: block;
+  padding: var(--fl-space-2) var(--fl-space-3) 0;
+  font-size: var(--fl-font-size-xs);
+  font-weight: var(--fl-font-weight-medium);
+  overflow-wrap: anywhere;
+}
+
+.docs-swatch > small {
+  display: block;
+  padding: 0 var(--fl-space-3) var(--fl-space-2);
+  color: var(--fl-color-text-subtle);
+  font-family: var(--fl-font-family-mono);
+  font-size: var(--fl-font-size-2xs);
+}
+
+.docs-tones {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: var(--fl-space-3);
+  margin-block-end: var(--fl-space-4);
+}
+
+.docs-tone {
+  border: 1px solid var(--fl-color-border);
+  border-radius: var(--fl-radius-l);
+  background-color: var(--fl-color-surface);
+  overflow: hidden;
+}
+
+.docs-tone > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 var(--fl-space-3);
+  padding: var(--fl-space-2) var(--fl-space-3);
+  font-size: var(--fl-font-size-s);
+  font-weight: var(--fl-font-weight-medium);
+}
+
+/* A sample of text on a background, with its measured contrast. */
+[data-contrast]::after {
+  content: attr(data-ratio);
+  margin-inline-start: var(--fl-space-3);
+  font-family: var(--fl-font-family-mono);
+  font-size: var(--fl-font-size-2xs);
+  font-weight: var(--fl-font-weight-regular);
+  white-space: nowrap;
+}
+
+.docs-bars {
+  display: grid;
+  grid-template-columns: max-content max-content minmax(0, 1fr);
+  gap: var(--fl-space-2) var(--fl-space-4);
+  align-items: center;
+  margin-block-end: var(--fl-space-4);
+  font-size: var(--fl-font-size-xs);
+}
+
+.docs-bars code {
+  justify-self: start;
+}
+
+.docs-bars i {
+  display: block;
+  block-size: var(--fl-space-3);
+  border-radius: 2px;
+  background-color: var(--fl-color-accent);
+}
+
+.docs-boxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fl-space-6);
+  margin-block-end: var(--fl-space-4);
+  padding: var(--fl-space-6);
+  border: 1px solid var(--fl-color-border);
+  border-radius: var(--fl-radius-l);
+  background-color: var(--fl-color-canvas);
+}
+
+.docs-box {
+  display: grid;
+  gap: var(--fl-space-2);
+  justify-items: start;
+  font-size: var(--fl-font-size-xs);
+}
+
+.docs-box > i {
+  display: block;
+  inline-size: 5.5rem;
+  block-size: 3.5rem;
+  border: 1px solid var(--fl-color-border-strong);
+  background-color: var(--fl-color-surface);
+}
+
+.docs-type {
+  display: grid;
+  grid-template-columns: max-content max-content minmax(0, 1fr);
+  gap: var(--fl-space-3) var(--fl-space-5);
+  align-items: baseline;
+  margin-block-end: var(--fl-space-4);
+}
+
+.docs-type > span:nth-child(3n) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docs-type small {
+  color: var(--fl-color-text-subtle);
+  font-size: var(--fl-font-size-xs);
+}
+
+/* Side by side comparison of two options */
+
+.docs-compare {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: var(--fl-space-4);
+  margin-block-end: var(--fl-space-4);
+}
+
+.docs-option {
+  min-inline-size: 0;
+  border: 1px solid var(--fl-color-border);
+  border-radius: var(--fl-radius-l);
+  background-color: var(--fl-color-surface);
+  overflow: hidden;
+}
+
+.docs-option > header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--fl-space-3);
+  padding: var(--fl-space-3) var(--fl-space-4);
+  border-block-end: 1px solid var(--fl-color-border);
+  background-color: var(--fl-color-surface-subtle);
+  font-weight: var(--fl-font-weight-semibold);
+}
+
+.docs-option > header small {
+  color: var(--fl-color-text-subtle);
+  font-size: var(--fl-font-size-xs);
+  font-weight: var(--fl-font-weight-regular);
+}
+
+.docs-option > header mark {
+  padding: 2px var(--fl-space-2);
+  border-radius: var(--fl-radius-full);
+  background-color: var(--fl-color-accent-soft);
+  color: var(--fl-color-accent-text);
+  font-size: var(--fl-font-size-2xs);
+  font-weight: var(--fl-font-weight-semibold);
+}
+
+.docs-option > div {
+  display: grid;
+  gap: var(--fl-space-4);
+  padding: var(--fl-space-4);
+}
+
+.docs-option p {
+  margin: 0;
+}
+
+.docs-font-inter {
+  --fl-font-family: Inter, sans-serif;
+
+  font-family: var(--fl-font-family);
+}
+
+.docs-icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+  gap: var(--fl-space-2);
+  margin-block-end: var(--fl-space-4);
+}
+
+.docs-icons figure {
+  display: grid;
+  gap: var(--fl-space-2);
+  justify-items: center;
+  min-inline-size: 0;
+  margin: 0;
+  padding: var(--fl-space-3) var(--fl-space-1);
+  border: 1px solid var(--fl-color-border);
+  border-radius: var(--fl-radius-m);
+  background-color: var(--fl-color-surface);
+}
+
+.docs-icons figcaption {
+  max-inline-size: 100%;
+  color: var(--fl-color-text-subtle);
+  font-size: var(--fl-font-size-2xs);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docs-icon-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fl-space-3);
+  color: var(--fl-color-text-muted);
+}
+
+/* The header stays in view where it fits on one line. */
+@media (min-width: 90rem) {
+  html {
+    scroll-padding-block-start: 4.5rem;
+  }
+
+  .docs-header {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 20;
+  }
+
+  .docs-toc {
+    inset-block-start: 5rem;
+    max-block-size: calc(100vh - 6.5rem);
+  }
+}
+
+@media (max-width: 60rem) {
+  .docs-layout {
+    grid-template-columns: minmax(0, 1fr);
+    padding-inline: var(--fl-space-4);
+  }
+
+  .docs-toc {
+    display: none;
+  }
+
+  .docs-header {
+    padding-inline: var(--fl-space-4);
+  }
+
+  .docs-type {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--fl-space-1);
+  }
+
+  .docs-type > span:nth-child(3n) {
+    margin-block-end: var(--fl-space-3);
+  }
+
+  .docs-spec th,
+  .docs-spec td {
+    display: block;
+    inline-size: auto;
+  }
+
+  .docs-spec td {
+    padding-block-start: 0;
+    border-block-start: 0;
+  }
+}
+
+.docs-facts {
+  margin: 0;
+  padding-inline-start: var(--fl-space-5);
+  color: var(--fl-color-text-muted);
+  font-size: var(--fl-font-size-s);
+}
+
+.docs-facts li + li {
+  margin-block-start: var(--fl-space-1);
+}
+
+/* A placeholder for content in a demo of a layout pattern. */
+.docs-block {
+  padding: var(--fl-space-2) var(--fl-space-3);
+  border: 1px dashed var(--fl-color-border-strong);
+  border-radius: var(--fl-radius-m);
+  background-color: var(--fl-color-surface-subtle);
+  color: var(--fl-color-text-subtle);
+  font-size: var(--fl-font-size-xs);
+}

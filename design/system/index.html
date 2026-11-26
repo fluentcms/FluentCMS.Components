@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tokens · FluentCMS Components design system</title>
+<link rel="icon" href="data:,">
+<!-- Inter is loaded for the comparison of O4 on this page only. The library loads no font. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components/icon.css">
+<link rel="stylesheet" href="css/components/button.css">
+<link rel="stylesheet" href="css/components/field.css">
+<link rel="stylesheet" href="css/components/input.css">
+<link rel="stylesheet" href="css/patterns/link.css">
+<link rel="stylesheet" href="docs/docs.css">
+<script src="docs/docs.js"></script>
+</head>
+<body class="fl-root docs">
+<div class="docs-layout">
+<main class="docs-main">
+<h1>Design system</h1>
+<p class="docs-lede">The visual contract of FluentCMS Components: the tokens on this page, then every component with its variants and states, the CSS-only patterns, and four reference screens composed from them. The CSS under <code>css/</code> is the first draft of the library's stylesheet. The switches above set the theme, the density and the direction of every page.</p>
+
+<section class="docs-section" id="colour">
+<h2>Colour</h2>
+<p>Every colour holds both themes in one value through <code>light-dark()</code>. A theme is <code>data-fl-theme="light"</code> or <code>"dark"</code> on any ancestor; without it the page follows the system. The values under the names are the ones in use right now.</p>
+
+<h3>Neutrals</h3>
+<p>Surfaces from the page up, borders, and three steps of text. <code>border-control</code> outlines a control that takes input and has 3:1 against every surface; <code>border</code> and <code>border-strong</code> only divide.</p>
+<div class="docs-swatches">
+<div class="docs-swatch" data-token="--fl-color-canvas"><i></i><span>--fl-color-canvas</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-surface"><i></i><span>--fl-color-surface</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-surface-subtle"><i></i><span>--fl-color-surface-subtle</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-surface-muted"><i></i><span>--fl-color-surface-muted</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-surface-raised"><i></i><span>--fl-color-surface-raised</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-surface-inverse"><i></i><span>--fl-color-surface-inverse</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-hover"><i></i><span>--fl-color-hover</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-pressed"><i></i><span>--fl-color-pressed</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-backdrop"><i></i><span>--fl-color-backdrop</span><small></small></div>
+</div>
+<div class="docs-swatches">
+<div class="docs-swatch" data-token="--fl-color-border"><i></i><span>--fl-color-border</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-border-strong"><i></i><span>--fl-color-border-strong</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-border-control"><i></i><span>--fl-color-border-control</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-text"><i></i><span>--fl-color-text</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-text-muted"><i></i><span>--fl-color-text-muted</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-text-subtle"><i></i><span>--fl-color-text-subtle</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-text-inverse"><i></i><span>--fl-color-text-inverse</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-disabled-fill"><i></i><span>--fl-color-disabled-fill</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-disabled-border"><i></i><span>--fl-color-disabled-border</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-disabled-text"><i></i><span>--fl-color-disabled-text</span><small></small></div>
+</div>
+
+<h4>Text on each surface</h4>
+<div class="docs-tones">
+<div class="docs-tone">
+  <div style="background-color: var(--fl-color-surface-subtle); color: var(--fl-color-text-subtle)">on canvas</div>
+  <div style="background-color: var(--fl-color-canvas); color: var(--fl-color-text)" data-contrast>text</div>
+  <div style="background-color: var(--fl-color-canvas); color: var(--fl-color-text-muted)" data-contrast>text-muted</div>
+  <div style="background-color: var(--fl-color-canvas); color: var(--fl-color-text-subtle)" data-contrast>text-subtle</div>
+  <div style="background-color: var(--fl-color-canvas); color: var(--fl-color-accent-text)" data-contrast>accent-text</div>
+</div>
+<div class="docs-tone">
+  <div style="background-color: var(--fl-color-surface-subtle); color: var(--fl-color-text-subtle)">on surface</div>
+  <div style="background-color: var(--fl-color-surface); color: var(--fl-color-text)" data-contrast>text</div>
+  <div style="background-color: var(--fl-color-surface); color: var(--fl-color-text-muted)" data-contrast>text-muted</div>
+  <div style="background-color: var(--fl-color-surface); color: var(--fl-color-text-subtle)" data-contrast>text-subtle</div>
+  <div style="background-color: var(--fl-color-surface); color: var(--fl-color-accent-text)" data-contrast>accent-text</div>
+</div>
+<div class="docs-tone">
+  <div style="background-color: var(--fl-color-surface-subtle); color: var(--fl-color-text-subtle)">on surface-subtle</div>
+  <div style="background-color: var(--fl-color-surface-subtle); color: var(--fl-color-text)" data-contrast>text</div>
+  <div style="background-color: var(--fl-color-surface-subtle); color: var(--fl-color-text-muted)" data-contrast>text-muted</div>
+  <div style="background-color: var(--fl-color-surface-subtle); color: var(--fl-color-text-subtle)" data-contrast>text-subtle</div>
+  <div style="background-color: var(--fl-color-surface-subtle); color: var(--fl-color-accent-text)" data-contrast>accent-text</div>
+</div>
+<div class="docs-tone">
+  <div style="background-color: var(--fl-color-surface-subtle); color: var(--fl-color-text-subtle)">on surface-muted</div>
+  <div style="background-color: var(--fl-color-surface-muted); color: var(--fl-color-text)" data-contrast>text</div>
+  <div style="background-color: var(--fl-color-surface-muted); color: var(--fl-color-text-muted)" data-contrast>text-muted</div>
+  <div style="background-color: var(--fl-color-surface-muted); color: var(--fl-color-text-subtle)" data-contrast>text-subtle</div>
+  <div style="background-color: var(--fl-color-surface-muted); color: var(--fl-color-accent-text)" data-contrast>accent-text</div>
+</div>
+<div class="docs-tone">
+  <div style="background-color: var(--fl-color-surface-subtle); color: var(--fl-color-text-subtle)">on surface-raised</div>
+  <div style="background-color: var(--fl-color-surface-raised); color: var(--fl-color-text)" data-contrast>text</div>
+  <div style="background-color: var(--fl-color-surface-raised); color: var(--fl-color-text-muted)" data-contrast>text-muted</div>
+  <div style="background-color: var(--fl-color-surface-raised); color: var(--fl-color-text-subtle)" data-contrast>text-subtle</div>
+  <div style="background-color: var(--fl-color-surface-raised); color: var(--fl-color-accent-text)" data-contrast>accent-text</div>
+</div>
+</div>
+
+<h3>Accent</h3>
+<p>A host sets <code>--fl-color-accent</code> and, if white does not read on it, <code>--fl-color-on-accent</code>. The other steps are mixed from it.</p>
+<div class="docs-swatches">
+<div class="docs-swatch" data-token="--fl-color-accent"><i></i><span>--fl-color-accent</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-accent-hover"><i></i><span>--fl-color-accent-hover</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-accent-pressed"><i></i><span>--fl-color-accent-pressed</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-on-accent"><i></i><span>--fl-color-on-accent</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-accent-soft"><i></i><span>--fl-color-accent-soft</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-accent-soft-hover"><i></i><span>--fl-color-accent-soft-hover</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-accent-border"><i></i><span>--fl-color-accent-border</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-accent-text"><i></i><span>--fl-color-accent-text</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-focus"><i></i><span>--fl-color-focus</span><small></small></div>
+<div class="docs-swatch" data-token="--fl-color-focus-halo"><i></i><span>--fl-color-focus-halo</span><small></small></div>
+</div>
+<div class="docs-tones">
+<div class="docs-tone">
+  <div style="background-color: var(--fl-color-accent); color: var(--fl-color-on-accent)" data-contrast>on-accent on accent</div>
+  <div style="background-color: var(--fl-color-accent-hover); color: var(--fl-color-on-accent)" data-contrast>on accent-hover</div>
+  <div style="background-color: var(--fl-color-accent-pressed); color: var(--fl-color-on-accent)" data-contrast>on accent-pressed</div>
+</div>
+<div class="docs-tone">
+  <div style="background-color: var(--fl-color-accent-soft); color: var(--fl-color-accent-text); box-shadow: inset 0 0 0 1px var(--fl-color-accent-border)" data-contrast>accent-text on soft</div>
+  <div style="background-color: var(--fl-color-accent-soft-hover); color: var(--fl-color-accent-text)" data-contrast>on soft-hover</div>
+  <div style="background-color: var(--fl-color-accent-soft); color: var(--fl-color-text)" data-contrast>text on soft</div>
+</div>
+</div>
+
+<h3>Tones</h3>
+<p>Six tones, each with the same five steps: <code>soft</code> is a tinted background, <code>border</code> its outline, <code>text</code> reads on the soft step and on every surface, <code>solid</code> is a strong fill or a mark, and <code>on-solid</code> is the text on it. A tone never carries a meaning alone: a label or an icon says it too.</p>
+<div class="docs-tones">
+<div class="docs-tone">
+  <div style="background-color: var(--fl-color-surface-subtle)">Neutral<small style="color: var(--fl-color-text-subtle); font-weight: 400; text-align: end">No particular meaning: a draft, an inactive thing, a count.</small></div>
+  <div style="background-color: var(--fl-color-neutral-soft); color: var(--fl-color-neutral-text); box-shadow: inset 0 0 0 1px var(--fl-color-neutral-border)" data-contrast>text on soft, with border</div>
+  <div style="color: var(--fl-color-neutral-text)" data-contrast>text on surface</div>
+  <div style="background-color: var(--fl-color-neutral-solid); color: var(--fl-color-neutral-on-solid)" data-contrast>on-solid on solid</div>
+</div>
+<div class="docs-tone">
+  <div style="background-color: var(--fl-color-surface-subtle)">Success<small style="color: var(--fl-color-text-subtle); font-weight: 400; text-align: end">Done, live, healthy.</small></div>
+  <div style="background-color: var(--fl-color-success-soft); color: var(--fl-color-success-text); box-shadow: inset 0 0 0 1px var(--fl-color-success-border)" data-contrast>text on soft, with border</div>
+  <div style="color: var(--fl-color-success-text)" data-contrast>text on surface</div>
+  <div style="background-color: var(--fl-color-success-solid); color: var(--fl-color-success-on-solid)" data-contrast>on-solid on solid</div>
+</div>
+<div class="docs-tone">
+  <div style="background-color: var(--fl-color-surface-subtle)">Warning<small style="color: var(--fl-color-text-subtle); font-weight: 400; text-align: end">Needs attention, changed, close to a limit.</small></div>
+  <div style="background-color: var(--fl-color-warning-soft); color: var(--fl-color-warning-text); box-shadow: inset 0 0 0 1px var(--fl-color-warning-border)" data-contrast>text on soft, with border</div>
+  <div style="color: var(--fl-color-warning-text)" data-contrast>text on surface</div>
+  <div style="background-color: var(--fl-color-warning-solid); color: var(--fl-color-warning-on-solid)" data-contrast>on-solid on solid</div>
+</div>
+<div class="docs-tone">
+  <div style="background-color: var(--fl-color-surface-subtle)">Danger<small style="color: var(--fl-color-text-subtle); font-weight: 400; text-align: end">Failed, invalid, destructive.</small></div>
+  <div style="background-color: var(--fl-color-danger-soft); color: var(--fl-color-danger-text); box-shadow: inset 0 0 0 1px var(--fl-color-danger-border)" data-contrast>text on soft, with border</div>
+  <div style="color: var(--fl-color-danger-text)" data-contrast>text on surface</div>
+  <div style="background-color: var(--fl-color-danger-solid); color: var(--fl-color-danger-on-solid)" data-contrast>on-solid on solid</div>
+</div>
+<div class="docs-tone">
+  <div style="background-color: var(--fl-color-surface-subtle)">Info<small style="color: var(--fl-color-text-subtle); font-weight: 400; text-align: end">A neutral message, a thing made by a system.</small></div>
+  <div style="background-color: var(--fl-color-info-soft); color: var(--fl-color-info-text); box-shadow: inset 0 0 0 1px var(--fl-color-info-border)" data-contrast>text on soft, with border</div>
+  <div style="color: var(--fl-color-info-text)" data-contrast>text on surface</div>
+  <div style="background-color: var(--fl-color-info-solid); color: var(--fl-color-info-on-solid)" data-contrast>on-solid on solid</div>
+</div>
+<div class="docs-tone">
+  <div style="background-color: var(--fl-color-surface-subtle)">Pending<small style="color: var(--fl-color-text-subtle); font-weight: 400; text-align: end">Scheduled, queued, waiting for its time.</small></div>
+  <div style="background-color: var(--fl-color-pending-soft); color: var(--fl-color-pending-text); box-shadow: inset 0 0 0 1px var(--fl-color-pending-border)" data-contrast>text on soft, with border</div>
+  <div style="color: var(--fl-color-pending-text)" data-contrast>text on surface</div>
+  <div style="background-color: var(--fl-color-pending-solid); color: var(--fl-color-pending-on-solid)" data-contrast>on-solid on solid</div>
+</div>
+</div>
+
+<h3>Categories</h3>
+<p>Six fills that tell things apart without a meaning, such as avatars. They are the same in both themes and take <code>--fl-color-on-category</code> as text.</p>
+<div class="docs-tones">
+<div class="docs-tone">
+  <div style="background-color: var(--fl-color-category-1); color: var(--fl-color-on-category)" data-contrast>category-1</div>
+  <div style="background-color: var(--fl-color-category-2); color: var(--fl-color-on-category)" data-contrast>category-2</div>
+  <div style="background-color: var(--fl-color-category-3); color: var(--fl-color-on-category)" data-contrast>category-3</div>
+</div>
+<div class="docs-tone">
+  <div style="background-color: var(--fl-color-category-4); color: var(--fl-color-on-category)" data-contrast>category-4</div>
+  <div style="background-color: var(--fl-color-category-5); color: var(--fl-color-on-category)" data-contrast>category-5</div>
+  <div style="background-color: var(--fl-color-category-6); color: var(--fl-color-on-category)" data-contrast>category-6</div>
+</div>
+</div>
+
+<h3>Contrast</h3>
+<p>Text has at least 4.5:1 on its background; borders of controls, marks and the focus ring have at least 3:1. The numbers above are measured in the browser. <code>node design/tools/contrast.mjs</code> checks every pair in both themes and fails when one is below its minimum. Disabled colours are exempt.</p>
+</section>
+
+<section class="docs-section" id="type">
+<h2>Type</h2>
+<p>Eight sizes in <code>rem</code>, four weights, three line heights. The interface is set in 13 px; text that is read or typed is 14 px. Sizes do not change with the density.</p>
+<div class="docs-type">
+<code>--fl-font-size-3xl</code><small class="docs-num">30 px</small><span style="font-size: var(--fl-font-size-3xl); font-weight: 600; line-height: var(--fl-line-height-tight); letter-spacing: var(--fl-letter-spacing-tight)">A figure in a stat tile</span>
+<code>--fl-font-size-2xl</code><small class="docs-num">22 px</small><span style="font-size: var(--fl-font-size-2xl); font-weight: 600; line-height: var(--fl-line-height-tight); letter-spacing: var(--fl-letter-spacing-tight)">Page title</span>
+<code>--fl-font-size-xl</code><small class="docs-num">18 px</small><span style="font-size: var(--fl-font-size-xl); font-weight: 600; line-height: var(--fl-line-height-tight); letter-spacing: var(--fl-letter-spacing-tight)">Section and dialog title</span>
+<code>--fl-font-size-l</code><small class="docs-num">16 px</small><span style="font-size: var(--fl-font-size-l); font-weight: 600; line-height: var(--fl-line-height-tight)">Card title, lead text</span>
+<code>--fl-font-size-m</code><small class="docs-num">14 px</small><span style="font-size: var(--fl-font-size-m); font-weight: 400; line-height: var(--fl-line-height-tight)">Body text and the value of an input</span>
+<code>--fl-font-size-s</code><small class="docs-num">13 px</small><span style="font-size: var(--fl-font-size-s); font-weight: 500; line-height: var(--fl-line-height-tight)">Buttons, navigation, tables, labels</span>
+<code>--fl-font-size-xs</code><small class="docs-num">12 px</small><span style="font-size: var(--fl-font-size-xs); font-weight: 400; line-height: var(--fl-line-height-tight)">Help text, meta, badges</span>
+<code>--fl-font-size-2xs</code><small class="docs-num">11 px</small><span style="font-size: var(--fl-font-size-2xs); font-weight: 600; line-height: var(--fl-line-height-tight); letter-spacing: var(--fl-letter-spacing-caps)">CAPS LABELS AND KEYS</span>
+</div>
+<div class="docs-scroll">
+<table class="docs-table">
+<thead><tr><th>Token</th><th>Value</th><th>Used for</th></tr></thead>
+<tbody>
+<tr><td><code>--fl-font-family</code></td><td>The system font stack (O4)</td><td>Everything</td></tr>
+<tr><td><code>--fl-font-family-mono</code></td><td>The system monospace stack</td><td>Code, keys, paths, identifiers</td></tr>
+<tr><td><code>--fl-font-weight-regular</code></td><td class="docs-num">400</td><td>Body text</td></tr>
+<tr><td><code>--fl-font-weight-medium</code></td><td class="docs-num">500</td><td>Controls, labels, links that stand alone</td></tr>
+<tr><td><code>--fl-font-weight-semibold</code></td><td class="docs-num">600</td><td>Titles, the selected item</td></tr>
+<tr><td><code>--fl-font-weight-bold</code></td><td class="docs-num">700</td><td>Rare emphasis</td></tr>
+<tr><td><code>--fl-line-height-tight</code></td><td class="docs-num">1.25</td><td>Titles and controls of one line</td></tr>
+<tr><td><code>--fl-line-height-normal</code></td><td class="docs-num">1.45</td><td>Interface text</td></tr>
+<tr><td><code>--fl-line-height-relaxed</code></td><td class="docs-num">1.65</td><td>Long text that is read</td></tr>
+<tr><td><code>--fl-letter-spacing-tight</code></td><td class="docs-num">-0.015em</td><td>Titles from 18 px</td></tr>
+<tr><td><code>--fl-letter-spacing-caps</code></td><td class="docs-num">0.06em</td><td>Labels in capitals</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section class="docs-section" id="typeface">
+<h2>Typeface (O4)</h2>
+<p>The same markup in both options. The family is one token, <code>--fl-font-family</code>, so the choice is a default, not a limit.</p>
+<div class="docs-compare">
+<article class="docs-option">
+  <header><span>System font stack <small>Segoe UI, San Francisco, Roboto</small></span><mark>Recommended</mark></header>
+  <div class="docs-font-system">
+    <p style="font-size: var(--fl-font-size-2xl); font-weight: 600; letter-spacing: var(--fl-letter-spacing-tight); line-height: var(--fl-line-height-tight)">Workspace settings</p>
+    <p style="color: var(--fl-color-text-muted)">Changes apply to every member of the workspace. 1,284 items were updated on 26 November 2026 at 09:41, and 17 are still waiting.</p>
+    <div class="fl-cluster">
+      <button class="fl-button fl-button--primary" type="button">Save changes</button>
+      <button class="fl-button" type="button">Cancel</button>
+      <span class="fl-input docs-narrow"><input class="fl-input__control" type="text" value="Quarterly report" aria-label="Sample value"></span>
+    </div>
+    <p style="font-size: var(--fl-font-size-s)"><span style="font-weight: 400">Regular 400</span> · <span style="font-weight: 500">Medium 500</span> · <span style="font-weight: 600">Semibold 600</span> · <span style="font-weight: 700">Bold 700</span></p>
+    <p style="font-size: var(--fl-font-size-2xs); font-weight: 600; letter-spacing: var(--fl-letter-spacing-caps); text-transform: uppercase; color: var(--fl-color-text-subtle)">Section label · 11 px caps</p>
+    <p style="font-size: var(--fl-font-size-s); font-variant-numeric: tabular-nums">Il1 O0 rn m · 1,284.50 · 9,017.25 · Résumé, Zürich, Łódź, Đặng</p>
+    <p style="font-size: var(--fl-font-size-s)">Привет · Γειά σου · مرحبا · שלום · 你好 · こんにちは</p>
+    <ul class="docs-facts">
+      <li>No download, and no request to another origin.</li>
+      <li>Looks at home on each system, so the same page differs a little between Windows, macOS and Android.</li>
+      <li>Covers every script the system covers.</li>
+      <li>Windows 10 has no weight 500 in Segoe UI: medium is drawn as regular there. Windows 11 has it.</li>
+    </ul>
+  </div>
+</article>
+<article class="docs-option">
+  <header><span>Inter <small>SIL Open Font License</small></span></header>
+  <div class="docs-font-inter">
+    <p style="font-size: var(--fl-font-size-2xl); font-weight: 600; letter-spacing: var(--fl-letter-spacing-tight); line-height: var(--fl-line-height-tight)">Workspace settings</p>
+    <p style="color: var(--fl-color-text-muted)">Changes apply to every member of the workspace. 1,284 items were updated on 26 November 2026 at 09:41, and 17 are still waiting.</p>
+    <div class="fl-cluster">
+      <button class="fl-button fl-button--primary" type="button">Save changes</button>
+      <button class="fl-button" type="button">Cancel</button>
+      <span class="fl-input docs-narrow"><input class="fl-input__control" type="text" value="Quarterly report" aria-label="Sample value"></span>
+    </div>
+    <p style="font-size: var(--fl-font-size-s)"><span style="font-weight: 400">Regular 400</span> · <span style="font-weight: 500">Medium 500</span> · <span style="font-weight: 600">Semibold 600</span> · <span style="font-weight: 700">Bold 700</span></p>
+    <p style="font-size: var(--fl-font-size-2xs); font-weight: 600; letter-spacing: var(--fl-letter-spacing-caps); text-transform: uppercase; color: var(--fl-color-text-subtle)">Section label · 11 px caps</p>
+    <p style="font-size: var(--fl-font-size-s); font-variant-numeric: tabular-nums">Il1 O0 rn m · 1,284.50 · 9,017.25 · Résumé, Zürich, Łódź, Đặng</p>
+    <p style="font-size: var(--fl-font-size-s)">Привет · Γειά σου · مرحبا · שלום · 你好 · こんにちは</p>
+    <ul class="docs-facts">
+      <li>The same letterforms and widths on every system, as in the reference design.</li>
+      <li>Costs a download: about 50 kB for the Latin part of the variable font, more for each further script.</li>
+      <li>A host must serve the files itself; the library would have to bundle them or document the step.</li>
+      <li>Arabic, Hebrew and CJK fall back to the system font in any case.</li>
+    </ul>
+  </div>
+</article>
+</div>
+<p class="docs-note"><strong>Recommendation: the system font stack.</strong> It costs nothing, needs no file and no second origin, and reads well at 13 px on every target system. A host that wants the look of the reference design sets <code>--fl-font-family</code> to Inter and serves the font; the FluentCMS admin can do exactly that.</p>
+</section>
+
+<section class="docs-section" id="space">
+<h2>Space and size</h2>
+<p>Space is on a 4 px grid, with two half steps for the inside of small things. The number in a name is the multiple of 4 px. Small fixed sizes (a dot, an avatar, a checkbox) come from this scale too.</p>
+<div class="docs-bars">
+<code>--fl-space-0-5</code><span class="docs-num">2 px</span><i style="inline-size: var(--fl-space-0-5)"></i>
+<code>--fl-space-1</code><span class="docs-num">4 px</span><i style="inline-size: var(--fl-space-1)"></i>
+<code>--fl-space-1-5</code><span class="docs-num">6 px</span><i style="inline-size: var(--fl-space-1-5)"></i>
+<code>--fl-space-2</code><span class="docs-num">8 px</span><i style="inline-size: var(--fl-space-2)"></i>
+<code>--fl-space-3</code><span class="docs-num">12 px</span><i style="inline-size: var(--fl-space-3)"></i>
+<code>--fl-space-4</code><span class="docs-num">16 px</span><i style="inline-size: var(--fl-space-4)"></i>
+<code>--fl-space-5</code><span class="docs-num">20 px</span><i style="inline-size: var(--fl-space-5)"></i>
+<code>--fl-space-6</code><span class="docs-num">24 px</span><i style="inline-size: var(--fl-space-6)"></i>
+<code>--fl-space-7</code><span class="docs-num">28 px</span><i style="inline-size: var(--fl-space-7)"></i>
+<code>--fl-space-8</code><span class="docs-num">32 px</span><i style="inline-size: var(--fl-space-8)"></i>
+<code>--fl-space-10</code><span class="docs-num">40 px</span><i style="inline-size: var(--fl-space-10)"></i>
+<code>--fl-space-12</code><span class="docs-num">48 px</span><i style="inline-size: var(--fl-space-12)"></i>
+<code>--fl-space-16</code><span class="docs-num">64 px</span><i style="inline-size: var(--fl-space-16)"></i>
+<code>--fl-space-20</code><span class="docs-num">80 px</span><i style="inline-size: var(--fl-space-20)"></i>
+<code>--fl-space-24</code><span class="docs-num">96 px</span><i style="inline-size: var(--fl-space-24)"></i>
+</div>
+<h3>Sizes of containers</h3>
+<p>Widths of dialogs, drawers, popovers, side columns and pages. <code>--fl-measure</code> (68 characters) limits a line of text that is read.</p>
+<div class="docs-bars">
+<code>--fl-size-3xs</code><span class="docs-num">128 px</span><i style="inline-size: min(100%, calc(var(--fl-size-3xs) / 2))"></i>
+<code>--fl-size-2xs</code><span class="docs-num">192 px</span><i style="inline-size: min(100%, calc(var(--fl-size-2xs) / 2))"></i>
+<code>--fl-size-xs</code><span class="docs-num">256 px</span><i style="inline-size: min(100%, calc(var(--fl-size-xs) / 2))"></i>
+<code>--fl-size-s</code><span class="docs-num">320 px</span><i style="inline-size: min(100%, calc(var(--fl-size-s) / 2))"></i>
+<code>--fl-size-m</code><span class="docs-num">480 px</span><i style="inline-size: min(100%, calc(var(--fl-size-m) / 2))"></i>
+<code>--fl-size-l</code><span class="docs-num">640 px</span><i style="inline-size: min(100%, calc(var(--fl-size-l) / 2))"></i>
+<code>--fl-size-xl</code><span class="docs-num">800 px</span><i style="inline-size: min(100%, calc(var(--fl-size-xl) / 2))"></i>
+<code>--fl-size-2xl</code><span class="docs-num">1024 px</span><i style="inline-size: min(100%, calc(var(--fl-size-2xl) / 2))"></i>
+<code>--fl-size-3xl</code><span class="docs-num">1440 px</span><i style="inline-size: min(100%, calc(var(--fl-size-3xl) / 2))"></i>
+</div>
+<p>The bars are drawn at half their size.</p>
+</section>
+
+<section class="docs-section" id="shape">
+<h2>Radius, borders and elevation</h2>
+<p>A host sets <code>--fl-radius-m</code>; the other steps are computed from it, so one token makes the whole library squarer or rounder.</p>
+<div class="docs-boxes">
+<div class="docs-box"><i style="border-radius: var(--fl-radius-s)"></i><code>--fl-radius-s</code><span>4 px · keys, tags, checkboxes</span></div>
+<div class="docs-box"><i style="border-radius: var(--fl-radius-m)"></i><code>--fl-radius-m</code><span>6 px · controls</span></div>
+<div class="docs-box"><i style="border-radius: var(--fl-radius-l)"></i><code>--fl-radius-l</code><span>8 px · cards, menus</span></div>
+<div class="docs-box"><i style="border-radius: var(--fl-radius-xl)"></i><code>--fl-radius-xl</code><span>12 px · dialogs</span></div>
+<div class="docs-box"><i style="border-radius: var(--fl-radius-full)"></i><code>--fl-radius-full</code><span>pills, avatars</span></div>
+</div>
+<div class="docs-boxes">
+<div class="docs-box"><i style="border: var(--fl-border-width) solid var(--fl-color-border); border-radius: var(--fl-radius-l)"></i><code>--fl-color-border</code><span>1 px · cards, dividers</span></div>
+<div class="docs-box"><i style="border: var(--fl-border-width) solid var(--fl-color-border-strong); border-radius: var(--fl-radius-l)"></i><code>--fl-color-border-strong</code><span>1 px · buttons</span></div>
+<div class="docs-box"><i style="border: var(--fl-border-width) solid var(--fl-color-border-control); border-radius: var(--fl-radius-l)"></i><code>--fl-color-border-control</code><span>1 px · inputs</span></div>
+<div class="docs-box"><i style="border: var(--fl-border-width-strong) solid var(--fl-color-accent); border-radius: var(--fl-radius-l)"></i><code>--fl-border-width-strong</code><span>2 px · the selected thing</span></div>
+</div>
+<div class="docs-boxes">
+<div class="docs-box"><i style="border-color: var(--fl-color-border); border-radius: var(--fl-radius-l); box-shadow: var(--fl-shadow-s)"></i><code>--fl-shadow-s</code><span>a raised control</span></div>
+<div class="docs-box"><i style="border-color: var(--fl-color-border); border-radius: var(--fl-radius-l); background-color: var(--fl-color-surface-raised); box-shadow: var(--fl-shadow-m)"></i><code>--fl-shadow-m</code><span>menus, popovers, toasts</span></div>
+<div class="docs-box"><i style="border-color: var(--fl-color-border); border-radius: var(--fl-radius-xl); background-color: var(--fl-color-surface-raised); box-shadow: var(--fl-shadow-l)"></i><code>--fl-shadow-l</code><span>dialogs, drawers</span></div>
+</div>
+<p>What floats sits on <code>--fl-color-surface-raised</code>, which is lighter than the surface in the dark theme, where a shadow alone does not show.</p>
+</section>
+
+<section class="docs-section" id="motion">
+<h2>Motion</h2>
+<p>Motion is short and only says where something came from. Under <code>prefers-reduced-motion</code> the three durations are zero and a continuous animation stops.</p>
+<div class="docs-scroll">
+<table class="docs-table">
+<thead><tr><th>Token</th><th>Value</th><th>Used for</th></tr></thead>
+<tbody>
+<tr><td><code>--fl-duration-fast</code></td><td class="docs-num">100 ms</td><td>A colour that changes, a mark that appears</td></tr>
+<tr><td><code>--fl-duration-normal</code></td><td class="docs-num">160 ms</td><td>A menu, a popover, a disclosure</td></tr>
+<tr><td><code>--fl-duration-slow</code></td><td class="docs-num">240 ms</td><td>A dialog, a drawer</td></tr>
+<tr><td><code>--fl-duration-spin</code></td><td class="docs-num">800 ms</td><td>One turn of a spinner</td></tr>
+<tr><td><code>--fl-ease-standard</code></td><td class="docs-num">cubic-bezier(0.2, 0, 0, 1)</td><td>Entering and moving</td></tr>
+<tr><td><code>--fl-ease-exit</code></td><td class="docs-num">cubic-bezier(0.4, 0, 1, 1)</td><td>Leaving</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section class="docs-section" id="focus">
+<h2>Focus ring</h2>
+<p>One ring for everything: a 2 px outline in <code>--fl-color-focus</code>, 2 px away, with a halo in the gap. On a light background the outline carries it, on a dark or coloured one the halo does. It is an outline, so it stays in forced colours. A text control draws the same outline on its border.</p>
+<div class="docs-boxes">
+<div class="docs-box"><button class="fl-button" type="button" data-force="focus-visible">Button</button><span>on the canvas</span></div>
+<div class="docs-box" style="padding: var(--fl-space-3); border-radius: var(--fl-radius-l); background-color: var(--fl-color-surface)"><button class="fl-button fl-button--primary" type="button" data-force="focus-visible">Button</button><span>on a surface</span></div>
+<div class="docs-box" style="padding: var(--fl-space-3); border-radius: var(--fl-radius-l); background-color: var(--fl-color-accent-soft)"><button class="fl-button" type="button" data-force="focus-visible">Button</button><span>on the soft accent</span></div>
+<div class="docs-box" style="padding: var(--fl-space-3); border-radius: var(--fl-radius-l); background-color: var(--fl-color-accent); color: var(--fl-color-on-accent)"><button class="fl-button" type="button" data-force="focus-visible">Button</button><span>on the accent</span></div>
+<div class="docs-box" style="padding: var(--fl-space-3); border-radius: var(--fl-radius-l); background-color: var(--fl-color-surface-inverse); color: var(--fl-color-text-inverse)"><button class="fl-button" type="button" data-force="focus-visible">Button</button><span>on the inverse surface</span></div>
+<div class="docs-box" style="padding: var(--fl-space-3); border-radius: var(--fl-radius-l); background-color: var(--fl-color-surface)"><span class="fl-input docs-narrow"><input class="fl-input__control" type="text" value="Text" aria-label="Sample" data-force="focus-visible"></span><span>a text control</span></div>
+</div>
+</section>
+
+<section class="docs-section" id="density">
+<h2>Density</h2>
+<p><code>data-fl-density="compact"</code> on any ancestor tightens heights, paddings and gaps by one step. Type does not change, and no target goes below 24 by 24 px.</p>
+<div class="docs-scroll">
+<table class="docs-table">
+<thead><tr><th>Token</th><th>Comfortable</th><th>Compact</th><th>Used for</th></tr></thead>
+<tbody>
+<tr><td><code>--fl-control-height-s</code></td><td class="docs-num">28 px</td><td class="docs-num">24 px</td><td>Small buttons and inputs</td></tr>
+<tr><td><code>--fl-control-height-m</code></td><td class="docs-num">32 px</td><td class="docs-num">28 px</td><td>Buttons and inputs</td></tr>
+<tr><td><code>--fl-control-height-l</code></td><td class="docs-num">40 px</td><td class="docs-num">36 px</td><td>Large buttons and inputs</td></tr>
+<tr><td><code>--fl-control-padding-s</code></td><td class="docs-num">8 px</td><td class="docs-num">6 px</td><td>Inline padding of a small control</td></tr>
+<tr><td><code>--fl-control-padding-m</code></td><td class="docs-num">12 px</td><td class="docs-num">8 px</td><td>Inline padding of a control</td></tr>
+<tr><td><code>--fl-control-padding-l</code></td><td class="docs-num">16 px</td><td class="docs-num">12 px</td><td>Inline padding of a large control</td></tr>
+<tr><td><code>--fl-item-height</code></td><td class="docs-num">32 px</td><td class="docs-num">28 px</td><td>A menu item, a navigation link, an option, a tree item</td></tr>
+<tr><td><code>--fl-row-height</code></td><td class="docs-num">44 px</td><td class="docs-num">36 px</td><td>A table row of one line, a list row</td></tr>
+<tr><td><code>--fl-inset-s</code></td><td class="docs-num">12 px</td><td class="docs-num">8 px</td><td>Padding of a toolbar, of a table cell</td></tr>
+<tr><td><code>--fl-inset-m</code></td><td class="docs-num">16 px</td><td class="docs-num">12 px</td><td>Padding of a card, of a popover</td></tr>
+<tr><td><code>--fl-inset-l</code></td><td class="docs-num">24 px</td><td class="docs-num">16 px</td><td>Padding of a page, of a dialog</td></tr>
+<tr><td><code>--fl-gap-s</code></td><td class="docs-num">8 px</td><td class="docs-num">6 px</td><td>Between controls in a row</td></tr>
+<tr><td><code>--fl-gap-m</code></td><td class="docs-num">16 px</td><td class="docs-num">12 px</td><td>Between fields, between cards</td></tr>
+<tr><td><code>--fl-gap-l</code></td><td class="docs-num">24 px</td><td class="docs-num">16 px</td><td>Between sections</td></tr>
+</tbody>
+</table>
+</div>
+<div class="docs-compare">
+<article class="docs-option">
+  <header><span>Comfortable</span></header>
+  <div data-fl-density="comfortable">
+    <div class="fl-field"><label class="fl-field__label" for="density-a">Name</label><span class="fl-input"><input class="fl-input__control" id="density-a" type="text" value="Quarterly report"></span></div>
+    <div class="fl-cluster"><button class="fl-button fl-button--primary" type="button">Save</button><button class="fl-button" type="button">Cancel</button><button class="fl-button fl-button--s" type="button">Small</button></div>
+  </div>
+</article>
+<article class="docs-option">
+  <header><span>Compact</span></header>
+  <div data-fl-density="compact">
+    <div class="fl-field"><label class="fl-field__label" for="density-b">Name</label><span class="fl-input"><input class="fl-input__control" id="density-b" type="text" value="Quarterly report"></span></div>
+    <div class="fl-cluster"><button class="fl-button fl-button--primary" type="button">Save</button><button class="fl-button" type="button">Cancel</button><button class="fl-button fl-button--s" type="button">Small</button></div>
+  </div>
+</article>
+</div>
+</section>
+
+<section class="docs-section" id="icon-family">
+<h2>Icon family (O3)</h2>
+<p>The same 34 icons from both families, at 16 px and at 20 px, and inside buttons.</p>
+<div class="docs-compare">
+<article class="docs-option">
+  <header><span>Lucide <small>ISC license</small></span><mark>Recommended</mark></header>
+  <div>
+    <div class="docs-icon-row">
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#house"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#settings"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#user"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#users"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#image"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#calendar"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#clock"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#ellipsis"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#funnel"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#globe"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#bell"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#info"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#triangle-alert"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#eye"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#link"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#external-link"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#download"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#tag"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#lock"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#star"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#mail"/></svg>
+    </div>
+    <div class="docs-icon-row">
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#house"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#settings"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#user"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#users"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#image"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#calendar"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#clock"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#ellipsis"/></svg>
+    </div>
+    <div class="fl-cluster">
+      <button class="fl-button fl-button--primary" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>New item</button>
+      <button class="fl-button" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#funnel"/></svg>Filter</button>
+      <button class="fl-button" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#download"/></svg>Export</button>
+      <button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-label="More"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#ellipsis"/></svg></button>
+      <button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-label="Settings"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#settings"/></svg></button>
+    </div>
+    <ul class="docs-facts">
+      <li>Strokes on one 24 px grid: one drawing serves every size.</li>
+      <li>The weight is a token, <code>--fl-icon-stroke</code>, so it can follow the typeface.</li>
+      <li>The style of the reference design.</li>
+      <li>About 180 bytes an icon; the 108 icons of the set weigh 19 kB before compression.</li>
+    </ul>
+  </div>
+</article>
+<article class="docs-option">
+  <header><span>Fluent System Icons <small>MIT license</small></span></header>
+  <div>
+    <div class="docs-icon-row">
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#house-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#file-text-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#search-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#plus-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#x-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#check-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#chevron-down-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#chevron-right-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#settings-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#user-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#users-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#image-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#calendar-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#clock-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#trash-2-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#pencil-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#ellipsis-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#arrow-up-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#funnel-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#globe-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#bell-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#info-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#triangle-alert-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#eye-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#link-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#copy-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#save-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#external-link-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#download-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#tag-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#folder-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#lock-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#star-16"/></svg>
+<svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#mail-16"/></svg>
+    </div>
+    <div class="docs-icon-row">
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#house-20"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#file-text-20"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#search-20"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#plus-20"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#x-20"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#check-20"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#chevron-down-20"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#chevron-right-20"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#settings-20"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#user-20"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#users-20"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#image-20"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#calendar-20"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#clock-20"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#trash-2-20"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#pencil-20"/></svg>
+<svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="docs/fluent-sample.svg#ellipsis-20"/></svg>
+    </div>
+    <div class="fl-cluster">
+      <button class="fl-button fl-button--primary" type="button"><svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#plus-16"/></svg>New item</button>
+      <button class="fl-button" type="button"><svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#funnel-16"/></svg>Filter</button>
+      <button class="fl-button" type="button"><svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#download-16"/></svg>Export</button>
+      <button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-label="More"><svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#ellipsis-16"/></svg></button>
+      <button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-label="Settings"><svg class="fl-icon" aria-hidden="true"><use href="docs/fluent-sample.svg#settings-16"/></svg></button>
+    </div>
+    <ul class="docs-facts">
+      <li>Filled outlines, drawn again for each size: 16, 20, 24 and more.</li>
+      <li>The weight is fixed in the drawing.</li>
+      <li>The look of Microsoft 365, which the admin is moving away from with Fluent UI Blazor.</li>
+      <li>About 400 bytes an icon and size; two sizes of 108 icons would weigh near 85 kB.</li>
+    </ul>
+  </div>
+</article>
+</div>
+<p class="docs-note"><strong>Recommendation: Lucide.</strong> It is the style the reference design was chosen in, one drawing covers all sizes, its weight is tunable, and it is the smaller set. Fluent System Icons are well drawn at each size, but they bring a second drawing per size and the look of another product.</p>
+</section>
+
+<section class="docs-section" id="icons">
+<h2>Icon set</h2>
+<p>The set as it stands, in <code>icons/lucide.svg</code>. It is built by <code>node design/tools/icons.mjs</code> from a pinned version; an icon is added to the list in that script, never to the file. The set is trimmed to what the screens use before the library ships it.</p>
+<div class="docs-icons" data-docs-icons="icons/lucide.svg"></div>
+</section>
+
+</main>
+</div>
+</body>
+</html>

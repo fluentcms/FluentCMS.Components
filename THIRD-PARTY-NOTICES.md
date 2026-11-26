@@ -4,7 +4,7 @@ FluentCMS Components is under the [MIT license](LICENSE). This file lists what t
 
 ## Lucide
 
-The icons of the reference design, `design/reference/admin.html`, are drawn after [Lucide](https://lucide.dev). No package of the library carries them.
+The icon set of the design system, `design/system/icons/lucide.svg`, is a subset of [Lucide](https://lucide.dev), built by `design/tools/icons.mjs` from the `lucide-static` package. The icons of the reference design, `design/reference/admin.html`, are drawn after Lucide. No package of the library carries them yet.
 
 ```text
 ISC License
@@ -30,6 +30,34 @@ Some Lucide icons are derived from the Feather project, which is under the MIT l
 The MIT License (MIT)
 
 Copyright (c) 2013-present Cole Bemis
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+## Fluent System Icons
+
+`design/system/docs/fluent-sample.svg` holds a sample of [Fluent System Icons](https://github.com/microsoft/fluentui-system-icons), built by `design/tools/icons.mjs` from the `@fluentui/svg-icons` package. The tokens page of the design system shows it beside Lucide to decide the icon family. The library does not carry it.
+
+```text
+MIT License
+
+Copyright (c) 2020 Microsoft Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,0 +1,119 @@
+/* Field: the label, the control, the error, the help text and the counter of
+   one value. On a <div>, or on a <fieldset> when the control is a group. */
+
+@layer fl.components {
+  .fl-field {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--fl-space-3);
+    row-gap: var(--fl-space-1-5);
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-m);
+    line-height: var(--fl-line-height-normal);
+
+    & > * {
+      grid-column: 1 / -1;
+    }
+
+    & > .fl-field__label {
+      display: flex;
+      align-items: center;
+      gap: var(--fl-space-1);
+      grid-column: 1;
+      grid-row: 1;
+      /* A floated legend lays out as a grid item like any other child. */
+      float: inline-start;
+      padding: 0;
+      font-size: var(--fl-font-size-s);
+      font-weight: var(--fl-font-weight-medium);
+    }
+
+    & .fl-field__required {
+      color: var(--fl-color-danger-text);
+    }
+
+    & > .fl-field__meta {
+      grid-column: 2;
+      grid-row: 1;
+      align-self: end;
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-xs);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      /* Keeps "16 / 60" in that order in right-to-left. */
+      unicode-bidi: plaintext;
+
+      &.fl-field__meta--over {
+        color: var(--fl-color-danger-text);
+        font-weight: var(--fl-font-weight-medium);
+      }
+    }
+
+    & > .fl-field__help {
+      margin: 0;
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-xs);
+    }
+
+    & > .fl-field__error {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--fl-space-1);
+      margin: 0;
+      color: var(--fl-color-danger-text);
+      font-size: var(--fl-font-size-xs);
+      font-weight: var(--fl-font-weight-medium);
+
+      & > .fl-icon {
+        /* Centres the icon on the first line of the message. */
+        margin-block-start: calc((1lh - var(--fl-icon-size)) / 2);
+      }
+    }
+
+    /* Horizontal: the label and the help at the start, the control at the end,
+       for a form of settings. It stacks when the field itself is narrow. */
+    &.fl-field--horizontal {
+      container-type: inline-size;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      column-gap: var(--fl-gap-l);
+
+      & > .fl-field__label,
+      & > .fl-field__meta {
+        grid-column: 1 / -1;
+        grid-row: auto;
+      }
+
+      & > .fl-field__meta {
+        justify-self: end;
+      }
+
+      @container (min-inline-size: 30rem) {
+        & > * {
+          grid-column: 2;
+        }
+
+        & > .fl-field__label {
+          grid-column: 1;
+          grid-row: 1;
+          align-self: start;
+          /* Centres the label on a control of one line. */
+          padding-block-start: calc((var(--fl-control-height-m) - 1lh) / 2);
+        }
+
+        & > .fl-field__help {
+          grid-column: 1;
+          grid-row: 2 / span 2;
+        }
+
+        & > .fl-field__meta {
+          grid-column: 2;
+        }
+      }
+    }
+  }
+}

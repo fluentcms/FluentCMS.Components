@@ -5,6 +5,9 @@ The visual sources the library is built against.
 | File | What it is |
 | --- | --- |
 | [reference/admin.html](reference/admin.html) | The reference design of the FluentCMS admin: the direction selected in November 2026. |
+| [system/](system/index.html) | The design system: the tokens, every component with its states, the patterns and the reference screens. In progress. |
+| [system/RECIPE.md](system/RECIPE.md) | How a component is drawn and specified. |
+| [tools/](tools) | `contrast.mjs` checks the colour tokens against WCAG AA; `icons.mjs` builds the icon set. |
 
 ## The reference design
 
@@ -21,4 +24,21 @@ It is a mockup, not a specification:
 - it loads Inter and JetBrains Mono from Google Fonts, which the library will not do;
 - the icons are drawn after [Lucide](https://lucide.dev), and the library's icon family is still open ([third-party notices](../THIRD-PARTY-NOTICES.md)).
 
-The design system page of the [implementation plan](../docs/planning/implementation-plan.md) (section 6, issue C-03) is made from it and will sit beside it in this folder.
+The design system of the [implementation plan](../docs/planning/implementation-plan.md) (section 6, issue C-03) is made from it.
+
+## The design system
+
+Static HTML and CSS under `system/`. The CSS under `system/css/` is the first draft of the library's stylesheet: plain CSS, `fl-` classes, `--fl-` tokens, one file per component. The files under `system/docs/` are the chrome of the pages and never ship.
+
+A browser does not load the icons from a `file://` page. Serve this folder and open the pages over HTTP:
+
+```text
+python -m http.server 5600 --bind 127.0.0.1 --directory design
+```
+
+Then open `http://localhost:5600/system/index.html`. The switches in the header set the theme, the density and the direction.
+
+```text
+node design/tools/contrast.mjs    checks the colour tokens in both themes
+node design/tools/icons.mjs       builds the icon set from its pinned version
+```

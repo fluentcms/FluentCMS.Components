@@ -1,0 +1,39 @@
+/* Icon: an <svg> that draws one symbol of the icon set in the text colour. */
+
+@layer fl.components {
+  .fl-icon {
+    --fl-icon-size: var(--fl-icon-size-m);
+
+    flex: none;
+    inline-size: var(--fl-icon-size);
+    block-size: var(--fl-icon-size);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: var(--fl-icon-stroke);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vertical-align: middle;
+
+    &.fl-icon--s { --fl-icon-size: var(--fl-icon-size-s); }
+    &.fl-icon--l { --fl-icon-size: var(--fl-icon-size-l); }
+
+    /* An icon that points along the reading direction, such as an arrow. */
+    &.fl-icon--directional:dir(rtl) {
+      transform: scaleX(-1);
+    }
+
+    &.fl-icon--spin {
+      animation: fl-icon-spin var(--fl-duration-spin) linear infinite;
+    }
+  }
+
+  @keyframes fl-icon-spin {
+    to { transform: rotate(1turn); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fl-icon.fl-icon--spin {
+      animation: none;
+    }
+  }
+}

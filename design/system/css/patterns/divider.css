@@ -1,0 +1,25 @@
+/* Divider: a hairline between groups. On an <hr>, or on an element with
+   role="separator" when it stands upright in a row. */
+
+@layer fl.components {
+  .fl-divider {
+    flex: none;
+    align-self: stretch;
+    block-size: 0;
+    margin: 0;
+    border: 0;
+    border-block-start: var(--fl-border-width) solid var(--fl-color-border);
+
+    &.fl-divider--vertical {
+      inline-size: 0;
+      block-size: auto;
+      min-block-size: var(--fl-space-4);
+      border-block-start: 0;
+      border-inline-start: var(--fl-border-width) solid var(--fl-color-border);
+    }
+
+    &.fl-divider--strong {
+      border-color: var(--fl-color-border-strong);
+    }
+  }
+}
