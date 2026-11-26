@@ -1,0 +1,53 @@
+/* Link: on an <a>, or on a <button> that acts in place. Underlined inside
+   running text, so that colour is not the only sign of it. */
+
+@layer fl.components {
+  .fl-link {
+    padding: 0;
+    border: 0;
+    border-radius: var(--fl-radius-s);
+    background: none;
+    color: var(--fl-color-accent-text);
+    font: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: from-font;
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration-thickness: var(--fl-border-width-strong);
+    }
+
+    &:focus-visible {
+      outline: var(--fl-focus-ring);
+      outline-offset: var(--fl-focus-ring-offset);
+      box-shadow: var(--fl-focus-halo);
+    }
+
+    /* Alone on its line or in a header, where its place says it is a link. */
+    &.fl-link--standalone {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--fl-space-1);
+      font-weight: var(--fl-font-weight-medium);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+        text-decoration-thickness: from-font;
+      }
+    }
+
+    /* A title that opens its item: the text colour until it is pointed at. */
+    &.fl-link--quiet {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        color: var(--fl-color-accent-text);
+        text-decoration: underline;
+        text-decoration-thickness: from-font;
+      }
+    }
+  }
+}

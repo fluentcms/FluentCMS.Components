@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foundations · FluentCMS Components design system</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components/icon.css">
+<link rel="stylesheet" href="css/components/button.css">
+<link rel="stylesheet" href="css/components/field.css">
+<link rel="stylesheet" href="css/components/input.css">
+<link rel="stylesheet" href="css/patterns/divider.css">
+<link rel="stylesheet" href="css/patterns/link.css">
+<link rel="stylesheet" href="css/patterns/kbd.css">
+<link rel="stylesheet" href="docs/docs.css">
+<script src="docs/docs.js"></script>
+</head>
+<body class="fl-root docs">
+<div class="docs-layout">
+<main class="docs-main">
+<h1>Foundations</h1>
+<p class="docs-lede">The icon, and the three exemplars that every other component is drawn after: button, field and text input. Then the patterns that everything uses: stack, cluster, divider, link and keyboard key. <a class="fl-link" href="RECIPE.md">RECIPE.md</a> is written from this page.</p>
+
+<section class="docs-section" id="icon">
+<h2>Icon</h2>
+<p>An <code>&lt;svg&gt;</code> that draws one symbol of the set. It takes the colour of the text around it and one of three sizes.</p>
+<div class="docs-demo">
+  <svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg> <svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg> <svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg>
+  <span style="color: var(--fl-color-accent-text)"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#star"/></svg></span>
+  <span style="color: var(--fl-color-danger-text)"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#triangle-alert"/></svg></span>
+  <span style="color: var(--fl-color-text-subtle)"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#clock"/></svg></span>
+  <svg class="fl-icon fl-icon--spin" aria-hidden="true"><use href="icons/lucide.svg#loader-circle"/></svg>
+</div>
+<h4>Small 14 px, medium 16 px, large 20 px; in the colour of the text; spinning</h4>
+<div class="docs-demo">
+  <span class="fl-cluster"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#arrow-right"/></svg> <svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg> <svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#external-link"/></svg> <svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg></span>
+  <span class="fl-cluster" dir="rtl"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#arrow-right"/></svg> <svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg> <svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#external-link"/></svg> <svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg></span>
+</div>
+<h4>Left to right, then right to left: only an icon marked as directional is mirrored</h4>
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;svg class="fl-icon"&gt;</code> with one <code>&lt;use&gt;</code> of a symbol. The <code>&lt;svg&gt;</code> has no <code>viewBox</code>; the symbol has its own.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td>Decorative by default: <code>aria-hidden="true"</code>. With a label it is an image: <code>role="img"</code> and <code>aria-label</code>. It never takes focus.</td></tr>
+<tr><th scope="row">Level</th><td>Static</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Name</code>: the icon</li><li><code>Size</code>: Small, Medium (default), Large</li><li><code>Label</code>: text for an icon that stands alone</li><li><code>Directional</code>: mirrored in right-to-left</li><li><code>Spin</code>: turns, and stops under reduced motion</li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-icon</code>, <code>fl-icon--s</code>, <code>fl-icon--l</code>, <code>fl-icon--directional</code>, <code>fl-icon--spin</code></td></tr>
+<tr><th scope="row">Tokens</th><td><code>--fl-icon-size-s</code>, <code>-m</code>, <code>-l</code>, <code>--fl-icon-stroke</code>, <code>--fl-duration-spin</code>; own: <code>--fl-icon-size</code></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="button">
+<h2>Button</h2>
+<p>Starts an action, or goes somewhere when it is a link. Three variants by weight, and danger as a tone on any of them. A view has one primary button at most.</p>
+
+<h3>Variants</h3>
+<div class="docs-demo">
+  <button class="fl-button" type="button">Secondary</button> <button class="fl-button fl-button--primary" type="button">Primary</button> <button class="fl-button fl-button--subtle" type="button">Subtle</button>
+  <button class="fl-button fl-button--danger" type="button">Delete</button> <button class="fl-button fl-button--primary fl-button--danger" type="button">Delete</button> <button class="fl-button fl-button--subtle fl-button--danger" type="button">Delete</button>
+</div>
+
+<h3>Sizes</h3>
+<div class="docs-demo">
+  <button class="fl-button fl-button--s" type="button">Small</button> <button class="fl-button" type="button">Medium</button> <button class="fl-button fl-button--l" type="button">Large</button>
+  <button class="fl-button fl-button--primary fl-button--s" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>Small</button> <button class="fl-button fl-button--primary" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>Medium</button> <button class="fl-button fl-button--primary fl-button--l" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>Large</button>
+</div>
+
+<h3>With an icon</h3>
+<div class="docs-demo">
+  <button class="fl-button fl-button--primary" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>New item</button> <button class="fl-button" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#funnel"/></svg>Filter</button> <button class="fl-button" type="button">Options<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button> <button class="fl-button fl-button--subtle" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#download"/></svg>Export</button>
+  <a class="fl-button" href="#button">Open<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#external-link"/></svg></a>
+</div>
+<h4>Before the label, after it, and on a link</h4>
+<div class="docs-demo">
+  <button class="fl-button fl-button--icon fl-button--s" type="button" aria-label="Edit"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg></button> <button class="fl-button fl-button--icon" type="button" aria-label="Edit"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg></button> <button class="fl-button fl-button--icon fl-button--l" type="button" aria-label="Edit"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg></button>
+  <button class="fl-button fl-button--icon fl-button--primary" type="button" aria-label="Add"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg></button> <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="More"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#ellipsis"/></svg></button> <button class="fl-button fl-button--icon fl-button--subtle fl-button--danger" type="button" aria-label="Delete"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg></button>
+  <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="Bold" aria-pressed="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#bold"/></svg></button> <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="Italic" aria-pressed="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#italic"/></svg></button>
+</div>
+<h4>Icon only: a square, with its name in <code>aria-label</code>; the last two are a toggle, on and off</h4>
+
+<h3>States</h3>
+<div class="docs-demo docs-scroll">
+<table class="docs-matrix">
+<thead><tr><td></td><th scope="col">Rest</th><th scope="col">Hover</th><th scope="col">Focus</th><th scope="col">Pressed</th><th scope="col">Selected</th><th scope="col">Disabled</th><th scope="col">Busy</th></tr></thead>
+<tbody>
+<tr><th scope="row">Secondary</th><td><button class="fl-button" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td><button class="fl-button" type="button" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td><button class="fl-button" type="button" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td><button class="fl-button" type="button" data-force="hover active"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td><button class="fl-button" type="button" aria-pressed="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td><button class="fl-button" type="button" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td><button class="fl-button" type="button" aria-busy="true" aria-disabled="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save<svg class="fl-icon fl-icon--spin fl-button__spinner" aria-hidden="true"><use href="icons/lucide.svg#loader-circle"/></svg></button></td></tr>
+<tr><th scope="row">Primary</th><td><button class="fl-button fl-button--primary" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td><button class="fl-button fl-button--primary" type="button" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td><button class="fl-button fl-button--primary" type="button" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td><button class="fl-button fl-button--primary" type="button" data-force="hover active"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td></td><td><button class="fl-button fl-button--primary" type="button" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td><button class="fl-button fl-button--primary" type="button" aria-busy="true" aria-disabled="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save<svg class="fl-icon fl-icon--spin fl-button__spinner" aria-hidden="true"><use href="icons/lucide.svg#loader-circle"/></svg></button></td></tr>
+<tr><th scope="row">Subtle</th><td><button class="fl-button fl-button--subtle" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td><button class="fl-button fl-button--subtle" type="button" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td><button class="fl-button fl-button--subtle" type="button" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td><button class="fl-button fl-button--subtle" type="button" data-force="hover active"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td><button class="fl-button fl-button--subtle" type="button" aria-pressed="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td><button class="fl-button fl-button--subtle" type="button" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button></td><td><button class="fl-button fl-button--subtle" type="button" aria-busy="true" aria-disabled="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save<svg class="fl-icon fl-icon--spin fl-button__spinner" aria-hidden="true"><use href="icons/lucide.svg#loader-circle"/></svg></button></td></tr>
+<tr><th scope="row">Danger</th><td><button class="fl-button fl-button--danger" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button></td><td><button class="fl-button fl-button--danger" type="button" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button></td><td><button class="fl-button fl-button--danger" type="button" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button></td><td><button class="fl-button fl-button--danger" type="button" data-force="hover active"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button></td><td></td><td><button class="fl-button fl-button--danger" type="button" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button></td><td><button class="fl-button fl-button--danger" type="button" aria-busy="true" aria-disabled="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete<svg class="fl-icon fl-icon--spin fl-button__spinner" aria-hidden="true"><use href="icons/lucide.svg#loader-circle"/></svg></button></td></tr>
+<tr><th scope="row">Primary, danger</th><td><button class="fl-button fl-button--primary fl-button--danger" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button></td><td><button class="fl-button fl-button--primary fl-button--danger" type="button" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button></td><td><button class="fl-button fl-button--primary fl-button--danger" type="button" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button></td><td><button class="fl-button fl-button--primary fl-button--danger" type="button" data-force="hover active"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button></td><td></td><td><button class="fl-button fl-button--primary fl-button--danger" type="button" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button></td><td><button class="fl-button fl-button--primary fl-button--danger" type="button" aria-busy="true" aria-disabled="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete<svg class="fl-icon fl-icon--spin fl-button__spinner" aria-hidden="true"><use href="icons/lucide.svg#loader-circle"/></svg></button></td></tr>
+<tr><th scope="row">Subtle, danger</th><td><button class="fl-button fl-button--subtle fl-button--danger" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button></td><td><button class="fl-button fl-button--subtle fl-button--danger" type="button" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button></td><td><button class="fl-button fl-button--subtle fl-button--danger" type="button" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button></td><td><button class="fl-button fl-button--subtle fl-button--danger" type="button" data-force="hover active"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button></td><td></td><td><button class="fl-button fl-button--subtle fl-button--danger" type="button" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button></td><td><button class="fl-button fl-button--subtle fl-button--danger" type="button" aria-busy="true" aria-disabled="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete<svg class="fl-icon fl-icon--spin fl-button__spinner" aria-hidden="true"><use href="icons/lucide.svg#loader-circle"/></svg></button></td></tr>
+</tbody>
+</table>
+</div>
+<p>A busy button keeps its width and its colours: the spinner lies over the content. It stays in the tab order and takes no click.</p>
+
+<h3>Full width</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+  <button class="fl-button fl-button--primary fl-button--block" type="button">Continue</button>
+  <button class="fl-button fl-button--block" type="button">Back</button>
+</div>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes">
+  <button class="fl-button fl-button--primary" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>New item</button> <button class="fl-button" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#funnel"/></svg>Filter</button> <button class="fl-button" type="button">Next<svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#arrow-right"/></svg></button>
+  <button class="fl-button fl-button--danger" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button> <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="More"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#ellipsis"/></svg></button>
+  <button class="fl-button fl-button--s" type="button">Small</button> <button class="fl-button" type="button" disabled>Disabled</button> <button class="fl-button" type="button" data-force="focus-visible">Focus</button>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;button type="button"&gt;</code>; <code>type="submit"</code> or <code>"reset"</code> in a form; <code>&lt;a href&gt;</code> when it goes somewhere.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>Native button: Enter and Space. Native link: Enter.</li><li>Icon only: the name is <code>aria-label</code>, and a tooltip shows it.</li><li>Toggle: <code>aria-pressed="true"</code> or <code>"false"</code>.</li><li>Busy: <code>aria-busy="true"</code> with <code>aria-disabled="true"</code>; it keeps focus and ignores activation.</li><li>Disabled: <code>disabled</code> on a button; on a link <code>aria-disabled="true"</code> and no <code>href</code>.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Static</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Variant</code>: Secondary (default), Primary, Subtle</li><li><code>Danger</code>: the destructive tone</li><li><code>Size</code>: Small, Medium (default), Large</li><li><code>Icon</code>, <code>IconEnd</code>: an icon before or after the label</li><li><code>IconOnly</code>: a square with no visible label; <code>Label</code> is then required</li><li><code>Href</code>: renders a link; <code>Type</code>: Button (default), Submit, Reset</li><li><code>Pressed</code>: makes it a toggle; <code>Busy</code>; <code>Disabled</code>; <code>Block</code>: full width</li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-button</code>; <code>--primary</code>, <code>--subtle</code>, <code>--danger</code>; <code>--s</code>, <code>--l</code>; <code>--icon</code>, <code>--block</code>; part <code>fl-button__spinner</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>surface</code>, <code>hover</code>, <code>pressed</code>, <code>border-strong</code>, <code>text</code>, <code>text-muted</code>, the accent steps, the danger steps, the disabled three</li><li>Size: <code>--fl-control-height-*</code>, <code>--fl-control-padding-*</code>, <code>--fl-control-radius</code>, <code>--fl-space-1-5</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-s</code>, <code>-m</code>, <code>--fl-font-weight-medium</code>, <code>--fl-line-height-tight</code></li><li>Focus: <code>--fl-focus-ring</code>, <code>--fl-focus-ring-offset</code>, <code>--fl-focus-halo</code></li><li>Own: <code>--fl-button-height</code>, <code>-padding</code>, <code>-font-size</code>, <code>-bg</code>, <code>-bg-hover</code>, <code>-bg-pressed</code>, <code>-border</code>, <code>-fg</code>, <code>-fg-hover</code>, <code>-icon</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="field">
+<h2>Field</h2>
+<p>Wraps one control with its label, error, help text and counter, and wires them to it. Every control of a form sits in a field.</p>
+
+<h3>Anatomy</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+  <div class="fl-field">
+    <label class="fl-field__label" for="field-a">Project name <span class="fl-field__required" aria-hidden="true">*</span></label>
+    <span class="fl-input"><input class="fl-input__control" type="text" value="Quarterly report" id="field-a" required aria-describedby="field-a-help field-a-meta" maxlength="60"></span>
+    <p class="fl-field__help" id="field-a-help">Shown in lists and in the address of the project.</p>
+    <span class="fl-field__meta" id="field-a-meta">16 / 60</span>
+  </div>
+</div>
+<h4>Label with the required mark, control, help text, and the counter at the end of the label row</h4>
+
+<h3>Invalid</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+  <div class="fl-field">
+    <label class="fl-field__label" for="field-b">Email <span class="fl-field__required" aria-hidden="true">*</span></label>
+    <span class="fl-input"><input class="fl-input__control" type="email" value="ada@example" id="field-b" required aria-invalid="true" aria-describedby="field-b-error field-b-help"></span>
+    <p class="fl-field__error" id="field-b-error"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg>Enter an address with a domain, such as name@example.com.</p>
+    <p class="fl-field__help" id="field-b-help">Used for sign-in and for notifications.</p>
+  </div>
+  <div class="fl-field">
+    <label class="fl-field__label" for="field-c">Summary</label>
+    <span class="fl-input"><input class="fl-input__control" type="text" value="A summary that runs past the limit of forty characters" id="field-c" aria-invalid="true" aria-describedby="field-c-error field-c-meta" maxlength="40"></span>
+    <p class="fl-field__error" id="field-c-error"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg>Shorten the summary to 40 characters.</p>
+    <span class="fl-field__meta fl-field__meta--over" id="field-c-meta">54 / 40</span>
+  </div>
+</div>
+<h4>The error sits between the control and the help text, with an icon so that colour is not its only sign; a counter past its limit turns to the danger tone</h4>
+
+<h3>Optional, and a hint in the label row</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+  <div class="fl-field">
+    <label class="fl-field__label" for="field-d">Company</label>
+    <span class="fl-input"><input class="fl-input__control" type="text" id="field-d" aria-describedby="field-d-meta"></span>
+    <span class="fl-field__meta" id="field-d-meta">Optional</span>
+  </div>
+</div>
+
+<h3>Horizontal</h3>
+<div class="docs-demo docs-demo--column">
+  <div class="fl-field fl-field--horizontal">
+    <label class="fl-field__label" for="field-e">Workspace name</label>
+    <span class="fl-input"><input class="fl-input__control" type="text" value="Northwind" id="field-e" aria-describedby="field-e-help"></span>
+    <p class="fl-field__help" id="field-e-help">The name that members see in the header and in invitations.</p>
+  </div>
+  <hr class="fl-divider">
+  <div class="fl-field fl-field--horizontal">
+    <label class="fl-field__label" for="field-f">Support address <span class="fl-field__required" aria-hidden="true">*</span></label>
+    <span class="fl-input"><input class="fl-input__control" type="email" value="support" id="field-f" required aria-invalid="true" aria-describedby="field-f-error field-f-help"></span>
+    <p class="fl-field__error" id="field-f-error"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg>Enter a full email address.</p>
+    <p class="fl-field__help" id="field-f-help">Replies to notifications go here.</p>
+  </div>
+</div>
+<h4>For a form of settings: the label and the help at the start, the control at the end. Below 480 px of its own width the field stacks.</h4>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+  <div class="fl-field fl-field--horizontal">
+    <label class="fl-field__label" for="field-g">Workspace name</label>
+    <span class="fl-input"><input class="fl-input__control" type="text" value="Northwind" id="field-g" aria-describedby="field-g-help"></span>
+    <p class="fl-field__help" id="field-g-help">The name that members see in the header and in invitations.</p>
+  </div>
+</div>
+<h4>The same field in a narrow place</h4>
+
+<h3>A group of controls</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+  <fieldset class="fl-field">
+    <legend class="fl-field__label">Size</legend>
+    <div class="fl-cluster fl-cluster--nowrap">
+      <span class="fl-input"><input class="fl-input__control" type="text" value="1200" aria-label="Width"><span class="fl-input__affix">px</span></span>
+      <span class="fl-input"><input class="fl-input__control" type="text" value="630" aria-label="Height"><span class="fl-input__affix">px</span></span>
+    </div>
+    <p class="fl-field__help">Width and height of the preview.</p>
+  </fieldset>
+</div>
+<h4>On a <code>&lt;fieldset&gt;</code> the label is the <code>&lt;legend&gt;</code>; each control inside has its own name</h4>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column">
+  <div class="fl-field">
+    <label class="fl-field__label" for="field-m1">Project name <span class="fl-field__required" aria-hidden="true">*</span></label>
+    <span class="fl-input"><input class="fl-input__control" type="text" value="Quarterly report" id="field-m1" required aria-describedby="field-m1-help field-m1-meta"></span>
+    <p class="fl-field__help" id="field-m1-help">Shown in lists.</p>
+    <span class="fl-field__meta" id="field-m1-meta">16 / 60</span>
+  </div>
+  <div class="fl-field">
+    <label class="fl-field__label" for="field-m2">Email</label>
+    <span class="fl-input"><input class="fl-input__control" type="email" value="ada@example" id="field-m2" aria-invalid="true" aria-describedby="field-m2-error"></span>
+    <p class="fl-field__error" id="field-m2-error"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg>Enter an address with a domain.</p>
+  </div>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;div&gt;</code> with a <code>&lt;label for&gt;</code>; for a group of controls a <code>&lt;fieldset&gt;</code> with a <code>&lt;legend&gt;</code>. In the markup the order is label, control, error, help, counter, which is the order a screen reader meets them.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>The label names the control through <code>for</code> and <code>id</code>.</li><li>The control lists the error, the help and the counter in <code>aria-describedby</code>, the error first.</li><li>Invalid: <code>aria-invalid="true"</code> on the control. Required: <code>required</code> on the control; the asterisk is <code>aria-hidden</code>.</li><li>No keys of its own.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Static</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Label</code>; <code>Help</code>; <code>Error</code>: shown when set, or taken from the <code>EditForm</code></li><li><code>Required</code>: shows the mark</li><li><code>Hint</code>: short text at the end of the label row, such as Optional</li><li><code>MaxLength</code>: shows the counter</li><li><code>Horizontal</code>: the layout for settings</li><li><code>For</code>: the id of the control, generated when absent</li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-field</code>; <code>--horizontal</code>; parts <code>fl-field__label</code>, <code>__required</code>, <code>__meta</code> (with <code>--over</code>), <code>__error</code>, <code>__help</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>text</code>, <code>text-subtle</code>, <code>danger-text</code></li><li>Space: <code>--fl-space-1</code>, <code>-1-5</code>, <code>-3</code>, <code>--fl-gap-l</code>, <code>--fl-control-height-m</code></li><li>Type: <code>--fl-font-size-m</code>, <code>-s</code>, <code>-xs</code>, <code>--fl-font-weight-medium</code>, <code>--fl-line-height-normal</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="input">
+<h2>Text input</h2>
+<p>One line of text. The box around the <code>&lt;input&gt;</code> draws the border and holds an optional icon, fixed text before or after the value, and an action. The number, date and time inputs are the same box with parts of their own.</p>
+
+<h3>Parts</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+  <span class="fl-input"><input class="fl-input__control" type="text" placeholder="Placeholder" aria-label="Plain"></span>
+  <span class="fl-input"><input class="fl-input__control" type="text" value="Quarterly report" aria-label="Filled"></span>
+  <span class="fl-input"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg><input class="fl-input__control" type="search" placeholder="Search" aria-label="Search"></span>
+  <span class="fl-input"><span class="fl-input__affix">https://</span><input class="fl-input__control" type="text" value="example.com" aria-label="Web address"></span>
+  <span class="fl-input"><input class="fl-input__control" type="text" value="12.5" aria-label="Weight"><span class="fl-input__affix">kg</span></span>
+  <span class="fl-input"><input class="fl-input__control" type="text" value="Quarterly report" aria-label="With a clear action"><button class="fl-input__action" type="button" aria-label="Clear"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></span>
+  <span class="fl-input"><input class="fl-input__control" type="password" value="correct horse battery" aria-label="Password"><button class="fl-input__action" type="button" aria-label="Show password" aria-pressed="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#eye"/></svg></button></span>
+  <span class="fl-input fl-input--mono"><span class="fl-input__affix">/projects/</span><input class="fl-input__control" type="text" value="quarterly-report-2026" aria-label="Path"><button class="fl-input__action" type="button" aria-label="Copy"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg></button></span>
+</div>
+<h4>Empty, filled, with an icon, with a prefix, with a suffix, with an action, a password with its toggle, and code in the monospace family</h4>
+
+<h3>Sizes</h3>
+<div class="docs-demo">
+  <span class="fl-input fl-input--s docs-narrow"><input class="fl-input__control" type="text" value="Small" aria-label="Small"></span> <span class="fl-input docs-narrow"><input class="fl-input__control" type="text" value="Medium" aria-label="Medium"></span> <span class="fl-input fl-input--l docs-narrow"><input class="fl-input__control" type="text" value="Large" aria-label="Large"></span>
+</div>
+<div class="docs-demo">
+  <span class="fl-input fl-input--s docs-narrow"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg><input class="fl-input__control" type="text" placeholder="Search" aria-label="Search"></span> <button class="fl-button fl-button--s" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#funnel"/></svg>Filter</button>
+  <span class="fl-input docs-narrow"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg><input class="fl-input__control" type="text" placeholder="Search" aria-label="Search"></span> <button class="fl-button" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#funnel"/></svg>Filter</button>
+</div>
+<h4>An input and a button of the same size line up</h4>
+
+<h3>States</h3>
+<div class="docs-demo docs-scroll">
+<table class="docs-matrix">
+<thead><tr><td></td><th scope="col">Rest</th><th scope="col">Hover</th><th scope="col">Focus</th><th scope="col">Read-only</th><th scope="col">Invalid</th><th scope="col">Disabled</th></tr></thead>
+<tbody>
+<tr><th scope="row">Empty</th><td><span class="fl-input docs-narrow"><input class="fl-input__control" type="text" placeholder="Placeholder" aria-label="Sample"></span></td><td><span data-force="hover" class="fl-input docs-narrow"><input class="fl-input__control" type="text" placeholder="Placeholder" aria-label="Sample"></span></td><td><span class="fl-input docs-narrow"><input class="fl-input__control" type="text" placeholder="Placeholder" aria-label="Sample" data-force="focus-visible"></span></td><td><span class="fl-input docs-narrow"><input class="fl-input__control" type="text" placeholder="Placeholder" aria-label="Sample" readonly></span></td><td><span class="fl-input docs-narrow"><input class="fl-input__control" type="text" placeholder="Placeholder" aria-label="Sample" aria-invalid="true"></span></td><td><span class="fl-input docs-narrow"><input class="fl-input__control" type="text" placeholder="Placeholder" aria-label="Sample" disabled></span></td></tr>
+<tr><th scope="row">Filled</th><td><span class="fl-input docs-narrow"><input class="fl-input__control" type="text" value="Value" aria-label="Sample"></span></td><td><span data-force="hover" class="fl-input docs-narrow"><input class="fl-input__control" type="text" value="Value" aria-label="Sample"></span></td><td><span class="fl-input docs-narrow"><input class="fl-input__control" type="text" value="Value" aria-label="Sample" data-force="focus-visible"></span></td><td><span class="fl-input docs-narrow"><input class="fl-input__control" type="text" value="Value" aria-label="Sample" readonly></span></td><td><span class="fl-input docs-narrow"><input class="fl-input__control" type="text" value="Value" aria-label="Sample" aria-invalid="true"></span></td><td><span class="fl-input docs-narrow"><input class="fl-input__control" type="text" value="Value" aria-label="Sample" disabled></span></td></tr>
+<tr><th scope="row">Icon</th><td><span class="fl-input docs-narrow"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg><input class="fl-input__control" type="text" value="Value" aria-label="Sample"></span></td><td><span data-force="hover" class="fl-input docs-narrow"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg><input class="fl-input__control" type="text" value="Value" aria-label="Sample"></span></td><td><span class="fl-input docs-narrow"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg><input class="fl-input__control" type="text" value="Value" aria-label="Sample" data-force="focus-visible"></span></td><td><span class="fl-input docs-narrow"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg><input class="fl-input__control" type="text" value="Value" aria-label="Sample" readonly></span></td><td><span class="fl-input docs-narrow"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg><input class="fl-input__control" type="text" value="Value" aria-label="Sample" aria-invalid="true"></span></td><td><span class="fl-input docs-narrow"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg><input class="fl-input__control" type="text" value="Value" aria-label="Sample" disabled></span></td></tr>
+<tr><th scope="row">Affix, action</th><td><span class="fl-input docs-narrow"><span class="fl-input__affix">https://</span><input class="fl-input__control" type="text" value="example.com" aria-label="Sample"><button class="fl-input__action" type="button" aria-label="Copy"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg></button></span></td><td><span data-force="hover" class="fl-input docs-narrow"><span class="fl-input__affix">https://</span><input class="fl-input__control" type="text" value="example.com" aria-label="Sample"><button class="fl-input__action" type="button" aria-label="Copy"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg></button></span></td><td><span class="fl-input docs-narrow"><span class="fl-input__affix">https://</span><input class="fl-input__control" type="text" value="example.com" aria-label="Sample" data-force="focus-visible"><button class="fl-input__action" type="button" aria-label="Copy"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg></button></span></td><td><span class="fl-input docs-narrow"><span class="fl-input__affix">https://</span><input class="fl-input__control" type="text" value="example.com" aria-label="Sample" readonly><button class="fl-input__action" type="button" aria-label="Copy"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg></button></span></td><td><span class="fl-input docs-narrow"><span class="fl-input__affix">https://</span><input class="fl-input__control" type="text" value="example.com" aria-label="Sample" aria-invalid="true"><button class="fl-input__action" type="button" aria-label="Copy"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg></button></span></td><td><span class="fl-input docs-narrow"><span class="fl-input__affix">https://</span><input class="fl-input__control" type="text" value="example.com" aria-label="Sample" disabled><button class="fl-input__action" type="button" aria-label="Copy" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg></button></span></td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column">
+  <span class="fl-input"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg><input class="fl-input__control" type="search" placeholder="Search" aria-label="Search"></span>
+  <span class="fl-input"><span class="fl-input__affix">https://</span><input class="fl-input__control" type="text" value="example.com" aria-label="Web address"><button class="fl-input__action" type="button" aria-label="Copy"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg></button></span>
+  <span class="fl-input"><input class="fl-input__control" type="text" value="Focus" aria-label="Focus" data-force="focus-visible"></span>
+  <span class="fl-input"><input class="fl-input__control" type="text" value="Invalid" aria-label="Invalid" aria-invalid="true"></span>
+  <span class="fl-input"><input class="fl-input__control" type="text" value="Disabled" aria-label="Disabled" disabled></span>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;span class="fl-input"&gt;</code> around <code>&lt;input class="fl-input__control"&gt;</code>, with <code>type</code> text, email, url, tel, password or search.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>A native text box, named by the label of its field, or by <code>aria-label</code> outside one.</li><li>Invalid: <code>aria-invalid="true"</code>. Read-only: <code>readonly</code>. Disabled: <code>disabled</code>.</li><li>An action is a <code>&lt;button&gt;</code> with its own name, after the input in the tab order; a toggle carries <code>aria-pressed</code>.</li><li>An affix is plain text; when it matters to the value it is part of the label or of the help.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Static. Posts as a form field in static rendering.</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Value</code> with <code>@bind-Value</code>; <code>Type</code>; <code>Placeholder</code>; <code>Name</code></li><li><code>Size</code>: Small, Medium (default), Large</li><li><code>Icon</code>: at the start; <code>Prefix</code>, <code>Suffix</code>: fixed text</li><li><code>Clearable</code>: the clear action; a password gets its show action</li><li><code>Mono</code>: for code; <code>ReadOnly</code>; <code>Disabled</code>; <code>MaxLength</code>; <code>AutoComplete</code></li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-input</code>; <code>--s</code>, <code>--l</code>, <code>--mono</code>; parts <code>fl-input__control</code>, <code>__icon</code>, <code>__affix</code>, <code>__action</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>surface</code>, <code>surface-subtle</code>, <code>border-control</code>, <code>border-strong</code>, <code>text</code>, <code>text-subtle</code>, <code>hover</code>, <code>pressed</code>, <code>accent-text</code>, <code>danger-solid</code>, the disabled three</li><li>Size: <code>--fl-control-height-*</code>, <code>--fl-control-padding-*</code>, <code>--fl-control-radius</code>, <code>--fl-icon-size-m</code>, <code>--fl-space-2</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-control-font-size</code>, <code>--fl-font-size-s</code>, <code>--fl-font-family-mono</code>, <code>--fl-line-height-tight</code></li><li>Focus: <code>--fl-focus-ring</code>, drawn on the border of the box</li><li>Own: <code>--fl-input-height</code>, <code>-padding</code>, <code>-font-size</code>, <code>-inner-radius</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="stack">
+<h2>Stack and cluster</h2>
+<p>Two layout classes that everything is composed with. A stack puts its children in a column with one gap; a cluster puts them in a row that wraps. Their default gaps follow the density.</p>
+<h3>Stack</h3>
+<div class="docs-demo docs-demo--column">
+  <div class="fl-stack"><div class="docs-block">One</div><div class="docs-block">Two</div><div class="docs-block">Three</div></div>
+</div>
+<div class="docs-demo">
+  <div class="fl-stack fl-stack--gap-1"><div class="docs-block">gap-1</div><div class="docs-block">4 px</div></div>
+  <div class="fl-stack fl-stack--gap-2"><div class="docs-block">gap-2</div><div class="docs-block">8 px</div></div>
+  <div class="fl-stack fl-stack--gap-3"><div class="docs-block">gap-3</div><div class="docs-block">12 px</div></div>
+  <div class="fl-stack fl-stack--gap-4"><div class="docs-block">gap-4</div><div class="docs-block">16 px</div></div>
+  <div class="fl-stack fl-stack--gap-6"><div class="docs-block">gap-6</div><div class="docs-block">24 px</div></div>
+  <div class="fl-stack fl-stack--gap-8"><div class="docs-block">gap-8</div><div class="docs-block">32 px</div></div>
+</div>
+<h3>Cluster</h3>
+<div class="docs-demo docs-demo--column">
+  <div class="fl-cluster"><button class="fl-button fl-button--primary" type="button">Save</button><button class="fl-button" type="button">Cancel</button><span class="docs-block">Wraps when the row is full</span></div>
+  <div class="fl-cluster fl-cluster--between"><span class="docs-block">between</span><button class="fl-button" type="button">Action</button></div>
+  <div class="fl-cluster fl-cluster--end"><button class="fl-button" type="button">Cancel</button><button class="fl-button fl-button--primary" type="button">Save</button></div>
+</div>
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td>Any element. These are classes, not components.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td>None: they add no meaning. A group that needs a name gets its own <code>role</code> and label.</td></tr>
+<tr><th scope="row">Level</th><td>Static</td></tr>
+<tr><th scope="row">Classes</th><td><ul><li><code>fl-stack</code>; <code>--gap-1</code>, <code>-2</code>, <code>-3</code>, <code>-4</code>, <code>-6</code>, <code>-8</code>; <code>--start</code>: children keep their own width</li><li><code>fl-cluster</code>; <code>--gap-1</code>, <code>-2</code>, <code>-3</code>, <code>-4</code>, <code>-6</code>; <code>--end</code>, <code>--between</code>, <code>--top</code>, <code>--nowrap</code></li></ul></td></tr>
+<tr><th scope="row">Tokens</th><td><code>--fl-gap-m</code> for a stack and <code>--fl-gap-s</code> for a cluster by default; <code>--fl-space-*</code> for the modifiers</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="divider">
+<h2>Divider</h2>
+<p>A hairline between groups of content, or upright between groups of controls in a row.</p>
+<div class="docs-demo docs-demo--column">
+  <div class="fl-stack"><div class="docs-block">Above</div><hr class="fl-divider"><div class="docs-block">Below</div></div>
+  <div class="fl-cluster"><button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="Bold"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#bold"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="Italic"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#italic"/></svg></button><span class="fl-divider fl-divider--vertical" role="separator" aria-orientation="vertical"></span><button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="Link"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#link"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="Quote"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#quote"/></svg></button></div>
+</div>
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;hr class="fl-divider"&gt;</code>; upright in a row, an element with <code>role="separator"</code> and <code>aria-orientation="vertical"</code>.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td>A separator. When it only decorates, <code>aria-hidden="true"</code>.</td></tr>
+<tr><th scope="row">Level</th><td>Static</td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-divider</code>; <code>--vertical</code>, <code>--strong</code></td></tr>
+<tr><th scope="row">Tokens</th><td><code>--fl-color-border</code>, <code>--fl-color-border-strong</code>, <code>--fl-border-width</code>, <code>--fl-space-4</code></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="link">
+<h2>Link</h2>
+<p>A link inside text is underlined, so that colour is not the only sign of it. A link that stands alone, in a header or at the end of a row, shows its underline when pointed at.</p>
+<div class="docs-demo docs-demo--column">
+  <p style="margin: 0">Changes are kept as versions. Read <a class="fl-link" href="#link">how versions work</a> before you restore one, or <button class="fl-link" type="button">compare the last two</button>.</p>
+  <div class="fl-cluster fl-cluster--gap-6">
+    <a class="fl-link fl-link--standalone" href="#link">View all</a>
+    <a class="fl-link fl-link--standalone" href="#link">Documentation<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#external-link"/></svg></a>
+    <a class="fl-link fl-link--standalone" href="#link" data-force="hover">Pointed at</a>
+    <a class="fl-link fl-link--standalone" href="#link" data-force="focus-visible">Focused</a>
+    <a class="fl-link fl-link--quiet" href="#link">A title that opens its item</a>
+    <a class="fl-link fl-link--quiet" href="#link" data-force="hover">Pointed at</a>
+  </div>
+</div>
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;a href&gt;</code> when it goes somewhere; <code>&lt;button type="button"&gt;</code> when it acts in place.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td>Native link or button. A link that opens another site says so in its text or with a labelled icon.</td></tr>
+<tr><th scope="row">Level</th><td>Static</td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-link</code>; <code>--standalone</code>, <code>--quiet</code></td></tr>
+<tr><th scope="row">Tokens</th><td><code>--fl-color-accent-text</code>, <code>--fl-font-weight-medium</code>, <code>--fl-radius-s</code>, <code>--fl-space-1</code>, <code>--fl-border-width-strong</code>, the focus ring</td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="kbd">
+<h2>Keyboard key</h2>
+<p>Names a key or a shortcut.</p>
+<div class="docs-demo">
+  <kbd class="fl-kbd">Ctrl</kbd><kbd class="fl-kbd">K</kbd>
+  <span class="fl-cluster fl-cluster--gap-1"><kbd class="fl-kbd">Shift</kbd><kbd class="fl-kbd">Enter</kbd></span>
+  <kbd class="fl-kbd">Esc</kbd> <kbd class="fl-kbd">/</kbd>
+  <span>Press <kbd class="fl-kbd">?</kbd> for the list of shortcuts.</span>
+</div>
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;kbd class="fl-kbd"&gt;</code>, one per key.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td>Text. A shortcut that an element has is also in its <code>aria-keyshortcuts</code>.</td></tr>
+<tr><th scope="row">Level</th><td>Static</td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-kbd</code></td></tr>
+<tr><th scope="row">Tokens</th><td><code>--fl-color-surface</code>, <code>--fl-color-border-strong</code>, <code>--fl-color-text-muted</code>, <code>--fl-font-size-2xs</code>, <code>--fl-font-weight-medium</code>, <code>--fl-radius-s</code>, <code>--fl-space-1</code>, <code>-5</code>, <code>--fl-border-width</code>, <code>-strong</code></td></tr>
+</tbody>
+</table>
+</section>
+
+</main>
+</div>
+</body>
+</html>

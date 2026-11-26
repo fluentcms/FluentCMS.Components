@@ -1,0 +1,257 @@
+/* FluentCMS Components: tokens.
+   Colours hold both themes in one value through light-dark(), so a theme is a
+   change of color-scheme on any ancestor and no token is declared twice. */
+
+@layer fl.base, fl.tokens, fl.components;
+
+@layer fl.tokens {
+  :root {
+    color-scheme: light dark;
+
+    /* Neutrals */
+    --fl-color-canvas: light-dark(#F6F7F9, #0D1118);
+    --fl-color-surface: light-dark(#FFFFFF, #141922);
+    --fl-color-surface-subtle: light-dark(#F9FAFB, #181E29);
+    --fl-color-surface-muted: light-dark(#F0F2F5, #1F2633);
+    --fl-color-surface-raised: light-dark(#FFFFFF, #1A202B);
+    --fl-color-surface-inverse: light-dark(#1B2230, #E6E9EF);
+    --fl-color-hover: light-dark(rgb(14 19 30 / 0.06), rgb(238 241 246 / 0.07));
+    --fl-color-pressed: light-dark(rgb(14 19 30 / 0.11), rgb(238 241 246 / 0.12));
+    --fl-color-backdrop: light-dark(rgb(14 19 30 / 0.4), rgb(0 0 0 / 0.6));
+
+    --fl-color-border: light-dark(#E3E6EB, #262E3B);
+    --fl-color-border-strong: light-dark(#CDD2DA, #3A4454);
+    --fl-color-border-control: light-dark(#7F8898, #6A7587);
+
+    --fl-color-text: light-dark(#0E131E, #EEF1F6);
+    --fl-color-text-muted: light-dark(#454C5A, #B9BFCB);
+    --fl-color-text-subtle: light-dark(#5F6877, #8D95A3);
+    --fl-color-text-inverse: light-dark(#FFFFFF, #0E131E);
+
+    --fl-color-disabled-fill: light-dark(#F0F2F5, #1B212C);
+    --fl-color-disabled-border: light-dark(#E3E6EB, #262E3B);
+    --fl-color-disabled-text: light-dark(#9AA2B0, #5B6473);
+
+    /* Accent. A host sets --fl-color-accent and --fl-color-on-accent; the rest follows. */
+    --fl-color-accent: light-dark(#154EF2, #2F64F5);
+    --fl-color-on-accent: #FFFFFF;
+
+    /* Tones: soft is a tinted background, border its outline, text is readable on
+       soft and on every surface, solid is a strong fill or mark, on-solid its text. */
+    --fl-color-neutral-soft: light-dark(#EEF0F3, #232B38);
+    --fl-color-neutral-border: light-dark(#D8DCE3, #364050);
+    --fl-color-neutral-text: light-dark(#4A5160, #B9BFCB);
+    --fl-color-neutral-solid: light-dark(#6B7484, #8D95A3);
+    --fl-color-neutral-on-solid: light-dark(#FFFFFF, #0D1118);
+
+    --fl-color-success-soft: light-dark(#E7F6EC, #11301F);
+    --fl-color-success-border: light-dark(#BFE5CC, #1D4D31);
+    --fl-color-success-text: light-dark(#0B6B34, #6FD99A);
+    --fl-color-success-solid: light-dark(#15803D, #3CC47A);
+    --fl-color-success-on-solid: light-dark(#FFFFFF, #0D1118);
+
+    --fl-color-warning-soft: light-dark(#FFF3D6, #3A2C0B);
+    --fl-color-warning-border: light-dark(#F3DCA0, #5C4612);
+    --fl-color-warning-text: light-dark(#8A5A00, #F2C15C);
+    --fl-color-warning-solid: light-dark(#BA7900, #E0A52A);
+    --fl-color-warning-on-solid: light-dark(#1F1400, #0D1118);
+
+    --fl-color-danger-soft: light-dark(#FDECEC, #3A1719);
+    --fl-color-danger-border: light-dark(#F6C6C7, #5E2427);
+    --fl-color-danger-text: light-dark(#A3262B, #F29A9D);
+    --fl-color-danger-solid: light-dark(#CF3038, #DA3633);
+    --fl-color-danger-on-solid: #FFFFFF;
+    --fl-color-danger-solid-hover: color-mix(in oklab, var(--fl-color-danger-solid), #000000 14%);
+    --fl-color-danger-solid-pressed: color-mix(in oklab, var(--fl-color-danger-solid), #000000 26%);
+
+    --fl-color-info-soft: light-dark(#E1F4F8, #0F2F38);
+    --fl-color-info-border: light-dark(#B5E0EA, #1A4B59);
+    --fl-color-info-text: light-dark(#0B6477, #7FD4E6);
+    --fl-color-info-solid: light-dark(#0E7C93, #2FA9C4);
+    --fl-color-info-on-solid: light-dark(#FFFFFF, #0D1118);
+
+    --fl-color-pending-soft: light-dark(#EFEBFF, #251F4A);
+    --fl-color-pending-border: light-dark(#D5CCFB, #3B3273);
+    --fl-color-pending-text: light-dark(#5333C7, #B8A8FF);
+    --fl-color-pending-solid: light-dark(#6B4BE0, #8E78F5);
+    --fl-color-pending-on-solid: light-dark(#FFFFFF, #0D1118);
+
+    /* Categories: fills that tell things apart without a meaning, such as avatars. */
+    --fl-color-category-1: #0F766E;
+    --fl-color-category-2: #7C3AED;
+    --fl-color-category-3: #C2410C;
+    --fl-color-category-4: #1D4ED8;
+    --fl-color-category-5: #A21CAF;
+    --fl-color-category-6: #475264;
+    --fl-color-on-category: #FFFFFF;
+
+    /* Typography */
+    --fl-font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Noto Sans", Arial, sans-serif;
+    --fl-font-family-mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+    --fl-font-size-2xs: 0.6875rem;
+    --fl-font-size-xs: 0.75rem;
+    --fl-font-size-s: 0.8125rem;
+    --fl-font-size-m: 0.875rem;
+    --fl-font-size-l: 1rem;
+    --fl-font-size-xl: 1.125rem;
+    --fl-font-size-2xl: 1.375rem;
+    --fl-font-size-3xl: 1.875rem;
+
+    --fl-font-weight-regular: 400;
+    --fl-font-weight-medium: 500;
+    --fl-font-weight-semibold: 600;
+    --fl-font-weight-bold: 700;
+
+    --fl-line-height-tight: 1.25;
+    --fl-line-height-normal: 1.45;
+    --fl-line-height-relaxed: 1.65;
+
+    --fl-letter-spacing-tight: -0.015em;
+    --fl-letter-spacing-caps: 0.06em;
+
+    /* Space, on a 4 px grid with two half steps */
+    --fl-space-0-5: 0.125rem;
+    --fl-space-1: 0.25rem;
+    --fl-space-1-5: 0.375rem;
+    --fl-space-2: 0.5rem;
+    --fl-space-3: 0.75rem;
+    --fl-space-4: 1rem;
+    --fl-space-5: 1.25rem;
+    --fl-space-6: 1.5rem;
+    --fl-space-7: 1.75rem;
+    --fl-space-8: 2rem;
+    --fl-space-10: 2.5rem;
+    --fl-space-12: 3rem;
+    --fl-space-16: 4rem;
+    --fl-space-20: 5rem;
+    --fl-space-24: 6rem;
+
+    /* Sizes of containers */
+    --fl-size-3xs: 8rem;
+    --fl-size-2xs: 12rem;
+    --fl-size-xs: 16rem;
+    --fl-size-s: 20rem;
+    --fl-size-m: 30rem;
+    --fl-size-l: 40rem;
+    --fl-size-xl: 50rem;
+    --fl-size-2xl: 64rem;
+    --fl-size-3xl: 90rem;
+    --fl-measure: 68ch;
+
+    /* Radius. A host sets --fl-radius-m; the other steps follow. */
+    --fl-radius-m: 0.375rem;
+    --fl-radius-s: calc(var(--fl-radius-m) * 2 / 3);
+    --fl-radius-l: calc(var(--fl-radius-m) * 4 / 3);
+    --fl-radius-xl: calc(var(--fl-radius-m) * 2);
+    --fl-radius-full: 999px;
+
+    /* Borders */
+    --fl-border-width: 1px;
+    --fl-border-width-strong: 2px;
+
+    /* Elevation */
+    --fl-shadow-color-soft: light-dark(rgb(14 19 30 / 0.06), rgb(0 0 0 / 0.4));
+    --fl-shadow-color-strong: light-dark(rgb(14 19 30 / 0.12), rgb(0 0 0 / 0.55));
+    --fl-shadow-s: 0 1px 2px var(--fl-shadow-color-soft);
+    --fl-shadow-m: 0 2px 6px var(--fl-shadow-color-soft), 0 8px 24px var(--fl-shadow-color-strong);
+    --fl-shadow-l: 0 4px 12px var(--fl-shadow-color-soft), 0 20px 48px var(--fl-shadow-color-strong);
+
+    /* Motion */
+    --fl-duration-fast: 100ms;
+    --fl-duration-normal: 160ms;
+    --fl-duration-slow: 240ms;
+    --fl-duration-spin: 800ms;
+    --fl-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+    --fl-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
+    /* Focus ring: an outline in the focus colour, and a halo in the gap that
+       keeps it visible on a dark or coloured background. */
+    --fl-color-focus-halo: light-dark(#FFFFFF, #0D1118);
+    --fl-focus-ring-width: 2px;
+    --fl-focus-ring-offset: 2px;
+    --fl-focus-ring: var(--fl-focus-ring-width) solid var(--fl-color-focus);
+    --fl-focus-halo: 0 0 0 var(--fl-focus-ring-offset) var(--fl-color-focus-halo);
+
+    /* Icons */
+    --fl-icon-size-s: 0.875rem;
+    --fl-icon-size-m: 1rem;
+    --fl-icon-size-l: 1.25rem;
+    --fl-icon-stroke: 1.75;
+
+    /* Stacking, for what is not in the top layer */
+    --fl-z-raised: 1;
+    --fl-z-sticky: 10;
+
+    /* Controls */
+    --fl-target-min: 1.5rem;
+    --fl-control-radius: var(--fl-radius-m);
+    --fl-control-font-size: var(--fl-font-size-m);
+  }
+
+  /* Derived from the accent, so one token carries a brand. Declared again on
+     [data-fl-accent] for an accent set below the root. Hover and pressed darken
+     in both themes, which keeps the text on them readable. */
+  :root,
+  [data-fl-accent] {
+    --fl-color-accent-hover: color-mix(in oklab, var(--fl-color-accent), #000000 14%);
+    --fl-color-accent-pressed: color-mix(in oklab, var(--fl-color-accent), #000000 26%);
+    --fl-color-accent-soft: light-dark(color-mix(in oklab, var(--fl-color-accent) 9%, #FFFFFF), color-mix(in oklab, var(--fl-color-accent) 24%, #141922));
+    --fl-color-accent-soft-hover: light-dark(color-mix(in oklab, var(--fl-color-accent) 16%, #FFFFFF), color-mix(in oklab, var(--fl-color-accent) 36%, #141922));
+    --fl-color-accent-border: light-dark(color-mix(in oklab, var(--fl-color-accent) 30%, #FFFFFF), color-mix(in oklab, var(--fl-color-accent) 55%, #141922));
+    --fl-color-accent-text: light-dark(var(--fl-color-accent), color-mix(in oklab, var(--fl-color-accent), #FFFFFF 45%));
+    --fl-color-focus: var(--fl-color-accent-text);
+  }
+
+  [data-fl-theme="light"] {
+    color-scheme: light;
+  }
+
+  [data-fl-theme="dark"] {
+    color-scheme: dark;
+  }
+
+  /* Density. Type sizes do not change with it. */
+  :root,
+  [data-fl-density="comfortable"] {
+    --fl-control-height-s: 1.75rem;
+    --fl-control-height-m: 2rem;
+    --fl-control-height-l: 2.5rem;
+    --fl-control-padding-s: var(--fl-space-2);
+    --fl-control-padding-m: var(--fl-space-3);
+    --fl-control-padding-l: var(--fl-space-4);
+    --fl-item-height: 2rem;
+    --fl-row-height: 2.75rem;
+    --fl-inset-s: var(--fl-space-3);
+    --fl-inset-m: var(--fl-space-4);
+    --fl-inset-l: var(--fl-space-6);
+    --fl-gap-s: var(--fl-space-2);
+    --fl-gap-m: var(--fl-space-4);
+    --fl-gap-l: var(--fl-space-6);
+  }
+
+  [data-fl-density="compact"] {
+    --fl-control-height-s: 1.5rem;
+    --fl-control-height-m: 1.75rem;
+    --fl-control-height-l: 2.25rem;
+    --fl-control-padding-s: var(--fl-space-1-5);
+    --fl-control-padding-m: var(--fl-space-2);
+    --fl-control-padding-l: var(--fl-space-3);
+    --fl-item-height: 1.75rem;
+    --fl-row-height: 2.25rem;
+    --fl-inset-s: var(--fl-space-2);
+    --fl-inset-m: var(--fl-space-3);
+    --fl-inset-l: var(--fl-space-4);
+    --fl-gap-s: var(--fl-space-1-5);
+    --fl-gap-m: var(--fl-space-3);
+    --fl-gap-l: var(--fl-space-4);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --fl-duration-fast: 0ms;
+      --fl-duration-normal: 0ms;
+      --fl-duration-slow: 0ms;
+    }
+  }
+}

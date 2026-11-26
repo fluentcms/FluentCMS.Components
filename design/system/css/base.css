@@ -1,0 +1,73 @@
+/* FluentCMS Components: base rules and the layout patterns.
+   Nothing here touches an element that carries no fl- class, so the library
+   can sit beside a host's own styles. */
+
+@layer fl.base, fl.tokens, fl.components;
+
+@layer fl.base {
+  [class^="fl-"],
+  [class*=" fl-"] {
+    box-sizing: border-box;
+
+    &::before,
+    &::after {
+      box-sizing: border-box;
+    }
+  }
+
+  /* The root of an application or of a themed region. */
+  .fl-root {
+    background-color: var(--fl-color-canvas);
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-m);
+    line-height: var(--fl-line-height-normal);
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  .fl-visually-hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* Stack: children in a column with one gap. */
+  .fl-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fl-gap-m);
+    min-inline-size: 0;
+
+    &.fl-stack--gap-1 { gap: var(--fl-space-1); }
+    &.fl-stack--gap-2 { gap: var(--fl-space-2); }
+    &.fl-stack--gap-3 { gap: var(--fl-space-3); }
+    &.fl-stack--gap-4 { gap: var(--fl-space-4); }
+    &.fl-stack--gap-6 { gap: var(--fl-space-6); }
+    &.fl-stack--gap-8 { gap: var(--fl-space-8); }
+    &.fl-stack--start { align-items: flex-start; }
+  }
+
+  /* Cluster: children in a row that wraps, centred on the cross axis. */
+  .fl-cluster {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--fl-gap-s);
+    min-inline-size: 0;
+
+    &.fl-cluster--gap-1 { gap: var(--fl-space-1); }
+    &.fl-cluster--gap-2 { gap: var(--fl-space-2); }
+    &.fl-cluster--gap-3 { gap: var(--fl-space-3); }
+    &.fl-cluster--gap-4 { gap: var(--fl-space-4); }
+    &.fl-cluster--gap-6 { gap: var(--fl-space-6); }
+    &.fl-cluster--end { justify-content: flex-end; }
+    &.fl-cluster--between { justify-content: space-between; }
+    &.fl-cluster--top { align-items: flex-start; }
+    &.fl-cluster--nowrap { flex-wrap: nowrap; }
+  }
+}
