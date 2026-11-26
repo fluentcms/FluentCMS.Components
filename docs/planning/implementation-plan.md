@@ -27,14 +27,14 @@ FluentCMS Components is an opinionated, minimal Blazor component library. It is 
 | D8 | The FluentCMS admin and the admin halves of plugins use `Fl*` directly. `FluentCMS.Admin.Components` is removed; no wrapper layer replaces it. |
 | D9 | The visual direction is the selected admin mockup: a grouped sidebar, a header with global search, bordered inputs, data tables and a blue accent. It becomes the FluentCMS design system. |
 | D10 | The stylesheet is plain CSS: no CSS framework, no preprocessor and no build tool beyond MSBuild joining the files (section 4.2). |
+| D11 | The repository is public, since 26 November 2026, and the library is under the MIT license, as FluentCMS is. |
 
 ### 2.2 Open, with a recommendation
 
 | # | Question | Recommendation |
 | --- | --- | --- |
-| O1 | When does the repository become public? It is private now. | At the first preview on nuget.org (end of C0), since the package page links to the repository and GitHub Pages needs it. |
 | O2 | Target frameworks. | `net10.0` only, as FluentCMS. A second target is added when someone asks for it. |
-| O3 | Icon family. | A curated subset of Lucide (ISC licence), embedded as SVG paths, about 90 icons. The mockups use that style. The alternative is Fluent System Icons (MIT). Decided on the design system page. |
+| O3 | Icon family. | A curated subset of Lucide (ISC license), embedded as SVG paths, about 90 icons. The mockups use that style. The alternative is Fluent System Icons (MIT). Decided on the design system page. |
 | O4 | Typeface. | The system font stack by default, with the family as a token, so that a host can set Inter. Bundling a font costs download size. Decided on the design system page. |
 | O5 | How often a preview is published. | On a maintainer's tag (`v0.3.0-preview.2`), not on every merge: a version on nuget.org can be unlisted but never deleted. The local source switch of section 9.3 covers daily work. |
 | O6 | Where the gallery is hosted. | GitHub Pages of this repository, as the WebAssembly build. The other two render modes run in CI and locally. |
@@ -298,7 +298,7 @@ Sizes are S (hours), M (a day or two) and L (several days). FluentCMS issues are
 
 | ID | Issue | Size |
 | --- | --- | --- |
-| C-01 | Scaffolding: solution, build properties, central package versions, `.editorconfig`, `.gitignore`, `nuget.config`, licence, contributing guide, markdownlint | S |
+| C-01 | Scaffolding: solution, build properties, central package versions, `.editorconfig`, `.gitignore`, `.gitattributes`, `nuget.config`, contributing guide, markdownlint | S |
 | C-02 | Decision records: the render mode contract, the styling architecture, the script policy, the forms model | M |
 | C-03 | Design system page (section 6), with the reference mockup moved into `design/` | L |
 | C-04 | Token stylesheet: tokens, both themes, both densities, base rules, layers | M |
