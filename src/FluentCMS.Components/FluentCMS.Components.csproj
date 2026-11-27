@@ -30,4 +30,70 @@
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
+  <!-- The stylesheet is written as one file per component and joined here, so that the package ships one file.
+       Order: tokens, base, patterns, components, each group by name. The joined file is generated and not committed. -->
+  <PropertyGroup>
+    <FlStylesheet>wwwroot\fluentcms-components.css</FlStylesheet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FlStyle Include="Styles\tokens.css" Order="1" />
+    <FlStyle Include="Styles\base.css" Order="2" />
+    <FlStyle Include="Styles\patterns\*.css" Order="3" />
+    <FlStyle Include="Styles\components\*.css" Order="4" />
+  </ItemGroup>
+
+  <UsingTask TaskName="FlJoinStylesheet" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <Sources ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+      <OutputFile ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System.Linq" />
+      <Using Namespace="System.Text" />
+      <Using Namespace="System.Text.RegularExpressions" />
+      <Code Type="Fragment" Language="cs"><![CDATA[
+        // Each source file declares the layer order so that it works alone on a page; the joined file declares it once.
+        var layerStatement = new Regex(@"^@layer fl\.base, fl\.tokens, fl\.components;[ \t]*\r?\n(\r?\n)?", RegexOptions.Multiline);
+
+        var joined = new StringBuilder();
+        joined.Append("/* FluentCMS Components. Joined at build from the files under Styles/; do not edit. */\n");
+        joined.Append("@layer fl.base, fl.tokens, fl.components;\n");
+
+        var ordered = Sources
+            .OrderBy(source => source.GetMetadata("Order"), StringComparer.Ordinal)
+            .ThenBy(source => source.ItemSpec, StringComparer.Ordinal);
+
+        foreach (var source in ordered)
+        {
+            var text = layerStatement.Replace(File.ReadAllText(source.ItemSpec), string.Empty);
+            joined.Append('\n').Append(text.Replace("\r\n", "\n").Trim()).Append('\n');
+        }
+
+        // Written only when it differs, so that nothing downstream sees a change that is not one.
+        var content = joined.ToString();
+        if (!File.Exists(OutputFile) || File.ReadAllText(OutputFile) != content)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(OutputFile));
+            File.WriteAllText(OutputFile, content, new UTF8Encoding(false));
+        }
+      ]]></Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="FlJoinStylesheet" Inputs="@(FlStyle);$(MSBuildProjectFullPath)" Outputs="$(FlStylesheet)">
+    <FlJoinStylesheet Sources="@(FlStyle)" OutputFile="$(FlStylesheet)" />
+  </Target>
+
+  <!-- Static web assets are found from the Content items, which a glob fills before the build and so cannot see this file
+       on a first build. The file is added here, before they are collected, whether or not the join had to run. -->
+  <Target Name="FlIncludeStylesheet"
+          DependsOnTargets="FlJoinStylesheet"
+          BeforeTargets="UpdateExistingPackageStaticWebAssets;ResolveProjectStaticWebAssets">
+    <ItemGroup>
+      <Content Remove="$(FlStylesheet)" />
+      <Content Include="$(FlStylesheet)" />
+    </ItemGroup>
+  </Target>
+
 </Project>

@@ -6,7 +6,7 @@ Status: accepted, 27 November 2026.
 
 The library needs one look that a host can adjust: the accent, the radius, the density, the typeface and the theme. It has to sit beside whatever the host already uses, work under a strict content security policy, mirror for right-to-left languages, and be cheap to read and to change.
 
-Section 4.2 of the [implementation plan](../planning/implementation-plan.md) proposed plain CSS before any style existed. The design system under `design/system/` has since been drawn, and it fixed the details: [RECIPE.md](../../design/system/RECIPE.md) says how a component is written, and [tokens.css](../../design/system/css/tokens.css) holds the tokens. This record states what they settled, so that the library's stylesheet follows them.
+Section 4.2 of the [implementation plan](../planning/implementation-plan.md) proposed plain CSS before any style existed. The design system under `design/system/` has since been drawn, and it fixed the details: [RECIPE.md](../../design/system/RECIPE.md) says how a component is written, and [tokens.css](../../src/FluentCMS.Components/Styles/tokens.css) holds the tokens. This record states what they settled, so that the library's stylesheet follows them.
 
 The alternatives were weighed in the plan. A CSS framework such as Bootstrap or Tailwind would clash with a host's own copy, its resets would restyle the host's pages, its utility classes would end the use of the same classes in plain HTML, and it would bring a Node toolchain into a .NET repository. A preprocessor such as Sass adds a build step, and its variables cannot change at run time, which themes need. Blazor's CSS isolation ties styles to components with scope attributes, so plain HTML could no longer look the same.
 
@@ -22,7 +22,7 @@ The alternatives were weighed in the plan. A CSS framework such as Bootstrap or 
 8. **State comes from the real attribute**, never from a class: `disabled`, `aria-invalid`, `aria-pressed`, `aria-selected`, `aria-current`, `aria-expanded`, `[open]`, `:checked`, `:popover-open`. Where no attribute exists, a `data-fl-` attribute is used, such as `data-fl-active`.
 9. **Names.** Classes are `fl-<block>`, `fl-<block>__<part>` and `fl-<block>--<modifier>`, custom properties are `--fl-…` and data attributes are `data-fl-…`. A modifier names what a thing is, not how it looks.
 10. **No inline script and no injected `<style>` element**, so the library runs under a content security policy that allows scripts from the site alone. Avoiding inline `style` attributes as well, so that a host can refuse those too, is a goal tracked per component.
-11. **One file per component** under `css/components/`, and one per CSS-only pattern under `css/patterns/`. The token file and the component files of the design system become the library's as they are. The design system pages and the gallery load the same stylesheet the package ships.
+11. **One file per component** under `Styles/components/`, and one per CSS-only pattern under `Styles/patterns/`. The token file and the component files of the design system become the library's as they are. The design system pages and the gallery load the same stylesheet the package ships.
 
 ## Consequences
 
@@ -32,3 +32,12 @@ The alternatives were weighed in the plan. A CSS framework such as Bootstrap or 
 - The stylesheet uses features that exist only in the last two versions of Chrome, Edge, Firefox and Safari, and has no fallback for older browsers.
 - Plain HTML and Razor Pages can use the same classes without Blazor. The cost is that the markup of a component is public: renaming a class or a part is a breaking change.
 - If a future need cannot be met in plain CSS, the answer is a new record that adds a build step, not an exception inside one component.
+
+## Update: where the files live and how they are joined
+
+Issue 34 moved the files and wrote the join. It departs from the record in one point, the last below.
+
+- The files are in `src/FluentCMS.Components/Styles/`: `tokens.css`, `base.css`, `patterns/*.css` and `components/*.css`. They moved from `design/system/css/` unchanged, and there is one copy.
+- An MSBuild target in the project file joins them into `wwwroot/fluentcms-components.css`: a header comment and the layer statement once, then `tokens.css`, `base.css`, the patterns and the components, each group in alphabetical order. Each source file declares the layers too, so that it works alone on a page; the join drops those copies. The comments of the source files stay in the joined file, and no minifier runs.
+- The target is incremental. It writes the file only when a source file or the project file is newer, and only when the content differs. The joined file is generated and ignored by git. The package carries it as a static web asset, at `_content/FluentCMS.Components/fluentcms-components.css`.
+- The design system pages link the separate files, not the joined one, so that they open from a served checkout without a build. The look is the same: the joined file was compared with the separate files on all eleven pages. `screens/screens.css` and `system/docs/` stay under `design/`: they are the chrome of the pages and never ship.

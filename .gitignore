@@ -41,3 +41,6 @@ launchSettings.local.json
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Joined at build from src/FluentCMS.Components/Styles
+src/FluentCMS.Components/wwwroot/fluentcms-components.css

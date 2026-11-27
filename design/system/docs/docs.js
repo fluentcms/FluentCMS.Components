@@ -13,6 +13,7 @@
 (() => {
   const root = document.documentElement;
   const base = new URL('..', document.currentScript.src);
+  const styles = new URL('../../src/FluentCMS.Components/Styles/', base).href;
 
   const pages = [
     ['index.html', 'Tokens'],
@@ -90,7 +91,7 @@
 
   function forceAll() {
     for (const sheet of document.styleSheets) {
-      if (!sheet.href || !sheet.href.startsWith(new URL('css/', base).href)) continue;
+      if (!sheet.href || !sheet.href.startsWith(styles)) continue;
       try {
         forceStates(sheet.cssRules, sheet);
       } catch (error) {
