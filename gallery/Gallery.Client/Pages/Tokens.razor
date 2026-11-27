@@ -1,0 +1,324 @@
+@page "/tokens"
+
+<GalleryPage Title="Tokens">
+    <Lede>The tokens of the library: colour, type, space, shape, motion and density. A host changes the look through them and through nothing else. The switches above show each of them in the other theme, density and direction.</Lede>
+
+    <Section Title="Colour">
+        <p>Every colour holds both themes in one value through <code>light-dark()</code>. A theme is <code>data-fl-theme="light"</code> or <code>"dark"</code> on any ancestor; without it the page follows the system.</p>
+
+        <h3>Neutrals</h3>
+        <p>Surfaces from the page up, borders, and three steps of text. <code>border-control</code> outlines a control that takes input and has 3:1 against every surface; <code>border</code> and <code>border-strong</code> only divide.</p>
+        <div class="gallery-swatches">
+            @foreach (string token in Surfaces)
+            {
+                <div class="gallery-swatch"><i data-fill="@token"></i><span>--fl-color-@token</span></div>
+            }
+        </div>
+        <div class="gallery-swatches">
+            @foreach (string token in Lines)
+            {
+                <div class="gallery-swatch"><i data-fill="@token"></i><span>--fl-color-@token</span></div>
+            }
+        </div>
+
+        <h4>Text on each surface</h4>
+        <div class="gallery-tones">
+            @foreach (string surface in TextSurfaces)
+            {
+                <div class="gallery-tone">
+                    <div data-fill="surface-subtle" data-ink="text-subtle">on @surface</div>
+                    @foreach (string text in Texts)
+                    {
+                        <div data-fill="@surface" data-ink="@text">@text</div>
+                    }
+                </div>
+            }
+        </div>
+
+        <h3>Accent</h3>
+        <p>A host sets <code>--fl-color-accent</code> and, if white does not read on it, <code>--fl-color-on-accent</code>. The other steps are mixed from it.</p>
+        <div class="gallery-swatches">
+            @foreach (string token in Accents)
+            {
+                <div class="gallery-swatch"><i data-fill="@token"></i><span>--fl-color-@token</span></div>
+            }
+        </div>
+        <div class="gallery-tones">
+            <div class="gallery-tone">
+                <div data-fill="accent" data-ink="on-accent">on-accent on accent</div>
+                <div data-fill="accent-hover" data-ink="on-accent">on accent-hover</div>
+                <div data-fill="accent-pressed" data-ink="on-accent">on accent-pressed</div>
+            </div>
+            <div class="gallery-tone">
+                <div data-fill="accent-soft" data-ink="accent-text" data-edge="accent-border">accent-text on soft</div>
+                <div data-fill="accent-soft-hover" data-ink="accent-text">on soft-hover</div>
+                <div data-fill="accent-soft" data-ink="text">text on soft</div>
+            </div>
+        </div>
+
+        <h3>Tones</h3>
+        <p>Six tones, each with the same five steps: <code>soft</code> is a tinted background, <code>border</code> its outline, <code>text</code> reads on the soft step and on every surface, <code>solid</code> is a strong fill or a mark, and <code>on-solid</code> is the text on it. A tone never carries a meaning alone: a label or an icon says it too.</p>
+        <div class="gallery-tones">
+            @foreach ((string tone, string name, string meaning) in Tones)
+            {
+                <div class="gallery-tone">
+                    <div data-fill="surface-subtle">@name<small>@meaning</small></div>
+                    <div data-fill="@(tone + "-soft")" data-ink="@(tone + "-text")" data-edge="@(tone + "-border")">text on soft, with border</div>
+                    <div data-ink="@(tone + "-text")">text on surface</div>
+                    <div data-fill="@(tone + "-solid")" data-ink="@(tone + "-on-solid")">on-solid on solid</div>
+                </div>
+            }
+        </div>
+
+        <h3>Categories</h3>
+        <p>Six fills that tell things apart without a meaning, such as avatars. They are the same in both themes and take <code>--fl-color-on-category</code> as text.</p>
+        <div class="gallery-tones">
+            <div class="gallery-tone">
+                @for (int number = 1; number <= 3; number++)
+                {
+                    <div data-fill="@($"category-{number}")" data-ink="on-category">category-@number</div>
+                }
+            </div>
+            <div class="gallery-tone">
+                @for (int number = 4; number <= 6; number++)
+                {
+                    <div data-fill="@($"category-{number}")" data-ink="on-category">category-@number</div>
+                }
+            </div>
+        </div>
+
+        <h3>Contrast</h3>
+        <p>Text has at least 4.5:1 on its background; borders of controls, marks and the focus ring have at least 3:1. <code>node design/tools/contrast.mjs</code> checks every pair in both themes, and the <a class="fl-link" href="@DesignSystem">design system</a> shows the measured numbers beside each sample. Disabled colours are exempt.</p>
+    </Section>
+
+    <Section Title="Type">
+        <p>Eight sizes in <code>rem</code>, four weights, three line heights. The interface is set in 13 px; text that is read or typed is 14 px. Sizes do not change with the density.</p>
+        <div class="gallery-type">
+            @foreach ((string size, string pixels, string sample) in Sizes)
+            {
+                <code>--fl-font-size-@size</code>
+                <small class="gallery-num">@pixels px</small>
+                <span data-size="@size">@sample</span>
+            }
+        </div>
+        <div class="gallery-scroll">
+            <table class="gallery-table">
+                <thead><tr><th scope="col">Token</th><th scope="col">Value</th><th scope="col">Used for</th></tr></thead>
+                <tbody>
+                    <tr><td><code>--fl-font-family</code></td><td>The system font stack</td><td>Everything</td></tr>
+                    <tr><td><code>--fl-font-family-mono</code></td><td>The system monospace stack</td><td>Code, keys, paths, identifiers</td></tr>
+                    <tr><td><code>--fl-font-weight-regular</code></td><td class="gallery-num">400</td><td>Body text</td></tr>
+                    <tr><td><code>--fl-font-weight-medium</code></td><td class="gallery-num">500</td><td>Controls, labels, links that stand alone</td></tr>
+                    <tr><td><code>--fl-font-weight-semibold</code></td><td class="gallery-num">600</td><td>Titles, the selected item</td></tr>
+                    <tr><td><code>--fl-font-weight-bold</code></td><td class="gallery-num">700</td><td>Rare emphasis</td></tr>
+                    <tr><td><code>--fl-line-height-tight</code></td><td class="gallery-num">1.25</td><td>Titles and controls of one line</td></tr>
+                    <tr><td><code>--fl-line-height-normal</code></td><td class="gallery-num">1.45</td><td>Interface text</td></tr>
+                    <tr><td><code>--fl-line-height-relaxed</code></td><td class="gallery-num">1.65</td><td>Long text that is read</td></tr>
+                    <tr><td><code>--fl-letter-spacing-tight</code></td><td class="gallery-num">-0.015em</td><td>Titles from 18 px</td></tr>
+                    <tr><td><code>--fl-letter-spacing-caps</code></td><td class="gallery-num">0.06em</td><td>Labels in capitals</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p>The family is one token, so the system font stack is a default and not a limit. The <a class="fl-link" href="@DesignSystem">design system</a> sets it beside Inter, the other typeface that was weighed.</p>
+    </Section>
+
+    <Section Title="Space and size">
+        <p>Space is on a 4 px grid, with two half steps for the inside of small things. The number in a name is the multiple of 4 px. Small fixed sizes (a dot, an avatar, a checkbox) come from this scale too.</p>
+        <div class="gallery-bars">
+            @foreach ((string step, int pixels) in Spaces)
+            {
+                <code>--fl-space-@step</code>
+                <span class="gallery-num">@pixels px</span>
+                <i data-bar="@($"space-{step}")"></i>
+            }
+        </div>
+        <h3>Sizes of containers</h3>
+        <p>Widths of dialogs, drawers, popovers, side columns and pages. <code>--fl-measure</code> (68 characters) limits a line of text that is read.</p>
+        <div class="gallery-bars">
+            @foreach ((string step, int pixels) in ContainerSizes)
+            {
+                <code>--fl-size-@step</code>
+                <span class="gallery-num">@pixels px</span>
+                <i data-bar="@($"size-{step}")"></i>
+            }
+        </div>
+        <p>The bars are drawn at half their size.</p>
+    </Section>
+
+    <Section Title="Radius, borders and elevation" Id="shape">
+        <p>A host sets <code>--fl-radius-m</code>; the other steps are computed from it, so one token makes the whole library squarer or rounder.</p>
+        <div class="gallery-boxes">
+            <div class="gallery-box"><i data-radius="s"></i><code>--fl-radius-s</code><span>4 px · keys, tags, checkboxes</span></div>
+            <div class="gallery-box"><i data-radius="m"></i><code>--fl-radius-m</code><span>6 px · controls</span></div>
+            <div class="gallery-box"><i data-radius="l"></i><code>--fl-radius-l</code><span>8 px · cards, menus</span></div>
+            <div class="gallery-box"><i data-radius="xl"></i><code>--fl-radius-xl</code><span>12 px · dialogs</span></div>
+            <div class="gallery-box"><i data-radius="full"></i><code>--fl-radius-full</code><span>pills, avatars</span></div>
+        </div>
+        <div class="gallery-boxes">
+            <div class="gallery-box"><i data-radius="l" data-line="border"></i><code>--fl-color-border</code><span>1 px · cards, dividers</span></div>
+            <div class="gallery-box"><i data-radius="l" data-line="border-strong"></i><code>--fl-color-border-strong</code><span>1 px · buttons</span></div>
+            <div class="gallery-box"><i data-radius="l" data-line="border-control"></i><code>--fl-color-border-control</code><span>1 px · inputs</span></div>
+            <div class="gallery-box"><i data-radius="l" data-line="strong"></i><code>--fl-border-width-strong</code><span>2 px · the selected thing</span></div>
+        </div>
+        <div class="gallery-boxes">
+            <div class="gallery-box"><i data-radius="l" data-line="border" data-shadow="s"></i><code>--fl-shadow-s</code><span>a raised control</span></div>
+            <div class="gallery-box"><i data-radius="l" data-line="border" data-shadow="m"></i><code>--fl-shadow-m</code><span>menus, popovers, toasts</span></div>
+            <div class="gallery-box"><i data-radius="xl" data-line="border" data-shadow="l"></i><code>--fl-shadow-l</code><span>dialogs, drawers</span></div>
+        </div>
+        <p>What floats sits on <code>--fl-color-surface-raised</code>, which is lighter than the surface in the dark theme, where a shadow alone does not show.</p>
+    </Section>
+
+    <Section Title="Motion">
+        <p>Motion is short and only says where something came from. Under <code>prefers-reduced-motion</code> the three durations are zero and a continuous animation stops.</p>
+        <div class="gallery-scroll">
+            <table class="gallery-table">
+                <thead><tr><th scope="col">Token</th><th scope="col">Value</th><th scope="col">Used for</th></tr></thead>
+                <tbody>
+                    <tr><td><code>--fl-duration-fast</code></td><td class="gallery-num">100 ms</td><td>A colour that changes, a mark that appears</td></tr>
+                    <tr><td><code>--fl-duration-normal</code></td><td class="gallery-num">160 ms</td><td>A menu, a popover, a disclosure</td></tr>
+                    <tr><td><code>--fl-duration-slow</code></td><td class="gallery-num">240 ms</td><td>A dialog, a drawer</td></tr>
+                    <tr><td><code>--fl-duration-spin</code></td><td class="gallery-num">800 ms</td><td>One turn of a spinner</td></tr>
+                    <tr><td><code>--fl-duration-pulse</code></td><td class="gallery-num">1500 ms</td><td>One beat of a skeleton</td></tr>
+                    <tr><td><code>--fl-ease-standard</code></td><td class="gallery-num">cubic-bezier(0.2, 0, 0, 1)</td><td>Entering and moving</td></tr>
+                    <tr><td><code>--fl-ease-exit</code></td><td class="gallery-num">cubic-bezier(0.4, 0, 1, 1)</td><td>Leaving</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </Section>
+
+    <Section Title="Focus ring">
+        <p>One ring for everything: a 2 px outline in <code>--fl-color-focus</code>, 2 px away, with a halo in the gap. On a light background the outline carries it, on a dark or coloured one the halo does. It is an outline, so it stays in forced colours. A text control draws the same outline on its border. Press Tab to move the ring through the samples.</p>
+        <div class="gallery-boxes">
+            <div class="gallery-box"><button class="fl-button" type="button">Button</button><span>on the canvas</span></div>
+            <div class="gallery-box gallery-box--filled" data-fill="surface"><button class="fl-button fl-button--primary" type="button">Button</button><span>on a surface</span></div>
+            <div class="gallery-box gallery-box--filled" data-fill="accent-soft"><button class="fl-button" type="button">Button</button><span>on the soft accent</span></div>
+            <div class="gallery-box gallery-box--filled" data-fill="accent" data-ink="on-accent"><button class="fl-button" type="button">Button</button><span>on the accent</span></div>
+            <div class="gallery-box gallery-box--filled" data-fill="surface-inverse" data-ink="text-inverse"><button class="fl-button" type="button">Button</button><span>on the inverse surface</span></div>
+            <div class="gallery-box gallery-box--filled" data-fill="surface"><span class="fl-input gallery-narrow"><input class="fl-input__control" type="text" value="Text" aria-label="Sample" /></span><span>a text control</span></div>
+        </div>
+    </Section>
+
+    <Section Title="Density">
+        <p><code>data-fl-density="compact"</code> on any ancestor tightens heights, paddings and gaps by one step. Type does not change, and no target goes below 24 by 24 px.</p>
+        <div class="gallery-scroll">
+            <table class="gallery-table">
+                <thead><tr><th scope="col">Token</th><th scope="col">Comfortable</th><th scope="col">Compact</th><th scope="col">Used for</th></tr></thead>
+                <tbody>
+                    @foreach ((string token, int comfortable, int compact, string use) in Densities)
+                    {
+                        <tr><td><code>--fl-@token</code></td><td class="gallery-num">@comfortable px</td><td class="gallery-num">@compact px</td><td>@use</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="gallery-compare">
+            @foreach (string density in GallerySettings.Densities)
+            {
+                <article class="gallery-option">
+                    <header><span>@(char.ToUpperInvariant(density[0]) + density[1..])</span></header>
+                    <div data-fl-density="@density">
+                        <div class="fl-field">
+                            <label class="fl-field__label" for="@($"density-{density}")">Name</label>
+                            <span class="fl-input"><input class="fl-input__control" id="@($"density-{density}")" type="text" value="Quarterly report" /></span>
+                        </div>
+                        <div class="fl-cluster">
+                            <button class="fl-button fl-button--primary" type="button">Save</button>
+                            <button class="fl-button" type="button">Cancel</button>
+                            <button class="fl-button fl-button--s" type="button">Small</button>
+                        </div>
+                    </div>
+                </article>
+            }
+        </div>
+    </Section>
+
+    <Section Title="Icons">
+        <p>An icon is one symbol of the Lucide set, drawn with a stroke. It takes the colour of the text around it and one of three sizes: 14, 16 and 20 px. An icon that points along the reading direction is mirrored in right to left.</p>
+        <Demo>
+            <svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="design/icons/lucide.svg#search" /></svg>
+            <svg class="fl-icon" aria-hidden="true"><use href="design/icons/lucide.svg#search" /></svg>
+            <svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="design/icons/lucide.svg#search" /></svg>
+            <svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="design/icons/lucide.svg#arrow-right" /></svg>
+            <button class="fl-button" type="button"><svg class="fl-icon" aria-hidden="true"><use href="design/icons/lucide.svg#funnel" /></svg>Filter</button>
+        </Demo>
+        <p>The whole set, and the comparison with the other family that was weighed, are in the <a class="fl-link" href="@DesignSystem">design system</a>.</p>
+    </Section>
+</GalleryPage>
+
+@code {
+    private const string DesignSystem = "https://github.com/fluentcms/FluentCMS.Components/tree/main/design/system";
+
+    private static readonly string[] Surfaces =
+    [
+        "canvas", "surface", "surface-subtle", "surface-muted", "surface-raised", "surface-inverse",
+        "hover", "pressed", "backdrop",
+    ];
+
+    private static readonly string[] Lines =
+    [
+        "border", "border-strong", "border-control",
+        "text", "text-muted", "text-subtle", "text-inverse", "text-inverse-subtle",
+        "disabled-fill", "disabled-border", "disabled-text",
+    ];
+
+    private static readonly string[] TextSurfaces = ["canvas", "surface", "surface-subtle", "surface-muted", "surface-raised"];
+
+    private static readonly string[] Texts = ["text", "text-muted", "text-subtle", "accent-text"];
+
+    private static readonly string[] Accents =
+    [
+        "accent", "accent-hover", "accent-pressed", "on-accent", "accent-soft", "accent-soft-hover",
+        "accent-border", "accent-text", "focus", "focus-halo",
+    ];
+
+    private static readonly (string Tone, string Name, string Meaning)[] Tones =
+    [
+        ("neutral", "Neutral", "No particular meaning: a draft, an inactive thing, a count."),
+        ("success", "Success", "Done, live, healthy."),
+        ("warning", "Warning", "Needs attention, changed, close to a limit."),
+        ("danger", "Danger", "Failed, invalid, destructive."),
+        ("info", "Info", "A neutral message, a thing made by a system."),
+        ("pending", "Pending", "Scheduled, queued, waiting for its time."),
+    ];
+
+    private static readonly (string Size, string Pixels, string Sample)[] Sizes =
+    [
+        ("3xl", "30", "A figure in a stat tile"),
+        ("2xl", "22", "Page title"),
+        ("xl", "18", "Section and dialog title"),
+        ("l", "16", "Card title, lead text"),
+        ("m", "14", "Body text and the value of an input"),
+        ("s", "13", "Buttons, navigation, tables, labels"),
+        ("xs", "12", "Help text, meta, badges"),
+        ("2xs", "11", "CAPS LABELS AND KEYS"),
+    ];
+
+    private static readonly (string Step, int Pixels)[] Spaces =
+    [
+        ("0-5", 2), ("1", 4), ("1-5", 6), ("2", 8), ("3", 12), ("4", 16), ("5", 20), ("6", 24), ("7", 28),
+        ("8", 32), ("9", 36), ("10", 40), ("11", 44), ("12", 48), ("14", 56), ("16", 64), ("20", 80), ("24", 96),
+    ];
+
+    private static readonly (string Step, int Pixels)[] ContainerSizes =
+    [
+        ("3xs", 128), ("2xs", 192), ("xs", 256), ("s", 320), ("m", 480), ("l", 640), ("xl", 800), ("2xl", 1024), ("3xl", 1440),
+    ];
+
+    private static readonly (string Token, int Comfortable, int Compact, string Use)[] Densities =
+    [
+        ("control-height-s", 28, 24, "Small buttons and inputs"),
+        ("control-height-m", 32, 28, "Buttons and inputs"),
+        ("control-height-l", 40, 36, "Large buttons and inputs"),
+        ("control-padding-s", 8, 6, "Inline padding of a small control"),
+        ("control-padding-m", 12, 8, "Inline padding of a control"),
+        ("control-padding-l", 16, 12, "Inline padding of a large control"),
+        ("item-height", 32, 28, "A menu item, a navigation link, an option, a tree item"),
+        ("row-height", 44, 36, "A table row of one line, a list row"),
+        ("inset-s", 12, 8, "Padding of a toolbar, of a table cell"),
+        ("inset-m", 16, 12, "Padding of a card, of a popover"),
+        ("inset-l", 24, 16, "Padding of a page, of a dialog"),
+        ("gap-s", 8, 6, "Between controls in a row"),
+        ("gap-m", 16, 12, "Between fields, between cards"),
+        ("gap-l", 24, 16, "Between sections"),
+    ];
+}

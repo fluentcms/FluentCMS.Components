@@ -1,0 +1,25 @@
+@* A frame around library markup. Nothing inside it is restyled. *@
+<div class="@Class">@ChildContent</div>
+
+@code {
+    // Stacks the content in place of a wrapping row.
+    [Parameter]
+    public bool Column { get; set; }
+
+    // Puts the content on the background of the page in place of a surface.
+    [Parameter]
+    public bool Canvas { get; set; }
+
+    // Lets a wide thing scroll inside the frame, so that the page never scrolls sideways.
+    [Parameter]
+    public bool Scroll { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string Class =>
+        "gallery-demo"
+        + (Column ? " gallery-demo--column" : "")
+        + (Canvas ? " gallery-demo--canvas" : "")
+        + (Scroll ? " gallery-scroll" : "");
+}

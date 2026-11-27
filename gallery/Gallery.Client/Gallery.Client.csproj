@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Gallery.Client</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
+    <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
+    <!-- The trim analyzer flags the code the Razor compiler writes for Router.NotFoundPage
+         in Routes.razor. The page is kept: it is named there with typeof. -->
+    <NoWarn>$(NoWarn);IL2111</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\FluentCMS.Components\FluentCMS.Components.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
+  </ItemGroup>
+
+  <!-- Issue 34 moves the stylesheet into the library, and the icons follow with FlIcon.
+       Until then the build copies the files of the design system into wwwroot/design,
+       which git ignores, and the gallery serves them as its own assets. -->
+  <Target Name="CopyDesignSystemFiles" BeforeTargets="ResolveProjectStaticWebAssets">
+    <ItemGroup>
+      <DesignSystemFile Include="..\..\design\system\css\**\*.css" Folder="css\" />
+      <DesignSystemFile Include="..\..\design\system\icons\lucide.svg" Folder="icons\" />
+    </ItemGroup>
+    <Copy SourceFiles="@(DesignSystemFile)" DestinationFiles="@(DesignSystemFile->'wwwroot\design\%(Folder)%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <ItemGroup>
+      <Content Include="wwwroot\design\**" Exclude="@(Content)" />
+    </ItemGroup>
+  </Target>
+
+</Project>

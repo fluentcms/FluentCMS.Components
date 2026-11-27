@@ -1,0 +1,13 @@
+/* Issue 34 moves the stylesheet into the library. Until then this file joins the
+   files of the design system that the gallery uses; the build copies them into
+   wwwroot/design. When issue 34 is merged, App.razor and index.html link
+   _content/FluentCMS.Components/fluentcms-components.css in place of this file,
+   and this file and the css line of the copy in the project file are removed. */
+
+@import "design/css/tokens.css";
+@import "design/css/base.css";
+@import "design/css/components/icon.css";
+@import "design/css/components/button.css";
+@import "design/css/components/field.css";
+@import "design/css/components/input.css";
+@import "design/css/patterns/link.css";

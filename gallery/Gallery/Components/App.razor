@@ -1,0 +1,41 @@
+@inject NavigationManager Navigation
+
+<!DOCTYPE html>
+<html lang="en" dir="@_settings.Direction" data-fl-theme="@_settings.ThemeAttribute" data-fl-density="@_settings.Density">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <base href="@Navigation.BaseUri" />
+    <link rel="icon" href="data:," />
+    @* No ImportMap and no ResourcePreloader: an import map is an inline script, which the
+       content security policy the library is made for refuses. Without it the framework's
+       files are asked for by their plain names, and a preload of the other names is unused. *@
+    <link rel="stylesheet" href="@Assets["library.css"]" />
+    <link rel="stylesheet" href="@Assets["gallery.css"]" />
+    <link rel="stylesheet" href="@Assets["specimens.css"]" />
+    <HeadOutlet @rendermode="_renderMode" />
+</head>
+
+<body class="fl-root gallery">
+    <Routes @rendermode="_renderMode" />
+    <script src="@Assets["_framework/blazor.web.js"]"></script>
+</body>
+
+</html>
+
+@code {
+    private GallerySettings _settings = default!;
+    private IComponentRenderMode? _renderMode;
+
+    protected override void OnInitialized()
+    {
+        _settings = GallerySettings.FromUri(Navigation.Uri);
+
+        // The one place where a render mode is set. The base of the address names it (Program.cs).
+        GalleryMode? mode = GalleryMode.FromBase(Navigation.BaseUri);
+        _renderMode = mode == GalleryMode.Server ? InteractiveServer
+            : mode == GalleryMode.WebAssembly ? InteractiveWebAssembly
+            : null;
+    }
+}

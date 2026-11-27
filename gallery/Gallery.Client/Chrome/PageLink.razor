@@ -1,0 +1,17 @@
+@* A link to a page of the gallery. It keeps the theme, the density and the direction of the address. *@
+<a class="fl-link" href="@Context.Href(Page, Fragment)">@ChildContent</a>
+
+@code {
+    [CascadingParameter]
+    public GalleryContext Context { get; set; } = default!;
+
+    // The path of the page as GalleryPages lists it: "tokens", or "" for the start page.
+    [Parameter, EditorRequired]
+    public string Page { get; set; } = "";
+
+    [Parameter]
+    public string? Fragment { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

@@ -1,0 +1,46 @@
+@page "/"
+
+<GalleryPage Title="Gallery">
+    <Lede>Every component of FluentCMS Components on a page of its own, in each of the three render modes of Blazor. It is the documentation of the library and the target of its browser tests.</Lede>
+
+    <Section Title="Render modes">
+        <p>Every page runs in static server-side rendering, in interactive server mode and in interactive WebAssembly mode. The address says which: <code>/static/tokens</code>, <code>/server/tokens</code> and <code>/wasm/tokens</code> are one page. The first switch in the header opens the page in view in another mode.</p>
+        <p>The gallery sets the mode, in one place. The library never does, and no page names one. <PageLink Page="render-modes">The sample page</PageLink> shows the difference.</p>
+    </Section>
+
+    <Section Title="Theme, density and direction">
+        <p>The other switches set <code>data-fl-theme</code>, <code>data-fl-density</code> and <code>dir</code> on the root of the page. They are links, so they work where no code runs, and the choice stays in the address from page to page:</p>
+        <Example Code="/static/tokens?theme=dark&density=compact&dir=rtl" />
+        <p><PageLink Page="tokens">The tokens</PageLink> show what each of them changes.</p>
+    </Section>
+
+    <Section Title="Levels">
+        <p>Each component declares one of three levels, shown under the title of its page.</p>
+        <div class="gallery-scroll">
+            <table class="gallery-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Level</th>
+                        <th scope="col">Meaning</th>
+                        <th scope="col">Examples</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Static</td><td>Markup and CSS. It works fully with no code running.</td><td>Button, card, badge, navigation</td></tr>
+                    <tr><td>Native</td><td>Its behaviour comes from native elements and the script of the library. It works fully in static server-side rendering.</td><td>Dialog, menu, tabs, disclosure</td></tr>
+                    <tr><td>Interactive</td><td>It needs an interactive render mode for its full function, and renders a static fallback where there is none.</td><td>Table with sorting, combobox, tree</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </Section>
+
+    <Section Title="Pages">
+        <ul>
+            @foreach (GalleryPageInfo entry in GalleryPages.All.Skip(1))
+            {
+                <li><PageLink Page="@entry.Path">@entry.Title</PageLink></li>
+            }
+        </ul>
+        <p>A component gets its page when it is built. Until then its drawing, with every variant and state, is in the <a class="fl-link" href="https://github.com/fluentcms/FluentCMS.Components/tree/main/design/system">design system</a>.</p>
+    </Section>
+</GalleryPage>

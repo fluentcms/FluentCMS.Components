@@ -1,0 +1,502 @@
+/* The chrome of the gallery: the header, the layout of a page, demo frames,
+   the state matrix and the tables. It is ported from design/system/docs/docs.css.
+   It is not part of the library and never ships with it. It reads the library's
+   tokens, so it follows the theme and the density. */
+
+html {
+  scroll-padding-block-start: 1rem;
+}
+
+body.gallery {
+  min-block-size: 100vh;
+  margin: 0;
+}
+
+.gallery *,
+.gallery *::before,
+.gallery *::after {
+  box-sizing: border-box;
+}
+
+/* Header */
+
+.gallery-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--fl-space-2) var(--fl-space-6);
+  min-block-size: 3.5rem;
+  padding: var(--fl-space-2) var(--fl-space-6);
+  border-block-end: 1px solid var(--fl-color-border);
+  background-color: var(--fl-color-surface);
+}
+
+.gallery-brand {
+  display: flex;
+  align-items: baseline;
+  min-block-size: 1.5rem;
+  gap: var(--fl-space-2);
+  color: var(--fl-color-text);
+  font-size: var(--fl-font-size-l);
+  font-weight: var(--fl-font-weight-bold);
+  letter-spacing: var(--fl-letter-spacing-tight);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.gallery-brand small {
+  color: var(--fl-color-text-subtle);
+  font-size: var(--fl-font-size-xs);
+  font-weight: var(--fl-font-weight-regular);
+  letter-spacing: 0;
+}
+
+.gallery-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fl-space-1);
+  margin-inline-end: auto;
+}
+
+.gallery-nav a {
+  display: inline-flex;
+  align-items: center;
+  block-size: 2rem;
+  padding-inline: var(--fl-space-3);
+  border-radius: var(--fl-radius-m);
+  color: var(--fl-color-text-muted);
+  font-size: var(--fl-font-size-s);
+  font-weight: var(--fl-font-weight-medium);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.gallery-nav a:hover {
+  background-color: var(--fl-color-hover);
+  color: var(--fl-color-text);
+}
+
+.gallery-nav a[aria-current="page"] {
+  background-color: var(--fl-color-accent-soft);
+  color: var(--fl-color-accent-text);
+}
+
+/* The switches are links, so that they work where no code runs. */
+
+.gallery-switches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fl-space-2);
+}
+
+.gallery-switch {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid var(--fl-color-border-strong);
+  border-radius: var(--fl-radius-m);
+  background-color: var(--fl-color-surface);
+}
+
+.gallery-switch a,
+.gallery-switch span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 1.75rem;
+  block-size: 1.5rem;
+  padding-inline: var(--fl-space-2);
+  border-radius: var(--fl-radius-s);
+  color: var(--fl-color-text-muted);
+  font-size: var(--fl-font-size-xs);
+  font-weight: var(--fl-font-weight-medium);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.gallery-switch a:hover {
+  color: var(--fl-color-text);
+}
+
+.gallery-switch [aria-current="true"] {
+  background-color: var(--fl-color-accent-soft);
+  color: var(--fl-color-accent-text);
+}
+
+.gallery-header a:focus-visible,
+.gallery-toc a:focus-visible,
+.gallery-example:focus-visible {
+  outline: var(--fl-focus-ring);
+  outline-offset: var(--fl-focus-ring-offset);
+}
+
+/* Page */
+
+.gallery-layout {
+  display: grid;
+  grid-template-columns: 13rem minmax(0, 1fr);
+  gap: var(--fl-space-10);
+  max-inline-size: 84rem;
+  margin-inline: auto;
+  padding: var(--fl-space-8) var(--fl-space-6) var(--fl-space-24);
+}
+
+.gallery-toc {
+  position: sticky;
+  inset-block-start: 1.5rem;
+  align-self: start;
+  max-block-size: calc(100vh - 3rem);
+  overflow-y: auto;
+  font-size: var(--fl-font-size-s);
+}
+
+.gallery-toc strong {
+  display: block;
+  margin-block-end: var(--fl-space-2);
+  color: var(--fl-color-text-subtle);
+  font-size: var(--fl-font-size-2xs);
+  font-weight: var(--fl-font-weight-semibold);
+  letter-spacing: var(--fl-letter-spacing-caps);
+  text-transform: uppercase;
+}
+
+.gallery-toc a {
+  display: block;
+  padding: var(--fl-space-1) var(--fl-space-3);
+  border-inline-start: 1px solid var(--fl-color-border);
+  color: var(--fl-color-text-muted);
+  text-decoration: none;
+}
+
+.gallery-toc a:hover {
+  border-color: var(--fl-color-accent);
+  color: var(--fl-color-text);
+}
+
+.gallery-main {
+  min-inline-size: 0;
+}
+
+.gallery-main > h1 {
+  margin: 0;
+  font-size: var(--fl-font-size-3xl);
+  font-weight: var(--fl-font-weight-semibold);
+  letter-spacing: var(--fl-letter-spacing-tight);
+  line-height: var(--fl-line-height-tight);
+}
+
+/* The title takes focus after a navigation, for a screen reader. It is not a control. */
+.gallery-main > h1:focus {
+  outline: none;
+}
+
+/* The level of a component, under its title. */
+.gallery-level {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--fl-space-1) var(--fl-space-3);
+  max-inline-size: var(--fl-measure);
+  margin-block: var(--fl-space-3) 0;
+  color: var(--fl-color-text-muted);
+  font-size: var(--fl-font-size-s);
+}
+
+.gallery-level strong {
+  padding: 2px var(--fl-space-2);
+  border: 1px solid var(--fl-color-accent-border);
+  border-radius: var(--fl-radius-full);
+  background-color: var(--fl-color-accent-soft);
+  color: var(--fl-color-accent-text);
+  font-size: var(--fl-font-size-xs);
+  font-weight: var(--fl-font-weight-semibold);
+}
+
+.gallery-lede {
+  max-inline-size: var(--fl-measure);
+  margin-block: var(--fl-space-3) var(--fl-space-12);
+  color: var(--fl-color-text-muted);
+  font-size: var(--fl-font-size-l);
+}
+
+.gallery-section {
+  margin-block-end: var(--fl-space-16);
+}
+
+.gallery-section > h2 {
+  margin-block: 0 var(--fl-space-2);
+  padding-block-start: var(--fl-space-6);
+  border-block-start: 1px solid var(--fl-color-border);
+  font-size: var(--fl-font-size-2xl);
+  font-weight: var(--fl-font-weight-semibold);
+  letter-spacing: var(--fl-letter-spacing-tight);
+  line-height: var(--fl-line-height-tight);
+}
+
+.gallery-section > h3 {
+  margin-block: var(--fl-space-8) var(--fl-space-2);
+  font-size: var(--fl-font-size-l);
+  font-weight: var(--fl-font-weight-semibold);
+}
+
+.gallery-section > h4 {
+  margin-block: var(--fl-space-5) var(--fl-space-2);
+  color: var(--fl-color-text-muted);
+  font-size: var(--fl-font-size-xs);
+  font-weight: var(--fl-font-weight-semibold);
+}
+
+.gallery-section > p,
+.gallery-section > ul,
+.gallery-section > ol {
+  max-inline-size: var(--fl-measure);
+  margin-block: 0 var(--fl-space-3);
+  color: var(--fl-color-text-muted);
+}
+
+.gallery-section > ul,
+.gallery-section > ol {
+  padding-inline-start: var(--fl-space-5);
+}
+
+.gallery code {
+  padding: 1px 4px;
+  border-radius: var(--fl-radius-s);
+  background-color: var(--fl-color-surface-muted);
+  color: var(--fl-color-text);
+  font-family: var(--fl-font-family-mono);
+  font-size: 0.9em;
+  /* Code reads left to right in a right-to-left page too. */
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Positioned, so that text hidden from sight inside it does not widen the page. */
+.gallery-scroll {
+  position: relative;
+  overflow-x: auto;
+}
+
+/* Demo frame: holds library markup, and nothing in it is restyled. */
+
+.gallery-demo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--fl-space-3) var(--fl-space-4);
+  margin-block-end: var(--fl-space-3);
+  padding: var(--fl-space-5);
+  border: 1px solid var(--fl-color-border);
+  border-radius: var(--fl-radius-l);
+  background-color: var(--fl-color-surface);
+}
+
+.gallery-demo--canvas {
+  background-color: var(--fl-color-canvas);
+}
+
+.gallery-demo--column {
+  flex-flow: column nowrap;
+  align-items: stretch;
+}
+
+/* Widths for a control that fills its container. These are the only gallery
+   classes that go on library markup. */
+
+.gallery-narrow {
+  flex: none;
+  inline-size: 11rem;
+}
+
+.gallery-medium {
+  flex: none;
+  inline-size: 16rem;
+}
+
+/* Example: the source of a demo, to be copied. */
+
+.gallery-example {
+  max-inline-size: 100%;
+  margin-block: 0 var(--fl-space-3);
+  padding: var(--fl-space-3) var(--fl-space-4);
+  border: 1px solid var(--fl-color-border);
+  border-radius: var(--fl-radius-l);
+  background-color: var(--fl-color-surface-subtle);
+  overflow-x: auto;
+  /* Code reads left to right in a right-to-left page too. */
+  direction: ltr;
+  text-align: left;
+}
+
+.gallery-example code {
+  padding: 0;
+  background-color: transparent;
+  font-size: var(--fl-font-size-s);
+  line-height: var(--fl-line-height-relaxed);
+}
+
+/* Matrix: variants down, states across. */
+
+.gallery-matrix {
+  border-collapse: collapse;
+  font-size: var(--fl-font-size-xs);
+}
+
+.gallery-matrix th {
+  padding: var(--fl-space-2) 0;
+  padding-inline-end: var(--fl-space-4);
+  color: var(--fl-color-text-subtle);
+  font-weight: var(--fl-font-weight-medium);
+  text-align: start;
+  white-space: nowrap;
+}
+
+.gallery-matrix td {
+  padding: var(--fl-space-2) 0;
+  padding-inline-end: var(--fl-space-4);
+  vertical-align: middle;
+}
+
+/* Spec block and other tables of the documentation */
+
+.gallery-spec,
+.gallery-table {
+  inline-size: 100%;
+  margin-block: var(--fl-space-4) var(--fl-space-3);
+  border-collapse: collapse;
+  font-size: var(--fl-font-size-s);
+}
+
+.gallery-spec caption,
+.gallery-table caption {
+  padding-block-end: var(--fl-space-2);
+  color: var(--fl-color-text-subtle);
+  font-size: var(--fl-font-size-2xs);
+  font-weight: var(--fl-font-weight-semibold);
+  letter-spacing: var(--fl-letter-spacing-caps);
+  text-align: start;
+  text-transform: uppercase;
+}
+
+.gallery-spec th,
+.gallery-spec td,
+.gallery-table th,
+.gallery-table td {
+  padding: var(--fl-space-2) 0;
+  padding-inline-end: var(--fl-space-4);
+  border-block-start: 1px solid var(--fl-color-border);
+  font-weight: var(--fl-font-weight-regular);
+  text-align: start;
+  vertical-align: top;
+}
+
+.gallery-spec th {
+  inline-size: 9rem;
+  color: var(--fl-color-text-muted);
+  font-weight: var(--fl-font-weight-medium);
+}
+
+.gallery-table thead th {
+  border-block-start: 0;
+  color: var(--fl-color-text-subtle);
+  font-size: var(--fl-font-size-xs);
+  font-weight: var(--fl-font-weight-medium);
+  white-space: nowrap;
+}
+
+.gallery-spec td,
+.gallery-table td {
+  color: var(--fl-color-text-muted);
+}
+
+.gallery-spec ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gallery-spec li + li {
+  margin-block-start: var(--fl-space-1);
+}
+
+.gallery-num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Note: a decision or a recommendation */
+
+.gallery-note {
+  max-inline-size: var(--fl-measure);
+  margin-block: var(--fl-space-4);
+  padding: var(--fl-space-3) var(--fl-space-4);
+  border: 1px solid var(--fl-color-accent-border);
+  border-radius: var(--fl-radius-l);
+  background-color: var(--fl-color-accent-soft);
+  color: var(--fl-color-text);
+  font-size: var(--fl-font-size-s);
+}
+
+.gallery-note strong {
+  font-weight: var(--fl-font-weight-semibold);
+}
+
+/* A placeholder for content in a demo of a layout pattern. */
+.gallery-block {
+  padding: var(--fl-space-2) var(--fl-space-3);
+  border: 1px dashed var(--fl-color-border-strong);
+  border-radius: var(--fl-radius-m);
+  background-color: var(--fl-color-surface-subtle);
+  color: var(--fl-color-text-subtle);
+  font-size: var(--fl-font-size-xs);
+}
+
+/* Shown by index.html while the client starts, where it is published alone. */
+.gallery-loading {
+  margin: 0;
+  padding: var(--fl-space-8) var(--fl-space-6);
+  color: var(--fl-color-text-muted);
+}
+
+/* The header stays in view where it fits on one line. */
+@media (min-width: 90rem) {
+  html {
+    scroll-padding-block-start: 4.5rem;
+  }
+
+  .gallery-header {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 20;
+  }
+
+  .gallery-toc {
+    inset-block-start: 5rem;
+    max-block-size: calc(100vh - 6.5rem);
+  }
+}
+
+@media (max-width: 60rem) {
+  .gallery-layout {
+    grid-template-columns: minmax(0, 1fr);
+    padding-inline: var(--fl-space-4);
+  }
+
+  .gallery-toc {
+    display: none;
+  }
+
+  .gallery-header {
+    padding-inline: var(--fl-space-4);
+  }
+
+  .gallery-spec th,
+  .gallery-spec td {
+    display: block;
+    inline-size: auto;
+  }
+
+  .gallery-spec td {
+    padding-block-start: 0;
+    border-block-start: 0;
+  }
+}

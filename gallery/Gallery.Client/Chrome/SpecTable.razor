@@ -1,0 +1,10 @@
+@* The spec block of a component: its element, its ARIA and keys, its classes, its tokens. Its rows are SpecRow. *@
+<table class="gallery-spec">
+    <caption>Spec</caption>
+    <tbody>@ChildContent</tbody>
+</table>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

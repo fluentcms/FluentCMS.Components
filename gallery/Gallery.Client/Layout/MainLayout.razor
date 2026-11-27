@@ -1,0 +1,94 @@
+@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+
+<CascadingValue Value="_context">
+    <header class="gallery-header">
+        <a class="gallery-brand" href="@_context.Href("")">FluentCMS Components <small>Gallery</small></a>
+        <nav class="gallery-nav" aria-label="Pages">
+            @foreach (GalleryPageInfo entry in GalleryPages.All)
+            {
+                <a href="@_context.Href(entry.Path)" aria-current="@(entry.Path == _context.Page ? "page" : null)">@entry.Title</a>
+            }
+        </nav>
+        <div class="gallery-switches">
+            <Switch Label="Render mode" Options="_modes" />
+            <Switch Label="Theme" Options="_themes" />
+            <Switch Label="Density" Options="_densities" />
+            <Switch Label="Direction" Options="_directions" />
+        </div>
+    </header>
+    <div class="gallery-layout">
+        <nav class="gallery-toc" aria-label="On this page">
+            <SectionOutlet SectionName="@GalleryPage.Contents" />
+        </nav>
+        <main class="gallery-main" data-render-mode="@_mode.Segment" data-interactive="@(RendererInfo.IsInteractive ? "true" : "false")">
+            @Body
+        </main>
+    </div>
+</CascadingValue>
+
+@code {
+    private GalleryMode _mode = default!;
+    private GalleryContext _context = default!;
+    private GallerySettings? _applied;
+    private IReadOnlyList<SwitchOption> _modes = [];
+    private IReadOnlyList<SwitchOption> _themes = [];
+    private IReadOnlyList<SwitchOption> _densities = [];
+    private IReadOnlyList<SwitchOption> _directions = [];
+
+    protected override void OnParametersSet()
+    {
+        _mode = GalleryMode.Of(AssignedRenderMode);
+
+        var address = new Uri(Navigation.Uri);
+        string page = Navigation.ToBaseRelativePath(address.GetLeftPart(UriPartial.Path)).TrimEnd('/');
+        GallerySettings settings = GallerySettings.FromUri(Navigation.Uri);
+        _context = new GalleryContext(page, settings);
+
+        // A link to another mode leaves the base, so the browser loads a new document and
+        // the host sets the mode. Published alone there is no host, and the one mode is shown.
+        bool hosted = GalleryMode.FromBase(Navigation.BaseUri) is not null;
+        _modes = hosted
+            ? [.. GalleryMode.All.Select(mode => new SwitchOption(mode.ShortName, $"../{mode.Segment}/{page}{settings.Query}", mode == _mode))]
+            : [new SwitchOption(_mode.ShortName, null, true)];
+
+        _themes = Options(GallerySettings.Themes, settings.Theme, value => settings with { Theme = value });
+        _densities = Options(GallerySettings.Densities, settings.Density, value => settings with { Density = value });
+        _directions = Options(GallerySettings.Directions, settings.Direction, value => settings with { Direction = value });
+    }
+
+    // The host writes the settings on <html> when it renders the document. Where the page is
+    // interactive a switch changes the address with no new document, so they are set from here.
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        GallerySettings settings = _context.Settings;
+        if (!RendererInfo.IsInteractive || settings == _applied)
+        {
+            return;
+        }
+
+        _applied = settings;
+        if (settings.ThemeAttribute is null)
+        {
+            await JS.InvokeVoidAsync("document.documentElement.removeAttribute", "data-fl-theme");
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("document.documentElement.setAttribute", "data-fl-theme", settings.ThemeAttribute);
+        }
+
+        await JS.InvokeVoidAsync("document.documentElement.setAttribute", "data-fl-density", settings.Density);
+        await JS.InvokeVoidAsync("document.documentElement.setAttribute", "dir", settings.Direction);
+    }
+
+    private IReadOnlyList<SwitchOption> Options(IReadOnlyList<string> values, string current, Func<string, GallerySettings> with) =>
+        [.. values.Select(value => new SwitchOption(Label(value), (_context with { Settings = with(value) }).Href(_context.Page), value == current))];
+
+    private static string Label(string value) => value switch
+    {
+        "ltr" => "LTR",
+        "rtl" => "RTL",
+        _ => char.ToUpperInvariant(value[0]) + value[1..],
+    };
+}
