@@ -1,4 +1,4 @@
-// Checks the colour tokens of design/system/css/tokens.css against WCAG 2.2 AA
+// Checks the colour tokens of src/FluentCMS.Components/Styles/tokens.css against WCAG 2.2 AA
 // in both themes and prints a table. Exits with 1 when a pair fails.
 //
 //   node design/tools/contrast.mjs
@@ -9,7 +9,7 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-const file = fileURLToPath(new URL('../system/css/tokens.css', import.meta.url));
+const file = fileURLToPath(new URL('../../src/FluentCMS.Components/Styles/tokens.css', import.meta.url));
 const css = readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
 
 const tokens = new Map();

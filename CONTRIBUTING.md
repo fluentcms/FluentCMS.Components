@@ -24,17 +24,19 @@ dotnet build
 
 The build treats every warning as an error and runs the trim and AOT analyzers, so it must pass with no warning.
 
+The build also joins the stylesheet files under `src/FluentCMS.Components/Styles/` into `wwwroot/fluentcms-components.css`. That file is generated and not committed: edit the source files, never the joined one.
+
 Packages are restored from nuget.org only (`nuget.config`). Package versions are set once, in `Directory.Packages.props`; a project file names a package without a version. The version of the library itself is not set in the repository: it comes from the release tag.
 
 ## The design system
 
-The design system is static HTML and CSS under `design/system/`, with no build step. Serve the `design` folder over HTTP, because a browser does not load the icons from a `file://` page:
+The design system is static HTML under `design/system/`, with no build step. Its pages load the library's stylesheet files from `src/FluentCMS.Components/Styles/`, where the one copy of them lives. Serve the repository root over HTTP, because a browser does not load the icons from a `file://` page:
 
 ```powershell
-python -m http.server 5600 --bind 127.0.0.1 --directory design
+python -m http.server 5600 --bind 127.0.0.1
 ```
 
-Then open `http://localhost:5600/system/index.html`. The switches in the header set the theme, the density and the direction.
+Then open `http://localhost:5600/design/system/index.html`. The switches in the header set the theme, the density and the direction.
 
 [design/README.md](design/README.md) lists what is in the folder, and [design/system/RECIPE.md](design/system/RECIPE.md) says how a component is drawn and written. The colour tokens are checked against WCAG AA with Node:
 

@@ -2,11 +2,11 @@
 
 The recipe of the design system. It is written from the three exemplars on [foundations.html](foundations.html): button, field and text input. Every other component follows it, so that the pages read as one system and the CSS can become the library's stylesheet as it is.
 
-Read the exemplars first: `css/components/button.css`, `field.css` and `input.css`, and their sections on the page.
+Read the exemplars first: `src/FluentCMS.Components/Styles/components/button.css`, `field.css` and `input.css`, and their sections on the page.
 
 ## 1. What is delivered for a component
 
-- `css/components/<name>.css`, or `css/patterns/<name>.css` for a CSS-only pattern. One file per component.
+- `src/FluentCMS.Components/Styles/components/<name>.css`, or `Styles/patterns/<name>.css` for a CSS-only pattern. One file per component.
 - A section on the page of its lane: every variant, size and state, the modes strip, and the spec block.
 - Nothing else. `tokens.css`, `base.css`, `docs/` and `icons/` are not edited by a lane.
 
@@ -71,7 +71,7 @@ Read the exemplars first: `css/components/button.css`, `field.css` and `input.cs
 
 ## 4. Which tokens a component may read
 
-1. The global tokens of `css/tokens.css`.
+1. The global tokens of `Styles/tokens.css`.
 2. Its own tokens, declared on its block.
 3. Never the tokens of another component.
 
@@ -191,9 +191,9 @@ A CSS-only pattern has no Parameters row.
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Forms · FluentCMS Components design system</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="css/tokens.css">
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/components/icon.css">
+<link rel="stylesheet" href="../../src/FluentCMS.Components/Styles/tokens.css">
+<link rel="stylesheet" href="../../src/FluentCMS.Components/Styles/base.css">
+<link rel="stylesheet" href="../../src/FluentCMS.Components/Styles/components/icon.css">
 <!-- one <link> for each component and pattern the page shows -->
 <link rel="stylesheet" href="docs/docs.css">
 <script src="docs/docs.js"></script>
@@ -248,7 +248,7 @@ The header, the list of sections and the switches are built by the script. The c
 
 ## 11. Before the pull request
 
-Serve `design/` and open the page by `http://localhost:<port>/system/<page>.html`; a browser tool cannot act on a `file://` page.
+Serve the repository root and open the page by `http://localhost:<port>/design/system/<page>.html`; a browser tool cannot act on a `file://` page.
 
 1. At 1440 by 900 and at 1280 by 800: no horizontal page scroll (`scrollWidth` equals `clientWidth`), no wrapped label, no clipped text.
 2. At 320 wide: the same, with wide things scrolling inside `docs-scroll`.

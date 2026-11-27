@@ -28,15 +28,15 @@ The design system of the [implementation plan](../docs/planning/implementation-p
 
 ## The design system
 
-Static HTML and CSS under `system/`. The CSS under `system/css/` is the first draft of the library's stylesheet: plain CSS, `fl-` classes, `--fl-` tokens, one file per component. The files under `system/docs/` are the chrome of the pages and never ship.
+Static HTML and CSS under `system/`. The pages load the library's own stylesheet files from [src/FluentCMS.Components/Styles](../src/FluentCMS.Components/Styles): plain CSS, `fl-` classes, `--fl-` tokens, one file per component. There is one copy of them, and the build joins them into `fluentcms-components.css`. The files under `system/docs/` and `system/screens/screens.css` are the chrome of the pages and never ship.
 
-A browser does not load the icons from a `file://` page. Serve this folder and open the pages over HTTP:
+A browser does not load the icons from a `file://` page, and the pages reach the stylesheet one folder above this one. Serve the repository root and open the pages over HTTP:
 
 ```text
-python -m http.server 5600 --bind 127.0.0.1 --directory design
+python -m http.server 5600 --bind 127.0.0.1
 ```
 
-Then open `http://localhost:5600/system/index.html`. The switches in the header set the theme, the density and the direction.
+Then open `http://localhost:5600/design/system/index.html`. The switches in the header set the theme, the density and the direction.
 
 ```text
 node design/tools/contrast.mjs    checks the colour tokens in both themes
