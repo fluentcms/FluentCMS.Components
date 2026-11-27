@@ -1,0 +1,179 @@
+/* Switch: an <input type="checkbox" role="switch"> for a setting that takes
+   effect at once, with its label at the end or at the start. */
+
+@layer fl.components {
+  .fl-switch {
+    --fl-switch-width: var(--fl-space-9);
+    --fl-switch-height: var(--fl-space-5);
+    --fl-switch-gap: var(--fl-space-2);
+    /* The thumb keeps the same distance from the track on every side. */
+    --fl-switch-inset: calc(var(--fl-border-width) + var(--fl-space-0-5));
+    --fl-switch-thumb-size: calc(var(--fl-switch-height) - 2 * var(--fl-switch-inset));
+    --fl-switch-bg: var(--fl-color-surface);
+    /* Hover and pressed are painted over the fill, as on a button. */
+    --fl-switch-bg-hover: var(--fl-color-hover);
+    --fl-switch-bg-pressed: var(--fl-color-pressed);
+    --fl-switch-border: var(--fl-color-border-control);
+    --fl-switch-border-hover: var(--fl-color-text-subtle);
+    --fl-switch-thumb: var(--fl-color-neutral-solid);
+    --fl-switch-overlay: transparent;
+
+    display: inline-grid;
+    /* The label is never narrower than its longest word. */
+    grid-template-columns: auto 1fr;
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-m);
+    line-height: var(--fl-line-height-normal);
+
+    /* The input is the target, 24 px tall, centred on the first line of the label. */
+    & > .fl-switch__control {
+      appearance: none;
+      display: grid;
+      align-items: center;
+      grid-column: 1;
+      grid-row: 1;
+      inline-size: var(--fl-switch-width);
+      block-size: var(--fl-target-min);
+      margin-block: calc((1lh - var(--fl-target-min)) / 2);
+      margin-inline: 0;
+      padding: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      font: inherit;
+      cursor: pointer;
+
+      &::before,
+      &::after {
+        grid-area: 1 / 1;
+        border-radius: var(--fl-radius-full);
+        content: "";
+      }
+
+      /* Track */
+      &::before {
+        block-size: var(--fl-switch-height);
+        border: var(--fl-border-width) solid var(--fl-switch-border);
+        background: linear-gradient(var(--fl-switch-overlay) 0 0) var(--fl-switch-bg);
+        transition: border-color var(--fl-duration-fast) var(--fl-ease-standard);
+      }
+
+      /* Thumb: it moves along the inline axis, so it follows the direction. */
+      &::after {
+        inline-size: var(--fl-switch-thumb-size);
+        block-size: var(--fl-switch-thumb-size);
+        margin-inline-start: var(--fl-switch-inset);
+        background-color: var(--fl-switch-thumb);
+        transition: margin-inline-start var(--fl-duration-normal) var(--fl-ease-standard);
+      }
+
+      /* States, once and in this order: a later one wins over an earlier one. */
+
+      &:hover {
+        --fl-switch-overlay: var(--fl-switch-bg-hover);
+        --fl-switch-border: var(--fl-switch-border-hover);
+      }
+
+      &:active {
+        --fl-switch-overlay: var(--fl-switch-bg-pressed);
+      }
+
+      &:focus-visible::before {
+        outline: var(--fl-focus-ring);
+        outline-offset: var(--fl-focus-ring-offset);
+        box-shadow: var(--fl-focus-halo);
+      }
+
+      &:checked {
+        --fl-switch-bg: var(--fl-color-accent);
+        --fl-switch-bg-hover: var(--fl-color-accent-hover);
+        --fl-switch-bg-pressed: var(--fl-color-accent-pressed);
+        --fl-switch-border: transparent;
+        --fl-switch-border-hover: transparent;
+        --fl-switch-thumb: var(--fl-color-on-accent);
+      }
+
+      &:checked::after {
+        margin-inline-start: calc(var(--fl-switch-width) - var(--fl-switch-thumb-size) - var(--fl-switch-inset));
+      }
+
+      &:disabled {
+        --fl-switch-bg: var(--fl-color-disabled-fill);
+        --fl-switch-border: var(--fl-color-disabled-border);
+        --fl-switch-thumb: var(--fl-color-disabled-text);
+        --fl-switch-overlay: transparent;
+
+        cursor: not-allowed;
+      }
+    }
+
+    & > .fl-switch__label {
+      grid-column: 2;
+      padding-inline-start: var(--fl-switch-gap);
+      cursor: pointer;
+    }
+
+    & > .fl-switch__description {
+      grid-column: 2;
+      margin: 0;
+      padding-inline-start: var(--fl-switch-gap);
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-xs);
+    }
+
+    /* The label at the start and the switch at the end of the row, for a list of settings. */
+    &.fl-switch--label-start {
+      display: grid;
+      grid-template-columns: 1fr auto;
+
+      & > .fl-switch__control {
+        grid-column: 2;
+      }
+
+      & > .fl-switch__label,
+      & > .fl-switch__description {
+        grid-column: 1;
+        padding-inline: 0 var(--fl-space-4);
+      }
+    }
+
+    &:has(> .fl-switch__control:disabled) > .fl-switch__label {
+      color: var(--fl-color-disabled-text);
+      cursor: not-allowed;
+    }
+
+    /* Borders carry the shape: the thumb is a ring, filled when the switch is on. */
+    @media (forced-colors: active) {
+      & > .fl-switch__control {
+        &::before {
+          border-color: ButtonText;
+          background: Canvas;
+        }
+
+        &::after {
+          border: var(--fl-border-width-strong) solid ButtonText;
+          background-color: Canvas;
+        }
+
+        &:checked::before {
+          border-color: Highlight;
+          background: Highlight;
+        }
+
+        &:checked::after {
+          border-color: Canvas;
+        }
+
+        &:disabled::before,
+        &:disabled::after {
+          border-color: GrayText;
+        }
+      }
+
+      &:has(> .fl-switch__control:disabled) > .fl-switch__label {
+        color: GrayText;
+      }
+    }
+  }
+}

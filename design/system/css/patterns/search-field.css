@@ -1,0 +1,40 @@
+/* Search field: the text input set up for a search, with its icon, a clear
+   action that shows when there is a value, and the hint of a shortcut. A
+   pattern on the box of the text input: the class goes beside fl-input, and
+   each part of its own beside the part of the box it is. */
+
+@layer fl.components {
+  .fl-search-field {
+    /* The widest it gets: the search of a toolbar. */
+    --fl-search-field-size: var(--fl-size-xs);
+
+    max-inline-size: var(--fl-search-field-size);
+
+    /* Hint: the keys that bring the focus here. */
+    & > .fl-search-field__hint {
+      display: flex;
+      flex: none;
+      align-items: center;
+      gap: var(--fl-space-0-5);
+      margin-inline-end: var(--fl-space-1-5);
+      pointer-events: none;
+    }
+
+    /* The global search of a header. */
+    &.fl-search-field--global {
+      --fl-search-field-size: var(--fl-size-m);
+    }
+
+    /* The clear action shows when there is a value, and the hint when there
+       is none. The input needs a placeholder for the two rules to tell. */
+
+    &:has(> .fl-search-field__control:placeholder-shown) > .fl-search-field__clear {
+      display: none;
+    }
+
+    &:has(> .fl-search-field__control:not(:placeholder-shown)) > .fl-search-field__hint,
+    &:has(> .fl-search-field__control:disabled) > .fl-search-field__hint {
+      display: none;
+    }
+  }
+}

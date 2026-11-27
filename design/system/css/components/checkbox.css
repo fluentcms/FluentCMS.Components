@@ -1,0 +1,163 @@
+/* Checkbox: an <input type="checkbox"> with its label and an optional
+   description. Alone, in a table cell or a toolbar, the block holds the input
+   only and the input carries the name. */
+
+@layer fl.components {
+  .fl-checkbox {
+    --fl-checkbox-size: var(--fl-space-4);
+    --fl-checkbox-gap: var(--fl-space-2);
+    --fl-checkbox-bg: var(--fl-color-surface);
+    /* Hover and pressed are painted over the fill, as on a button. */
+    --fl-checkbox-bg-hover: var(--fl-color-hover);
+    --fl-checkbox-bg-pressed: var(--fl-color-pressed);
+    --fl-checkbox-border: var(--fl-color-border-control);
+    --fl-checkbox-border-hover: var(--fl-color-text-subtle);
+    --fl-checkbox-mark: transparent;
+    --fl-checkbox-overlay: transparent;
+    /* The check and the dash of the icon set, as shapes that the mark is cut from. */
+    --fl-checkbox-shape-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 32 32' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+    --fl-checkbox-shape-mixed: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 32 32' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
+    --fl-checkbox-shape: var(--fl-checkbox-shape-check);
+
+    display: inline-grid;
+    /* The label is never narrower than its longest word. */
+    grid-template-columns: auto 1fr;
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-m);
+    line-height: var(--fl-line-height-normal);
+
+    /* The input is the target, 24 px square. Its negative margins give it the
+       footprint of the box it draws, centred on the first line of the label. */
+    & > .fl-checkbox__control {
+      appearance: none;
+      display: grid;
+      place-items: center;
+      grid-column: 1;
+      grid-row: 1;
+      inline-size: var(--fl-target-min);
+      block-size: var(--fl-target-min);
+      margin-block: calc((1lh - var(--fl-target-min)) / 2);
+      margin-inline: calc((var(--fl-checkbox-size) - var(--fl-target-min)) / 2);
+      padding: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      font: inherit;
+      cursor: pointer;
+
+      &::before,
+      &::after {
+        grid-area: 1 / 1;
+        inline-size: var(--fl-checkbox-size);
+        block-size: var(--fl-checkbox-size);
+        content: "";
+      }
+
+      &::before {
+        border: var(--fl-border-width) solid var(--fl-checkbox-border);
+        border-radius: var(--fl-radius-s);
+        background: linear-gradient(var(--fl-checkbox-overlay) 0 0) var(--fl-checkbox-bg);
+        transition: border-color var(--fl-duration-fast) var(--fl-ease-standard);
+      }
+
+      &::after {
+        background-color: var(--fl-checkbox-mark);
+        mask: var(--fl-checkbox-shape) center / 100% no-repeat;
+      }
+
+      /* States, once and in this order: a later one wins over an earlier one. */
+
+      &:hover {
+        --fl-checkbox-overlay: var(--fl-checkbox-bg-hover);
+        --fl-checkbox-border: var(--fl-checkbox-border-hover);
+      }
+
+      &:active {
+        --fl-checkbox-overlay: var(--fl-checkbox-bg-pressed);
+      }
+
+      &:focus-visible::before {
+        outline: var(--fl-focus-ring);
+        outline-offset: var(--fl-focus-ring-offset);
+        box-shadow: var(--fl-focus-halo);
+      }
+
+      &:checked,
+      &:indeterminate {
+        --fl-checkbox-bg: var(--fl-color-accent);
+        --fl-checkbox-bg-hover: var(--fl-color-accent-hover);
+        --fl-checkbox-bg-pressed: var(--fl-color-accent-pressed);
+        --fl-checkbox-border: transparent;
+        --fl-checkbox-border-hover: transparent;
+        --fl-checkbox-mark: var(--fl-color-on-accent);
+      }
+
+      &:indeterminate {
+        --fl-checkbox-shape: var(--fl-checkbox-shape-mixed);
+      }
+
+      &[aria-invalid="true"] {
+        --fl-checkbox-border: var(--fl-color-danger-solid);
+        --fl-checkbox-border-hover: var(--fl-color-danger-solid);
+      }
+
+      &:disabled {
+        --fl-checkbox-bg: var(--fl-color-disabled-fill);
+        --fl-checkbox-border: var(--fl-color-disabled-border);
+        --fl-checkbox-overlay: transparent;
+
+        cursor: not-allowed;
+      }
+
+      &:disabled:is(:checked, :indeterminate) {
+        --fl-checkbox-mark: var(--fl-color-disabled-text);
+      }
+    }
+
+    /* The label starts at the edge of the box, so no gap between them is dead. */
+    & > .fl-checkbox__label {
+      grid-column: 2;
+      padding-inline-start: var(--fl-checkbox-gap);
+      cursor: pointer;
+    }
+
+    & > .fl-checkbox__description {
+      grid-column: 2;
+      margin: 0;
+      padding-inline-start: var(--fl-checkbox-gap);
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-xs);
+    }
+
+    &:has(> .fl-checkbox__control:disabled) > .fl-checkbox__label {
+      color: var(--fl-color-disabled-text);
+      cursor: not-allowed;
+    }
+
+    /* The system draws the box: its own colours say checked and disabled. */
+    @media (forced-colors: active) {
+      & > .fl-checkbox__control {
+        appearance: auto;
+        inline-size: var(--fl-checkbox-size);
+        block-size: var(--fl-checkbox-size);
+        margin-block: calc((1lh - var(--fl-checkbox-size)) / 2);
+        margin-inline: 0;
+
+        &::before,
+        &::after {
+          display: none;
+        }
+
+        &:focus-visible {
+          outline: var(--fl-focus-ring);
+          outline-offset: var(--fl-focus-ring-offset);
+        }
+      }
+
+      &:has(> .fl-checkbox__control:disabled) > .fl-checkbox__label {
+        color: GrayText;
+      }
+    }
+  }
+}

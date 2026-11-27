@@ -1,0 +1,100 @@
+/* Number input: the box of the text input around an <input type="number">.
+   The class goes beside fl-input, and this file adds the parts of its own:
+   the control with its digits, and two step buttons at the end of the box. */
+
+@layer fl.components {
+  .fl-number-input {
+    --fl-number-input-step-size: var(--fl-space-7);
+    --fl-number-input-align: start;
+    --fl-number-input-align-rtl: end;
+
+    /* The control: beside fl-input__control on the <input>. */
+    & > .fl-number-input__control {
+      /* The step buttons of the browser are too small to point at. */
+      appearance: textfield;
+      font-variant-numeric: tabular-nums;
+      text-align: var(--fl-number-input-align);
+
+      /* A number reads left to right in a right-to-left page too, so that the
+         sign stays before the digits; the side it sits on still follows the page. */
+      &:dir(rtl) {
+        direction: ltr;
+        text-align: var(--fl-number-input-align-rtl);
+      }
+
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        display: none;
+      }
+    }
+
+    /* Step: decrease, then increase. The transparent border lies over the
+       border of the box, so the target has the full height. */
+    & > .fl-number-input__step {
+      display: grid;
+      place-items: center;
+      flex: none;
+      inline-size: var(--fl-number-input-step-size);
+      margin-block: calc(-1 * var(--fl-border-width));
+      padding: 0;
+      border: var(--fl-border-width) solid transparent;
+      border-inline-start-color: var(--fl-color-border-strong);
+      border-inline-end-width: 0;
+      background: transparent padding-box;
+      color: var(--fl-color-text-muted);
+      cursor: pointer;
+
+      &:last-child {
+        inline-size: calc(var(--fl-number-input-step-size) + var(--fl-border-width));
+        margin-inline-end: calc(-1 * var(--fl-border-width));
+        border-inline-end-width: var(--fl-border-width);
+        border-start-end-radius: var(--fl-control-radius);
+        border-end-end-radius: var(--fl-control-radius);
+      }
+
+      &:hover {
+        background-color: var(--fl-color-hover);
+        color: var(--fl-color-text);
+      }
+
+      &:active {
+        background-color: var(--fl-color-pressed);
+      }
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: calc(-1 * var(--fl-focus-ring-width));
+      }
+
+      &:disabled {
+        background-color: transparent;
+        color: var(--fl-color-disabled-text);
+        cursor: not-allowed;
+      }
+    }
+
+    /* Modifiers set tokens only. */
+
+    /* For numbers that are compared down a column. */
+    &.fl-number-input--end {
+      --fl-number-input-align: end;
+      --fl-number-input-align-rtl: start;
+    }
+
+    /* States */
+
+    &:has(> .fl-number-input__control:disabled) > .fl-number-input__step {
+      border-inline-start-color: var(--fl-color-disabled-border);
+    }
+
+    @media (forced-colors: active) {
+      & > .fl-number-input__step {
+        border-inline-start-color: ButtonBorder;
+
+        &:disabled {
+          color: GrayText;
+        }
+      }
+    }
+  }
+}

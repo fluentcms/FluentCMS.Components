@@ -1,0 +1,413 @@
+/* Combobox: a text input that filters a list of options and takes one of them,
+   or several, which then sit in the box as tags. The list is a popover that
+   is anchored to the box; without the popover attribute it lies in the flow. */
+
+@layer fl.components {
+  .fl-combobox {
+    --fl-combobox-height: var(--fl-control-height-m);
+    --fl-combobox-padding: var(--fl-control-padding-m);
+    --fl-combobox-font-size: var(--fl-control-font-size);
+    --fl-combobox-tag-height: var(--fl-space-5);
+    /* Centres one row of tags, or the input, in the height of a control. */
+    --fl-combobox-padding-block: calc((var(--fl-combobox-height) - var(--fl-combobox-tag-height)) / 2 - var(--fl-border-width));
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    inline-size: 100%;
+    min-inline-size: 0;
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-combobox-font-size);
+    line-height: var(--fl-line-height-tight);
+    /* The name of the anchor is seen inside this combobox only. */
+    anchor-scope: --fl-combobox;
+
+    /* Box: the bordered field. It grows when the tags wrap. */
+    & > .fl-combobox__box {
+      display: flex;
+      align-items: flex-start;
+      min-inline-size: 0;
+      min-block-size: var(--fl-combobox-height);
+      border: var(--fl-border-width) solid var(--fl-color-border-control);
+      border-radius: var(--fl-control-radius);
+      background-color: var(--fl-color-surface);
+      cursor: text;
+      anchor-name: --fl-combobox;
+    }
+
+    /* Values: the tags of the chosen options, then the input. */
+    & > .fl-combobox__box > .fl-combobox__values {
+      display: flex;
+      flex: 1;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--fl-space-1);
+      min-inline-size: 0;
+      padding-block: var(--fl-combobox-padding-block);
+      padding-inline: var(--fl-combobox-padding) 0;
+
+      /* Tags sit as far from the start as from the top. */
+      &:has(> .fl-combobox__tag) {
+        padding-inline-start: var(--fl-combobox-padding-block);
+      }
+
+      &:last-child {
+        padding-inline-end: var(--fl-combobox-padding);
+      }
+    }
+
+    & .fl-combobox__input {
+      flex: 1;
+      inline-size: var(--fl-space-12);
+      min-inline-size: var(--fl-space-12);
+      /* As tall as a target, with the footprint of a tag. */
+      block-size: var(--fl-target-min);
+      margin-block: calc((var(--fl-combobox-tag-height) - var(--fl-target-min)) / 2);
+      margin-inline: 0;
+      padding: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      text-overflow: ellipsis;
+
+      &::placeholder {
+        color: var(--fl-color-text-subtle);
+        opacity: 1;
+      }
+    }
+
+    /* Tag: one chosen option, with the button that removes it. */
+    & .fl-combobox__tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--fl-space-0-5);
+      max-inline-size: 100%;
+      block-size: var(--fl-combobox-tag-height);
+      padding-inline: var(--fl-space-1-5) 0;
+      border: var(--fl-border-width) solid var(--fl-color-neutral-border);
+      border-radius: var(--fl-radius-s);
+      background-color: var(--fl-color-neutral-soft);
+      color: var(--fl-color-neutral-text);
+      font-size: var(--fl-font-size-xs);
+      font-weight: var(--fl-font-weight-medium);
+      white-space: nowrap;
+      cursor: default;
+
+      /* A tag that cannot be removed has the same padding on both sides. */
+      &:not(:has(> .fl-combobox__remove)) {
+        padding-inline-end: var(--fl-space-1-5);
+      }
+
+      & > .fl-combobox__tag-label {
+        min-inline-size: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    & .fl-combobox__remove {
+      position: relative;
+      display: grid;
+      place-items: center;
+      flex: none;
+      align-self: stretch;
+      inline-size: var(--fl-combobox-tag-height);
+      margin: calc(-1 * var(--fl-border-width));
+      margin-inline-start: 0;
+      padding: 0;
+      border: var(--fl-border-width) solid transparent;
+      border-radius: var(--fl-radius-s);
+      background: transparent padding-box;
+      color: inherit;
+      cursor: pointer;
+
+      /* Widens the target to 24 px around a button of 20. */
+      &::before {
+        position: absolute;
+        inset: calc((var(--fl-combobox-tag-height) - var(--fl-target-min)) / 2 - var(--fl-border-width));
+        content: "";
+      }
+
+      &:hover {
+        background-color: var(--fl-color-hover);
+        color: var(--fl-color-text);
+      }
+
+      &:active {
+        background-color: var(--fl-color-pressed);
+      }
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: calc(-1 * var(--fl-focus-ring-width));
+      }
+
+      &:disabled {
+        background-color: transparent;
+        color: var(--fl-color-disabled-text);
+        cursor: not-allowed;
+      }
+    }
+
+    /* Action: a button at the end of the box, to open the list or to clear the
+       value. Its transparent border lies over the border of the box. */
+    & > .fl-combobox__box > .fl-combobox__action {
+      display: grid;
+      place-items: center;
+      flex: none;
+      inline-size: var(--fl-combobox-height);
+      block-size: var(--fl-combobox-height);
+      margin: calc(-1 * var(--fl-border-width));
+      margin-inline-start: 0;
+      padding: 0;
+      border: var(--fl-border-width) solid transparent;
+      border-radius: var(--fl-control-radius);
+      background: transparent padding-box;
+      color: var(--fl-color-text-subtle);
+      cursor: pointer;
+
+      /* Two actions share the end of the box. */
+      &:has(+ .fl-combobox__action) {
+        margin-inline-end: calc(-1 * var(--fl-space-2));
+      }
+
+      &:hover {
+        background-color: var(--fl-color-hover);
+        color: var(--fl-color-text);
+      }
+
+      &:active {
+        background-color: var(--fl-color-pressed);
+      }
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: calc(-1 * var(--fl-focus-ring-width));
+      }
+
+      &:disabled {
+        background-color: transparent;
+        color: var(--fl-color-disabled-text);
+        cursor: not-allowed;
+      }
+    }
+
+    /* Popover: what floats under the box. */
+    & > .fl-combobox__popover {
+      inline-size: 100%;
+      min-inline-size: 0;
+      margin: 0;
+      margin-block-start: var(--fl-space-1);
+      padding: 0;
+      border: var(--fl-border-width) solid var(--fl-color-border);
+      border-radius: var(--fl-radius-l);
+      background-color: var(--fl-color-surface-raised);
+      box-shadow: var(--fl-shadow-m);
+      color: var(--fl-color-text);
+      font-size: var(--fl-font-size-s);
+      overflow: hidden;
+
+      &[popover] {
+        position: fixed;
+        position-anchor: --fl-combobox;
+        inset: auto;
+        inset-block-start: anchor(end);
+        inset-inline-start: anchor(start);
+        inline-size: anchor-size(inline);
+        position-try-fallbacks: flip-block;
+      }
+    }
+
+    & .fl-combobox__list {
+      display: grid;
+      max-block-size: calc(8 * var(--fl-item-height) + 2 * var(--fl-space-1));
+      padding: var(--fl-space-1);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    & .fl-combobox__group {
+      display: grid;
+
+      & + .fl-combobox__group {
+        margin-block-start: var(--fl-space-1);
+        padding-block-start: var(--fl-space-1);
+        border-block-start: var(--fl-border-width) solid var(--fl-color-border);
+      }
+    }
+
+    & .fl-combobox__group-label {
+      display: flex;
+      align-items: center;
+      min-block-size: var(--fl-item-height);
+      padding-inline: var(--fl-space-2);
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-xs);
+      font-weight: var(--fl-font-weight-medium);
+    }
+
+    /* Option: the text, an optional note after it, and the check of a chosen one. */
+    & .fl-combobox__option {
+      display: flex;
+      align-items: center;
+      gap: var(--fl-space-2);
+      min-block-size: var(--fl-item-height);
+      padding-inline: var(--fl-space-2);
+      border: var(--fl-border-width) solid transparent;
+      border-radius: var(--fl-radius-s);
+      cursor: pointer;
+
+      & > .fl-combobox__option-label {
+        flex: 1;
+        min-inline-size: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      & > .fl-combobox__option-note {
+        flex: none;
+        color: var(--fl-color-text-subtle);
+        font-size: var(--fl-font-size-xs);
+      }
+
+      & > .fl-combobox__check {
+        visibility: hidden;
+      }
+
+      /* States, once and in this order: a later one wins over an earlier one. */
+
+      &:hover {
+        background-color: var(--fl-color-hover);
+      }
+
+      &:active {
+        background-color: var(--fl-color-pressed);
+      }
+
+      /* The option that the arrow keys are on: focus stays in the input, and
+         the input names this option in aria-activedescendant. */
+      &[data-active] {
+        background-color: var(--fl-color-hover);
+        outline: var(--fl-focus-ring);
+        outline-offset: calc(-1 * var(--fl-focus-ring-width));
+      }
+
+      &[aria-selected="true"] {
+        background-color: var(--fl-color-accent-soft);
+        color: var(--fl-color-accent-text);
+        font-weight: var(--fl-font-weight-medium);
+
+        & > .fl-combobox__check {
+          visibility: visible;
+        }
+      }
+
+      &[aria-disabled="true"] {
+        background-color: transparent;
+        color: var(--fl-color-disabled-text);
+        cursor: not-allowed;
+
+        & > .fl-combobox__option-note {
+          color: currentColor;
+        }
+      }
+    }
+
+    /* Status: what the list says when it has no option to show. */
+    & .fl-combobox__status {
+      display: flex;
+      align-items: center;
+      gap: var(--fl-space-2);
+      min-block-size: var(--fl-item-height);
+      margin: 0;
+      padding: var(--fl-space-2) var(--fl-space-3);
+      color: var(--fl-color-text-subtle);
+    }
+
+    /* What a filter hides stays hidden, whatever its display is. */
+    & .fl-combobox__option[hidden],
+    & .fl-combobox__group[hidden],
+    & .fl-combobox__status[hidden] {
+      display: none;
+    }
+
+    /* Modifiers set tokens only. */
+
+    &.fl-combobox--s {
+      --fl-combobox-height: var(--fl-control-height-s);
+      --fl-combobox-padding: var(--fl-control-padding-s);
+      --fl-combobox-font-size: var(--fl-font-size-s);
+    }
+
+    &.fl-combobox--l {
+      --fl-combobox-height: var(--fl-control-height-l);
+      --fl-combobox-padding: var(--fl-control-padding-l);
+    }
+
+    /* States of the box, once and in this order. */
+
+    & > .fl-combobox__box:hover {
+      border-color: var(--fl-color-text-subtle);
+    }
+
+    & > .fl-combobox__box:has(.fl-combobox__input:focus-visible) {
+      outline: var(--fl-focus-ring);
+      outline-offset: calc(-1 * var(--fl-border-width));
+    }
+
+    & > .fl-combobox__box:has(.fl-combobox__input[readonly]) {
+      border-color: var(--fl-color-border-strong);
+      background-color: var(--fl-color-surface-subtle);
+    }
+
+    & > .fl-combobox__box:has(.fl-combobox__input[aria-invalid="true"]) {
+      border-color: var(--fl-color-danger-solid);
+    }
+
+    & > .fl-combobox__box:has(.fl-combobox__input:disabled) {
+      border-color: var(--fl-color-disabled-border);
+      background-color: var(--fl-color-disabled-fill);
+      color: var(--fl-color-disabled-text);
+      cursor: not-allowed;
+
+      & .fl-combobox__input {
+        cursor: not-allowed;
+        /* Safari dims the text of a disabled input a second time. */
+        -webkit-text-fill-color: currentColor;
+        opacity: 1;
+
+        &::placeholder {
+          color: var(--fl-color-disabled-text);
+        }
+      }
+
+      & .fl-combobox__tag {
+        border-color: var(--fl-color-disabled-border);
+        background-color: transparent;
+        color: var(--fl-color-disabled-text);
+      }
+    }
+
+    @media (forced-colors: active) {
+      & .fl-combobox__option[data-active] {
+        outline-color: Highlight;
+      }
+
+      & .fl-combobox__option[aria-selected="true"] {
+        color: Highlight;
+      }
+
+      & .fl-combobox__option[aria-disabled="true"] {
+        color: GrayText;
+      }
+
+      & > .fl-combobox__box:has(.fl-combobox__input:disabled) {
+        border-color: GrayText;
+        color: GrayText;
+      }
+    }
+  }
+}

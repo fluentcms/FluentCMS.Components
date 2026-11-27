@@ -1,0 +1,304 @@
+/* File drop zone: an area that takes files by a drop or through the dialog of
+   the browser, and the list of the files it holds. The <input type="file">
+   lies over the whole area, so a click, a key and a drop all reach the real
+   element. As a direct child of the block, the input is the plain control. */
+
+@layer fl.components {
+  .fl-file-drop-zone {
+    --fl-file-drop-zone-border: var(--fl-color-border-control);
+    --fl-file-drop-zone-bg: var(--fl-color-surface);
+    --fl-file-drop-zone-fg: var(--fl-color-text);
+    --fl-file-drop-zone-icon: var(--fl-color-text-subtle);
+    --fl-file-drop-zone-overlay: transparent;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--fl-gap-s);
+    min-inline-size: 0;
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-m);
+    line-height: var(--fl-line-height-normal);
+
+    /* Area: the dashed target. */
+    & > .fl-file-drop-zone__area {
+      position: relative;
+      display: grid;
+      justify-items: center;
+      gap: var(--fl-space-1);
+      padding: var(--fl-inset-l) var(--fl-inset-m);
+      border: var(--fl-border-width) dashed var(--fl-file-drop-zone-border);
+      border-radius: var(--fl-radius-l);
+      background: linear-gradient(var(--fl-file-drop-zone-overlay) 0 0) var(--fl-file-drop-zone-bg);
+      color: var(--fl-file-drop-zone-fg);
+      text-align: center;
+
+      & > .fl-file-drop-zone__icon {
+        margin-block-end: var(--fl-space-1);
+        color: var(--fl-file-drop-zone-icon);
+      }
+
+      & > .fl-file-drop-zone__title {
+        margin: 0;
+        font-weight: var(--fl-font-weight-medium);
+      }
+
+      /* The words that say a click opens the dialog. They look like a link;
+         the control is the input that lies over the area. */
+      & .fl-file-drop-zone__browse {
+        color: var(--fl-color-accent-text);
+        text-decoration: underline;
+        text-decoration-thickness: from-font;
+        text-underline-offset: 0.2em;
+      }
+
+      & > .fl-file-drop-zone__hint {
+        margin: 0;
+        color: var(--fl-color-text-subtle);
+        font-size: var(--fl-font-size-xs);
+      }
+
+      & > .fl-file-drop-zone__input {
+        position: absolute;
+        inset: 0;
+        inline-size: 100%;
+        block-size: 100%;
+        margin: 0;
+        opacity: 0;
+        cursor: pointer;
+
+        &::file-selector-button {
+          cursor: pointer;
+        }
+      }
+
+      /* States, once and in this order: a later one wins over an earlier one. */
+
+      &:hover {
+        --fl-file-drop-zone-border: var(--fl-color-text-subtle);
+        --fl-file-drop-zone-overlay: var(--fl-color-hover);
+      }
+
+      &:has(> .fl-file-drop-zone__input:focus-visible) {
+        outline: var(--fl-focus-ring);
+        outline-offset: var(--fl-focus-ring-offset);
+        box-shadow: var(--fl-focus-halo);
+      }
+
+      /* Files are held over the area. A script sets the attribute, since no
+         selector tells a drag. */
+      &[data-dragover] {
+        --fl-file-drop-zone-border: var(--fl-color-accent);
+        --fl-file-drop-zone-bg: var(--fl-color-accent-soft);
+        --fl-file-drop-zone-fg: var(--fl-color-accent-text);
+        --fl-file-drop-zone-icon: var(--fl-color-accent-text);
+        --fl-file-drop-zone-overlay: transparent;
+
+        border-style: solid;
+      }
+
+      &:has(> .fl-file-drop-zone__input[aria-invalid="true"]) {
+        --fl-file-drop-zone-border: var(--fl-color-danger-solid);
+      }
+
+      &:has(> .fl-file-drop-zone__input:disabled) {
+        --fl-file-drop-zone-border: var(--fl-color-disabled-border);
+        --fl-file-drop-zone-bg: var(--fl-color-disabled-fill);
+        --fl-file-drop-zone-fg: var(--fl-color-disabled-text);
+        --fl-file-drop-zone-icon: var(--fl-color-disabled-text);
+        --fl-file-drop-zone-overlay: transparent;
+
+        & > .fl-file-drop-zone__input,
+        & > .fl-file-drop-zone__input::file-selector-button {
+          cursor: not-allowed;
+        }
+
+        & > .fl-file-drop-zone__hint,
+        & .fl-file-drop-zone__browse {
+          color: currentColor;
+        }
+      }
+    }
+
+    /* The plain control: the file input of the browser, with its button drawn
+       as a button of the library. */
+    & > .fl-file-drop-zone__input {
+      display: block;
+      inline-size: 100%;
+      min-inline-size: 0;
+      margin: 0;
+      border-radius: var(--fl-control-radius);
+      color: var(--fl-color-text-muted);
+      font: inherit;
+      font-size: var(--fl-font-size-s);
+      cursor: pointer;
+
+      &::file-selector-button {
+        block-size: var(--fl-control-height-m);
+        margin: 0;
+        margin-inline-end: var(--fl-space-3);
+        padding-block: 0;
+        padding-inline: var(--fl-control-padding-m);
+        border: var(--fl-border-width) solid var(--fl-color-border-strong);
+        border-radius: var(--fl-control-radius);
+        background: linear-gradient(var(--fl-file-drop-zone-overlay) 0 0) var(--fl-color-surface);
+        color: var(--fl-color-text);
+        font: inherit;
+        font-weight: var(--fl-font-weight-medium);
+        cursor: pointer;
+      }
+
+      &:hover {
+        --fl-file-drop-zone-overlay: var(--fl-color-hover);
+      }
+
+      &:active {
+        --fl-file-drop-zone-overlay: var(--fl-color-pressed);
+      }
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: var(--fl-focus-ring-offset);
+        box-shadow: var(--fl-focus-halo);
+      }
+
+      &:disabled {
+        --fl-file-drop-zone-overlay: transparent;
+
+        color: var(--fl-color-disabled-text);
+        cursor: not-allowed;
+      }
+
+      &:disabled::file-selector-button {
+        border-color: var(--fl-color-disabled-border);
+        background: var(--fl-color-disabled-fill);
+        color: var(--fl-color-disabled-text);
+        cursor: not-allowed;
+      }
+    }
+
+    /* The list of files */
+    & > .fl-file-drop-zone__list {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--fl-space-2);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    /* File: the mark of its status, its name, a line under the name, and its
+       actions. While it is sent it carries aria-busy and the line is a
+       progress bar; then it is done or failed. */
+    & .fl-file-drop-zone__file {
+      --fl-file-drop-zone-status: var(--fl-color-text-subtle);
+      --fl-file-drop-zone-file-border: var(--fl-color-border);
+
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      column-gap: var(--fl-space-3);
+      padding: var(--fl-space-2) var(--fl-inset-s);
+      border: var(--fl-border-width) solid var(--fl-file-drop-zone-file-border);
+      border-radius: var(--fl-control-radius);
+      background-color: var(--fl-color-surface);
+      font-size: var(--fl-font-size-s);
+
+      &.fl-file-drop-zone__file--done {
+        --fl-file-drop-zone-status: var(--fl-color-success-text);
+      }
+
+      &.fl-file-drop-zone__file--failed {
+        --fl-file-drop-zone-status: var(--fl-color-danger-text);
+        --fl-file-drop-zone-file-border: var(--fl-color-danger-border);
+      }
+
+      & > .fl-file-drop-zone__status {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        color: var(--fl-file-drop-zone-status);
+      }
+
+      & > .fl-file-drop-zone__name {
+        grid-column: 2;
+        font-weight: var(--fl-font-weight-medium);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      & > .fl-file-drop-zone__meta,
+      & > .fl-file-drop-zone__error {
+        display: flex;
+        align-items: center;
+        gap: var(--fl-space-2);
+        grid-column: 2;
+        min-inline-size: 0;
+        margin: 0;
+        color: var(--fl-color-text-subtle);
+        font-size: var(--fl-font-size-xs);
+        font-variant-numeric: tabular-nums;
+        /* Keeps "184 KB" in that order in right-to-left. */
+        unicode-bidi: plaintext;
+      }
+
+      & > .fl-file-drop-zone__error {
+        color: var(--fl-color-danger-text);
+        font-weight: var(--fl-font-weight-medium);
+      }
+
+      & > .fl-file-drop-zone__actions {
+        display: flex;
+        gap: var(--fl-space-1);
+        grid-column: 3;
+        grid-row: 1 / span 2;
+      }
+    }
+
+    /* Progress: a native <progress> in the line under the name. Its border is
+       transparent, and carries the shape in forced colours. */
+    & .fl-file-drop-zone__progress {
+      appearance: none;
+      flex: 1;
+      min-inline-size: 0;
+      block-size: var(--fl-space-1-5);
+      border: var(--fl-border-width) solid transparent;
+      border-radius: var(--fl-radius-full);
+      background: var(--fl-color-surface-muted) padding-box;
+      color: var(--fl-color-accent);
+      overflow: hidden;
+
+      &::-webkit-progress-bar {
+        background-color: transparent;
+      }
+
+      &::-webkit-progress-value {
+        border-radius: var(--fl-radius-full);
+        background-color: currentColor;
+        transition: inline-size var(--fl-duration-normal) var(--fl-ease-standard);
+      }
+
+      &::-moz-progress-bar {
+        border-radius: var(--fl-radius-full);
+        background-color: currentColor;
+      }
+    }
+
+    @media (forced-colors: active) {
+      & > .fl-file-drop-zone__area[data-dragover] {
+        --fl-file-drop-zone-border: Highlight;
+      }
+
+      & > .fl-file-drop-zone__area:has(> .fl-file-drop-zone__input:disabled) {
+        --fl-file-drop-zone-border: GrayText;
+        --fl-file-drop-zone-fg: GrayText;
+        --fl-file-drop-zone-icon: GrayText;
+      }
+
+      & .fl-file-drop-zone__progress {
+        border-color: ButtonText;
+        color: Highlight;
+      }
+    }
+  }
+}
