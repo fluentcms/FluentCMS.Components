@@ -6,7 +6,7 @@ publish/
 *.nupkg
 *.snupkg
 
-# The gallery's copy of the design system's files, made by its build
+# The gallery's copy of the design system's icons, made by its build
 gallery/Gallery.Client/wwwroot/design/
 
 # Tests

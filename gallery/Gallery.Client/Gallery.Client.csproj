@@ -19,15 +19,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
   </ItemGroup>
 
-  <!-- Issue 34 moves the stylesheet into the library, and the icons follow with FlIcon.
-       Until then the build copies the files of the design system into wwwroot/design,
-       which git ignores, and the gallery serves them as its own assets. -->
-  <Target Name="CopyDesignSystemFiles" BeforeTargets="ResolveProjectStaticWebAssets">
-    <ItemGroup>
-      <DesignSystemFile Include="..\..\design\system\css\**\*.css" Folder="css\" />
-      <DesignSystemFile Include="..\..\design\system\icons\lucide.svg" Folder="icons\" />
-    </ItemGroup>
-    <Copy SourceFiles="@(DesignSystemFile)" DestinationFiles="@(DesignSystemFile->'wwwroot\design\%(Folder)%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  <!-- The icons come with FlIcon (C-10). Until then the build copies the sprite of the design
+       system into wwwroot/design, which git ignores, and the gallery serves it as its own asset. -->
+  <Target Name="CopyDesignSystemIcons" BeforeTargets="ResolveProjectStaticWebAssets">
+    <Copy SourceFiles="..\..\design\system\icons\lucide.svg" DestinationFolder="wwwroot\design\icons" SkipUnchangedFiles="true" />
     <ItemGroup>
       <Content Include="wwwroot\design\**" Exclude="@(Content)" />
     </ItemGroup>
