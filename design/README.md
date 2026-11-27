@@ -5,7 +5,7 @@ The visual sources the library is built against.
 | File | What it is |
 | --- | --- |
 | [reference/admin.html](reference/admin.html) | The reference design of the FluentCMS admin: the direction selected in November 2026. |
-| [system/](system/index.html) | The design system: the tokens, every component with its states, the patterns and the reference screens. In progress. |
+| [system/](system/index.html) | The design system: the tokens, every component with its states, the patterns and the four reference screens. |
 | [system/RECIPE.md](system/RECIPE.md) | How a component is drawn and specified. |
 | [tools/](tools) | `contrast.mjs` checks the colour tokens against WCAG AA; `icons.mjs` builds the icon set. |
 

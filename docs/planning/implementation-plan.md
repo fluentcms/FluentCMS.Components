@@ -1,6 +1,6 @@
 # FluentCMS Components: implementation plan
 
-Status: draft for review, 26 November 2026. Nothing in this plan is built yet.
+Status: draft for review, 26 November 2026. The design system of section 6 is drawn; nothing else in this plan is built yet.
 
 FluentCMS Components is an opinionated, minimal Blazor component library. It is the user interface layer of the [FluentCMS](https://github.com/fluentcms/FluentCMS) admin, and it can be used without the CMS. This document says what the library is, how it is built and tested, in which order, and how the FluentCMS admin is rebuilt on it.
 
@@ -28,19 +28,19 @@ FluentCMS Components is an opinionated, minimal Blazor component library. It is 
 | D9 | The visual direction is the selected admin mockup: a grouped sidebar, a header with global search, bordered inputs, data tables and a blue accent. It becomes the FluentCMS design system. The mockup is a draft: its direction is settled, and its details may change with later requirements. |
 | D10 | The stylesheet is plain CSS: no CSS framework, no preprocessor and no build tool beyond MSBuild joining the files (section 4.2). |
 | D11 | The repository is public, since 26 November 2026, and the library is under the MIT license, as FluentCMS is. |
+| D12 | The icon family is a curated subset of Lucide (ISC license), embedded as SVG paths. It is the style of the reference design, one drawing serves every size, and its stroke weight is a token. Settled on the design system page, where it stands beside Fluent System Icons. |
+| D13 | The typeface is the system font stack by default. The family is one token, `--fl-font-family`, so a host can set Inter and serve it; the library bundles no font. |
+| D14 | Date and time inputs are the browser's own `date`, `time` and `datetime-local` inputs in the box of the text input. A range is two inputs. A custom calendar is not part of the library; it would be a later component, only for a range in one control or a format fixed by the application. What the native control cannot do is listed on the forms page of the design system. |
+| D15 | Both candidates are in. The command palette is what the global search of the app shell opens, on every screen. The sortable list orders the columns of a list and the ordered fields of an editor; it stays one level and one list, and its move buttons work without dragging. |
 
 ### 2.2 Open, with a recommendation
 
 | # | Question | Recommendation |
 | --- | --- | --- |
 | O2 | Target frameworks. | `net10.0` only, as FluentCMS. A second target is added when someone asks for it. |
-| O3 | Icon family. | A curated subset of Lucide (ISC license), embedded as SVG paths, about 90 icons. The mockups use that style. The alternative is Fluent System Icons (MIT). Decided on the design system page. |
-| O4 | Typeface. | The system font stack by default, with the family as a token, so that a host can set Inter. Bundling a font costs download size. Decided on the design system page. |
 | O5 | How often a preview is published. | On a maintainer's tag (`v0.3.0-preview.2`), not on every merge: a version on nuget.org can be unlisted but never deleted. The local source switch of section 9.3 covers daily work. |
 | O6 | Where the gallery is hosted. | GitHub Pages of this repository, as the WebAssembly build. The other two render modes run in CI and locally. |
 | O7 | Scope of the table. | Columns, external sort with several keys, row selection, loading and empty states, keyboard movement between rows. No virtual scrolling, no inline editing, no column resizing. |
-| O8 | Date and time inputs. | The browser's own `date` and `time` inputs. A custom calendar only if the design system page shows the native one cannot carry the design. |
-| O9 | The two candidates of section 5: command palette and sortable list. | Decided on the design system page. Each is in only if it passes rule 7 of section 3. |
 | O10 | Version at which the library is stable. | `1.0.0` before FluentCMS `1.0.0`, which freezes its contract; plugin authors compile against both. |
 
 ## 3. What opinionated and minimal mean
@@ -73,7 +73,7 @@ gallery/Gallery/                      the host of the gallery: static SSR and in
 gallery/Gallery.Client/               the gallery's pages and its WebAssembly build
 tests/FluentCMS.Components.Tests/     component tests (bUnit)
 tests/FluentCMS.Components.Browser/   browser tests (Playwright, axe-core) against the gallery in each render mode
-design/                               the design system page and the reference mockup (static HTML)
+design/                               the design system and the reference design (static HTML and CSS), and their tools
 docs/                                 planning, decisions, guides
 ```
 
@@ -134,7 +134,7 @@ Four screens are built in the gallery from the library's components alone, with 
 
 ## 5. Component inventory
 
-The list comes from the screens of the selected design, and the design system page (section 6) is its source of truth: a component the page does not need leaves this table, and one it needs enters under rule 7. The level is that of section 4.4.
+The list comes from the screens of the selected design, and the design system (section 6) is its source of truth: a component it does not need leaves this table, and one it needs enters under rule 7. The level is that of section 4.4. The table is as the design system and its four reference screens left it.
 
 | Group | Component | Built on | Level | Milestone |
 | --- | --- | --- | --- | --- |
@@ -152,7 +152,7 @@ The list comes from the screens of the selected design, and the design system pa
 | Forms | `FlRadioGroup` | `<input type="radio">` | Static | C1 |
 | Forms | `FlSwitch` | `<input type="checkbox" role="switch">` | Static | C1 |
 | Forms | `FlSegmented` | radio group | Static | C1 |
-| Forms | `FlDateInput`, `FlTimeInput` | `<input type="date">`, `<input type="time">` | Static | C1 |
+| Forms | `FlDateInput`, `FlTimeInput` | `<input type="date">`, `<input type="datetime-local">`, `<input type="time">` (D14) | Static | C1 |
 | Forms | `FlCombobox` | combobox pattern, `popover` | Interactive | C3 |
 | Forms | `FlFileDropZone` | `<input type="file">` | Interactive | C4 |
 | Data | `FlBadge` | `<span>` | Static | C1 |
@@ -163,6 +163,7 @@ The list comes from the screens of the selected design, and the design system pa
 | Data | `FlEmptyState` | `<div>` | Static | C2 |
 | Data | `FlProgress` | `<progress>` | Static | C2 |
 | Data | `FlTree` | tree pattern | Interactive | C4 |
+| Data | `FlSortableList` | list with move controls and drag (D15) | Interactive | C4 |
 | Layout and navigation | `FlCard` | `<section>` | Static | C1 |
 | Layout and navigation | `FlAppShell` | grid, drawer on narrow windows | Native | C2 |
 | Layout and navigation | `FlNavigation`, `FlNavigationSection`, `FlNavigationLink` | `<nav>`, `<details>` | Native | C2 |
@@ -175,10 +176,15 @@ The list comes from the screens of the selected design, and the design system pa
 | Overlays and feedback | `FlPopover` | `popover` | Native | C3 |
 | Overlays and feedback | `FlTooltip` | `popover` | Native | C3 |
 | Overlays and feedback | `FlToastRegion`, `IFlToastService` | live regions | Interactive | C3 |
-| Candidate (O9) | `FlCommandPalette` | `<dialog>`, listbox pattern | Interactive | C4 |
-| Candidate (O9) | `FlSortableList` | list with move controls and drag | Interactive | C4 |
+| Overlays and feedback | `FlCommandPalette` | `<dialog>`, listbox pattern (D15) | Interactive | C4 |
 
-That is 37 components and two candidates. CSS-only patterns, documented on the design system page and in the gallery: stack and cluster, page header, toolbar, divider, keyboard key, skeleton, link, search field, description list, stat tile, timeline.
+That is 39 components. CSS-only patterns, documented in the design system and in the gallery: stack and cluster, page header, toolbar, divider, keyboard key, skeleton, link, search field, description list, stat tile, timeline.
+
+What the design system fixed about this list:
+
+- The text, number, date and time inputs and the search field share one box, `fl-input`, which holds the icon, the affixes and the action. Each adds only its own parts.
+- The section and the link of the navigation, the tab of the tabs and the item of the menu are parts of their parent in the stylesheet, not blocks of their own. The child components render those parts.
+- The four reference screens needed layout rules that the library does not have yet. They are in `design/system/screens/screens.css`, each with what would make it unnecessary, and they are the candidates for the next patterns and parts: a page container, a main and side column layout, a bar of the shell that stays in view, a header whose search and user button fold, a text part on the avatar, an outline badge, actions at the end of the tabs, a width modifier on the input, and a sortable item that holds a disclosure.
 
 ### Rules every overlay and control follows
 
@@ -187,9 +193,9 @@ That is 37 components and two candidates. CSS-only patterns, documented on the d
 - Every target is at least 24 by 24 CSS pixels, and no action is reachable by hover alone.
 - Every page reflows at 320 CSS pixels, and nothing moves under reduced motion.
 
-## 6. The design system page
+## 6. The design system
 
-A static HTML page in `design/`, made before any component is written. It is the visual contract the components are built and reviewed against, and the source of the inventory.
+Static HTML and CSS in `design/system/`, made before any component is written. It is the visual contract the components are built and reviewed against, and the source of the inventory.
 
 - **Tokens**: colour (neutrals, accent, the status colours, both themes), type scale, spacing scale, radius, borders, elevation, motion, focus ring, the two densities.
 - **Every component of section 5** with its variants, sizes and states: rest, hover, focus, pressed, disabled, read-only, invalid, loading, selected, empty.
@@ -197,7 +203,26 @@ A static HTML page in `design/`, made before any component is written. It is the
 - **The reference screens** of section 4.8, composed from the parts, to prove they hold together.
 - **Light, dark and right-to-left** views of all of it.
 
-The page settles O3, O4, O8 and O9. Once reviewed, the tokens in it are copied into the stylesheet as they are.
+It settled the icon family, the typeface, the date and time inputs and the two candidates (D12 to D15). Its CSS is the first draft of the library's stylesheet: the tokens and the component files are copied into the library as they are.
+
+```text
+design/system/index.html                  overview and the tokens
+design/system/RECIPE.md                   how a component is drawn and specified
+design/system/css/tokens.css              the tokens; becomes the library's
+design/system/css/base.css                layers, base rules, stack and cluster
+design/system/css/components/<name>.css   one file per component; becomes the library's
+design/system/css/patterns/<name>.css     one file per CSS-only pattern
+design/system/foundations.html            icon, button, field, text input and the base patterns
+design/system/forms.html                  the form controls
+design/system/actions-overlays.html       split button, menu, overlays, alert, toast, command palette
+design/system/data.html                   badge, tag, avatar, table, pagination, tree and the data patterns
+design/system/layout-navigation.html      card, app shell, navigation, breadcrumb, tabs, disclosure
+design/system/screens/                    the four reference screens, their layout rules and their script
+design/system/icons/lucide.svg            the icon set
+design/system/docs/                       the chrome of the pages; never the library's
+design/tools/contrast.mjs                 checks the colour tokens against WCAG AA
+design/tools/icons.mjs                    builds the icon set from a pinned version
+```
 
 ## 7. Testing
 
@@ -273,7 +298,7 @@ Without the property the build uses the pinned package, so CI and other contribu
 | C1 Primitives and forms | Theme provider, badge, tag, avatar, card, the CSS patterns, field and every input but the combobox; forms in static SSR | The settings form reference screen passes in the three render modes |
 | C2 Structure and data | App shell, navigation, breadcrumb, tabs, disclosure, table, pagination, empty state, alert, progress | The dashboard and the content list reference screens pass |
 | C3 Overlays and feedback | Overlay base, dialog, drawer, menu, popover, tooltip, split button, toasts, combobox | The entry editor reference screen passes, and the list has its bulk actions and filters |
-| C4 Complete preview | Tree, file drop zone, the candidates that passed O9; visual regression tests; the guides; the screen reader pass | A feature-complete preview is published, with every component documented |
+| C4 Complete preview | Tree, file drop zone, command palette, sortable list; visual regression tests; the guides; the screen reader pass | A feature-complete preview is published, with every component documented |
 | C5 The admin rebuilt | Slices S1 to S5 in FluentCMS; the old layer and Fluent UI Blazor removed; the feature branch merged | FluentCMS `main` runs on the library, and a release candidate of the library is published |
 | C6 Stable | API review and freeze, package validation | `1.0.0` is published, before FluentCMS `1.0.0` |
 
@@ -307,7 +332,7 @@ Sizes are S (hours), M (a day or two) and L (several days). FluentCMS issues are
 | C-07 | CI workflow under ten minutes, with the size report | M |
 | C-08 | The script as a JavaScript initializer, and the spike on dialog, popover, anchor positioning and invoker commands | M |
 | C-09 | `IFlTextProvider` with the English texts | S |
-| C-10 | `FlIcon` and the icon set (O3) | M |
+| C-10 | `FlIcon` and the icon set (D12) | M |
 | C-11 | `FlButton` through every gate of section 11 | M |
 | C-12 | Publish workflow with trusted publishing, the gallery on GitHub Pages, `0.1.0-preview.1` | M |
 
@@ -324,7 +349,7 @@ Sizes are S (hours), M (a day or two) and L (several days). FluentCMS issues are
 | C-19 | `FlSelect` | S |
 | C-20 | `FlCheckbox` with the mixed state, `FlRadioGroup`, `FlSwitch` | M |
 | C-21 | `FlSegmented` | S |
-| C-22 | `FlDateInput` and `FlTimeInput` (O8) | M |
+| C-22 | `FlDateInput` and `FlTimeInput` (D14) | M |
 | C-23 | Forms end to end: `EditForm`, validation messages, a form post in static SSR, across every input | M |
 | C-24 | Reference screen: the settings form | M |
 
@@ -361,7 +386,7 @@ Sizes are S (hours), M (a day or two) and L (several days). FluentCMS issues are
 | --- | --- | --- |
 | C-42 | `FlTree`, with lazy loading and its static fallback | L |
 | C-43 | `FlFileDropZone`, with its static fallback | M |
-| C-44 | The candidates that passed O9: `FlCommandPalette`, `FlSortableList` | L |
+| C-44 | `FlCommandPalette` and `FlSortableList` (D15) | L |
 | C-45 | Visual regression tests of the gallery | M |
 | C-46 | Guides: getting started, theming, render modes, forms | M |
 | C-47 | The screen reader script and its first full pass | M |

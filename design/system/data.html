@@ -35,7 +35,7 @@
 <div class="docs-layout">
 <main class="docs-main">
 <h1>Data</h1>
-<p class="docs-lede">What shows records and their state: the badge, the tag and the avatar that describe one record, the table and the tree that hold many, and the pagination, the empty state and the progress around them. Then four patterns of CSS alone, and the sortable list, which is a candidate.</p>
+<p class="docs-lede">What shows records and their state: the badge, the tag and the avatar that describe one record, the table and the tree that hold many, and the pagination, the empty state and the progress around them. Then four patterns of CSS alone, and the sortable list.</p>
 
 <section class="docs-section" id="badge">
 <h2>Badge</h2>
@@ -1231,7 +1231,7 @@
 </section>
 
 <section class="docs-section" id="sortable-list">
-<h2>Sortable list <small>(candidate)</small></h2>
+<h2>Sortable list</h2>
 <p>Items that a user puts in order. Every item has a handle to drag and two buttons that move it by one place, so the order never depends on dragging: the buttons are the component, and dragging is a faster way to do the same.</p>
 
 <h3>A list in order</h3>
@@ -1308,7 +1308,7 @@
 </div>
 
 <div class="docs-note">
-<p><strong>O9: does an admin need it? Yes, on two screens at least.</strong></p>
+<p><strong>Decided: the sortable list is in. An admin needs it on two screens at least.</strong></p>
 <p><strong>The columns of a list.</strong> The list screen of the reference has a Columns button: its panel shows the columns of the table and lets a user put them in order, as the list above does. Every list screen of an admin has that panel, so one component serves all of them.</p>
 <p><strong>An ordered field in the editor of a record.</strong> The editor screen of the reference orders the sections of its record and the chosen items of a field, each with a grip. The same is the order of the images of a gallery, of the options of a choice field and of the links of a menu.</p>
 <p>It should stay small: one level, one list, no dragging between lists. A menu with levels is the tree with move actions, not this.</p>
