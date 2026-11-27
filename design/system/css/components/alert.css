@@ -1,0 +1,117 @@
+/* Alert: a message that stays in the page, about the page or about a part of
+   it. On a <div> with role="status", or role="alert" for an error that
+   appears after an action. */
+
+@layer fl.components {
+  .fl-alert {
+    --fl-alert-bg: var(--fl-color-neutral-soft);
+    --fl-alert-border: var(--fl-color-neutral-border);
+    --fl-alert-fg: var(--fl-color-neutral-text);
+
+    display: flex;
+    align-items: flex-start;
+    gap: var(--fl-space-3);
+    min-inline-size: 0;
+    padding: var(--fl-inset-s);
+    border: var(--fl-border-width) solid var(--fl-alert-border);
+    border-radius: var(--fl-radius-l);
+    background-color: var(--fl-alert-bg);
+    color: var(--fl-alert-fg);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-s);
+    line-height: var(--fl-line-height-normal);
+
+    /* Centres the icon on the first line. */
+    & > .fl-icon {
+      margin-block-start: calc((1lh - var(--fl-icon-size-m)) / 2);
+    }
+
+    & > .fl-alert__content {
+      display: grid;
+      flex: 1;
+      gap: var(--fl-space-0-5);
+      min-inline-size: 0;
+    }
+
+    & .fl-alert__title {
+      margin: 0;
+      font-weight: var(--fl-font-weight-semibold);
+    }
+
+    & .fl-alert__text {
+      margin: 0;
+    }
+
+    & .fl-alert__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--fl-gap-s);
+      margin-block-start: var(--fl-space-2);
+    }
+
+    /* The close button is as large as a target must be, and takes the room of
+       one line, so an alert of one line keeps its height. */
+    & > .fl-alert__close {
+      display: grid;
+      place-items: center;
+      flex: none;
+      inline-size: var(--fl-target-min);
+      block-size: var(--fl-target-min);
+      margin-block: calc((1lh - var(--fl-target-min)) / 2);
+      margin-inline-end: calc(-1 * var(--fl-space-1));
+      padding: 0;
+      border: var(--fl-border-width) solid transparent;
+      border-radius: var(--fl-radius-s);
+      background-color: transparent;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--fl-color-hover);
+      }
+
+      &:active {
+        background-color: var(--fl-color-pressed);
+      }
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: var(--fl-focus-ring-offset);
+        box-shadow: var(--fl-focus-halo);
+      }
+    }
+
+    /* Tones set tokens only. */
+
+    &.fl-alert--info {
+      --fl-alert-bg: var(--fl-color-info-soft);
+      --fl-alert-border: var(--fl-color-info-border);
+      --fl-alert-fg: var(--fl-color-info-text);
+    }
+
+    &.fl-alert--success {
+      --fl-alert-bg: var(--fl-color-success-soft);
+      --fl-alert-border: var(--fl-color-success-border);
+      --fl-alert-fg: var(--fl-color-success-text);
+    }
+
+    &.fl-alert--warning {
+      --fl-alert-bg: var(--fl-color-warning-soft);
+      --fl-alert-border: var(--fl-color-warning-border);
+      --fl-alert-fg: var(--fl-color-warning-text);
+    }
+
+    &.fl-alert--danger {
+      --fl-alert-bg: var(--fl-color-danger-soft);
+      --fl-alert-border: var(--fl-color-danger-border);
+      --fl-alert-fg: var(--fl-color-danger-text);
+    }
+
+    &.fl-alert--pending {
+      --fl-alert-bg: var(--fl-color-pending-soft);
+      --fl-alert-border: var(--fl-color-pending-border);
+      --fl-alert-fg: var(--fl-color-pending-text);
+    }
+  }
+}

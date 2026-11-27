@@ -1,0 +1,176 @@
+/* Toast: a short report of something that just happened, which lies over the
+   page for a moment. The region is a stack of toasts at a corner of the view,
+   on an element with popover="manual", so that it lies over a dialog too.
+   Without the attribute the region lies at the corner of the nearest box that
+   holds fixed things, which is how a static page draws it. */
+
+@layer fl.components {
+  .fl-toast-region {
+    --fl-toast-region-width: var(--fl-size-s);
+    --fl-toast-region-margin: var(--fl-space-4);
+    --fl-toast-region-block-start: auto;
+    --fl-toast-region-block-end: var(--fl-toast-region-margin);
+    --fl-toast-region-inline-start: auto;
+    --fl-toast-region-inline-end: var(--fl-toast-region-margin);
+    /* The newest toast is the one nearest to the corner. */
+    --fl-toast-region-flow: column;
+
+    position: fixed;
+    inset-block: var(--fl-toast-region-block-start) var(--fl-toast-region-block-end);
+    inset-inline: var(--fl-toast-region-inline-start) var(--fl-toast-region-inline-end);
+    display: flex;
+    flex-direction: var(--fl-toast-region-flow);
+    gap: var(--fl-gap-s);
+    inline-size: var(--fl-toast-region-width);
+    max-inline-size: calc(100% - 2 * var(--fl-toast-region-margin));
+    block-size: fit-content;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    color: var(--fl-color-text);
+    overflow: visible;
+    /* The region takes no click; a toast does. */
+    pointer-events: none;
+
+    /* Variants set tokens only. */
+
+    &.fl-toast-region--top {
+      --fl-toast-region-block-start: var(--fl-toast-region-margin);
+      --fl-toast-region-block-end: auto;
+      --fl-toast-region-flow: column-reverse;
+    }
+
+    &.fl-toast-region--start {
+      --fl-toast-region-inline-start: var(--fl-toast-region-margin);
+      --fl-toast-region-inline-end: auto;
+    }
+
+    &[popover]:not(:popover-open) {
+      display: none;
+    }
+  }
+
+  .fl-toast {
+    --fl-toast-icon: var(--fl-color-text-muted);
+    --fl-toast-rise: var(--fl-space-2);
+
+    display: flex;
+    align-items: flex-start;
+    gap: var(--fl-space-3);
+    min-inline-size: 0;
+    padding: var(--fl-inset-s);
+    border: var(--fl-border-width) solid var(--fl-color-border);
+    border-radius: var(--fl-radius-l);
+    background-color: var(--fl-color-surface-raised);
+    box-shadow: var(--fl-shadow-m);
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-s);
+    line-height: var(--fl-line-height-normal);
+    pointer-events: auto;
+    transition:
+      opacity var(--fl-duration-normal) var(--fl-ease-standard),
+      translate var(--fl-duration-normal) var(--fl-ease-standard),
+      display var(--fl-duration-normal) allow-discrete;
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 var(--fl-toast-rise);
+    }
+
+    /* Centres the icon on the first line. */
+    & > .fl-icon {
+      margin-block-start: calc((1lh - var(--fl-icon-size-m)) / 2);
+      color: var(--fl-toast-icon);
+    }
+
+    & > .fl-toast__content {
+      display: grid;
+      flex: 1;
+      gap: var(--fl-space-0-5);
+      min-inline-size: 0;
+    }
+
+    & .fl-toast__title {
+      margin: 0;
+      font-weight: var(--fl-font-weight-semibold);
+    }
+
+    & .fl-toast__text {
+      margin: 0;
+      color: var(--fl-color-text-muted);
+    }
+
+    /* Under the text, for a toast of more than one line. */
+    & .fl-toast__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--fl-gap-s);
+      margin-block-start: var(--fl-space-2);
+    }
+
+    /* Beside the text, for a toast of one line: a small button that takes the
+       room of one line, so the toast keeps its height. */
+    & > .fl-toast__action {
+      flex: none;
+      margin-block: calc((1lh - var(--fl-control-height-s)) / 2);
+    }
+
+    & > .fl-toast__close {
+      display: grid;
+      place-items: center;
+      flex: none;
+      inline-size: var(--fl-target-min);
+      block-size: var(--fl-target-min);
+      margin-block: calc((1lh - var(--fl-target-min)) / 2);
+      margin-inline-end: calc(-1 * var(--fl-space-1));
+      padding: 0;
+      border: var(--fl-border-width) solid transparent;
+      border-radius: var(--fl-radius-s);
+      background-color: transparent;
+      color: var(--fl-color-text-subtle);
+      font: inherit;
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--fl-color-hover);
+        color: var(--fl-color-text);
+      }
+
+      &:active {
+        background-color: var(--fl-color-pressed);
+      }
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: var(--fl-focus-ring-offset);
+        box-shadow: var(--fl-focus-halo);
+      }
+    }
+
+    /* Tones set tokens only. The icon carries the tone; the surface does not. */
+
+    &.fl-toast--info {
+      --fl-toast-icon: var(--fl-color-info-text);
+    }
+
+    &.fl-toast--success {
+      --fl-toast-icon: var(--fl-color-success-text);
+    }
+
+    &.fl-toast--warning {
+      --fl-toast-icon: var(--fl-color-warning-text);
+    }
+
+    &.fl-toast--danger {
+      --fl-toast-icon: var(--fl-color-danger-text);
+    }
+
+    /* A toast that is leaving fades before it is taken out of the page. */
+    &[hidden] {
+      display: none;
+      opacity: 0;
+    }
+  }
+}

@@ -1,0 +1,43 @@
+/* Split button: a main action and a toggle that opens a menu of related
+   actions. On a <div role="group"> around two buttons, each an fl-button. */
+
+@layer fl.components {
+  .fl-split-button {
+    /* Two bordered halves share one border. Two filled halves are parted by a
+       slit of the same width, which shows the surface behind. */
+    --fl-split-button-seam: calc(-1 * var(--fl-border-width));
+    --fl-split-button-open: var(--fl-color-pressed);
+
+    display: inline-flex;
+    min-inline-size: 0;
+    vertical-align: middle;
+
+    & > .fl-split-button__action {
+      border-start-end-radius: 0;
+      border-end-end-radius: 0;
+    }
+
+    & > .fl-split-button__toggle {
+      margin-inline-start: var(--fl-split-button-seam);
+      border-start-start-radius: 0;
+      border-end-start-radius: 0;
+    }
+
+    /* Variants set tokens only. */
+
+    &.fl-split-button--primary {
+      --fl-split-button-seam: var(--fl-border-width);
+    }
+
+    /* States */
+
+    /* The ring of one half is not cut by the other. */
+    & > :focus-visible {
+      z-index: var(--fl-z-raised);
+    }
+
+    & > .fl-split-button__toggle[aria-expanded="true"] {
+      background-image: linear-gradient(var(--fl-split-button-open) 0 0);
+    }
+  }
+}

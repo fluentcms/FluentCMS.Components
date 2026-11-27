@@ -1,0 +1,214 @@
+/* Menu: a list of actions that opens from a button. On an element with
+   role="menu" and the popover attribute. Without the attribute it lies in the
+   page, which is how a static page draws it open. */
+
+@layer fl.components {
+  .fl-menu {
+    --fl-menu-area: block-end span-inline-end;
+    --fl-menu-max-width: var(--fl-size-s);
+
+    inline-size: max-content;
+    min-inline-size: var(--fl-size-2xs);
+    max-inline-size: min(var(--fl-menu-max-width), 100%);
+    margin: 0;
+    padding: var(--fl-space-1);
+    border: var(--fl-border-width) solid var(--fl-color-border);
+    border-radius: var(--fl-radius-l);
+    background-color: var(--fl-color-surface-raised);
+    box-shadow: var(--fl-shadow-m);
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-s);
+    line-height: var(--fl-line-height-tight);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    & .fl-menu__group {
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    & .fl-menu__label {
+      padding-block: var(--fl-space-2) var(--fl-space-1);
+      padding-inline: var(--fl-space-2);
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-2xs);
+      font-weight: var(--fl-font-weight-semibold);
+      letter-spacing: var(--fl-letter-spacing-caps);
+      text-transform: uppercase;
+    }
+
+    /* The line runs from edge to edge of the menu. */
+    & .fl-menu__separator {
+      block-size: 0;
+      margin-block: var(--fl-space-1);
+      margin-inline: calc(-1 * var(--fl-space-1));
+      border: 0;
+      border-block-start: var(--fl-border-width) solid var(--fl-color-border);
+    }
+
+    /* Item: a <button>, or an <a> that goes somewhere. Its children sit on the
+       first line, so an item with a description keeps its icon at the top. */
+    & .fl-menu__item {
+      --fl-menu-item-fg: var(--fl-color-text);
+      --fl-menu-item-icon: var(--fl-color-text-muted);
+      --fl-menu-item-bg-hover: var(--fl-color-hover);
+      --fl-menu-item-bg-pressed: var(--fl-color-pressed);
+
+      display: flex;
+      align-items: flex-start;
+      gap: var(--fl-space-2);
+      inline-size: 100%;
+      min-block-size: var(--fl-item-height);
+      margin: 0;
+      padding-block: calc((var(--fl-item-height) - 1lh) / 2);
+      padding-inline: var(--fl-space-2);
+      border: 0;
+      border-radius: var(--fl-radius-s);
+      background-color: transparent;
+      color: var(--fl-menu-item-fg);
+      font: inherit;
+      text-align: start;
+      text-decoration: none;
+      cursor: pointer;
+
+      & > .fl-icon {
+        margin-block: calc((1lh - var(--fl-icon-size-m)) / 2);
+        color: var(--fl-menu-item-icon);
+      }
+
+      /* The mark of a checked item keeps its place when the item is not
+         checked, so the labels of a group line up. */
+      & > .fl-menu__mark {
+        color: var(--fl-menu-item-fg);
+        visibility: hidden;
+      }
+
+      & > .fl-menu__text {
+        flex: 1;
+        min-inline-size: 0;
+        overflow-wrap: anywhere;
+
+        &:has(> .fl-menu__description) {
+          font-weight: var(--fl-font-weight-medium);
+        }
+      }
+
+      & .fl-menu__description {
+        display: block;
+        margin-block-start: var(--fl-space-0-5);
+        color: var(--fl-color-text-subtle);
+        font-size: var(--fl-font-size-xs);
+        font-weight: var(--fl-font-weight-regular);
+      }
+
+      /* A <kbd> at the end, as quiet text on the line of the label. */
+      & > .fl-menu__shortcut {
+        flex: none;
+        margin-inline-start: var(--fl-space-4);
+        color: var(--fl-color-text-subtle);
+        font-family: var(--fl-font-family);
+        font-size: var(--fl-font-size-xs);
+        line-height: calc(var(--fl-font-size-s) * var(--fl-line-height-tight));
+        white-space: nowrap;
+      }
+
+      /* Variants set tokens only. */
+
+      &.fl-menu__item--danger {
+        --fl-menu-item-fg: var(--fl-color-danger-text);
+        --fl-menu-item-icon: currentColor;
+        --fl-menu-item-bg-hover: var(--fl-color-danger-soft);
+        --fl-menu-item-bg-pressed: var(--fl-color-danger-border);
+      }
+
+      /* States, once and in this order: a later one wins over an earlier one. */
+
+      &:hover {
+        background-color: var(--fl-menu-item-bg-hover);
+      }
+
+      &:active {
+        background-color: var(--fl-menu-item-bg-pressed);
+      }
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: calc(-1 * var(--fl-focus-ring-width));
+      }
+
+      &[aria-checked="true"] > .fl-menu__mark {
+        visibility: visible;
+      }
+
+      &:disabled,
+      &[aria-disabled="true"] {
+        background-color: transparent;
+        color: var(--fl-color-disabled-text);
+        cursor: not-allowed;
+
+        & > .fl-icon,
+        & > .fl-menu__shortcut,
+        & .fl-menu__description {
+          color: currentColor;
+        }
+      }
+
+      @media (forced-colors: active) {
+        &:hover {
+          forced-color-adjust: none;
+          background-color: Highlight;
+          color: HighlightText;
+
+          & > .fl-icon,
+          & > .fl-menu__shortcut,
+          & .fl-menu__description {
+            color: currentColor;
+          }
+        }
+
+        &:disabled,
+        &[aria-disabled="true"] {
+          background-color: Canvas;
+          color: GrayText;
+        }
+      }
+    }
+
+    /* Variants set tokens only. */
+
+    /* Opens along the end edge of its button, for a button at the end of a row. */
+    &.fl-menu--end {
+      --fl-menu-area: block-end span-inline-start;
+    }
+
+    /* In the top layer. Where the browser cannot anchor, it opens in the
+       middle of the view, as the browser places any popover. */
+    &[popover] {
+      max-inline-size: min(var(--fl-menu-max-width), calc(100vi - 2 * var(--fl-space-2)));
+      max-block-size: calc(100vb - 2 * var(--fl-space-2));
+      margin: auto;
+      opacity: 0;
+      transition:
+        opacity var(--fl-duration-fast) var(--fl-ease-exit),
+        overlay var(--fl-duration-fast) allow-discrete,
+        display var(--fl-duration-fast) allow-discrete;
+
+      @supports (position-area: block-end) {
+        position-area: var(--fl-menu-area);
+        position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+        margin-block: var(--fl-space-1);
+        margin-inline: 0;
+      }
+    }
+
+    &:popover-open {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+  }
+}

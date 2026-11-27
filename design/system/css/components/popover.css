@@ -1,0 +1,94 @@
+/* Popover: a small panel that opens from a button and holds a short form, a
+   set of filters or a note. On an element with the popover attribute. Without
+   the attribute it lies in the page, which is how a static page draws it open. */
+
+@layer fl.components {
+  .fl-popover {
+    --fl-popover-area: block-end span-inline-end;
+    --fl-popover-width: var(--fl-size-s);
+
+    inline-size: var(--fl-popover-width);
+    max-inline-size: 100%;
+    margin: 0;
+    padding: var(--fl-inset-m);
+    border: var(--fl-border-width) solid var(--fl-color-border);
+    border-radius: var(--fl-radius-l);
+    background-color: var(--fl-color-surface-raised);
+    box-shadow: var(--fl-shadow-m);
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-s);
+    line-height: var(--fl-line-height-normal);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    & > .fl-popover__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--fl-gap-s);
+      margin-block-end: var(--fl-gap-m);
+    }
+
+    & .fl-popover__title {
+      margin: 0;
+      font-size: var(--fl-font-size-m);
+      font-weight: var(--fl-font-weight-semibold);
+      line-height: var(--fl-line-height-tight);
+    }
+
+    & > .fl-popover__body {
+      display: grid;
+      gap: var(--fl-gap-m);
+      min-inline-size: 0;
+
+      & > p {
+        margin: 0;
+        color: var(--fl-color-text-muted);
+      }
+    }
+
+    & > .fl-popover__footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: var(--fl-gap-s);
+      margin-block-start: var(--fl-gap-m);
+    }
+
+    /* Variants set tokens only. */
+
+    /* Opens along the end edge of its button, for a button at the end of a row. */
+    &.fl-popover--end {
+      --fl-popover-area: block-end span-inline-start;
+    }
+
+    /* In the top layer. Where the browser cannot anchor, it opens in the
+       middle of the view, as the browser places any popover. */
+    &[popover] {
+      max-inline-size: calc(100vi - 2 * var(--fl-space-2));
+      max-block-size: calc(100vb - 2 * var(--fl-space-2));
+      margin: auto;
+      opacity: 0;
+      transition:
+        opacity var(--fl-duration-fast) var(--fl-ease-exit),
+        overlay var(--fl-duration-fast) allow-discrete,
+        display var(--fl-duration-fast) allow-discrete;
+
+      @supports (position-area: block-end) {
+        position-area: var(--fl-popover-area);
+        position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+        margin-block: var(--fl-space-1);
+        margin-inline: 0;
+      }
+    }
+
+    &:popover-open {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+  }
+}

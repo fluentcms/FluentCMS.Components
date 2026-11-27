@@ -1,0 +1,1349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Actions and overlays · FluentCMS Components design system</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components/icon.css">
+<link rel="stylesheet" href="css/components/button.css">
+<link rel="stylesheet" href="css/components/field.css">
+<link rel="stylesheet" href="css/components/input.css">
+<link rel="stylesheet" href="css/patterns/divider.css">
+<link rel="stylesheet" href="css/patterns/link.css">
+<link rel="stylesheet" href="css/patterns/kbd.css">
+<link rel="stylesheet" href="css/components/split-button.css">
+<link rel="stylesheet" href="css/components/menu.css">
+<link rel="stylesheet" href="css/components/dialog.css">
+<link rel="stylesheet" href="css/components/drawer.css">
+<link rel="stylesheet" href="css/components/popover.css">
+<link rel="stylesheet" href="css/components/tooltip.css">
+<link rel="stylesheet" href="css/components/alert.css">
+<link rel="stylesheet" href="css/components/toast.css">
+<link rel="stylesheet" href="css/components/command-palette.css">
+<link rel="stylesheet" href="docs/docs.css">
+<script src="docs/docs.js"></script>
+<style>
+/* Helpers of the demos of this page. They are not part of the library. */
+
+/* Stage: a piece of a view that holds an overlay drawn open and still. It is
+   the box that a fixed or absolute thing inside it is placed in. */
+.demo-stage {
+  position: relative;
+  contain: layout;
+  flex: none;
+  inline-size: 100%;
+  block-size: 24rem;
+  margin-block-end: var(--fl-space-3);
+  border: 1px solid var(--fl-color-border);
+  border-radius: var(--fl-radius-l);
+  background: linear-gradient(var(--fl-color-backdrop) 0 0) var(--fl-color-canvas);
+  overflow: hidden;
+}
+
+.demo-stage--page { background: var(--fl-color-canvas); }
+.demo-stage--short { block-size: 16rem; }
+.demo-stage--medium { block-size: 20rem; }
+.demo-stage--tall { block-size: 30rem; }
+.docs-mode .demo-stage { margin-block-end: 0; }
+
+/* A button with its overlay drawn open under it, or over it. */
+.demo-open {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--fl-space-1);
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+.demo-open--end { align-items: flex-end; }
+.demo-open--over { flex-direction: column-reverse; align-items: center; }
+
+/* A stand-in for the card of the layout lane. */
+.demo-card {
+  display: grid;
+  gap: var(--fl-space-3);
+  inline-size: 100%;
+  max-inline-size: 26rem;
+  padding: var(--fl-inset-m);
+  border: 1px solid var(--fl-color-border);
+  border-radius: var(--fl-radius-l);
+  background-color: var(--fl-color-surface);
+}
+
+.demo-card > strong { font-weight: var(--fl-font-weight-semibold); }
+.demo-card > p { margin: 0; color: var(--fl-color-text-muted); font-size: var(--fl-font-size-s); }
+
+.demo-fill { inline-size: 100%; }
+.demo-end { margin-inline-start: auto; }
+</style>
+</head>
+<body class="fl-root docs">
+<div class="docs-layout">
+<main class="docs-main">
+<h1>Actions and overlays</h1>
+<p class="docs-lede">What opens over the page and what reports back: the split button, the menu, the dialog, the drawer, the popover, the tooltip, the alert, the toast, and a candidate, the command palette. Each overlay is drawn twice: open and still in a frame, so that every part can be seen, and live, opening from its real button.</p>
+
+
+<section class="docs-section" id="split-button">
+<h2>Split button</h2>
+<p>A main action, and beside it a toggle that opens a menu of actions of the same kind. It is for the case where one action is the usual one and the others are rare. When no action is the usual one, a plain button opens the menu.</p>
+
+<h3>Variants</h3>
+<div class="docs-demo">
+  <div class="fl-split-button" role="group" aria-label="Save"><button class="fl-button fl-split-button__action" type="button">Save</button><button class="fl-button fl-button--icon fl-split-button__toggle" type="button" aria-label="More ways to save" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div>
+  <div class="fl-split-button" role="group" aria-label="Save"><button class="fl-button fl-split-button__action" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button><button class="fl-button fl-button--icon fl-split-button__toggle" type="button" aria-label="More ways to save" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div>
+  <div class="fl-split-button fl-split-button--primary" role="group" aria-label="New project"><button class="fl-button fl-button--primary fl-split-button__action" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>New project</button><button class="fl-button fl-button--icon fl-button--primary fl-split-button__toggle" type="button" aria-label="Other things to create" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div>
+  <div class="fl-split-button fl-split-button--primary" role="group" aria-label="Save"><button class="fl-button fl-button--primary fl-split-button__action" type="button">Save</button><button class="fl-button fl-button--icon fl-button--primary fl-split-button__toggle" type="button" aria-label="More ways to save" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div>
+</div>
+<h4>Secondary: the two halves share one border. Primary: a slit as wide as a border parts them, and shows the surface behind.</h4>
+
+<h3>Sizes</h3>
+<div class="docs-demo">
+  <div class="fl-split-button" role="group" aria-label="Small"><button class="fl-button fl-button--s fl-split-button__action" type="button">Small</button><button class="fl-button fl-button--icon fl-button--s fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div> <div class="fl-split-button" role="group" aria-label="Medium"><button class="fl-button fl-split-button__action" type="button">Medium</button><button class="fl-button fl-button--icon fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div> <div class="fl-split-button" role="group" aria-label="Large"><button class="fl-button fl-button--l fl-split-button__action" type="button">Large</button><button class="fl-button fl-button--icon fl-button--l fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div>
+  <div class="fl-split-button fl-split-button--primary" role="group" aria-label="Small"><button class="fl-button fl-button--primary fl-button--s fl-split-button__action" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>Small</button><button class="fl-button fl-button--icon fl-button--primary fl-button--s fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div> <div class="fl-split-button fl-split-button--primary" role="group" aria-label="Medium"><button class="fl-button fl-button--primary fl-split-button__action" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>Medium</button><button class="fl-button fl-button--icon fl-button--primary fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div> <div class="fl-split-button fl-split-button--primary" role="group" aria-label="Large"><button class="fl-button fl-button--primary fl-button--l fl-split-button__action" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>Large</button><button class="fl-button fl-button--icon fl-button--primary fl-button--l fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div>
+</div>
+<h4>The size is the size of its two buttons. The toggle is a square, so it is 24 px wide at the least, in the small size of the compact density.</h4>
+
+<h3>States</h3>
+<div class="docs-demo docs-scroll">
+<table class="docs-matrix">
+<thead><tr><td></td><th scope="col">Rest</th><th scope="col">Hover</th><th scope="col">Focus</th><th scope="col">Pressed</th><th scope="col">Open</th><th scope="col">Disabled</th><th scope="col">Busy</th></tr></thead>
+<tbody>
+<tr><th scope="row">Secondary</th><td><div class="fl-split-button" role="group" aria-label="Save"><button class="fl-button fl-split-button__action" type="button">Save</button><button class="fl-button fl-button--icon fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div></td><td><div class="fl-split-button" role="group" aria-label="Save"><button class="fl-button fl-split-button__action" type="button" data-force="hover">Save</button><button class="fl-button fl-button--icon fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div></td><td><div class="fl-split-button" role="group" aria-label="Save"><button class="fl-button fl-split-button__action" type="button">Save</button><button class="fl-button fl-button--icon fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div></td><td><div class="fl-split-button" role="group" aria-label="Save"><button class="fl-button fl-split-button__action" type="button">Save</button><button class="fl-button fl-button--icon fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu" data-force="hover active"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div></td><td><div class="fl-split-button" role="group" aria-label="Save"><button class="fl-button fl-split-button__action" type="button">Save</button><button class="fl-button fl-button--icon fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div></td><td><div class="fl-split-button" role="group" aria-label="Save"><button class="fl-button fl-split-button__action" type="button" disabled>Save</button><button class="fl-button fl-button--icon fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div></td><td><div class="fl-split-button" role="group" aria-label="Save"><button class="fl-button fl-split-button__action" type="button" aria-busy="true" aria-disabled="true">Save<svg class="fl-icon fl-icon--spin fl-button__spinner" aria-hidden="true"><use href="icons/lucide.svg#loader-circle"/></svg></button><button class="fl-button fl-button--icon fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div></td></tr>
+<tr><th scope="row">Primary</th><td><div class="fl-split-button fl-split-button--primary" role="group" aria-label="Save"><button class="fl-button fl-button--primary fl-split-button__action" type="button">Save</button><button class="fl-button fl-button--icon fl-button--primary fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div></td><td><div class="fl-split-button fl-split-button--primary" role="group" aria-label="Save"><button class="fl-button fl-button--primary fl-split-button__action" type="button" data-force="hover">Save</button><button class="fl-button fl-button--icon fl-button--primary fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div></td><td><div class="fl-split-button fl-split-button--primary" role="group" aria-label="Save"><button class="fl-button fl-button--primary fl-split-button__action" type="button">Save</button><button class="fl-button fl-button--icon fl-button--primary fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div></td><td><div class="fl-split-button fl-split-button--primary" role="group" aria-label="Save"><button class="fl-button fl-button--primary fl-split-button__action" type="button">Save</button><button class="fl-button fl-button--icon fl-button--primary fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu" data-force="hover active"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div></td><td><div class="fl-split-button fl-split-button--primary" role="group" aria-label="Save"><button class="fl-button fl-button--primary fl-split-button__action" type="button">Save</button><button class="fl-button fl-button--icon fl-button--primary fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div></td><td><div class="fl-split-button fl-split-button--primary" role="group" aria-label="Save"><button class="fl-button fl-button--primary fl-split-button__action" type="button" disabled>Save</button><button class="fl-button fl-button--icon fl-button--primary fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div></td><td><div class="fl-split-button fl-split-button--primary" role="group" aria-label="Save"><button class="fl-button fl-button--primary fl-split-button__action" type="button" aria-busy="true" aria-disabled="true">Save<svg class="fl-icon fl-icon--spin fl-button__spinner" aria-hidden="true"><use href="icons/lucide.svg#loader-circle"/></svg></button><button class="fl-button fl-button--icon fl-button--primary fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div></td></tr>
+</tbody>
+</table>
+</div>
+<p>Each half has its own hover, focus and pressed state; the ring of the half in focus lies over the other half. While the menu is open the toggle stays pressed. A busy action keeps its width and the toggle is disabled until it ends.</p>
+
+<h3>Open</h3>
+<div class="docs-demo">
+  <div class="fl-cluster fl-cluster--top fl-cluster--gap-6">
+    <div class="demo-open demo-open--end">
+      <div class="fl-split-button" role="group" aria-label="Save"><button class="fl-button fl-split-button__action" type="button">Save</button><button class="fl-button fl-button--icon fl-split-button__toggle" type="button" aria-label="More ways to save" aria-haspopup="menu" aria-expanded="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div>
+      <div class="fl-menu fl-menu--end" role="menu" aria-label="More ways to save">
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg><span class="fl-menu__text">Save and close</span><kbd class="fl-menu__shortcut">Ctrl+Shift+S</kbd></button>
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Save as a copy</span></button>
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#layers"/></svg><span class="fl-menu__text">Save as a template</span></button>
+    <hr class="fl-menu__separator">
+    <button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#undo-2"/></svg><span class="fl-menu__text">Discard changes</span></button>
+  </div>
+    </div>
+    <div class="demo-open demo-open--end">
+      <div class="fl-split-button fl-split-button--primary" role="group" aria-label="New project"><button class="fl-button fl-button--primary fl-split-button__action" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>New project</button><button class="fl-button fl-button--icon fl-button--primary fl-split-button__toggle" type="button" aria-label="Other things to create" aria-haspopup="menu" aria-expanded="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div>
+      <div class="fl-menu fl-menu--end" role="menu" aria-label="Other things to create">
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#layers"/></svg><span class="fl-menu__text">Project from a template</span></button>
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-menu__text">Folder</span></button>
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#upload"/></svg><span class="fl-menu__text">Import from a file</span></button>
+  </div>
+    </div>
+  </div>
+</div>
+<h4>Drawn open and still. The menu lies along the end edge of the toggle, which is the end edge of the whole button.</h4>
+<div class="docs-demo">
+  <div class="fl-split-button" role="group" aria-label="Save"><button class="fl-button fl-split-button__action" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button><button class="fl-button fl-button--icon fl-split-button__toggle" type="button" aria-label="More ways to save" aria-haspopup="menu" popovertarget="split-live-1" aria-expanded="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div>
+  <div class="fl-menu fl-menu--end" id="split-live-1" popover role="menu" aria-label="More ways to save">
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg><span class="fl-menu__text">Save and close</span><kbd class="fl-menu__shortcut">Ctrl+Shift+S</kbd></button>
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Save as a copy</span></button>
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#layers"/></svg><span class="fl-menu__text">Save as a template</span></button>
+    <hr class="fl-menu__separator">
+    <button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#undo-2"/></svg><span class="fl-menu__text">Discard changes</span></button>
+  </div>
+  <div class="fl-split-button fl-split-button--primary" role="group" aria-label="New project"><button class="fl-button fl-button--primary fl-split-button__action" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>New project</button><button class="fl-button fl-button--icon fl-button--primary fl-split-button__toggle" type="button" aria-label="Other things to create" aria-haspopup="menu" popovertarget="split-live-2" aria-expanded="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div>
+  <div class="fl-menu fl-menu--end" id="split-live-2" popover role="menu" aria-label="Other things to create">
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#layers"/></svg><span class="fl-menu__text">Project from a template</span></button>
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-menu__text">Folder</span></button>
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#upload"/></svg><span class="fl-menu__text">Import from a file</span></button>
+  </div>
+</div>
+<h4>Live: the toggle opens its menu</h4>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes">
+  <div class="fl-split-button" role="group" aria-label="Save"><button class="fl-button fl-split-button__action" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button><button class="fl-button fl-button--icon fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div> <div class="fl-split-button fl-split-button--primary" role="group" aria-label="New project"><button class="fl-button fl-button--primary fl-split-button__action" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>New project</button><button class="fl-button fl-button--icon fl-button--primary fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div>
+  <div class="fl-split-button" role="group" aria-label="Small"><button class="fl-button fl-button--s fl-split-button__action" type="button">Small</button><button class="fl-button fl-button--icon fl-button--s fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div> <div class="fl-split-button" role="group" aria-label="Focus"><button class="fl-button fl-split-button__action" type="button">Focus</button><button class="fl-button fl-button--icon fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div> <div class="fl-split-button fl-split-button--primary" role="group" aria-label="Open"><button class="fl-button fl-button--primary fl-split-button__action" type="button">Open</button><button class="fl-button fl-button--icon fl-button--primary fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu" aria-expanded="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div> <div class="fl-split-button" role="group" aria-label="Disabled"><button class="fl-button fl-split-button__action" type="button" disabled>Disabled</button><button class="fl-button fl-button--icon fl-split-button__toggle" type="button" aria-label="More actions" aria-haspopup="menu" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;div class="fl-split-button" role="group"&gt;</code> around two <code>&lt;button class="fl-button"&gt;</code>: the action, and the toggle with <code>popovertarget</code>. The <code>fl-menu</code> follows the group.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>The group is named after its action with <code>aria-label</code>. The toggle has no text, so its name is <code>aria-label</code>, and it carries <code>aria-haspopup="menu"</code> and <code>aria-expanded</code>.</li><li>Two tab stops. Enter and Space on the action run it. Enter, Space and Arrow down on the toggle open the menu, and focus moves to its first item.</li><li>Esc, or a choice in the menu, closes it and gives focus back to the toggle.</li><li>Disabled: both buttons are <code>disabled</code>. Busy: the action is busy as a button is, and the toggle is disabled.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Native: the browser opens, closes and places the menu. The keys inside the menu are those of the menu.</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Variant</code>: Secondary (default), Primary</li><li><code>Size</code>: Small, Medium (default), Large</li><li><code>Icon</code>; <code>ChildContent</code>: the label of the action; <code>OnClick</code></li><li><code>ToggleLabel</code>: the name of the toggle, required</li><li><code>Menu</code>: the items of the menu</li><li><code>Disabled</code>; <code>Busy</code></li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-split-button</code>; <code>--primary</code>; parts <code>fl-split-button__action</code> and <code>fl-split-button__toggle</code>, each on an <code>fl-button</code> that carries its own variant and size</td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li><code>--fl-border-width</code>, <code>--fl-color-pressed</code>, <code>--fl-z-raised</code></li><li>Own: <code>--fl-split-button-seam</code>, <code>--fl-split-button-open</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+
+<section class="docs-section" id="menu">
+<h2>Menu</h2>
+<p>A list of actions that opens from a button. An item runs an action, turns an option on or off, or picks one option of a group. A menu holds actions only: a choice of a value in a form is a select.</p>
+
+<h3>Items</h3>
+<div class="docs-demo">
+  <div class="fl-cluster fl-cluster--top fl-cluster--gap-6">
+  <div class="fl-menu" role="menu" aria-label="Actions">
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg><span class="fl-menu__text">Rename</span><kbd class="fl-menu__shortcut">F2</kbd></button>
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Duplicate</span><kbd class="fl-menu__shortcut">Ctrl+D</kbd></button>
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#link"/></svg><span class="fl-menu__text">Copy link</span></button>
+    <button class="fl-menu__item" type="button" role="menuitem" aria-disabled="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-menu__text">Move to a folder</span></button>
+    <hr class="fl-menu__separator">
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#history"/></svg><span class="fl-menu__text">Version history</span></button>
+    <hr class="fl-menu__separator">
+    <button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg><span class="fl-menu__text">Delete</span><kbd class="fl-menu__shortcut">Del</kbd></button>
+  </div>
+  <div class="fl-menu" role="menu" aria-label="View">
+    <div class="fl-menu__group" role="group" aria-labelledby="menu-s-columns">
+      <div class="fl-menu__label" id="menu-s-columns">Columns</div>
+      <button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="true" aria-disabled="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Name</span></button>
+      <button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Owner</span></button>
+      <button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Status</span></button>
+      <button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Updated</span></button>
+    </div>
+    <hr class="fl-menu__separator">
+    <div class="fl-menu__group" role="group" aria-labelledby="menu-s-density">
+      <div class="fl-menu__label" id="menu-s-density">Density</div>
+      <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Comfortable</span></button>
+      <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Compact</span></button>
+    </div>
+  </div>
+  <div class="fl-menu" role="menu" aria-label="Export">
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-menu__text">Spreadsheet<span class="fl-menu__description">Every column, as a CSV file</span></span></button>
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#code"/></svg><span class="fl-menu__text">Data<span class="fl-menu__description">The records as JSON, for another system</span></span></button>
+    <button class="fl-menu__item" type="button" role="menuitem" aria-disabled="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file"/></svg><span class="fl-menu__text">Printable report<span class="fl-menu__description">Not available for more than 500 rows</span></span></button>
+  </div>
+  <div class="fl-menu" role="menu" aria-label="Account">
+    <button class="fl-menu__item" type="button" role="menuitem"><span class="fl-menu__text">Profile</span></button>
+    <button class="fl-menu__item" type="button" role="menuitem"><span class="fl-menu__text">Preferences</span></button>
+    <a class="fl-menu__item" role="menuitem" href="#menu"><span class="fl-menu__text">Documentation</span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#external-link"/></svg></a>
+    <hr class="fl-menu__separator">
+    <button class="fl-menu__item" type="button" role="menuitem"><span class="fl-menu__text">Sign out</span></button>
+  </div>
+  </div>
+</div>
+<h4>Drawn open and still. Icons, shortcuts, separators, a disabled item and a danger item; a group of checked items and a group where one is picked, each with a label; items with a description; plain items, one of them a link</h4>
+
+<h3>States</h3>
+<div class="docs-demo docs-scroll">
+<table class="docs-matrix">
+<thead><tr><td></td><th scope="col">Rest</th><th scope="col">Hover</th><th scope="col">Focus</th><th scope="col">Pressed</th><th scope="col">Disabled</th></tr></thead>
+<tbody>
+<tr><th scope="row">Item</th><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Duplicate</span><kbd class="fl-menu__shortcut">Ctrl+D</kbd></button></div></td><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item" type="button" role="menuitem" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Duplicate</span><kbd class="fl-menu__shortcut">Ctrl+D</kbd></button></div></td><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item" type="button" role="menuitem" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Duplicate</span><kbd class="fl-menu__shortcut">Ctrl+D</kbd></button></div></td><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item" type="button" role="menuitem" data-force="hover active"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Duplicate</span><kbd class="fl-menu__shortcut">Ctrl+D</kbd></button></div></td><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item" type="button" role="menuitem" aria-disabled="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Duplicate</span><kbd class="fl-menu__shortcut">Ctrl+D</kbd></button></div></td></tr>
+<tr><th scope="row">Checked</th><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Owner</span></button></div></td><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="true" data-force="hover"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Owner</span></button></div></td><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="true" data-force="focus-visible"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Owner</span></button></div></td><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="true" data-force="hover active"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Owner</span></button></div></td><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="true" aria-disabled="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Owner</span></button></div></td></tr>
+<tr><th scope="row">Not checked</th><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Updated</span></button></div></td><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="false" data-force="hover"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Updated</span></button></div></td><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="false" data-force="focus-visible"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Updated</span></button></div></td><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="false" data-force="hover active"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Updated</span></button></div></td><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="false" aria-disabled="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Updated</span></button></div></td></tr>
+<tr><th scope="row">Danger</th><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg><span class="fl-menu__text">Delete</span><kbd class="fl-menu__shortcut">Del</kbd></button></div></td><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg><span class="fl-menu__text">Delete</span><kbd class="fl-menu__shortcut">Del</kbd></button></div></td><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg><span class="fl-menu__text">Delete</span><kbd class="fl-menu__shortcut">Del</kbd></button></div></td><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem" data-force="hover active"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg><span class="fl-menu__text">Delete</span><kbd class="fl-menu__shortcut">Del</kbd></button></div></td><td><div class="fl-menu" role="menu" aria-label="Sample"><button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem" aria-disabled="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg><span class="fl-menu__text">Delete</span><kbd class="fl-menu__shortcut">Del</kbd></button></div></td></tr>
+</tbody>
+</table>
+</div>
+<p>The mark of a checked item keeps its place when the item is not checked, so the labels of a group line up. A disabled item keeps its place in the order of the arrow keys, so that a screen reader can find it and say why it is there.</p>
+
+<h3>Live</h3>
+<div class="docs-demo">
+  <button class="fl-button" type="button" popovertarget="menu-live-1" aria-haspopup="menu" aria-expanded="false">Actions<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button>
+  <div class="fl-menu" id="menu-live-1" popover role="menu" aria-label="Actions">
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg><span class="fl-menu__text">Rename</span><kbd class="fl-menu__shortcut">F2</kbd></button>
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Duplicate</span><kbd class="fl-menu__shortcut">Ctrl+D</kbd></button>
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#link"/></svg><span class="fl-menu__text">Copy link</span></button>
+    <button class="fl-menu__item" type="button" role="menuitem" aria-disabled="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-menu__text">Move to a folder</span></button>
+    <hr class="fl-menu__separator">
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#history"/></svg><span class="fl-menu__text">Version history</span></button>
+    <hr class="fl-menu__separator">
+    <button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg><span class="fl-menu__text">Delete</span><kbd class="fl-menu__shortcut">Del</kbd></button>
+  </div>
+  <button class="fl-button" type="button" popovertarget="menu-live-2" aria-haspopup="menu" aria-expanded="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#sliders-horizontal"/></svg>View<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button>
+  <div class="fl-menu" id="menu-live-2" popover role="menu" aria-label="View">
+    <div class="fl-menu__group" role="group" aria-labelledby="menu-l-columns">
+      <div class="fl-menu__label" id="menu-l-columns">Columns</div>
+      <button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="true" aria-disabled="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Name</span></button>
+      <button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Owner</span></button>
+      <button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Status</span></button>
+      <button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Updated</span></button>
+    </div>
+    <hr class="fl-menu__separator">
+    <div class="fl-menu__group" role="group" aria-labelledby="menu-l-density">
+      <div class="fl-menu__label" id="menu-l-density">Density</div>
+      <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Comfortable</span></button>
+      <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Compact</span></button>
+    </div>
+  </div>
+  <span class="demo-end"><button class="fl-button fl-button--icon" type="button" aria-label="More actions" popovertarget="menu-live-3" aria-haspopup="menu" aria-expanded="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#ellipsis"/></svg></button></span>
+  <div class="fl-menu fl-menu--end" id="menu-live-3" popover role="menu" aria-label="Actions">
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg><span class="fl-menu__text">Rename</span><kbd class="fl-menu__shortcut">F2</kbd></button>
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Duplicate</span><kbd class="fl-menu__shortcut">Ctrl+D</kbd></button>
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#link"/></svg><span class="fl-menu__text">Copy link</span></button>
+    <button class="fl-menu__item" type="button" role="menuitem" aria-disabled="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-menu__text">Move to a folder</span></button>
+    <hr class="fl-menu__separator">
+    <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#history"/></svg><span class="fl-menu__text">Version history</span></button>
+    <hr class="fl-menu__separator">
+    <button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg><span class="fl-menu__text">Delete</span><kbd class="fl-menu__shortcut">Del</kbd></button>
+  </div>
+</div>
+<h4>The first two open along the start edge of their button. The last, at the end of the row, opens along its end edge. A menu that has no room below opens above.</h4>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes">
+  <div class="fl-menu" role="menu" aria-label="Sample">
+    <div class="fl-menu__group" role="group" aria-labelledby="menu-m-label">
+      <div class="fl-menu__label" id="menu-m-label">Project</div>
+      <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg><span class="fl-menu__text">Rename</span><kbd class="fl-menu__shortcut">F2</kbd></button>
+      <button class="fl-menu__item" type="button" role="menuitem" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Duplicate</span><kbd class="fl-menu__shortcut">Ctrl+D</kbd></button>
+      <button class="fl-menu__item" type="button" role="menuitem" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#link"/></svg><span class="fl-menu__text">Copy link</span></button>
+      <button class="fl-menu__item" type="button" role="menuitem" aria-disabled="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-menu__text">Move to a folder</span></button>
+    </div>
+    <hr class="fl-menu__separator">
+    <button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Show archived</span></button>
+    <button class="fl-menu__item" type="button" role="menuitemcheckbox" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg><span class="fl-menu__text">Show drafts</span></button>
+    <hr class="fl-menu__separator">
+    <button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg><span class="fl-menu__text">Delete</span><kbd class="fl-menu__shortcut">Del</kbd></button>
+  </div>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><ul><li><code>&lt;div class="fl-menu" role="menu" popover&gt;</code>, after its button. The button has <code>popovertarget</code>.</li><li>Item: <code>&lt;button type="button" role="menuitem"&gt;</code>, or <code>&lt;a role="menuitem" href&gt;</code> when it goes somewhere.</li><li>Group: <code>&lt;div role="group" aria-labelledby&gt;</code> with its label. Separator: <code>&lt;hr&gt;</code>. Shortcut: <code>&lt;kbd&gt;</code>.</li></ul></td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>The menu button pattern. The button has <code>aria-haspopup="menu"</code> and <code>aria-expanded</code>; the menu is named with <code>aria-label</code>, or by its button.</li><li>A checked item is <code>menuitemcheckbox</code>, an item of a group where one is picked is <code>menuitemradio</code>; both carry <code>aria-checked</code>.</li><li>A disabled item has <code>aria-disabled="true"</code>, not <code>disabled</code>, so it can still take focus. A shortcut that is shown is also in <code>aria-keyshortcuts</code>.</li><li>Enter, Space or Arrow down on the button: opens, focus on the first item. Arrow down and up: the next and the previous item, around the ends. Home and End: the first and the last. A letter: the next item that starts with it.</li><li>Enter or Space on an item: runs it and closes. A checked item changes and the menu stays open.</li><li>Esc: closes, focus back on the button. Tab: closes and moves on. A click outside closes.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Native: the browser opens it, closes it on Esc and on a click outside, gives focus back, and places it by the button with CSS anchor positioning; where a browser cannot anchor, the menu opens in the middle of the view. Without script every item is a tab stop. With the script of the library focus roves: the items leave the tab order and the arrow keys move between them.</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li>Menu: <code>Label</code>; <code>Align</code>: Start (default), End; <code>ChildContent</code></li><li>Item: <code>Icon</code>; <code>Shortcut</code>; <code>Description</code>; <code>Danger</code>; <code>Disabled</code>; <code>Href</code>; <code>OnClick</code></li><li>Check item: <code>Checked</code> with <code>@bind-Checked</code>. Radio group: <code>Value</code> with <code>@bind-Value</code>, and its items with a <code>Value</code></li><li>Group: <code>Label</code>. Separator: no parameter</li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-menu</code>; <code>--end</code>; parts <code>fl-menu__group</code>, <code>__label</code>, <code>__separator</code>, <code>__item</code> (with <code>--danger</code>), <code>__mark</code>, <code>__text</code>, <code>__description</code>, <code>__shortcut</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>surface-raised</code>, <code>border</code>, <code>text</code>, <code>text-muted</code>, <code>text-subtle</code>, <code>hover</code>, <code>pressed</code>, the danger steps, <code>disabled-text</code></li><li>Size: <code>--fl-item-height</code>, <code>--fl-size-2xs</code>, <code>--fl-size-s</code>, <code>--fl-space-0-5</code>, <code>-1</code>, <code>-2</code>, <code>-4</code>, <code>--fl-icon-size-m</code>, <code>--fl-radius-l</code>, <code>--fl-radius-s</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-s</code>, <code>-xs</code>, <code>-2xs</code>, <code>--fl-line-height-tight</code>, <code>--fl-letter-spacing-caps</code></li><li>Elevation and motion: <code>--fl-shadow-m</code>, <code>--fl-duration-fast</code>, <code>--fl-ease-exit</code>; focus: <code>--fl-focus-ring</code>, drawn inside the item</li><li>Own: <code>--fl-menu-area</code>, <code>--fl-menu-max-width</code>; on an item <code>--fl-menu-item-fg</code>, <code>-icon</code>, <code>-bg-hover</code>, <code>-bg-pressed</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+
+<section class="docs-section" id="dialog">
+<h2>Dialog</h2>
+<p>A task or a question that lies over the page and waits for an answer. The page behind it cannot be reached until it closes. Use it for a short form, a choice, or a confirmation; a thing that is read beside the page belongs in a drawer.</p>
+
+<h3>Parts</h3>
+<div class="demo-stage">
+<dialog class="fl-dialog" open aria-labelledby="dlg-s1-title">
+  <header class="fl-dialog__header">
+    <h2 class="fl-dialog__title" id="dlg-s1-title">Invite a member</h2>
+    <button class="fl-button fl-button--subtle fl-button--icon fl-dialog__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button>
+  </header>
+  <div class="fl-dialog__body">
+    <form class="fl-stack" id="dlg-s1-form" method="dialog">
+      <div class="fl-field"><label class="fl-field__label" for="dlg-s1-email">Email <span class="fl-field__required" aria-hidden="true">*</span></label><span class="fl-input"><input class="fl-input__control" type="email" id="dlg-s1-email" placeholder="name@example.com" required aria-describedby="dlg-s1-email-help"></span><p class="fl-field__help" id="dlg-s1-email-help">The invitation is sent to this address.</p></div>
+      <div class="fl-field"><label class="fl-field__label" for="dlg-s1-name">Name</label><span class="fl-input"><input class="fl-input__control" type="text" id="dlg-s1-name" value="Ada Lindqvist"></span></div>
+      <div class="fl-field"><label class="fl-field__label" for="dlg-s1-team">Team</label><span class="fl-input"><input class="fl-input__control" type="text" id="dlg-s1-team" value="Finance" aria-describedby="dlg-s1-team-help"></span><p class="fl-field__help" id="dlg-s1-team-help">A member sees the projects of the team.</p></div>
+      <div class="fl-field"><label class="fl-field__label" for="dlg-s1-note">Note</label><span class="fl-input"><input class="fl-input__control" type="text" id="dlg-s1-note" placeholder="A line for the invitation" aria-describedby="dlg-s1-note-help"></span><p class="fl-field__help" id="dlg-s1-note-help">Shown in the email, above the link.</p></div>
+    </form>
+  </div>
+  <footer class="fl-dialog__footer">
+    <button class="fl-button" type="button">Cancel</button>
+    <button class="fl-button fl-button--primary" type="submit" form="dlg-s1-form"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#send"/></svg>Send invitation</button>
+  </footer>
+</dialog>
+</div>
+<h4>Drawn open and still, on the backdrop, in a view of 384 px: a header with the title and the close button, a body that scrolls, a footer with the actions at the end and the main one last. Medium, 640 px wide at the most</h4>
+
+<h3>Confirmation</h3>
+<div class="demo-stage demo-stage--short">
+<dialog class="fl-dialog fl-dialog--s" open role="alertdialog" aria-labelledby="dlg-s2-title" aria-describedby="dlg-s2-text">
+  <header class="fl-dialog__header">
+    <h2 class="fl-dialog__title" id="dlg-s2-title">Delete this project?</h2>
+    <button class="fl-button fl-button--subtle fl-button--icon fl-dialog__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button>
+  </header>
+  <div class="fl-dialog__body">
+    <p id="dlg-s2-text">Quarterly report and its 24 files are deleted for every member. This cannot be undone.</p>
+  </div>
+  <footer class="fl-dialog__footer">
+    <button class="fl-button" type="button">Cancel</button>
+    <button class="fl-button fl-button--primary fl-button--danger" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete project</button>
+  </footer>
+</dialog>
+</div>
+<h4>Small, 480 px. The title asks the question with the verb of the action, the text says what is lost, and the button of the action says the verb again in the danger tone. Focus opens on Cancel, and a click outside does not close it.</h4>
+
+<h3>Large</h3>
+<div class="demo-stage">
+<dialog class="fl-dialog fl-dialog--l" open aria-labelledby="dlg-s3-title">
+  <header class="fl-dialog__header">
+    <h2 class="fl-dialog__title" id="dlg-s3-title">Choose files</h2>
+    <button class="fl-button fl-button--subtle fl-button--icon fl-dialog__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button>
+  </header>
+  <div class="fl-dialog__body">
+    <div class="fl-stack">
+      <span class="fl-input"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg><input class="fl-input__control" type="search" placeholder="Search files" aria-label="Search files"></span>
+      <div class="docs-block">A wide thing: a table to pick from, a preview, two columns of fields</div>
+      <div class="docs-block">The body scrolls when it is taller than the view; the header and the footer stay</div>
+    </div>
+  </div>
+  <footer class="fl-dialog__footer">
+    <button class="fl-button" type="button">Cancel</button>
+    <button class="fl-button fl-button--primary" type="button">Add 3 files</button>
+  </footer>
+</dialog>
+</div>
+<h4>Large, 800 px, for a thing that needs the width. Every size keeps a gutter of 16 px to the edges of a narrow view.</h4>
+
+<h3>Live</h3>
+<div class="docs-demo">
+  <button class="fl-button" type="button" command="show-modal" commandfor="dlg-live-1"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#user"/></svg>Invite a member</button>
+  <button class="fl-button fl-button--danger" type="button" command="show-modal" commandfor="dlg-live-2"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete project</button>
+  <button class="fl-button" type="button" command="show-modal" commandfor="dlg-live-3"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#paperclip"/></svg>Choose files</button>
+</div>
+<h4>Each opens as a modal: focus goes to the first field, or to Cancel in the confirmation; Tab stays inside; Esc and the close button close it, and focus goes back to the button that opened it</h4>
+<dialog class="fl-dialog" id="dlg-live-1" closedby="any" aria-labelledby="dlg-live-1-title">
+  <header class="fl-dialog__header">
+    <h2 class="fl-dialog__title" id="dlg-live-1-title">Invite a member</h2>
+    <button class="fl-button fl-button--subtle fl-button--icon fl-dialog__close" type="button" aria-label="Close" command="close" commandfor="dlg-live-1"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button>
+  </header>
+  <div class="fl-dialog__body">
+    <form class="fl-stack" id="dlg-live-1-form" method="dialog">
+      <div class="fl-field"><label class="fl-field__label" for="dlg-live-1-email">Email <span class="fl-field__required" aria-hidden="true">*</span></label><span class="fl-input"><input class="fl-input__control" type="email" id="dlg-live-1-email" placeholder="name@example.com" required aria-describedby="dlg-live-1-email-help" autofocus></span><p class="fl-field__help" id="dlg-live-1-email-help">The invitation is sent to this address.</p></div>
+      <div class="fl-field"><label class="fl-field__label" for="dlg-live-1-name">Name</label><span class="fl-input"><input class="fl-input__control" type="text" id="dlg-live-1-name" value="Ada Lindqvist"></span></div>
+      <div class="fl-field"><label class="fl-field__label" for="dlg-live-1-team">Team</label><span class="fl-input"><input class="fl-input__control" type="text" id="dlg-live-1-team" value="Finance" aria-describedby="dlg-live-1-team-help"></span><p class="fl-field__help" id="dlg-live-1-team-help">A member sees the projects of the team.</p></div>
+      <div class="fl-field"><label class="fl-field__label" for="dlg-live-1-note">Note</label><span class="fl-input"><input class="fl-input__control" type="text" id="dlg-live-1-note" placeholder="A line for the invitation" aria-describedby="dlg-live-1-note-help"></span><p class="fl-field__help" id="dlg-live-1-note-help">Shown in the email, above the link.</p></div>
+    </form>
+  </div>
+  <footer class="fl-dialog__footer">
+    <button class="fl-button" type="button" command="close" commandfor="dlg-live-1">Cancel</button>
+    <button class="fl-button fl-button--primary" type="submit" form="dlg-live-1-form"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#send"/></svg>Send invitation</button>
+  </footer>
+</dialog>
+<dialog class="fl-dialog fl-dialog--s" id="dlg-live-2" role="alertdialog" aria-labelledby="dlg-live-2-title" aria-describedby="dlg-live-2-text">
+  <header class="fl-dialog__header">
+    <h2 class="fl-dialog__title" id="dlg-live-2-title">Delete this project?</h2>
+    <button class="fl-button fl-button--subtle fl-button--icon fl-dialog__close" type="button" aria-label="Close" command="close" commandfor="dlg-live-2"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button>
+  </header>
+  <div class="fl-dialog__body">
+    <p id="dlg-live-2-text">Quarterly report and its 24 files are deleted for every member. This cannot be undone.</p>
+  </div>
+  <footer class="fl-dialog__footer">
+    <button class="fl-button" type="button" command="close" commandfor="dlg-live-2" autofocus>Cancel</button>
+    <button class="fl-button fl-button--primary fl-button--danger" type="button" command="close" commandfor="dlg-live-2"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete project</button>
+  </footer>
+</dialog>
+<dialog class="fl-dialog fl-dialog--l" id="dlg-live-3" closedby="any" aria-labelledby="dlg-live-3-title">
+  <header class="fl-dialog__header">
+    <h2 class="fl-dialog__title" id="dlg-live-3-title">Choose files</h2>
+    <button class="fl-button fl-button--subtle fl-button--icon fl-dialog__close" type="button" aria-label="Close" command="close" commandfor="dlg-live-3"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button>
+  </header>
+  <div class="fl-dialog__body">
+    <div class="fl-stack">
+      <span class="fl-input"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg><input class="fl-input__control" type="search" placeholder="Search files" aria-label="Search files" autofocus></span>
+      <div class="docs-block">A wide thing: a table to pick from, a preview, two columns of fields</div>
+      <div class="docs-block">The body scrolls when it is taller than the view; the header and the footer stay</div>
+    </div>
+  </div>
+  <footer class="fl-dialog__footer">
+    <button class="fl-button" type="button" command="close" commandfor="dlg-live-3">Cancel</button>
+    <button class="fl-button fl-button--primary" type="button" command="close" commandfor="dlg-live-3">Add 3 files</button>
+  </footer>
+</dialog>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column">
+  <div class="demo-stage demo-stage--medium">
+  <dialog class="fl-dialog fl-dialog--s" open role="alertdialog" aria-labelledby="dlg-m-title" aria-describedby="dlg-m-text">
+  <header class="fl-dialog__header">
+    <h2 class="fl-dialog__title" id="dlg-m-title">Delete this project?</h2>
+    <button class="fl-button fl-button--subtle fl-button--icon fl-dialog__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button>
+  </header>
+  <div class="fl-dialog__body">
+    <p id="dlg-m-text">Quarterly report and its 24 files are deleted for every member. This cannot be undone.</p>
+  </div>
+  <footer class="fl-dialog__footer">
+    <button class="fl-button" type="button">Cancel</button>
+    <button class="fl-button fl-button--primary fl-button--danger" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete project</button>
+  </footer>
+</dialog>
+  </div>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><ul><li><code>&lt;dialog class="fl-dialog"&gt;</code>, opened as a modal by a button with <code>command="show-modal"</code> and <code>commandfor</code>.</li><li>Header: <code>&lt;header&gt;</code> with the title in an <code>&lt;h2&gt;</code> and the close button, an icon-only <code>fl-button</code> with <code>command="close"</code>. Body: <code>&lt;div&gt;</code>. Footer: <code>&lt;footer&gt;</code>.</li><li>A form lies in the body with <code>method="dialog"</code>; its submit button sits in the footer and names it with <code>form</code>, so the three parts stay children of the dialog.</li></ul></td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>The modal dialog pattern. <code>aria-labelledby</code> names it by its title. A confirmation is an alert dialog: <code>role="alertdialog"</code>, and <code>aria-describedby</code> on its text.</li><li>It opens on its first control, which carries <code>autofocus</code>: the first field of a form; in a confirmation the button that changes nothing. Without it the browser would start on the close button.</li><li>Tab and Shift+Tab move inside it only; the browser makes the page behind inert.</li><li>Esc closes it. With <code>closedby="any"</code> a click on the backdrop closes it too; a confirmation leaves that out.</li><li>The close button is named Close. When the dialog closes, focus goes back to the button that opened it.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Native: the browser opens it in the top layer, holds focus inside, closes it and gives focus back. No script.</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Open</code> with <code>@bind-Open</code>; <code>OnClose</code></li><li><code>Title</code>; <code>ChildContent</code>: the body; <code>Footer</code></li><li><code>Size</code>: Small, Medium (default), Large</li><li><code>Alert</code>: makes it an alert dialog, which a click outside does not close</li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-dialog</code>; <code>--s</code>, <code>--l</code>; parts <code>fl-dialog__header</code>, <code>__title</code>, <code>__close</code>, <code>__body</code>, <code>__footer</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>surface-raised</code>, <code>border</code>, <code>text</code>, <code>text-muted</code>, <code>backdrop</code></li><li>Size: <code>--fl-size-m</code>, <code>-l</code>, <code>-xl</code>, <code>--fl-inset-s</code>, <code>-l</code>, <code>--fl-gap-s</code>, <code>--fl-control-height-m</code>, <code>--fl-space-2</code>, <code>-3</code>, <code>-4</code>, <code>--fl-radius-xl</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-m</code>, <code>-l</code>, <code>--fl-font-weight-semibold</code>, <code>--fl-line-height-normal</code>, <code>-tight</code></li><li>Elevation and motion: <code>--fl-shadow-l</code>, <code>--fl-duration-normal</code>, <code>--fl-ease-standard</code>, <code>--fl-ease-exit</code>. It fades and rises by 8 px; under reduced motion it does neither.</li><li>Own: <code>--fl-dialog-width</code>, <code>--fl-dialog-gutter</code>, <code>--fl-dialog-rise</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+
+<section class="docs-section" id="drawer">
+<h2>Drawer</h2>
+<p>A panel that slides in from a side of the view. It is as tall as the view, so it holds more than a dialog, and the page stays in sight behind it. At the inline end it holds the details or the form of one thing. At the inline start it holds the navigation of the app shell when the view is too narrow for a sidebar.</p>
+
+<h3>At the inline end</h3>
+<div class="demo-stage">
+<dialog class="fl-drawer" open aria-labelledby="drw-s1-title">
+  <header class="fl-drawer__header">
+    <h2 class="fl-drawer__title" id="drw-s1-title">Edit member</h2>
+    <button class="fl-button fl-button--subtle fl-button--icon fl-drawer__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button>
+  </header>
+  <div class="fl-drawer__body">
+    <form class="fl-stack" id="drw-s1-form" method="dialog">
+      <div class="fl-field"><label class="fl-field__label" for="drw-s1-name">Name</label><span class="fl-input"><input class="fl-input__control" type="text" id="drw-s1-name" value="Ada Lindqvist"></span></div>
+      <div class="fl-field"><label class="fl-field__label" for="drw-s1-email">Email</label><span class="fl-input"><input class="fl-input__control" type="email" id="drw-s1-email" value="ada@example.com" aria-describedby="drw-s1-email-help"></span><p class="fl-field__help" id="drw-s1-email-help">Used for sign-in and for notifications.</p></div>
+      <div class="fl-field"><label class="fl-field__label" for="drw-s1-team">Team</label><span class="fl-input"><input class="fl-input__control" type="text" id="drw-s1-team" value="Finance"></span></div>
+      <div class="fl-field"><label class="fl-field__label" for="drw-s1-title2">Job title</label><span class="fl-input"><input class="fl-input__control" type="text" id="drw-s1-title2" placeholder="Optional"></span></div>
+      <div class="fl-field"><label class="fl-field__label" for="drw-s1-phone">Phone</label><span class="fl-input"><input class="fl-input__control" type="tel" id="drw-s1-phone" placeholder="Optional"></span></div>
+    </form>
+  </div>
+  <footer class="fl-drawer__footer">
+    <button class="fl-button" type="button">Cancel</button>
+    <button class="fl-button fl-button--primary" type="submit" form="drw-s1-form">Save</button>
+  </footer>
+</dialog>
+</div>
+<h4>Drawn open and still, on the backdrop: a header with the title and the close button, a body that scrolls, a footer. Medium, 480 px wide</h4>
+
+<h3>At the inline start</h3>
+<div class="demo-stage">
+<dialog class="fl-drawer fl-drawer--start fl-drawer--s" open aria-labelledby="drw-s2-title">
+  <header class="fl-drawer__header">
+    <h2 class="fl-drawer__title" id="drw-s2-title">Workspace</h2>
+    <button class="fl-button fl-button--subtle fl-button--icon fl-drawer__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button>
+  </header>
+  <div class="fl-drawer__body">
+    <div class="fl-stack fl-stack--gap-2">
+      <div class="docs-block">The navigation of the app shell</div>
+      <div class="docs-block">Projects</div>
+      <div class="docs-block">Members</div>
+      <div class="docs-block">Settings</div>
+    </div>
+  </div>
+</dialog>
+</div>
+<h4>Small, 320 px, with no footer. A drawer always leaves 40 px of the page in sight, which is also a place to click to close it.</h4>
+
+<h3>Live</h3>
+<div class="docs-demo">
+  <button class="fl-button" type="button" command="show-modal" commandfor="drw-live-2"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#panel-left"/></svg>Open the navigation</button>
+  <button class="fl-button" type="button" command="show-modal" commandfor="drw-live-1"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#panel-right"/></svg>Edit member</button>
+</div>
+<h4>Each opens as a modal and slides in from its side; in right to left the sides change places. Esc, the close button and a click on the backdrop close it, and focus goes back to the button that opened it</h4>
+<dialog class="fl-drawer" id="drw-live-1" closedby="any" aria-labelledby="drw-live-1-title">
+  <header class="fl-drawer__header">
+    <h2 class="fl-drawer__title" id="drw-live-1-title">Edit member</h2>
+    <button class="fl-button fl-button--subtle fl-button--icon fl-drawer__close" type="button" aria-label="Close" command="close" commandfor="drw-live-1"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button>
+  </header>
+  <div class="fl-drawer__body">
+    <form class="fl-stack" id="drw-live-1-form" method="dialog">
+      <div class="fl-field"><label class="fl-field__label" for="drw-live-1-name">Name</label><span class="fl-input"><input class="fl-input__control" type="text" id="drw-live-1-name" value="Ada Lindqvist" autofocus></span></div>
+      <div class="fl-field"><label class="fl-field__label" for="drw-live-1-email">Email</label><span class="fl-input"><input class="fl-input__control" type="email" id="drw-live-1-email" value="ada@example.com" aria-describedby="drw-live-1-email-help"></span><p class="fl-field__help" id="drw-live-1-email-help">Used for sign-in and for notifications.</p></div>
+      <div class="fl-field"><label class="fl-field__label" for="drw-live-1-team">Team</label><span class="fl-input"><input class="fl-input__control" type="text" id="drw-live-1-team" value="Finance"></span></div>
+      <div class="fl-field"><label class="fl-field__label" for="drw-live-1-title2">Job title</label><span class="fl-input"><input class="fl-input__control" type="text" id="drw-live-1-title2" placeholder="Optional"></span></div>
+      <div class="fl-field"><label class="fl-field__label" for="drw-live-1-phone">Phone</label><span class="fl-input"><input class="fl-input__control" type="tel" id="drw-live-1-phone" placeholder="Optional"></span></div>
+    </form>
+  </div>
+  <footer class="fl-drawer__footer">
+    <button class="fl-button" type="button" command="close" commandfor="drw-live-1">Cancel</button>
+    <button class="fl-button fl-button--primary" type="submit" form="drw-live-1-form">Save</button>
+  </footer>
+</dialog>
+<dialog class="fl-drawer fl-drawer--start fl-drawer--s" id="drw-live-2" closedby="any" aria-labelledby="drw-live-2-title">
+  <header class="fl-drawer__header">
+    <h2 class="fl-drawer__title" id="drw-live-2-title">Workspace</h2>
+    <button class="fl-button fl-button--subtle fl-button--icon fl-drawer__close" type="button" aria-label="Close" command="close" commandfor="drw-live-2" autofocus><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button>
+  </header>
+  <div class="fl-drawer__body">
+    <div class="fl-stack fl-stack--gap-2">
+      <div class="docs-block">The navigation of the app shell</div>
+      <div class="docs-block">Projects</div>
+      <div class="docs-block">Members</div>
+      <div class="docs-block">Settings</div>
+    </div>
+  </div>
+</dialog>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column">
+  <div class="demo-stage">
+  <dialog class="fl-drawer" open aria-labelledby="drw-m-title">
+  <header class="fl-drawer__header">
+    <h2 class="fl-drawer__title" id="drw-m-title">Edit member</h2>
+    <button class="fl-button fl-button--subtle fl-button--icon fl-drawer__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button>
+  </header>
+  <div class="fl-drawer__body">
+    <form class="fl-stack" id="drw-m-form" method="dialog">
+      <div class="fl-field"><label class="fl-field__label" for="drw-m-name">Name</label><span class="fl-input"><input class="fl-input__control" type="text" id="drw-m-name" value="Ada Lindqvist"></span></div>
+      <div class="fl-field"><label class="fl-field__label" for="drw-m-email">Email</label><span class="fl-input"><input class="fl-input__control" type="email" id="drw-m-email" value="ada@example.com" aria-describedby="drw-m-email-help"></span><p class="fl-field__help" id="drw-m-email-help">Used for sign-in and for notifications.</p></div>
+    </form>
+  </div>
+  <footer class="fl-drawer__footer">
+    <button class="fl-button" type="button">Cancel</button>
+    <button class="fl-button fl-button--primary" type="submit" form="drw-m-form">Save</button>
+  </footer>
+</dialog>
+  </div>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><ul><li><code>&lt;dialog class="fl-drawer"&gt;</code>, opened as a modal by a button with <code>command="show-modal"</code> and <code>commandfor</code>.</li><li>Header, body and footer as in the dialog: <code>&lt;header&gt;</code> with an <code>&lt;h2&gt;</code> and the close button, <code>&lt;div&gt;</code>, <code>&lt;footer&gt;</code>. The footer is optional.</li></ul></td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>The modal dialog pattern, named by its title with <code>aria-labelledby</code>.</li><li>It opens on its first control, which carries <code>autofocus</code>. A drawer of navigation has no field, so it opens on the close button; the links follow in the tab order.</li><li>Tab and Shift+Tab move inside it only. Esc, the close button named Close, and with <code>closedby="any"</code> a click on the backdrop close it. Focus goes back to the button that opened it.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Native: the same as the dialog. No script.</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Open</code> with <code>@bind-Open</code>; <code>OnClose</code></li><li><code>Title</code>; <code>ChildContent</code>: the body; <code>Footer</code></li><li><code>Side</code>: End (default), Start</li><li><code>Size</code>: Small, Medium (default), Large</li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-drawer</code>; <code>--start</code>; <code>--s</code>, <code>--l</code>; parts <code>fl-drawer__header</code>, <code>__title</code>, <code>__close</code>, <code>__body</code>, <code>__footer</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>surface-raised</code>, <code>border</code>, <code>text</code>, <code>backdrop</code></li><li>Size: <code>--fl-size-s</code>, <code>-m</code>, <code>-l</code>, <code>--fl-inset-s</code>, <code>-l</code>, <code>--fl-gap-s</code>, <code>--fl-control-height-m</code>, <code>--fl-space-2</code>, <code>-10</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-m</code>, <code>-l</code>, <code>--fl-font-weight-semibold</code>, <code>--fl-line-height-normal</code>, <code>-tight</code></li><li>Elevation and motion: <code>--fl-shadow-l</code>, <code>--fl-duration-slow</code>, <code>--fl-ease-standard</code>, <code>--fl-ease-exit</code>. It slides by its own width; under reduced motion it appears in place.</li><li>Own: <code>--fl-drawer-width</code>, <code>--fl-drawer-start</code>, <code>-end</code>, <code>--fl-drawer-edge-start</code>, <code>-edge-end</code>, <code>--fl-drawer-from</code>, <code>--fl-drawer-direction</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+
+<section class="docs-section" id="popover">
+<h2>Popover</h2>
+<p>A small panel that opens from a button and stays beside it: a set of filters, a form of one or two fields, a note with a link. It does not block the page; a click outside, or Esc, closes it. A thing that must be answered is a dialog, and a list of actions is a menu.</p>
+
+<h3>Content</h3>
+<div class="docs-demo">
+  <div class="fl-cluster fl-cluster--top fl-cluster--gap-6">
+  <div class="demo-open">
+    <button class="fl-button" type="button" aria-haspopup="dialog" aria-expanded="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#funnel"/></svg>Filter<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button>
+    <div class="fl-popover" role="dialog" aria-labelledby="pop-s1-title">
+    <div class="fl-popover__header">
+      <h2 class="fl-popover__title" id="pop-s1-title">Filters</h2>
+      <button class="fl-link fl-link--standalone" type="button">Reset</button>
+    </div>
+    <div class="fl-popover__body">
+      <fieldset class="fl-field">
+        <legend class="fl-field__label">Status</legend>
+        <label class="fl-cluster"><input type="checkbox" checked> Active</label>
+        <label class="fl-cluster"><input type="checkbox" checked> On hold</label>
+        <label class="fl-cluster"><input type="checkbox"> Archived</label>
+      </fieldset>
+      <div class="fl-field"><label class="fl-field__label" for="pop-s1-owner">Owner</label><span class="fl-input"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#user"/></svg><input class="fl-input__control" type="text" id="pop-s1-owner" placeholder="Anyone"></span></div>
+    </div>
+    <div class="fl-popover__footer">
+      <button class="fl-button" type="button">Cancel</button>
+      <button class="fl-button fl-button--primary" type="button">Apply</button>
+    </div>
+  </div>
+  </div>
+  <div class="demo-open">
+    <button class="fl-button" type="button" aria-haspopup="dialog" aria-expanded="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg>Rename</button>
+    <div class="fl-popover" role="dialog" aria-label="Rename">
+    <div class="fl-popover__body">
+      <div class="fl-field"><label class="fl-field__label" for="pop-s2-name">Name</label><span class="fl-input"><input class="fl-input__control" type="text" id="pop-s2-name" value="Quarterly report"></span></div>
+    </div>
+    <div class="fl-popover__footer">
+      <button class="fl-button" type="button">Cancel</button>
+      <button class="fl-button fl-button--primary" type="button">Rename</button>
+    </div>
+  </div>
+  </div>
+  <div class="demo-open">
+    <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="About roles" aria-haspopup="dialog" aria-expanded="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-question-mark"/></svg></button>
+    <div class="fl-popover" role="dialog" aria-labelledby="pop-s3-title">
+    <div class="fl-popover__header">
+      <h2 class="fl-popover__title" id="pop-s3-title">Roles</h2>
+    </div>
+    <div class="fl-popover__body">
+      <p>An owner manages members and billing. An editor changes projects. A viewer reads them.</p>
+      <p><a class="fl-link" href="#popover">Read about roles</a></p>
+    </div>
+  </div>
+  </div>
+  </div>
+</div>
+<h4>Drawn open and still, each under its button: a set of filters with a header and a footer, a small form, and a note</h4>
+
+<h3>Live</h3>
+<div class="docs-demo">
+  <button class="fl-button" type="button" popovertarget="pop-live-1" aria-haspopup="dialog"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#funnel"/></svg>Filter<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button>
+  <div class="fl-popover" id="pop-live-1" popover role="dialog" aria-labelledby="pop-live-1-title">
+    <div class="fl-popover__header">
+      <h2 class="fl-popover__title" id="pop-live-1-title">Filters</h2>
+      <button class="fl-link fl-link--standalone" type="button">Reset</button>
+    </div>
+    <div class="fl-popover__body">
+      <fieldset class="fl-field">
+        <legend class="fl-field__label">Status</legend>
+        <label class="fl-cluster"><input type="checkbox" checked autofocus> Active</label>
+        <label class="fl-cluster"><input type="checkbox" checked> On hold</label>
+        <label class="fl-cluster"><input type="checkbox"> Archived</label>
+      </fieldset>
+      <div class="fl-field"><label class="fl-field__label" for="pop-live-1-owner">Owner</label><span class="fl-input"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#user"/></svg><input class="fl-input__control" type="text" id="pop-live-1-owner" placeholder="Anyone"></span></div>
+    </div>
+    <div class="fl-popover__footer">
+      <button class="fl-button" type="button" popovertarget="pop-live-1" popovertargetaction="hide">Cancel</button>
+      <button class="fl-button fl-button--primary" type="button" popovertarget="pop-live-1" popovertargetaction="hide">Apply</button>
+    </div>
+  </div>
+  <button class="fl-button" type="button" popovertarget="pop-live-2" aria-haspopup="dialog"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg>Rename</button>
+  <div class="fl-popover" id="pop-live-2" popover role="dialog" aria-label="Rename">
+    <div class="fl-popover__body">
+      <div class="fl-field"><label class="fl-field__label" for="pop-live-2-name">Name</label><span class="fl-input"><input class="fl-input__control" type="text" id="pop-live-2-name" value="Quarterly report" autofocus></span></div>
+    </div>
+    <div class="fl-popover__footer">
+      <button class="fl-button" type="button" popovertarget="pop-live-2" popovertargetaction="hide">Cancel</button>
+      <button class="fl-button fl-button--primary" type="button" popovertarget="pop-live-2" popovertargetaction="hide">Rename</button>
+    </div>
+  </div>
+  <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="About roles" popovertarget="pop-live-3" aria-haspopup="dialog"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-question-mark"/></svg></button>
+  <div class="fl-popover" id="pop-live-3" popover role="dialog" aria-labelledby="pop-live-3-title">
+    <div class="fl-popover__header">
+      <h2 class="fl-popover__title" id="pop-live-3-title">Roles</h2>
+    </div>
+    <div class="fl-popover__body">
+      <p>An owner manages members and billing. An editor changes projects. A viewer reads them.</p>
+      <p><a class="fl-link" href="#popover">Read about roles</a></p>
+    </div>
+  </div>
+  <span class="demo-end"><button class="fl-button" type="button" popovertarget="pop-live-4" aria-haspopup="dialog"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#funnel"/></svg>Filter<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></span>
+  <div class="fl-popover fl-popover--end" id="pop-live-4" popover role="dialog" aria-labelledby="pop-live-4-title">
+    <div class="fl-popover__header">
+      <h2 class="fl-popover__title" id="pop-live-4-title">Filters</h2>
+      <button class="fl-link fl-link--standalone" type="button">Reset</button>
+    </div>
+    <div class="fl-popover__body">
+      <fieldset class="fl-field">
+        <legend class="fl-field__label">Status</legend>
+        <label class="fl-cluster"><input type="checkbox" checked autofocus> Active</label>
+        <label class="fl-cluster"><input type="checkbox" checked> On hold</label>
+        <label class="fl-cluster"><input type="checkbox"> Archived</label>
+      </fieldset>
+      <div class="fl-field"><label class="fl-field__label" for="pop-live-4-owner">Owner</label><span class="fl-input"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#user"/></svg><input class="fl-input__control" type="text" id="pop-live-4-owner" placeholder="Anyone"></span></div>
+    </div>
+    <div class="fl-popover__footer">
+      <button class="fl-button" type="button" popovertarget="pop-live-4" popovertargetaction="hide">Cancel</button>
+      <button class="fl-button fl-button--primary" type="button" popovertarget="pop-live-4" popovertargetaction="hide">Apply</button>
+    </div>
+  </div>
+</div>
+<h4>Each is anchored to its button and opens along its start edge; the last one, at the end of the row, along its end edge. One that has no room below opens above. Focus goes to the first control inside.</h4>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes">
+  <div class="demo-open">
+    <button class="fl-button" type="button" aria-haspopup="dialog" aria-expanded="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#funnel"/></svg>Filter<svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button>
+    <div class="fl-popover" role="dialog" aria-labelledby="pop-m-title">
+    <div class="fl-popover__header">
+      <h2 class="fl-popover__title" id="pop-m-title">Filters</h2>
+      <button class="fl-link fl-link--standalone" type="button">Reset</button>
+    </div>
+    <div class="fl-popover__body">
+      <fieldset class="fl-field">
+        <legend class="fl-field__label">Status</legend>
+        <label class="fl-cluster"><input type="checkbox" checked> Active</label>
+        <label class="fl-cluster"><input type="checkbox" checked> On hold</label>
+        <label class="fl-cluster"><input type="checkbox"> Archived</label>
+      </fieldset>
+      <div class="fl-field"><label class="fl-field__label" for="pop-m-owner">Owner</label><span class="fl-input"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#user"/></svg><input class="fl-input__control" type="text" id="pop-m-owner" placeholder="Anyone"></span></div>
+    </div>
+    <div class="fl-popover__footer">
+      <button class="fl-button" type="button">Cancel</button>
+      <button class="fl-button fl-button--primary" type="button">Apply</button>
+    </div>
+  </div>
+  </div>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;div class="fl-popover" popover role="dialog"&gt;</code>, after its button. The button has <code>popovertarget</code>. A button inside closes it with <code>popovertargetaction="hide"</code>.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>A dialog that is not modal, named by its title with <code>aria-labelledby</code>, or with <code>aria-label</code>. The button has <code>aria-haspopup="dialog"</code>; the browser tells its expanded state.</li><li>Enter or Space on the button opens and closes it. Focus goes to the control that carries <code>autofocus</code>; without one it stays on the button, and Tab moves into the popover next.</li><li>Esc closes it and gives focus back to the button. A click outside closes it.</li><li>Tab moves out of it after its last control; it does not hold focus.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Native: the browser opens it, closes it on Esc and on a click outside, gives focus back, and places it by the button with CSS anchor positioning. Where a browser cannot anchor, it opens in the middle of the view. No script.</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Open</code> with <code>@bind-Open</code></li><li><code>Title</code>; <code>Label</code>: the name when there is no title</li><li><code>Align</code>: Start (default), End</li><li><code>ChildContent</code>: the body; <code>Footer</code></li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-popover</code>; <code>--end</code>; parts <code>fl-popover__header</code>, <code>__title</code>, <code>__body</code>, <code>__footer</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>surface-raised</code>, <code>border</code>, <code>text</code>, <code>text-muted</code></li><li>Size: <code>--fl-size-s</code>, <code>--fl-inset-m</code>, <code>--fl-gap-s</code>, <code>-m</code>, <code>--fl-space-1</code>, <code>-2</code>, <code>--fl-radius-l</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-s</code>, <code>-m</code>, <code>--fl-font-weight-semibold</code>, <code>--fl-line-height-normal</code>, <code>-tight</code></li><li>Elevation and motion: <code>--fl-shadow-m</code>, <code>--fl-duration-fast</code>, <code>--fl-ease-exit</code></li><li>Own: <code>--fl-popover-area</code>, <code>--fl-popover-width</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+
+<section class="docs-section" id="tooltip">
+<h2>Tooltip</h2>
+<p>The name of a control that shows no text, such as an icon-only button, on the inverse surface. It is shown when the control is pointed at or takes focus. A touch cannot point, so a tooltip is never the only way to learn something: the name is also the accessible name of the control, and anything longer than a name belongs in the page or in a popover.</p>
+
+<h3>Content</h3>
+<div class="docs-demo">
+  <div class="fl-cluster fl-cluster--gap-6">
+  <div class="demo-open demo-open--over">
+    <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="Edit"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg></button>
+    <div class="fl-tooltip" role="tooltip">Edit</div>
+  </div>
+  <div class="demo-open demo-open--over">
+    <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="Bold"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#bold"/></svg></button>
+    <div class="fl-tooltip" role="tooltip">Bold<kbd class="fl-tooltip__shortcut">Ctrl+B</kbd></div>
+  </div>
+  <div class="demo-open demo-open--over">
+    <button class="fl-button fl-button--icon" type="button" aria-label="Notifications"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#bell"/></svg></button>
+    <div class="fl-tooltip" role="tooltip">Notifications</div>
+  </div>
+  <div class="demo-open demo-open--over">
+    <button class="fl-button fl-button--icon fl-button--subtle fl-button--danger" type="button" aria-label="Delete"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg></button>
+    <div class="fl-tooltip" role="tooltip">Delete</div>
+  </div>
+  <div class="demo-open demo-open--over">
+    <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="Copy link"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#link"/></svg></button>
+    <div class="fl-tooltip" role="tooltip">Copy a link to this project that every member of the workspace can open</div>
+  </div>
+  </div>
+</div>
+<h4>Drawn open and still, each over its button: a name, a name with its shortcut, and a text that wraps at 256 px, which is as long as a tooltip gets</h4>
+
+<h3>Live</h3>
+<div class="docs-demo">
+  <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="Edit" interestfor="tip-live-1"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg></button>
+  <div class="fl-tooltip" role="tooltip" id="tip-live-1" popover="hint">Edit</div>
+  <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="Bold" interestfor="tip-live-2" aria-keyshortcuts="Control+B"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#bold"/></svg></button>
+  <div class="fl-tooltip" role="tooltip" id="tip-live-2" popover="hint">Bold<kbd class="fl-tooltip__shortcut">Ctrl+B</kbd></div>
+  <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="Below" interestfor="tip-live-3"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button>
+  <div class="fl-tooltip fl-tooltip--below" role="tooltip" id="tip-live-3" popover="hint">Below</div>
+  <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="At the start" interestfor="tip-live-4"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-left"/></svg></button>
+  <div class="fl-tooltip fl-tooltip--start" role="tooltip" id="tip-live-4" popover="hint">At the start</div>
+  <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="At the end" interestfor="tip-live-5"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-right"/></svg></button>
+  <div class="fl-tooltip fl-tooltip--end" role="tooltip" id="tip-live-5" popover="hint">At the end</div>
+</div>
+<h4>Point at a button, or move to it with Tab. Above by default, centred on the button; then below, at the inline start and at the inline end. One that has no room on its side goes to the other side. Esc hides it.</h4>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes">
+  <div class="demo-open demo-open--over">
+    <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="Edit"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg></button>
+    <div class="fl-tooltip" role="tooltip">Edit</div>
+  </div>
+  <div class="demo-open demo-open--over">
+    <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="Bold"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#bold"/></svg></button>
+    <div class="fl-tooltip" role="tooltip">Bold<kbd class="fl-tooltip__shortcut">Ctrl+B</kbd></div>
+  </div>
+  <div class="demo-open demo-open--over">
+    <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="Copy link"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#link"/></svg></button>
+    <div class="fl-tooltip" role="tooltip">Copy a link that every member can open</div>
+  </div>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;div class="fl-tooltip" role="tooltip" popover="hint"&gt;</code>, after its control. The control names it with <code>interestfor</code>. A shortcut inside is a <code>&lt;kbd&gt;</code>.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>The tooltip pattern. On an icon-only button the tooltip repeats the <code>aria-label</code>, so the button does not point at it again. When it adds something, the control lists it in <code>aria-describedby</code>; a shortcut is in <code>aria-keyshortcuts</code>.</li><li>Shown after a short delay when the control is pointed at, and at once when it takes focus from the keyboard. Hidden when the pointer leaves, when focus leaves, on Esc, and when the control is used.</li><li>It stays while the pointer is on the tooltip itself, so a magnified view can reach it.</li><li>It holds text only: no link and no button, since focus cannot enter it.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Native, through interest invokers: <code>interestfor</code> on the control. A browser without them needs the script of the library to show the tooltip on hover and on focus; the control keeps its name in both cases.</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Text</code>; <code>Shortcut</code></li><li><code>Placement</code>: Above (default), Below, Start, End</li><li><code>ChildContent</code>: the control it belongs to</li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-tooltip</code>; <code>--below</code>, <code>--start</code>, <code>--end</code>; part <code>fl-tooltip__shortcut</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>surface-inverse</code>, <code>text-inverse</code></li><li>Size: <code>--fl-size-xs</code>, <code>--fl-space-1</code>, <code>-1-5</code>, <code>-2</code>, <code>--fl-radius-m</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-xs</code>, <code>--fl-font-weight-medium</code>, <code>--fl-line-height-normal</code></li><li>Elevation and motion: <code>--fl-shadow-s</code>, <code>--fl-duration-fast</code>, <code>--fl-ease-exit</code></li><li>Own: <code>--fl-tooltip-area</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+
+<section class="docs-section" id="alert">
+<h2>Alert</h2>
+<p>A message that stays in the page until it is no longer true, or until it is closed. It speaks about the page, or about the part of the page it sits in. The tone goes with an icon and with words that say the same thing, so the colour is never the only sign.</p>
+
+<h3>Tones</h3>
+<div class="docs-demo docs-demo--column">
+  <div class="fl-alert" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#info"/></svg><div class="fl-alert__content"><p class="fl-alert__text">This project is read-only for your role.</p></div><button class="fl-alert__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  <div class="fl-alert fl-alert--info" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#info"/></svg><div class="fl-alert__content"><p class="fl-alert__text">A new version of the workspace settings is ready to review.</p></div><button class="fl-alert__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  <div class="fl-alert fl-alert--success" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-check"/></svg><div class="fl-alert__content"><p class="fl-alert__text">The members were imported. 24 were added and 2 were already there.</p></div><button class="fl-alert__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  <div class="fl-alert fl-alert--warning" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#triangle-alert"/></svg><div class="fl-alert__content"><p class="fl-alert__text">The workspace has 48 of its 50 members.</p></div><button class="fl-alert__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  <div class="fl-alert fl-alert--danger" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg><div class="fl-alert__content"><p class="fl-alert__text">The file could not be uploaded. It is larger than 20 MB.</p></div><button class="fl-alert__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  <div class="fl-alert fl-alert--pending" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#clock"/></svg><div class="fl-alert__content"><p class="fl-alert__text">The export is being prepared. It is sent to your email when it is ready.</p></div><button class="fl-alert__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+</div>
+<h4>Neutral, info, success, warning, danger and pending: the soft fill of the tone, its border, and its text colour for the icon and the words</h4>
+
+<h3>Parts</h3>
+<div class="docs-demo docs-demo--column">
+  <div class="fl-alert fl-alert--warning" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#triangle-alert"/></svg><div class="fl-alert__content"><p class="fl-alert__title">The plan reaches its limit</p><p class="fl-alert__text">The workspace has 48 of its 50 members. A new member cannot be invited once the limit is reached.</p><div class="fl-alert__actions"><button class="fl-button fl-button--s" type="button">See the plans</button><button class="fl-button fl-button--s fl-button--subtle" type="button">Manage members</button></div></div><button class="fl-alert__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  <div class="fl-alert fl-alert--danger" role="alert"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg><div class="fl-alert__content"><p class="fl-alert__title">The changes were not saved</p><p class="fl-alert__text">The connection was lost while saving. What you typed is still in the form.</p><div class="fl-alert__actions"><button class="fl-button fl-button--s" type="button">Try again</button></div></div><button class="fl-alert__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  <div class="fl-alert fl-alert--info" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#info"/></svg><div class="fl-alert__content"><p class="fl-alert__title">Without a close button</p><p class="fl-alert__text">An alert that states a lasting fact about the page has no close button.</p></div></div>
+  <div class="fl-alert" role="status"><div class="fl-alert__content"><p class="fl-alert__text">Without an icon, for a quiet note inside a form or a card.</p></div></div>
+</div>
+<h4>An icon, a title, a text, actions as small buttons, and a close button. Each part but the text is optional.</h4>
+
+<h3>In a page</h3>
+<div class="docs-demo docs-demo--canvas docs-demo--column">
+  <div class="fl-alert fl-alert--warning" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#triangle-alert"/></svg><div class="fl-alert__content"><p class="fl-alert__title">Scheduled maintenance</p><p class="fl-alert__text">The workspace is read-only on Sunday from 02:00 to 04:00.</p><div class="fl-alert__actions"><button class="fl-button fl-button--s" type="button">See the details</button></div></div><button class="fl-alert__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  <div class="docs-block">The header of the page</div>
+  <div class="docs-block">The content of the page</div>
+</div>
+<h4>On the page background, above the header of the page, as wide as the content</h4>
+
+<h3>Inside a card</h3>
+<div class="docs-demo docs-demo--canvas">
+  <div class="demo-card">
+    <strong>Status</strong>
+    <div class="fl-alert fl-alert--warning" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#triangle-alert"/></svg><div class="fl-alert__content"><p class="fl-alert__text">Version 12 is the one that members see. This draft has changes that are not shared yet.</p></div></div>
+    <p>Last saved 12 minutes ago by Ada Lindqvist.</p>
+  </div>
+  <div class="demo-card">
+    <strong>Sign-in</strong>
+    <div class="fl-alert fl-alert--success" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-check"/></svg><div class="fl-alert__content"><p class="fl-alert__text">Two-step sign-in is on for every member.</p></div></div>
+    <p>Members confirm each new device with a code.</p>
+  </div>
+</div>
+<h4>The same alert in the width of a card; the box around it stands in for the card of the layout lane</h4>
+
+<h3>States of the close button</h3>
+<div class="docs-demo docs-scroll">
+<table class="docs-matrix">
+<thead><tr><td></td><th scope="col">Rest</th><th scope="col">Hover</th><th scope="col">Focus</th><th scope="col">Pressed</th></tr></thead>
+<tbody>
+<tr><th scope="row">Info</th><td><div class="fl-alert fl-alert--info docs-medium" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#info"/></svg><div class="fl-alert__content"><p class="fl-alert__text">Ready to review.</p></div><button class="fl-alert__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></td><td><div class="fl-alert fl-alert--info docs-medium" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#info"/></svg><div class="fl-alert__content"><p class="fl-alert__text">Ready to review.</p></div><button class="fl-alert__close" type="button" aria-label="Close" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></td><td><div class="fl-alert fl-alert--info docs-medium" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#info"/></svg><div class="fl-alert__content"><p class="fl-alert__text">Ready to review.</p></div><button class="fl-alert__close" type="button" aria-label="Close" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></td><td><div class="fl-alert fl-alert--info docs-medium" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#info"/></svg><div class="fl-alert__content"><p class="fl-alert__text">Ready to review.</p></div><button class="fl-alert__close" type="button" aria-label="Close" data-force="hover active"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></td></tr>
+<tr><th scope="row">Danger</th><td><div class="fl-alert fl-alert--danger docs-medium" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg><div class="fl-alert__content"><p class="fl-alert__text">Could not upload.</p></div><button class="fl-alert__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></td><td><div class="fl-alert fl-alert--danger docs-medium" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg><div class="fl-alert__content"><p class="fl-alert__text">Could not upload.</p></div><button class="fl-alert__close" type="button" aria-label="Close" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></td><td><div class="fl-alert fl-alert--danger docs-medium" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg><div class="fl-alert__content"><p class="fl-alert__text">Could not upload.</p></div><button class="fl-alert__close" type="button" aria-label="Close" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></td><td><div class="fl-alert fl-alert--danger docs-medium" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg><div class="fl-alert__content"><p class="fl-alert__text">Could not upload.</p></div><button class="fl-alert__close" type="button" aria-label="Close" data-force="hover active"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></td></tr>
+</tbody>
+</table>
+</div>
+<p>The alert itself has no state. Its close button is 24 px in both densities and takes the room of one line, so an alert of one line keeps its height.</p>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column">
+  <div class="fl-alert fl-alert--info" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#info"/></svg><div class="fl-alert__content"><p class="fl-alert__text">A new version is ready to review.</p></div><button class="fl-alert__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  <div class="fl-alert fl-alert--warning" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#triangle-alert"/></svg><div class="fl-alert__content"><p class="fl-alert__title">The plan reaches its limit</p><p class="fl-alert__text">The workspace has 48 of its 50 members.</p><div class="fl-alert__actions"><button class="fl-button fl-button--s" type="button">See the plans</button></div></div><button class="fl-alert__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  <div class="fl-alert fl-alert--danger" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg><div class="fl-alert__content"><p class="fl-alert__text">The file could not be uploaded.</p></div><button class="fl-alert__close" type="button" aria-label="Close" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;div class="fl-alert" role="status"&gt;</code>; <code>role="alert"</code> for an error that appears after an action. The icon is an <code>fl-icon</code>, the title and the text are <code>&lt;p&gt;</code>, the close button is a <code>&lt;button&gt;</code>.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li><code>role="status"</code> is read when the alert appears, after what is being read; <code>role="alert"</code> is read at once. An alert that is in the page from the start is read in its place.</li><li>The icon is decorative. The words carry the tone: the title or the text says what happened.</li><li>The close button is named Close; Enter and Space. When it closes, focus goes to the next control in the page.</li><li>Actions are buttons or links with their own names.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Static. The close button needs an interactive render, or posts a form.</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Tone</code>: Neutral (default), Info, Success, Warning, Danger, Pending</li><li><code>Title</code>; <code>ChildContent</code>: the text; <code>Actions</code></li><li><code>Icon</code>: the icon of the tone by default; <code>NoIcon</code></li><li><code>Dismissible</code>: shows the close button; <code>OnDismiss</code></li><li><code>Assertive</code>: <code>role="alert"</code> in place of <code>role="status"</code></li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-alert</code>; <code>--info</code>, <code>--success</code>, <code>--warning</code>, <code>--danger</code>, <code>--pending</code>; parts <code>fl-alert__content</code>, <code>__title</code>, <code>__text</code>, <code>__actions</code>, <code>__close</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>soft</code>, <code>border</code> and <code>text</code> of each tone; <code>hover</code>, <code>pressed</code></li><li>Size: <code>--fl-inset-s</code>, <code>--fl-gap-s</code>, <code>--fl-space-0-5</code>, <code>-1</code>, <code>-2</code>, <code>-3</code>, <code>--fl-target-min</code>, <code>--fl-icon-size-m</code>, <code>--fl-radius-l</code>, <code>--fl-radius-s</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-s</code>, <code>--fl-font-weight-semibold</code>, <code>--fl-line-height-normal</code></li><li>Focus: <code>--fl-focus-ring</code>, <code>--fl-focus-ring-offset</code>, <code>--fl-focus-halo</code></li><li>Own: <code>--fl-alert-bg</code>, <code>--fl-alert-border</code>, <code>--fl-alert-fg</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+
+<section class="docs-section" id="toast">
+<h2>Toast</h2>
+<p>A short report of something that just happened, which lies over a corner of the view for a moment and then leaves. It confirms an action the person took and may offer one way back, such as Undo. It never holds the only copy of something: what must be read or answered is an alert in the page, or a dialog.</p>
+
+<h3>Parts</h3>
+<div class="docs-demo docs-demo--canvas docs-demo--column docs-demo--narrow">
+  <div class="fl-toast" role="status"><div class="fl-toast__content"><p class="fl-toast__title">Link copied</p></div></div>
+  <div class="fl-toast fl-toast--success" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-check"/></svg><div class="fl-toast__content"><p class="fl-toast__title">Project saved</p></div><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  <div class="fl-toast" role="status"><div class="fl-toast__content"><p class="fl-toast__title">Project deleted</p></div><button class="fl-button fl-button--s fl-toast__action" type="button">Undo</button><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  <div class="fl-toast fl-toast--info" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#info"/></svg><div class="fl-toast__content"><p class="fl-toast__title">A new version is ready</p><p class="fl-toast__text">Reload the page to use it.</p><div class="fl-toast__actions"><button class="fl-button fl-button--s" type="button">Reload</button></div></div><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  <div class="fl-toast fl-toast--warning" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#triangle-alert"/></svg><div class="fl-toast__content"><p class="fl-toast__title">Saved without the image</p><p class="fl-toast__text">The image is larger than 20 MB.</p></div><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  <div class="fl-toast fl-toast--danger" role="alert"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg><div class="fl-toast__content"><p class="fl-toast__title">The changes were not saved</p><p class="fl-toast__text">The connection was lost. What you typed is still in the form.</p><div class="fl-toast__actions"><button class="fl-button fl-button--s" type="button">Try again</button></div></div><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+</div>
+<h4>The text alone; with an icon and a close button; with an action beside the text; with a second line, where the action goes under it. The icon carries the tone, and the surface stays the raised one, so a toast reads as a thing over the page and not as a part of it.</h4>
+
+<h3>Region</h3>
+<div class="demo-stage demo-stage--page">
+  <div class="fl-toast-region" role="region" aria-label="Notifications">
+    <div class="fl-toast fl-toast--danger" role="alert"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg><div class="fl-toast__content"><p class="fl-toast__title">The changes were not saved</p><p class="fl-toast__text">The connection was lost. What you typed is still in the form.</p><div class="fl-toast__actions"><button class="fl-button fl-button--s" type="button">Try again</button></div></div><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+    <div class="fl-toast" role="status"><div class="fl-toast__content"><p class="fl-toast__title">Project deleted</p></div><button class="fl-button fl-button--s fl-toast__action" type="button">Undo</button><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+    <div class="fl-toast fl-toast--success" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-check"/></svg><div class="fl-toast__content"><p class="fl-toast__title">Project saved</p></div><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  </div>
+</div>
+<h4>Drawn open and still, in a piece of a view: a stack at the end of the block and of the line, 16 px from both edges, 320 px wide. The newest toast is the one nearest to the corner. An error stays until it is closed; the others leave after five seconds.</h4>
+
+<h3>States</h3>
+<div class="docs-demo docs-scroll">
+<table class="docs-matrix">
+<thead><tr><td></td><th scope="col">Rest</th><th scope="col">Hover</th><th scope="col">Focus</th><th scope="col">Pressed</th></tr></thead>
+<tbody>
+<tr><th scope="row">Close button</th><td><div class="fl-toast fl-toast--success docs-medium" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-check"/></svg><div class="fl-toast__content"><p class="fl-toast__title">Project saved</p></div><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></td><td><div class="fl-toast fl-toast--success docs-medium" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-check"/></svg><div class="fl-toast__content"><p class="fl-toast__title">Project saved</p></div><button class="fl-toast__close" type="button" aria-label="Close" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></td><td><div class="fl-toast fl-toast--success docs-medium" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-check"/></svg><div class="fl-toast__content"><p class="fl-toast__title">Project saved</p></div><button class="fl-toast__close" type="button" aria-label="Close" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></td><td><div class="fl-toast fl-toast--success docs-medium" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-check"/></svg><div class="fl-toast__content"><p class="fl-toast__title">Project saved</p></div><button class="fl-toast__close" type="button" aria-label="Close" data-force="hover active"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></td></tr>
+<tr><th scope="row">Action</th><td><div class="fl-toast docs-medium" role="status"><div class="fl-toast__content"><p class="fl-toast__title">Project deleted</p></div><button class="fl-button fl-button--s fl-toast__action" type="button">Undo</button><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></td><td><div class="fl-toast docs-medium" role="status"><div class="fl-toast__content"><p class="fl-toast__title">Project deleted</p></div><button class="fl-button fl-button--s fl-toast__action" type="button" data-force="hover">Undo</button><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></td><td><div class="fl-toast docs-medium" role="status"><div class="fl-toast__content"><p class="fl-toast__title">Project deleted</p></div><button class="fl-button fl-button--s fl-toast__action" type="button" data-force="focus-visible">Undo</button><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></td><td><div class="fl-toast docs-medium" role="status"><div class="fl-toast__content"><p class="fl-toast__title">Project deleted</p></div><button class="fl-button fl-button--s fl-toast__action" type="button" data-force="hover active">Undo</button><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></td></tr>
+</tbody>
+</table>
+</div>
+<p>While the pointer is on a toast, or focus is inside it, its five seconds do not run.</p>
+
+<h3>Live</h3>
+<div class="docs-demo">
+  <button class="fl-button" type="button" data-toast="toast-saved"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#save"/></svg>Save</button>
+  <button class="fl-button" type="button" data-toast="toast-deleted"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#trash-2"/></svg>Delete</button>
+  <button class="fl-button" type="button" data-toast="toast-failed">Save without a connection</button>
+</div>
+<h4>Each button adds a toast to the region at the corner of this view. The first two leave after five seconds; the error stays until it is closed.</h4>
+<div class="fl-toast-region" id="toast-live" role="region" aria-label="Notifications" popover="manual"></div>
+<template id="toast-saved"><div class="fl-toast fl-toast--success" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-check"/></svg><div class="fl-toast__content"><p class="fl-toast__title">Project saved</p></div><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></template>
+<template id="toast-deleted"><div class="fl-toast" role="status"><div class="fl-toast__content"><p class="fl-toast__title">Project deleted</p></div><button class="fl-button fl-button--s fl-toast__action" type="button">Undo</button><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></template>
+<template id="toast-failed"><div class="fl-toast fl-toast--danger" role="alert"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg><div class="fl-toast__content"><p class="fl-toast__title">The changes were not saved</p><p class="fl-toast__text">The connection was lost. What you typed is still in the form.</p><div class="fl-toast__actions"><button class="fl-button fl-button--s" type="button">Try again</button></div></div><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div></template>
+
+<h3>Static fallback</h3>
+<div class="docs-demo docs-demo--canvas docs-demo--column">
+  <div class="fl-alert fl-alert--success" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-check"/></svg><div class="fl-alert__content"><p class="fl-alert__text">Project saved.</p></div></div>
+  <div class="docs-block">The page, as it comes back after the form was posted</div>
+</div>
+<h4>Where nothing runs in the browser there is no toast: the page that comes back after the post carries the same words in an alert at its top.</h4>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column">
+  <div class="fl-toast fl-toast--success" role="status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-check"/></svg><div class="fl-toast__content"><p class="fl-toast__title">Project saved</p></div><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  <div class="fl-toast" role="status"><div class="fl-toast__content"><p class="fl-toast__title">Project deleted</p></div><button class="fl-button fl-button--s fl-toast__action" type="button">Undo</button><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+  <div class="fl-toast fl-toast--danger" role="alert"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg><div class="fl-toast__content"><p class="fl-toast__title">The changes were not saved</p><p class="fl-toast__text">The connection was lost.</p></div><button class="fl-toast__close" type="button" aria-label="Close" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></div>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><ul><li>Region: <code>&lt;div class="fl-toast-region" role="region" aria-label="Notifications" popover="manual"&gt;</code>, one for the application, at the end of the page. As a popover it lies in the top layer, which a fixed element cannot reach. A dialog that opens later lies over it, so the script shows the region again when a dialog opens. While a modal dialog is open the browser makes everything outside it inert, a toast too: it can be read, and used once the dialog has closed.</li><li>Toast: <code>&lt;div class="fl-toast" role="status"&gt;</code>; for an error <code>role="alert"</code>. The action is a small <code>fl-button</code>, the close button a <code>&lt;button&gt;</code>.</li></ul></td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>Each toast is a live region: <code>role="status"</code> is read after what is being read, <code>role="alert"</code> at once. Focus does not move to a toast.</li><li>The region is a landmark named Notifications. Tab reaches the action and the close button of each toast, in the order of the page, where the region comes last.</li><li>A toast leaves after five seconds. The time does not run while the pointer is on it or focus is inside it. An error, and a toast with <code>role="alert"</code>, stays until it is closed.</li><li>An action in a toast is also within reach elsewhere, since the toast may be gone before it is read.</li><li>The close button is named Close; Enter and Space.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Interactive: a toast is added by a call while the page lives. Static fallback: an alert in the page that comes back.</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li>Region: <code>Position</code>: BottomEnd (default), BottomStart, TopEnd, TopStart; <code>Label</code></li><li>A toast is shown by a service: <code>Tone</code>: Neutral (default), Info, Success, Warning, Danger; <code>Title</code>; <code>Text</code></li><li><code>ActionLabel</code> and <code>OnAction</code>; <code>Duration</code>: five seconds by default, none for an error; <code>Dismissible</code></li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><ul><li><code>fl-toast-region</code>; <code>--top</code>, <code>--start</code></li><li><code>fl-toast</code>; <code>--info</code>, <code>--success</code>, <code>--warning</code>, <code>--danger</code>; parts <code>fl-toast__content</code>, <code>__title</code>, <code>__text</code>, <code>__actions</code> under the text, <code>__action</code> beside it, <code>__close</code></li></ul></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>surface-raised</code>, <code>border</code>, <code>text</code>, <code>text-muted</code>, <code>text-subtle</code>, <code>hover</code>, <code>pressed</code>, the <code>text</code> of each tone</li><li>Size: <code>--fl-size-s</code>, <code>--fl-inset-s</code>, <code>--fl-gap-s</code>, <code>--fl-space-0-5</code>, <code>-1</code>, <code>-2</code>, <code>-3</code>, <code>-4</code>, <code>--fl-target-min</code>, <code>--fl-control-height-s</code>, <code>--fl-icon-size-m</code>, <code>--fl-radius-l</code>, <code>--fl-radius-s</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-s</code>, <code>--fl-font-weight-semibold</code>, <code>--fl-line-height-normal</code></li><li>Elevation and motion: <code>--fl-shadow-m</code>, <code>--fl-duration-normal</code>, <code>--fl-ease-standard</code>. A toast fades in and rises by 8 px, and fades out; under reduced motion it appears and goes.</li><li>Own: <code>--fl-toast-region-width</code>, <code>-margin</code>, <code>-block-start</code>, <code>-block-end</code>, <code>-inline-start</code>, <code>-inline-end</code>, <code>-flow</code>; <code>--fl-toast-icon</code>, <code>--fl-toast-rise</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+
+<section class="docs-section" id="command-palette">
+<h2>Command palette</h2>
+<p>A candidate. A search box that opens over the page from anywhere, with <kbd class="fl-kbd">Ctrl</kbd> <kbd class="fl-kbd">K</kbd>, and finds a place or a command by name. It is a second way to something that the navigation and the buttons already reach, for people who keep their hands on the keyboard.</p>
+
+<h3>Results</h3>
+<div class="demo-stage demo-stage--tall">
+  <dialog class="fl-command-palette" open aria-label="Command palette">
+    <div class="fl-command-palette__search">
+      <svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg>
+      <input class="fl-command-palette__input" type="text" role="combobox" aria-label="Search or run a command" aria-expanded="true" aria-controls="cmd-s1-list" aria-autocomplete="list" aria-activedescendant="cmd-s1-o1" placeholder="Find anything" autocomplete="off" spellcheck="false">
+      <kbd class="fl-kbd">Esc</kbd>
+    </div>
+    <div class="fl-command-palette__list" role="listbox" id="cmd-s1-list" aria-label="Results">
+      <div class="fl-command-palette__group" role="group" aria-labelledby="cmd-s1-g1">
+        <div class="fl-command-palette__label" id="cmd-s1-g1">Go to</div>
+        <div class="fl-command-palette__option" role="option" id="cmd-s1-o1" aria-selected="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-command-palette__text">Projects</span><span class="fl-command-palette__shortcut"><kbd class="fl-kbd">G</kbd><kbd class="fl-kbd">P</kbd></span></div>
+        <div class="fl-command-palette__option" role="option" id="cmd-s1-o2" aria-selected="false" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#users"/></svg><span class="fl-command-palette__text">Members</span><span class="fl-command-palette__shortcut"><kbd class="fl-kbd">G</kbd><kbd class="fl-kbd">M</kbd></span></div>
+        <div class="fl-command-palette__option" role="option" id="cmd-s1-o3" aria-selected="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#settings"/></svg><span class="fl-command-palette__text">Settings</span><span class="fl-command-palette__shortcut"><kbd class="fl-kbd">G</kbd><kbd class="fl-kbd">S</kbd></span></div>
+      </div>
+      <div class="fl-command-palette__group" role="group" aria-labelledby="cmd-s1-g2">
+        <div class="fl-command-palette__label" id="cmd-s1-g2">Commands</div>
+        <div class="fl-command-palette__option" role="option" id="cmd-s1-o4" aria-selected="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg><span class="fl-command-palette__text">New project</span><span class="fl-command-palette__shortcut"><kbd class="fl-kbd">C</kbd></span></div>
+        <div class="fl-command-palette__option" role="option" id="cmd-s1-o5" aria-selected="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#user"/></svg><span class="fl-command-palette__text">Invite a member</span></div>
+        <div class="fl-command-palette__option" role="option" id="cmd-s1-o6" aria-selected="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#moon"/></svg><span class="fl-command-palette__text">Switch to the dark theme</span></div>
+        <div class="fl-command-palette__option" role="option" id="cmd-s1-o7" aria-selected="false" aria-disabled="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#download"/></svg><span class="fl-command-palette__text">Export the members<span class="fl-command-palette__meta">Needs the owner role</span></span></div>
+      </div>
+      <div class="fl-command-palette__group" role="group" aria-labelledby="cmd-s1-g3">
+        <div class="fl-command-palette__label" id="cmd-s1-g3">Recent</div>
+        <div class="fl-command-palette__option" role="option" id="cmd-s1-o8" aria-selected="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-command-palette__text">Quarterly report<span class="fl-command-palette__meta">Project</span></span></div>
+        <div class="fl-command-palette__option" role="option" id="cmd-s1-o9" aria-selected="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-command-palette__text">Budget 2026<span class="fl-command-palette__meta">Project</span></span></div>
+        <div class="fl-command-palette__option" role="option" id="cmd-s1-o10" aria-selected="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#user"/></svg><span class="fl-command-palette__text">Ada Lindqvist<span class="fl-command-palette__meta">Member</span></span></div>
+      </div>
+    </div>
+    <p class="fl-command-palette__empty" role="status" hidden></p>
+    <footer class="fl-command-palette__footer">
+      <span><kbd class="fl-kbd"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></kbd><kbd class="fl-kbd"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></kbd> to move</span>
+      <span><kbd class="fl-kbd">Enter</kbd> to run</span>
+      <span><kbd class="fl-kbd">Esc</kbd> to close</span>
+    </footer>
+  </dialog>
+</div>
+<h4>Drawn open and still, on the backdrop: the search box, results in groups with a label, shortcuts at the end of a row, and the keys of the palette at the foot. The first result is the active one, in the accent colour and a stronger weight; the second is pointed at; one is disabled and says why. The list scrolls at 320 px.</h4>
+
+<h3>No result</h3>
+<div class="demo-stage">
+  <dialog class="fl-command-palette" open aria-label="Command palette">
+    <div class="fl-command-palette__search">
+      <svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg>
+      <input class="fl-command-palette__input" type="text" role="combobox" aria-label="Search or run a command" aria-expanded="true" aria-controls="cmd-s2-list" aria-autocomplete="list" aria-activedescendant="" placeholder="Find anything" autocomplete="off" spellcheck="false" value="invoice">
+      <kbd class="fl-kbd">Esc</kbd>
+    </div>
+    <div class="fl-command-palette__list" role="listbox" id="cmd-s2-list" aria-label="Results" hidden></div>
+    <p class="fl-command-palette__empty" role="status"><svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg><strong>Nothing matches &ldquo;invoice&rdquo;</strong><span>Try the name of a project, a member or a command.</span></p>
+    <footer class="fl-command-palette__footer">
+      <span><kbd class="fl-kbd"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></kbd><kbd class="fl-kbd"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></kbd> to move</span>
+      <span><kbd class="fl-kbd">Enter</kbd> to run</span>
+      <span><kbd class="fl-kbd">Esc</kbd> to close</span>
+    </footer>
+  </dialog>
+</div>
+<h4>What was typed is said back, with a way on</h4>
+
+<h3>Live</h3>
+<div class="docs-demo">
+  <button class="fl-button" type="button" command="show-modal" commandfor="cmd-live" aria-keyshortcuts="Control+K"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg>Search or run a command<kbd class="fl-kbd">Ctrl</kbd><kbd class="fl-kbd">K</kbd></button>
+</div>
+<h4>The button, or Ctrl+K anywhere on this page, opens it. Type to filter; the arrow keys move the active result while focus stays in the box; Enter runs it; Esc closes.</h4>
+<dialog class="fl-command-palette" id="cmd-live" closedby="any" aria-label="Command palette">
+    <div class="fl-command-palette__search">
+      <svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg>
+      <input class="fl-command-palette__input" type="text" role="combobox" aria-label="Search or run a command" aria-expanded="true" aria-controls="cmd-live-list" aria-autocomplete="list" aria-activedescendant="cmd-live-o1" placeholder="Find anything" autocomplete="off" spellcheck="false" autofocus>
+      <kbd class="fl-kbd">Esc</kbd>
+    </div>
+    <div class="fl-command-palette__list" role="listbox" id="cmd-live-list" aria-label="Results">
+      <div class="fl-command-palette__group" role="group" aria-labelledby="cmd-live-g1">
+        <div class="fl-command-palette__label" id="cmd-live-g1">Go to</div>
+        <div class="fl-command-palette__option" role="option" id="cmd-live-o1" aria-selected="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-command-palette__text">Projects</span><span class="fl-command-palette__shortcut"><kbd class="fl-kbd">G</kbd><kbd class="fl-kbd">P</kbd></span></div>
+        <div class="fl-command-palette__option" role="option" id="cmd-live-o2" aria-selected="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#users"/></svg><span class="fl-command-palette__text">Members</span><span class="fl-command-palette__shortcut"><kbd class="fl-kbd">G</kbd><kbd class="fl-kbd">M</kbd></span></div>
+        <div class="fl-command-palette__option" role="option" id="cmd-live-o3" aria-selected="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#settings"/></svg><span class="fl-command-palette__text">Settings</span><span class="fl-command-palette__shortcut"><kbd class="fl-kbd">G</kbd><kbd class="fl-kbd">S</kbd></span></div>
+      </div>
+      <div class="fl-command-palette__group" role="group" aria-labelledby="cmd-live-g2">
+        <div class="fl-command-palette__label" id="cmd-live-g2">Commands</div>
+        <div class="fl-command-palette__option" role="option" id="cmd-live-o4" aria-selected="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg><span class="fl-command-palette__text">New project</span><span class="fl-command-palette__shortcut"><kbd class="fl-kbd">C</kbd></span></div>
+        <div class="fl-command-palette__option" role="option" id="cmd-live-o5" aria-selected="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#user"/></svg><span class="fl-command-palette__text">Invite a member</span></div>
+        <div class="fl-command-palette__option" role="option" id="cmd-live-o6" aria-selected="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#moon"/></svg><span class="fl-command-palette__text">Switch to the dark theme</span></div>
+        <div class="fl-command-palette__option" role="option" id="cmd-live-o7" aria-selected="false" aria-disabled="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#download"/></svg><span class="fl-command-palette__text">Export the members<span class="fl-command-palette__meta">Needs the owner role</span></span></div>
+      </div>
+      <div class="fl-command-palette__group" role="group" aria-labelledby="cmd-live-g3">
+        <div class="fl-command-palette__label" id="cmd-live-g3">Recent</div>
+        <div class="fl-command-palette__option" role="option" id="cmd-live-o8" aria-selected="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-command-palette__text">Quarterly report<span class="fl-command-palette__meta">Project</span></span></div>
+        <div class="fl-command-palette__option" role="option" id="cmd-live-o9" aria-selected="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-command-palette__text">Budget 2026<span class="fl-command-palette__meta">Project</span></span></div>
+        <div class="fl-command-palette__option" role="option" id="cmd-live-o10" aria-selected="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#user"/></svg><span class="fl-command-palette__text">Ada Lindqvist<span class="fl-command-palette__meta">Member</span></span></div>
+      </div>
+    </div>
+    <p class="fl-command-palette__empty" role="status" hidden></p>
+    <footer class="fl-command-palette__footer">
+      <span><kbd class="fl-kbd"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></kbd><kbd class="fl-kbd"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></kbd> to move</span>
+      <span><kbd class="fl-kbd">Enter</kbd> to run</span>
+      <span><kbd class="fl-kbd">Esc</kbd> to close</span>
+    </footer>
+  </dialog>
+
+<div class="docs-note"><strong>O9: which screens need it.</strong> Two can be named. The first is the app shell: its header already carries a global search with Ctrl+K on every screen, and the palette is what that search opens, to jump to a record, a section or a setting from anywhere. The second is the edit screen of a record, where the actions outgrow the buttons: save, preview, duplicate, history, move, and the palette runs them by name without the hand leaving the keyboard. Both are served by one palette that lives in the shell; no screen needs one of its own, and no screen fails without it, since every result is a link or a command that is also on the screen. So it stays a candidate that the shell decides on: it earns its place once the shell has a global search, and not before.</div>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column">
+  <div class="demo-stage">
+  <dialog class="fl-command-palette" open aria-label="Command palette">
+    <div class="fl-command-palette__search">
+      <svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg>
+      <input class="fl-command-palette__input" type="text" role="combobox" aria-label="Search or run a command" aria-expanded="true" aria-controls="cmd-m-list" aria-autocomplete="list" aria-activedescendant="cmd-m-o1" placeholder="Find anything" autocomplete="off" spellcheck="false">
+      <kbd class="fl-kbd">Esc</kbd>
+    </div>
+    <div class="fl-command-palette__list" role="listbox" id="cmd-m-list" aria-label="Results">
+      <div class="fl-command-palette__group" role="group" aria-labelledby="cmd-m-g1">
+        <div class="fl-command-palette__label" id="cmd-m-g1">Go to</div>
+        <div class="fl-command-palette__option" role="option" id="cmd-m-o1" aria-selected="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-command-palette__text">Projects</span><span class="fl-command-palette__shortcut"><kbd class="fl-kbd">G</kbd><kbd class="fl-kbd">P</kbd></span></div>
+        <div class="fl-command-palette__option" role="option" id="cmd-m-o2" aria-selected="false" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#users"/></svg><span class="fl-command-palette__text">Members</span><span class="fl-command-palette__shortcut"><kbd class="fl-kbd">G</kbd><kbd class="fl-kbd">M</kbd></span></div>
+      </div>
+      <div class="fl-command-palette__group" role="group" aria-labelledby="cmd-m-g2">
+        <div class="fl-command-palette__label" id="cmd-m-g2">Commands</div>
+        <div class="fl-command-palette__option" role="option" id="cmd-m-o4" aria-selected="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg><span class="fl-command-palette__text">New project</span><span class="fl-command-palette__shortcut"><kbd class="fl-kbd">C</kbd></span></div>
+      </div>
+    </div>
+    <p class="fl-command-palette__empty" role="status" hidden></p>
+    <footer class="fl-command-palette__footer">
+      <span><kbd class="fl-kbd"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></kbd><kbd class="fl-kbd"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></kbd> to move</span>
+      <span><kbd class="fl-kbd">Enter</kbd> to run</span>
+      <span><kbd class="fl-kbd">Esc</kbd> to close</span>
+    </footer>
+  </dialog>
+  </div>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><ul><li><code>&lt;dialog class="fl-command-palette"&gt;</code>, opened as a modal.</li><li>Search box: <code>&lt;input type="text" role="combobox"&gt;</code>. Results: <code>&lt;div role="listbox"&gt;</code>, with a <code>&lt;div role="group" aria-labelledby&gt;</code> for each group and a <code>&lt;div role="option"&gt;</code> for each result.</li><li>No result: <code>&lt;p role="status"&gt;</code> in place of the list. Keys: <code>fl-kbd</code>.</li></ul></td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>The combobox pattern with a listbox, inside a modal dialog named with <code>aria-label</code>.</li><li>The box has <code>aria-expanded="true"</code>, <code>aria-controls</code> on the list, <code>aria-autocomplete="list"</code>, and <code>aria-activedescendant</code> on the active option. Focus stays in the box; the active option has <code>aria-selected="true"</code>.</li><li>Ctrl+K, or Cmd+K, opens it from anywhere and closes it again. It opens with focus in the box and the first result active.</li><li>Typing filters the results. Arrow down and up move the active result, around the ends. Enter runs it and closes the palette. A click runs a result too.</li><li>A result that cannot run now has <code>aria-disabled="true"</code>, says why, and is passed over by the arrow keys.</li><li>Esc, or a click on the backdrop, closes it, and focus goes back to where it was.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Interactive. Static fallback: the search form of the header, which posts to a page of results.</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Open</code> with <code>@bind-Open</code>; <code>Shortcut</code>: Ctrl+K by default</li><li><code>Placeholder</code>; <code>EmptyText</code></li><li><code>Groups</code>: each with a <code>Label</code> and its commands; a command has <code>Label</code>, <code>Icon</code>, <code>Meta</code>, <code>Shortcut</code>, <code>Href</code> or <code>OnRun</code>, <code>Disabled</code></li><li><code>OnSearch</code>: for results that come from the server</li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-command-palette</code>; parts <code>__search</code>, <code>__input</code>, <code>__list</code>, <code>__group</code>, <code>__label</code>, <code>__option</code>, <code>__text</code>, <code>__meta</code>, <code>__shortcut</code>, <code>__empty</code>, <code>__footer</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>surface-raised</code>, <code>surface-subtle</code>, <code>border</code>, <code>text</code>, <code>text-muted</code>, <code>text-subtle</code>, <code>hover</code>, <code>pressed</code>, <code>accent-soft</code>, <code>accent-text</code>, <code>disabled-text</code>, <code>backdrop</code></li><li>Size: <code>--fl-size-l</code>, <code>-s</code>, <code>--fl-item-height</code>, <code>--fl-inset-m</code>, <code>-l</code>, <code>--fl-space-1</code>, <code>-2</code>, <code>-3</code>, <code>-4</code>, <code>-8</code>, <code>-12</code>, <code>-16</code>, <code>--fl-radius-xl</code>, <code>--fl-radius-m</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-l</code>, <code>-m</code>, <code>-s</code>, <code>-xs</code>, <code>-2xs</code>, <code>--fl-font-weight-medium</code>, <code>-semibold</code>, <code>--fl-line-height-tight</code>, <code>-normal</code>, <code>--fl-letter-spacing-caps</code></li><li>Elevation and motion: <code>--fl-shadow-l</code>, <code>--fl-duration-fast</code>, <code>--fl-ease-standard</code>, <code>--fl-ease-exit</code>. It fades, and does not move.</li><li>Own: <code>--fl-command-palette-width</code>, <code>-gutter</code>, <code>-offset</code>, <code>-list-height</code>; on an option <code>--fl-command-palette-option-meta</code>, <code>-icon</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+
+</main>
+</div>
+<script>
+// The script of this page's demos. It stands in for the script of the library
+// (the keys of a menu, the toasts, the command palette) and for what a browser
+// without the newest features lacks. It is not part of the library.
+(() => {
+  const all = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+  // Buttons with command and commandfor, for a browser without them.
+  if (!('commandForElement' in HTMLButtonElement.prototype)) {
+    document.addEventListener('click', event => {
+      const button = event.target.closest('button[commandfor]');
+      const target = button && document.getElementById(button.getAttribute('commandfor'));
+      if (!target) return;
+      if (button.getAttribute('command') === 'show-modal') target.showModal();
+      if (button.getAttribute('command') === 'close') target.close();
+    });
+  }
+
+  // closedby="any", for a browser without it: a click on the backdrop closes.
+  if (!('closedBy' in HTMLDialogElement.prototype)) {
+    document.addEventListener('click', event => {
+      const dialog = event.target;
+      if (!(dialog instanceof HTMLDialogElement) || dialog.getAttribute('closedby') !== 'any') return;
+      const box = dialog.getBoundingClientRect();
+      const inside = event.clientX >= box.left && event.clientX <= box.right && event.clientY >= box.top && event.clientY <= box.bottom;
+      if (!inside) dialog.close();
+    });
+  }
+
+  // Menu: the expanded state of its button, roving focus and the keys.
+  for (const menu of all('.fl-menu[popover]')) {
+    const items = () => all('.fl-menu__item', menu);
+    const buttons = all('[popovertarget="' + menu.id + '"]');
+    for (const item of items()) item.tabIndex = -1;
+
+    menu.addEventListener('toggle', event => {
+      const open = event.newState === 'open';
+      for (const button of buttons) button.setAttribute('aria-expanded', String(open));
+      if (open) items()[0].focus();
+    });
+
+    for (const button of buttons) {
+      button.addEventListener('keydown', event => {
+        if (event.key !== 'ArrowDown') return;
+        event.preventDefault();
+        menu.showPopover({ source: button });
+      });
+    }
+
+    menu.addEventListener('keydown', event => {
+      const list = items();
+      const at = list.indexOf(document.activeElement);
+      const to = { ArrowDown: (at + 1) % list.length, ArrowUp: (at - 1 + list.length) % list.length, Home: 0, End: list.length - 1 }[event.key];
+      if (to !== undefined) {
+        event.preventDefault();
+        list[to].focus();
+      } else if (event.key === 'Tab') {
+        menu.hidePopover();
+      } else if (event.key.length === 1 && event.key !== ' ' && !event.ctrlKey && !event.metaKey && !event.altKey) {
+        const starts = item => item.textContent.trim().toLowerCase().startsWith(event.key.toLowerCase());
+        const hit = list.slice(at + 1).find(starts) || list.find(starts);
+        if (hit) hit.focus();
+      }
+    });
+
+    menu.addEventListener('click', event => {
+      const item = event.target.closest('.fl-menu__item');
+      if (!item) return;
+      if (item.getAttribute('aria-disabled') === 'true') {
+        event.preventDefault();
+        return;
+      }
+      const role = item.getAttribute('role');
+      if (role === 'menuitemcheckbox') {
+        item.setAttribute('aria-checked', String(item.getAttribute('aria-checked') !== 'true'));
+      } else if (role === 'menuitemradio') {
+        for (const other of all('[role="menuitemradio"]', item.closest('[role="group"]'))) other.setAttribute('aria-checked', String(other === item));
+      } else {
+        menu.hidePopover();
+      }
+    });
+  }
+
+  // Tooltip, for a browser without interestfor: hover and keyboard focus.
+  if (!('interestForElement' in HTMLButtonElement.prototype)) {
+    for (const control of all('[interestfor]')) {
+      const tooltip = document.getElementById(control.getAttribute('interestfor'));
+      const show = () => {
+        if (!tooltip.matches(':popover-open')) tooltip.showPopover({ source: control });
+      };
+      const hide = () => {
+        if (tooltip.matches(':popover-open')) tooltip.hidePopover();
+      };
+      control.addEventListener('pointerenter', show);
+      control.addEventListener('pointerleave', hide);
+      control.addEventListener('focus', () => {
+        if (control.matches(':focus-visible')) show();
+      });
+      control.addEventListener('blur', hide);
+      control.addEventListener('click', hide);
+      control.addEventListener('keydown', event => {
+        if (event.key === 'Escape') hide();
+      });
+    }
+  }
+
+  // Toast: added to the region, and taken away after five seconds unless it
+  // is an error. The time does not run while it is pointed at or holds focus.
+  const region = document.getElementById('toast-live');
+
+  function toast(template) {
+    const node = document.getElementById(template).content.firstElementChild.cloneNode(true);
+    let timer = 0;
+    const close = () => {
+      clearTimeout(timer);
+      node.hidden = true;
+      setTimeout(() => {
+        node.remove();
+        if (!region.childElementCount && region.matches(':popover-open')) region.hidePopover();
+      }, 300);
+    };
+    const start = () => {
+      if (node.getAttribute('role') !== 'alert') timer = setTimeout(close, 5000);
+    };
+    for (const button of all('button', node)) button.addEventListener('click', close);
+    node.addEventListener('pointerenter', () => clearTimeout(timer));
+    node.addEventListener('focusin', () => clearTimeout(timer));
+    node.addEventListener('pointerleave', start);
+    node.addEventListener('focusout', start);
+    region.append(node);
+    if (!region.matches(':popover-open')) region.showPopover();
+    start();
+  }
+
+  for (const button of all('[data-toast]')) button.addEventListener('click', () => toast(button.dataset.toast));
+
+  // A dialog that opens later would lie over the region: the region is shown
+  // again, which puts it back on top.
+  document.addEventListener('toggle', event => {
+    if (!(event.target instanceof HTMLDialogElement) || event.newState !== 'open' || !region.matches(':popover-open')) return;
+    region.hidePopover();
+    region.showPopover();
+  }, true);
+
+  // Command palette: filter, the active option, and Ctrl+K.
+  const palette = document.getElementById('cmd-live');
+  const box = palette.querySelector('.fl-command-palette__input');
+  const list = palette.querySelector('.fl-command-palette__list');
+  const empty = palette.querySelector('.fl-command-palette__empty');
+  const usable = () => all('[role="option"]:not([hidden]):not([aria-disabled="true"])', list);
+
+  function activate(option) {
+    for (const other of all('[role="option"]', list)) other.setAttribute('aria-selected', String(other === option));
+    box.setAttribute('aria-activedescendant', option ? option.id : '');
+    if (option) option.scrollIntoView({ block: 'nearest' });
+  }
+
+  function filter() {
+    const query = box.value.trim().toLowerCase();
+    for (const option of all('[role="option"]', list)) option.hidden = !option.textContent.toLowerCase().includes(query);
+    for (const group of all('[role="group"]', list)) group.hidden = !group.querySelector('[role="option"]:not([hidden])');
+    const found = all('[role="option"]:not([hidden])', list).length > 0;
+    list.hidden = !found;
+    empty.hidden = found;
+    if (!found) {
+      const said = document.createElement('strong');
+      said.textContent = 'Nothing matches \u201C' + box.value.trim() + '\u201D';
+      const hint = document.createElement('span');
+      hint.textContent = 'Try the name of a project, a member or a command.';
+      empty.replaceChildren(said, hint);
+    }
+    activate(usable()[0]);
+  }
+
+  box.addEventListener('input', filter);
+  box.addEventListener('keydown', event => {
+    const options = usable();
+    const at = options.findIndex(option => option.getAttribute('aria-selected') === 'true');
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      if (options.length) activate(options[(at + (event.key === 'ArrowDown' ? 1 : -1) + options.length) % options.length]);
+    } else if (event.key === 'Enter') {
+      event.preventDefault();
+      if (at >= 0) palette.close();
+    }
+  });
+  list.addEventListener('click', event => {
+    const option = event.target.closest('[role="option"]');
+    if (option && option.getAttribute('aria-disabled') !== 'true') palette.close();
+  });
+  palette.addEventListener('close', () => {
+    box.value = '';
+    filter();
+  });
+  document.addEventListener('keydown', event => {
+    if (!(event.ctrlKey || event.metaKey) || event.key.toLowerCase() !== 'k') return;
+    event.preventDefault();
+    if (palette.open) palette.close();
+    else palette.showModal();
+  });
+})();
+</script>
+</body>
+</html>
