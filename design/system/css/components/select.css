@@ -1,0 +1,116 @@
+/* Select: a native <select> in a bordered box, with a chevron of the icon set
+   in place of the arrow of the browser. The list is the one of the system. */
+
+@layer fl.components {
+  .fl-select {
+    --fl-select-height: var(--fl-control-height-m);
+    --fl-select-padding: var(--fl-control-padding-m);
+    --fl-select-font-size: var(--fl-control-font-size);
+    --fl-select-inner-radius: calc(var(--fl-control-radius) - var(--fl-border-width));
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    inline-size: 100%;
+    min-inline-size: 0;
+    block-size: var(--fl-select-height);
+    border: var(--fl-border-width) solid var(--fl-color-border-control);
+    border-radius: var(--fl-control-radius);
+    background-color: var(--fl-color-surface);
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-select-font-size);
+    line-height: var(--fl-line-height-tight);
+
+    & > .fl-select__control {
+      grid-area: 1 / 1;
+      align-self: stretch;
+      appearance: none;
+      inline-size: 100%;
+      min-inline-size: 0;
+      margin: 0;
+      padding-block: 0;
+      padding-inline: var(--fl-select-padding) calc(var(--fl-select-padding) + var(--fl-icon-size-m) + var(--fl-space-2));
+      border: 0;
+      border-radius: var(--fl-select-inner-radius);
+      outline: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      text-overflow: ellipsis;
+      cursor: pointer;
+
+      /* An option without a value is the prompt, and reads as a placeholder. */
+      &:has(> option[value=""]:checked) {
+        color: var(--fl-color-text-subtle);
+      }
+
+      & option,
+      & optgroup {
+        background-color: var(--fl-color-surface-raised);
+        color: var(--fl-color-text);
+      }
+    }
+
+    /* The chevron lies over the end of the control, so a click on it lands in the control. */
+    & > .fl-select__chevron {
+      grid-area: 1 / 1;
+      justify-self: end;
+      margin-inline-end: var(--fl-select-padding);
+      color: var(--fl-color-text-subtle);
+      pointer-events: none;
+    }
+
+    /* Modifiers set tokens only. */
+
+    &.fl-select--s {
+      --fl-select-height: var(--fl-control-height-s);
+      --fl-select-padding: var(--fl-control-padding-s);
+      --fl-select-font-size: var(--fl-font-size-s);
+    }
+
+    &.fl-select--l {
+      --fl-select-height: var(--fl-control-height-l);
+      --fl-select-padding: var(--fl-control-padding-l);
+    }
+
+    /* States, once and in this order: a later one wins over an earlier one. */
+
+    &:hover {
+      border-color: var(--fl-color-text-subtle);
+    }
+
+    &:has(> .fl-select__control:focus-visible) {
+      outline: var(--fl-focus-ring);
+      outline-offset: calc(-1 * var(--fl-border-width));
+    }
+
+    &:has(> .fl-select__control[aria-invalid="true"]) {
+      border-color: var(--fl-color-danger-solid);
+    }
+
+    &:has(> .fl-select__control:disabled) {
+      border-color: var(--fl-color-disabled-border);
+      background-color: var(--fl-color-disabled-fill);
+      color: var(--fl-color-disabled-text);
+
+      & > .fl-select__control,
+      & > .fl-select__control:has(> option[value=""]:checked) {
+        color: inherit;
+        cursor: not-allowed;
+        opacity: 1;
+      }
+
+      & > .fl-select__chevron {
+        color: inherit;
+      }
+    }
+
+    @media (forced-colors: active) {
+      &:has(> .fl-select__control:disabled) {
+        border-color: GrayText;
+        color: GrayText;
+      }
+    }
+  }
+}

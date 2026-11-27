@@ -1,0 +1,154 @@
+/* Segmented: two to five choices in one bordered box, of which one is chosen.
+   A radio group: each item is a <label> around a native radio input. */
+
+@layer fl.components {
+  .fl-segmented {
+    --fl-segmented-height: var(--fl-control-height-m);
+    --fl-segmented-padding: var(--fl-control-padding-m);
+    --fl-segmented-font-size: var(--fl-font-size-s);
+    --fl-segmented-inset: var(--fl-space-0-5);
+    --fl-segmented-item-flex: 0 1 auto;
+    /* From the edge of an item to the edge of the box. */
+    --fl-segmented-reach: calc(var(--fl-segmented-inset) + var(--fl-border-width));
+
+    display: inline-flex;
+    gap: var(--fl-segmented-inset);
+    max-inline-size: 100%;
+    min-inline-size: 0;
+    block-size: var(--fl-segmented-height);
+    margin: 0;
+    padding: var(--fl-segmented-inset);
+    border: var(--fl-border-width) solid var(--fl-color-border-strong);
+    border-radius: var(--fl-control-radius);
+    background-color: var(--fl-color-surface);
+    color: var(--fl-color-text-muted);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-segmented-font-size);
+    font-weight: var(--fl-font-weight-medium);
+    line-height: var(--fl-line-height-tight);
+
+    & > .fl-segmented__item {
+      position: relative;
+      display: flex;
+      flex: var(--fl-segmented-item-flex);
+      align-items: center;
+      justify-content: center;
+      gap: var(--fl-space-1-5);
+      min-inline-size: var(--fl-target-min);
+      padding-inline: calc(var(--fl-segmented-padding) - var(--fl-segmented-reach));
+      border: var(--fl-border-width) solid transparent;
+      border-radius: var(--fl-radius-s);
+      white-space: nowrap;
+      cursor: pointer;
+
+      /* The input lies over its item and reaches the edges of the box, so
+         the target has the full height in every size and density. */
+      & > .fl-segmented__control {
+        position: absolute;
+        inset-block-start: calc(-1 * (var(--fl-segmented-reach) + var(--fl-border-width)));
+        inset-inline-start: calc(-1 * var(--fl-border-width));
+        appearance: none;
+        inline-size: calc(100% + 2 * var(--fl-border-width));
+        block-size: calc(100% + 2 * (var(--fl-segmented-reach) + var(--fl-border-width)));
+        margin: 0;
+        outline: 0;
+        opacity: 0;
+        cursor: inherit;
+      }
+
+      & > .fl-segmented__label {
+        min-inline-size: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      & > .fl-segmented__count {
+        color: var(--fl-color-text-subtle);
+        font-size: var(--fl-font-size-xs);
+        font-variant-numeric: tabular-nums;
+        font-weight: var(--fl-font-weight-regular);
+      }
+
+      /* States, once and in this order: a later one wins over an earlier one. */
+
+      &:hover {
+        background-color: var(--fl-color-hover);
+        color: var(--fl-color-text);
+      }
+
+      &:active {
+        background-color: var(--fl-color-pressed);
+      }
+
+      /* The ring fills the gap between the item and its neighbours. */
+      &:has(> .fl-segmented__control:focus-visible) {
+        outline: var(--fl-focus-ring);
+        outline-offset: 0;
+      }
+
+      &:has(> .fl-segmented__control:checked) {
+        background-color: var(--fl-color-accent-soft);
+        color: var(--fl-color-accent-text);
+
+        & > .fl-segmented__count {
+          color: currentColor;
+        }
+      }
+
+      &:has(> .fl-segmented__control:disabled) {
+        background-color: transparent;
+        color: var(--fl-color-disabled-text);
+        cursor: not-allowed;
+
+        & > .fl-segmented__count {
+          color: currentColor;
+        }
+      }
+
+      &:has(> .fl-segmented__control:disabled:checked) {
+        background-color: var(--fl-color-disabled-fill);
+      }
+    }
+
+    /* Modifiers set tokens only. */
+
+    &.fl-segmented--s {
+      --fl-segmented-height: var(--fl-control-height-s);
+      --fl-segmented-padding: var(--fl-control-padding-s);
+    }
+
+    &.fl-segmented--l {
+      --fl-segmented-height: var(--fl-control-height-l);
+      --fl-segmented-padding: var(--fl-control-padding-l);
+      --fl-segmented-font-size: var(--fl-font-size-m);
+    }
+
+    /* Icons without a text: each item is a square, named by its input. */
+    &.fl-segmented--icon {
+      --fl-segmented-padding: var(--fl-segmented-reach);
+
+      & > .fl-segmented__item {
+        aspect-ratio: 1;
+      }
+    }
+
+    /* Fills its container, with items of one width. */
+    &.fl-segmented--block {
+      --fl-segmented-item-flex: 1 1 0;
+
+      display: flex;
+      inline-size: 100%;
+    }
+
+    @media (forced-colors: active) {
+      & > .fl-segmented__item:has(> .fl-segmented__control:checked) {
+        border-color: Highlight;
+        color: Highlight;
+      }
+
+      & > .fl-segmented__item:has(> .fl-segmented__control:disabled) {
+        color: GrayText;
+      }
+    }
+  }
+}

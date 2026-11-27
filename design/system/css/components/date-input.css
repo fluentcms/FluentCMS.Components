@@ -1,0 +1,81 @@
+/* Date input: the box of the text input around a native <input type="date">
+   or <input type="datetime-local">.
+   The class goes beside fl-input, and this file styles the one part of the
+   browser's own drawing that can be reached: the button that opens the
+   calendar. The parts of the value and the calendar itself stay as the
+   browser draws them. */
+
+@layer fl.components {
+  .fl-date-input {
+    /* The calendar of the icon set, as a shape that the button is cut from. The
+       button is a part of the browser: no element of the icon set fits in it. */
+    --fl-date-input-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 2v3'/%3E%3Cpath d='M16 2v3'/%3E%3Crect x='3' y='3' width='18' height='18' rx='2'/%3E%3Cpath d='M3 9h18'/%3E%3C/svg%3E");
+    --fl-date-input-indicator: var(--fl-color-text-subtle);
+    /* One edge of the ring that the button shows with focus. */
+    --fl-date-input-edge: linear-gradient(currentColor 0 0);
+
+    /* The control: beside fl-input__control on the <input>. */
+    & > .fl-date-input__control {
+      font-variant-numeric: tabular-nums;
+
+      /* A phone centres the value. */
+      &::-webkit-date-and-time-value {
+        text-align: start;
+      }
+
+      /* The button: a target of 24 px that shows the icon in a colour of the
+         library, with its edge where the chevron of a select has its own. It
+         sits where the browser puts it, which follows the language of the
+         browser and not the direction of the page. */
+      &::-webkit-calendar-picker-indicator {
+        inline-size: var(--fl-target-min);
+        block-size: var(--fl-target-min);
+        margin-block: 0;
+        margin-inline: var(--fl-space-1) calc((var(--fl-icon-size-m) - var(--fl-target-min)) / 2);
+        padding: 0;
+        border-radius: var(--fl-radius-s);
+        outline: 0;
+        background: var(--fl-date-input-indicator);
+        mask: var(--fl-date-input-shape) center / var(--fl-icon-size-m) no-repeat;
+        opacity: 1;
+        cursor: pointer;
+      }
+
+      /* Focus is inside the input and not on it: it is on the button. No
+         selector reaches the focus of the button itself, and a mask cuts an
+         outline away, so the ring is part of the mask: four edges around the
+         icon, in the colour of the focus ring. */
+      &:focus-within:not(:focus)::-webkit-calendar-picker-indicator {
+        background: var(--fl-color-focus);
+        mask:
+          var(--fl-date-input-shape) center / var(--fl-icon-size-m) no-repeat,
+          var(--fl-date-input-edge) 0 0 / 100% var(--fl-focus-ring-width) no-repeat,
+          var(--fl-date-input-edge) 0 100% / 100% var(--fl-focus-ring-width) no-repeat,
+          var(--fl-date-input-edge) 0 0 / var(--fl-focus-ring-width) 100% no-repeat,
+          var(--fl-date-input-edge) 100% 0 / var(--fl-focus-ring-width) 100% no-repeat;
+      }
+
+      &:disabled {
+        --fl-date-input-indicator: var(--fl-color-disabled-text);
+      }
+
+      &:disabled::-webkit-calendar-picker-indicator {
+        cursor: not-allowed;
+      }
+    }
+
+    @media (forced-colors: active) {
+      & > .fl-date-input__control {
+        --fl-date-input-indicator: ButtonText;
+
+        &:disabled {
+          --fl-date-input-indicator: GrayText;
+        }
+
+        &:focus-within:not(:focus)::-webkit-calendar-picker-indicator {
+          background: Highlight;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,168 @@
+/* Radio group: native radio inputs that share a name, in a column or in a row.
+   It sits in a field that is a <fieldset>, whose <legend> names the group. */
+
+@layer fl.components {
+  .fl-radio-group {
+    --fl-radio-group-size: var(--fl-space-4);
+    --fl-radio-group-dot: var(--fl-space-1-5);
+    --fl-radio-group-gap: var(--fl-space-2);
+    --fl-radio-group-bg: var(--fl-color-surface);
+    --fl-radio-group-bg-hover: var(--fl-color-hover);
+    --fl-radio-group-bg-pressed: var(--fl-color-pressed);
+    --fl-radio-group-border: var(--fl-color-border-control);
+    --fl-radio-group-border-hover: var(--fl-color-text-subtle);
+    --fl-radio-group-mark: transparent;
+    --fl-radio-group-overlay: transparent;
+
+    display: flex;
+    flex-flow: column wrap;
+    gap: var(--fl-gap-s) var(--fl-gap-l);
+    min-inline-size: 0;
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-m);
+    line-height: var(--fl-line-height-normal);
+
+    /* Item: one radio with its label and an optional description. */
+    & > .fl-radio-group__item {
+      display: grid;
+      /* The label is never narrower than its longest word. */
+      grid-template-columns: auto 1fr;
+    }
+
+    /* The input is the target, 24 px square. Its negative margins give it the
+       footprint of the circle it draws, centred on the first line of the label. */
+    & > .fl-radio-group__item > .fl-radio-group__control {
+      appearance: none;
+      display: grid;
+      place-items: center;
+      grid-column: 1;
+      grid-row: 1;
+      inline-size: var(--fl-target-min);
+      block-size: var(--fl-target-min);
+      margin-block: calc((1lh - var(--fl-target-min)) / 2);
+      margin-inline: calc((var(--fl-radio-group-size) - var(--fl-target-min)) / 2);
+      padding: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      font: inherit;
+      cursor: pointer;
+
+      &::before,
+      &::after {
+        grid-area: 1 / 1;
+        border-radius: var(--fl-radius-full);
+        content: "";
+      }
+
+      &::before {
+        inline-size: var(--fl-radio-group-size);
+        block-size: var(--fl-radio-group-size);
+        border: var(--fl-border-width) solid var(--fl-radio-group-border);
+        background: linear-gradient(var(--fl-radio-group-overlay) 0 0) var(--fl-radio-group-bg);
+        transition: border-color var(--fl-duration-fast) var(--fl-ease-standard);
+      }
+
+      &::after {
+        inline-size: var(--fl-radio-group-dot);
+        block-size: var(--fl-radio-group-dot);
+        background-color: var(--fl-radio-group-mark);
+      }
+
+      /* States, once and in this order: a later one wins over an earlier one. */
+
+      &:hover {
+        --fl-radio-group-overlay: var(--fl-radio-group-bg-hover);
+        --fl-radio-group-border: var(--fl-radio-group-border-hover);
+      }
+
+      &:active {
+        --fl-radio-group-overlay: var(--fl-radio-group-bg-pressed);
+      }
+
+      &:focus-visible::before {
+        outline: var(--fl-focus-ring);
+        outline-offset: var(--fl-focus-ring-offset);
+        box-shadow: var(--fl-focus-halo);
+      }
+
+      &:checked {
+        --fl-radio-group-bg: var(--fl-color-accent);
+        --fl-radio-group-bg-hover: var(--fl-color-accent-hover);
+        --fl-radio-group-bg-pressed: var(--fl-color-accent-pressed);
+        --fl-radio-group-border: transparent;
+        --fl-radio-group-border-hover: transparent;
+        --fl-radio-group-mark: var(--fl-color-on-accent);
+      }
+
+      &:disabled {
+        --fl-radio-group-bg: var(--fl-color-disabled-fill);
+        --fl-radio-group-border: var(--fl-color-disabled-border);
+        --fl-radio-group-overlay: transparent;
+
+        cursor: not-allowed;
+      }
+
+      &:disabled:checked {
+        --fl-radio-group-mark: var(--fl-color-disabled-text);
+      }
+    }
+
+    /* The label starts at the edge of the circle, so no gap between them is dead. */
+    & > .fl-radio-group__item > .fl-radio-group__label {
+      grid-column: 2;
+      padding-inline-start: var(--fl-radio-group-gap);
+      cursor: pointer;
+    }
+
+    & > .fl-radio-group__item > .fl-radio-group__description {
+      grid-column: 2;
+      margin: 0;
+      padding-inline-start: var(--fl-radio-group-gap);
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-xs);
+    }
+
+    &.fl-radio-group--horizontal {
+      flex-direction: row;
+    }
+
+    /* States of the group and of an item */
+
+    &[aria-invalid="true"] > .fl-radio-group__item > .fl-radio-group__control:not(:checked, :disabled) {
+      --fl-radio-group-border: var(--fl-color-danger-solid);
+      --fl-radio-group-border-hover: var(--fl-color-danger-solid);
+    }
+
+    & > .fl-radio-group__item:has(> .fl-radio-group__control:disabled) > .fl-radio-group__label {
+      color: var(--fl-color-disabled-text);
+      cursor: not-allowed;
+    }
+
+    /* The system draws the circle: its own colours say checked and disabled. */
+    @media (forced-colors: active) {
+      & > .fl-radio-group__item > .fl-radio-group__control {
+        appearance: auto;
+        inline-size: var(--fl-radio-group-size);
+        block-size: var(--fl-radio-group-size);
+        margin-block: calc((1lh - var(--fl-radio-group-size)) / 2);
+        margin-inline: 0;
+
+        &::before,
+        &::after {
+          display: none;
+        }
+
+        &:focus-visible {
+          outline: var(--fl-focus-ring);
+          outline-offset: var(--fl-focus-ring-offset);
+        }
+      }
+
+      & > .fl-radio-group__item:has(> .fl-radio-group__control:disabled) > .fl-radio-group__label {
+        color: GrayText;
+      }
+    }
+  }
+}
