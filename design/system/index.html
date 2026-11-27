@@ -189,7 +189,7 @@
 <code>--fl-font-size-xl</code><small class="docs-num">18 px</small><span style="font-size: var(--fl-font-size-xl); font-weight: 600; line-height: var(--fl-line-height-tight); letter-spacing: var(--fl-letter-spacing-tight)">Section and dialog title</span>
 <code>--fl-font-size-l</code><small class="docs-num">16 px</small><span style="font-size: var(--fl-font-size-l); font-weight: 600; line-height: var(--fl-line-height-tight)">Card title, lead text</span>
 <code>--fl-font-size-m</code><small class="docs-num">14 px</small><span style="font-size: var(--fl-font-size-m); font-weight: 400; line-height: var(--fl-line-height-tight)">Body text and the value of an input</span>
-<code>--fl-font-size-s</code><small class="docs-num">13 px</small><span style="font-size: var(--fl-font-size-s); font-weight: 500; line-height: var(--fl-line-height-tight)">Buttons, navigation, tables, labels</span>
+<code>--fl-font-size-s</code><small class="docs-num">13 px</small><span style="font-size: var(--fl-font-size-s); font-weight: var(--fl-font-weight-medium); line-height: var(--fl-line-height-tight)">Buttons, navigation, tables, labels</span>
 <code>--fl-font-size-xs</code><small class="docs-num">12 px</small><span style="font-size: var(--fl-font-size-xs); font-weight: 400; line-height: var(--fl-line-height-tight)">Help text, meta, badges</span>
 <code>--fl-font-size-2xs</code><small class="docs-num">11 px</small><span style="font-size: var(--fl-font-size-2xs); font-weight: 600; line-height: var(--fl-line-height-tight); letter-spacing: var(--fl-letter-spacing-caps)">CAPS LABELS AND KEYS</span>
 </div>
@@ -200,7 +200,7 @@
 <tr><td><code>--fl-font-family</code></td><td>The system font stack</td><td>Everything</td></tr>
 <tr><td><code>--fl-font-family-mono</code></td><td>The system monospace stack</td><td>Code, keys, paths, identifiers</td></tr>
 <tr><td><code>--fl-font-weight-regular</code></td><td class="docs-num">400</td><td>Body text</td></tr>
-<tr><td><code>--fl-font-weight-medium</code></td><td class="docs-num">500</td><td>Controls, labels, links that stand alone</td></tr>
+<tr><td><code>--fl-font-weight-medium</code></td><td class="docs-num">600</td><td>Controls, labels, links that stand alone. The same as the semibold with the system font; a host with a typeface that has a true medium sets 500</td></tr>
 <tr><td><code>--fl-font-weight-semibold</code></td><td class="docs-num">600</td><td>Titles, the selected item</td></tr>
 <tr><td><code>--fl-font-weight-bold</code></td><td class="docs-num">700</td><td>Rare emphasis</td></tr>
 <tr><td><code>--fl-line-height-tight</code></td><td class="docs-num">1.25</td><td>Titles and controls of one line</td></tr>
@@ -235,7 +235,7 @@
       <li>No download, and no request to another origin.</li>
       <li>Looks at home on each system, so the same page differs a little between Windows, macOS and Android.</li>
       <li>Covers every script the system covers.</li>
-      <li>Windows 10 has no weight 500 in Segoe UI: medium is drawn as regular there. Windows 11 has it.</li>
+      <li>Has no medium of its own on Windows: weight 500 is drawn as semibold in Chromium and WebKit and as regular in Firefox. The medium token is therefore 600.</li>
     </ul>
   </div>
 </article>
@@ -254,7 +254,7 @@
     <p style="font-size: var(--fl-font-size-s); font-variant-numeric: tabular-nums">Il1 O0 rn m · 1,284.50 · 9,017.25 · Résumé, Zürich, Łódź, Đặng</p>
     <p style="font-size: var(--fl-font-size-s)">Привет · Γειά σου · مرحبا · שלום · 你好 · こんにちは</p>
     <ul class="docs-facts">
-      <li>The same letterforms and widths on every system, as in the reference design.</li>
+      <li>The same letterforms and widths on every system, as in the reference design, and a true medium: this column sets <code>--fl-font-weight-medium: 500</code>.</li>
       <li>Costs a download: about 50 kB for the Latin part of the variable font, more for each further script.</li>
       <li>A host must serve the files itself; the library would have to bundle them or document the step.</li>
       <li>Arabic, Hebrew and CJK fall back to the system font in any case.</li>

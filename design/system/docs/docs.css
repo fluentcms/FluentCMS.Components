@@ -630,6 +630,8 @@ body.docs {
 
 .docs-font-inter {
   --fl-font-family: Inter, sans-serif;
+  /* Inter has a true medium, so this column sets what a host with it would. */
+  --fl-font-weight-medium: 500;
 
   font-family: var(--fl-font-family);
 }

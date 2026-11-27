@@ -280,11 +280,11 @@
                 <p class="fl-field__help" id="set-zone-help">Schedules and the dates of the admin are in this zone.</p>
               </div>
               <hr class="fl-divider">
-              <fieldset class="fl-field fl-field--horizontal">
-                <legend class="fl-field__label" id="set-date-label">Date format</legend>
-                <div class="fl-radio-group screen-tall" role="radiogroup" aria-labelledby="set-date-label" aria-describedby="set-date-help"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-date" id="set-date-1" checked><label class="fl-radio-group__label" for="set-date-1"><bdi>26 November 2026</bdi></label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-date" id="set-date-2"><label class="fl-radio-group__label" for="set-date-2"><bdi>26/11/2026</bdi></label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-date" id="set-date-3"><label class="fl-radio-group__label" for="set-date-3"><bdi>11/26/2026</bdi></label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-date" id="set-date-4"><label class="fl-radio-group__label" for="set-date-4"><bdi>2026-11-26</bdi></label></div></div>
+              <div class="fl-field fl-field--horizontal" role="radiogroup" aria-labelledby="set-date-label" aria-describedby="set-date-help">
+                <div class="fl-field__label" id="set-date-label">Date format</div>
+                <div class="fl-radio-group screen-tall"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-date" id="set-date-1" checked><label class="fl-radio-group__label" for="set-date-1"><bdi>26 November 2026</bdi></label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-date" id="set-date-2"><label class="fl-radio-group__label" for="set-date-2"><bdi>26/11/2026</bdi></label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-date" id="set-date-3"><label class="fl-radio-group__label" for="set-date-3"><bdi>11/26/2026</bdi></label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-date" id="set-date-4"><label class="fl-radio-group__label" for="set-date-4"><bdi>2026-11-26</bdi></label></div></div>
                 <p class="fl-field__help" id="set-date-help">How a date is written in lists and in the editor.</p>
-              </fieldset>
+              </div>
             </div>
           </div>
         </section>
@@ -306,8 +306,8 @@
                 <p class="fl-field__help" id="set-publish-time-help">The time an entry gets when its schedule names a day only. In the time zone of the site.</p>
               </div>
               <hr class="fl-divider">
-              <fieldset class="fl-field fl-field--horizontal">
-                <legend class="fl-field__label">For editors</legend>
+              <div class="fl-field fl-field--horizontal" role="group" aria-labelledby="set-editors-label" aria-describedby="set-editors-help">
+                <div class="fl-field__label" id="set-editors-label">For editors</div>
                 <div class="fl-stack fl-stack--gap-3 screen-tall">
                   <div class="fl-switch fl-switch--label-start"><input class="fl-switch__control" type="checkbox" role="switch" id="set-versions" aria-describedby="set-versions-d" checked disabled><label class="fl-switch__label" for="set-versions">Version history</label><p class="fl-switch__description" id="set-versions-d">A version is kept on every save. Always on.</p></div>
                   <hr class="fl-divider">
@@ -317,8 +317,8 @@
                   <hr class="fl-divider">
                   <div class="fl-switch fl-switch--label-start"><input class="fl-switch__control" type="checkbox" role="switch" id="set-comments" aria-describedby="set-comments-d"><label class="fl-switch__label" for="set-comments">Comments on drafts</label><p class="fl-switch__description" id="set-comments-d">Editors can leave notes for each other on an entry.</p></div>
                 </div>
-                <p class="fl-field__help">What the editor of an entry offers.</p>
-              </fieldset>
+                <p class="fl-field__help" id="set-editors-help">What the editor of an entry offers.</p>
+              </div>
             </div>
           </div>
         </section>
@@ -327,21 +327,21 @@
           <header class="fl-card__header"><h2 class="fl-card__title" id="card-access">Access</h2></header>
           <div class="fl-card__body">
             <div class="fl-stack">
-              <fieldset class="fl-field fl-field--horizontal">
-                <legend class="fl-field__label" id="set-signup-label">Who can sign up</legend>
-                <div class="fl-radio-group screen-tall" role="radiogroup" aria-labelledby="set-signup-label" aria-describedby="set-signup-help"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-signup" id="set-signup-1" aria-describedby="set-signup-1-d" checked><label class="fl-radio-group__label" for="set-signup-1">Invited people only</label><p class="fl-radio-group__description" id="set-signup-1-d">An administrator sends each invitation.</p></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-signup" id="set-signup-2" aria-describedby="set-signup-2-d"><label class="fl-radio-group__label" for="set-signup-2">People with an address at northwind.example</label><p class="fl-radio-group__description" id="set-signup-2-d">They join as authors once the address is confirmed.</p></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-signup" id="set-signup-3" aria-describedby="set-signup-3-d"><label class="fl-radio-group__label" for="set-signup-3">Anyone</label><p class="fl-radio-group__description" id="set-signup-3-d">A new account can read drafts and nothing more, until it is given a role.</p></div></div>
+              <div class="fl-field fl-field--horizontal" role="radiogroup" aria-labelledby="set-signup-label" aria-describedby="set-signup-help">
+                <div class="fl-field__label" id="set-signup-label">Who can sign up</div>
+                <div class="fl-radio-group screen-tall"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-signup" id="set-signup-1" aria-describedby="set-signup-1-d" checked><label class="fl-radio-group__label" for="set-signup-1">Invited people only</label><p class="fl-radio-group__description" id="set-signup-1-d">An administrator sends each invitation.</p></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-signup" id="set-signup-2" aria-describedby="set-signup-2-d"><label class="fl-radio-group__label" for="set-signup-2">People with an address at northwind.example</label><p class="fl-radio-group__description" id="set-signup-2-d">They join as authors once the address is confirmed.</p></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-signup" id="set-signup-3" aria-describedby="set-signup-3-d"><label class="fl-radio-group__label" for="set-signup-3">Anyone</label><p class="fl-radio-group__description" id="set-signup-3-d">A new account can read drafts and nothing more, until it is given a role.</p></div></div>
                 <p class="fl-field__help" id="set-signup-help">For the admin of this site. Readers of the site need no account.</p>
-              </fieldset>
+              </div>
               <hr class="fl-divider">
-              <fieldset class="fl-field fl-field--horizontal">
-                <legend class="fl-field__label">Email the owners when</legend>
+              <div class="fl-field fl-field--horizontal" role="group" aria-labelledby="set-mail-label" aria-describedby="set-mail-help">
+                <div class="fl-field__label" id="set-mail-label">Email the owners when</div>
                 <div class="fl-stack fl-stack--gap-2 screen-tall">
                   <div class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="set-mail-1" checked><label class="fl-checkbox__label" for="set-mail-1">Somebody signs up</label></div>
                   <div class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="set-mail-2" checked><label class="fl-checkbox__label" for="set-mail-2">A scheduled publication fails</label></div>
                   <div class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="set-mail-3"><label class="fl-checkbox__label" for="set-mail-3">An API key is created or rotated</label></div>
                 </div>
-                <p class="fl-field__help">Sent to the 2 owners of the site, at most once an hour.</p>
-              </fieldset>
+                <p class="fl-field__help" id="set-mail-help">Sent to the 2 owners of the site, at most once an hour.</p>
+              </div>
               <hr class="fl-divider">
               <div class="fl-field fl-field--horizontal">
                 <span class="fl-field__label" id="set-maintenance-label">Maintenance mode</span>

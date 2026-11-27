@@ -135,14 +135,14 @@ X-Request-Source: console</textarea>
     <span class="fl-input fl-number-input"><input class="fl-input__control fl-number-input__control" type="number" value="900" id="num-b" min="5" max="600" step="5" required aria-invalid="true" aria-describedby="num-b-error"><span class="fl-input__affix">seconds</span><button class="fl-number-input__step" type="button" tabindex="-1" aria-label="Decrease"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#minus"/></svg></button><button class="fl-number-input__step" type="button" tabindex="-1" aria-label="Increase" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg></button></span>
     <p class="fl-field__error" id="num-b-error"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg>Enter a number of seconds from 5 to 600.</p>
   </div>
-  <fieldset class="fl-field">
-    <legend class="fl-field__label">Size</legend>
+  <div class="fl-field" role="group" aria-labelledby="num-c-label" aria-describedby="num-c-help">
+    <div class="fl-field__label" id="num-c-label">Size</div>
     <div class="fl-cluster fl-cluster--nowrap">
       <span class="fl-input fl-number-input"><input class="fl-input__control fl-number-input__control" type="number" value="1200" min="1" aria-label="Width"><span class="fl-input__affix">px</span></span>
       <span class="fl-input fl-number-input"><input class="fl-input__control fl-number-input__control" type="number" value="630" min="1" aria-label="Height"><span class="fl-input__affix">px</span></span>
     </div>
-    <p class="fl-field__help">Width and height of the preview.</p>
-  </fieldset>
+    <p class="fl-field__help" id="num-c-help">Width and height of the preview.</p>
+  </div>
 </div>
 
 <h3>Sizes</h3>
@@ -294,21 +294,21 @@ X-Request-Source: console</textarea>
 
 <h3>In a field</h3>
 <div class="docs-demo docs-demo--column docs-demo--narrow">
-  <fieldset class="fl-field">
-    <legend class="fl-field__label">Notify me about</legend>
+  <div class="fl-field" role="group" aria-labelledby="cb-c-label" aria-describedby="cb-c-help">
+    <div class="fl-field__label" id="cb-c-label">Notify me about</div>
     <div class="fl-stack fl-stack--gap-2">
       <div class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="cb-c1" checked><label class="fl-checkbox__label" for="cb-c1">Comments on my work</label></div>
       <div class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="cb-c2" checked><label class="fl-checkbox__label" for="cb-c2">Tasks assigned to me</label></div>
       <div class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="cb-c3"><label class="fl-checkbox__label" for="cb-c3">New members</label></div>
     </div>
-    <p class="fl-field__help">Sent by email, at most once an hour.</p>
-  </fieldset>
+    <p class="fl-field__help" id="cb-c-help">Sent by email, at most once an hour.</p>
+  </div>
   <div class="fl-field">
     <div class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="cb-d1" required aria-invalid="true" aria-describedby="cb-d1-error"><label class="fl-checkbox__label" for="cb-d1">I have read the terms of use</label></div>
     <p class="fl-field__error" id="cb-d1-error"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg>Accept the terms to create the account.</p>
   </div>
 </div>
-<h4>A set of checkboxes is a field on a <code>&lt;fieldset&gt;</code>, with the question in its <code>&lt;legend&gt;</code>. One checkbox alone is a field without a label of the field: the label of the checkbox names it, and the error sits under it.</h4>
+<h4>A set of checkboxes is a field with <code>role="group"</code>, named by the question in its label. One checkbox alone is a field without a label of the field: the label of the checkbox names it, and the error sits under it.</h4>
 
 <h3>Alone, in a table</h3>
 <div class="docs-demo docs-scroll">
@@ -338,14 +338,14 @@ X-Request-Source: console</textarea>
 
 <h3>Dark, compact, right to left</h3>
 <div class="docs-modes docs-demo--column">
-  <fieldset class="fl-field">
-    <legend class="fl-field__label">Notify me about</legend>
+  <div class="fl-field" role="group" aria-labelledby="cb-m-label">
+    <div class="fl-field__label" id="cb-m-label">Notify me about</div>
     <div class="fl-stack fl-stack--gap-2">
       <div class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="cb-m1" aria-describedby="cb-m1-d" checked><label class="fl-checkbox__label" for="cb-m1">Comments on my work</label><p class="fl-checkbox__description" id="cb-m1-d">Also when someone replies to me.</p></div>
       <div class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="cb-m2" data-indeterminate><label class="fl-checkbox__label" for="cb-m2">Tasks assigned to me</label></div>
       <div class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="cb-m3"><label class="fl-checkbox__label" for="cb-m3">New members</label></div>
     </div>
-  </fieldset>
+  </div>
   <div class="fl-cluster fl-cluster--gap-4">
     <div class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="cb-m4" checked data-force="focus-visible"><label class="fl-checkbox__label" for="cb-m4">Focus</label></div> <div class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="cb-m5" aria-invalid="true"><label class="fl-checkbox__label" for="cb-m5">Invalid</label></div> <div class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="cb-m6" checked disabled><label class="fl-checkbox__label" for="cb-m6">Disabled</label></div>
   </div>
@@ -354,7 +354,7 @@ X-Request-Source: console</textarea>
 <table class="docs-spec">
 <caption>Spec</caption>
 <tbody>
-<tr><th scope="row">Element</th><td><code>&lt;div class="fl-checkbox"&gt;</code> around <code>&lt;input class="fl-checkbox__control" type="checkbox"&gt;</code>, a <code>&lt;label class="fl-checkbox__label" for&gt;</code> and an optional <code>&lt;p class="fl-checkbox__description"&gt;</code>. Alone, a <code>&lt;span class="fl-checkbox"&gt;</code> around the input only. A set is a <code>&lt;fieldset class="fl-field"&gt;</code>.</td></tr>
+<tr><th scope="row">Element</th><td><code>&lt;div class="fl-checkbox"&gt;</code> around <code>&lt;input class="fl-checkbox__control" type="checkbox"&gt;</code>, a <code>&lt;label class="fl-checkbox__label" for&gt;</code> and an optional <code>&lt;p class="fl-checkbox__description"&gt;</code>. Alone, a <code>&lt;span class="fl-checkbox"&gt;</code> around the input only. A set is a <code>&lt;div class="fl-field" role="group"&gt;</code>, named by its label through <code>aria-labelledby</code>.</td></tr>
 <tr><th scope="row">ARIA and keys</th><td><ul><li>The native checkbox: Space checks and unchecks it.</li><li>The label names it through <code>for</code> and <code>id</code>; without a visible label, <code>aria-label</code>. The description is in <code>aria-describedby</code>.</li><li>Mixed: the <code>indeterminate</code> property, which script sets; it reads as mixed. A click on a mixed box checks it.</li><li>Invalid: <code>aria-invalid="true"</code>, with the error of the field in <code>aria-describedby</code>. Disabled: <code>disabled</code>.</li></ul></td></tr>
 <tr><th scope="row">Level</th><td>Static. Posts as a form field in static rendering. The mixed state needs script, since HTML has no attribute for it.</td></tr>
 <tr><th scope="row">Parameters</th><td><ul><li><code>Value</code> with <code>@bind-Value</code>; <code>Name</code></li><li><code>Label</code>, or child content; <code>Description</code></li><li><code>Indeterminate</code>: the mixed state</li><li><code>AriaLabel</code>: the name when it stands alone; <code>Disabled</code></li></ul></td></tr>
@@ -366,43 +366,43 @@ X-Request-Source: console</textarea>
 
 <section class="docs-section" id="radio-group">
 <h2>Radio group</h2>
-<p>One choice out of a few that exclude each other, with every choice in view. It is a set of native radio inputs that share a name, in a field whose <code>&lt;legend&gt;</code> asks the question. More than about six choices are a select.</p>
+<p>One choice out of a few that exclude each other, with every choice in view. It is a set of native radio inputs that share a name, in a field whose label asks the question. More than about six choices are a select.</p>
 
 <h3>In a column</h3>
 <div class="docs-demo docs-demo--column docs-demo--narrow">
-  <fieldset class="fl-field">
-    <legend class="fl-field__label" id="rg-a-l">Start of the week</legend>
-    <div class="fl-radio-group" role="radiogroup" aria-labelledby="rg-a-l"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-a" id="rg-a-1" checked><label class="fl-radio-group__label" for="rg-a-1">Monday</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-a" id="rg-a-2"><label class="fl-radio-group__label" for="rg-a-2">Saturday</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-a" id="rg-a-3"><label class="fl-radio-group__label" for="rg-a-3">Sunday</label></div></div>
-  </fieldset>
+  <div class="fl-field" role="radiogroup" aria-labelledby="rg-a-l">
+    <div class="fl-field__label" id="rg-a-l">Start of the week</div>
+    <div class="fl-radio-group"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-a" id="rg-a-1" checked><label class="fl-radio-group__label" for="rg-a-1">Monday</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-a" id="rg-a-2"><label class="fl-radio-group__label" for="rg-a-2">Saturday</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-a" id="rg-a-3"><label class="fl-radio-group__label" for="rg-a-3">Sunday</label></div></div>
+  </div>
 </div>
 
 <h3>With descriptions</h3>
 <div class="docs-demo docs-demo--column docs-demo--narrow">
-  <fieldset class="fl-field">
-    <legend class="fl-field__label" id="rg-b-l">Visibility <span class="fl-field__required" aria-hidden="true">*</span></legend>
-    <div class="fl-radio-group" role="radiogroup" aria-labelledby="rg-b-l" aria-describedby="rg-b-help" aria-required="true"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-b" id="rg-b-1" aria-describedby="rg-b-1-d" checked><label class="fl-radio-group__label" for="rg-b-1">Private</label><p class="fl-radio-group__description" id="rg-b-1-d">Only you and the people you invite.</p></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-b" id="rg-b-2" aria-describedby="rg-b-2-d"><label class="fl-radio-group__label" for="rg-b-2">Workspace</label><p class="fl-radio-group__description" id="rg-b-2-d">Every member of the workspace can find and open it.</p></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-b" id="rg-b-3" aria-describedby="rg-b-3-d" disabled><label class="fl-radio-group__label" for="rg-b-3">Public</label><p class="fl-radio-group__description" id="rg-b-3-d">Anyone with the link. Turned off by an owner.</p></div></div>
+  <div class="fl-field" role="radiogroup" aria-labelledby="rg-b-l" aria-describedby="rg-b-help" aria-required="true">
+    <div class="fl-field__label" id="rg-b-l">Visibility <span class="fl-field__required" aria-hidden="true">*</span></div>
+    <div class="fl-radio-group"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-b" id="rg-b-1" aria-describedby="rg-b-1-d" checked><label class="fl-radio-group__label" for="rg-b-1">Private</label><p class="fl-radio-group__description" id="rg-b-1-d">Only you and the people you invite.</p></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-b" id="rg-b-2" aria-describedby="rg-b-2-d"><label class="fl-radio-group__label" for="rg-b-2">Workspace</label><p class="fl-radio-group__description" id="rg-b-2-d">Every member of the workspace can find and open it.</p></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-b" id="rg-b-3" aria-describedby="rg-b-3-d" disabled><label class="fl-radio-group__label" for="rg-b-3">Public</label><p class="fl-radio-group__description" id="rg-b-3-d">Anyone with the link. Turned off by an owner.</p></div></div>
     <p class="fl-field__help" id="rg-b-help">You can change this later in the settings of the project.</p>
-  </fieldset>
+  </div>
 </div>
 
 <h3>In a row</h3>
 <div class="docs-demo docs-demo--column">
-  <fieldset class="fl-field">
-    <legend class="fl-field__label" id="rg-c-l">Billing period</legend>
-    <div class="fl-radio-group fl-radio-group--horizontal" role="radiogroup" aria-labelledby="rg-c-l"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-c" id="rg-c-1"><label class="fl-radio-group__label" for="rg-c-1">Monthly</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-c" id="rg-c-2"><label class="fl-radio-group__label" for="rg-c-2">Quarterly</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-c" id="rg-c-3" checked><label class="fl-radio-group__label" for="rg-c-3">Yearly</label></div></div>
-  </fieldset>
+  <div class="fl-field" role="radiogroup" aria-labelledby="rg-c-l">
+    <div class="fl-field__label" id="rg-c-l">Billing period</div>
+    <div class="fl-radio-group fl-radio-group--horizontal"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-c" id="rg-c-1"><label class="fl-radio-group__label" for="rg-c-1">Monthly</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-c" id="rg-c-2"><label class="fl-radio-group__label" for="rg-c-2">Quarterly</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-c" id="rg-c-3" checked><label class="fl-radio-group__label" for="rg-c-3">Yearly</label></div></div>
+  </div>
 </div>
 <h4>For two or three short choices. The row wraps when it is full.</h4>
 
 <h3>Invalid</h3>
 <div class="docs-demo docs-demo--column docs-demo--narrow">
-  <fieldset class="fl-field">
-    <legend class="fl-field__label" id="rg-d-l">Plan <span class="fl-field__required" aria-hidden="true">*</span></legend>
-    <div class="fl-radio-group" role="radiogroup" aria-labelledby="rg-d-l" aria-describedby="rg-d-error" aria-required="true" aria-invalid="true"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-d" id="rg-d-1"><label class="fl-radio-group__label" for="rg-d-1">Free</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-d" id="rg-d-2"><label class="fl-radio-group__label" for="rg-d-2">Team</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-d" id="rg-d-3"><label class="fl-radio-group__label" for="rg-d-3">Business</label></div></div>
+  <div class="fl-field" role="radiogroup" aria-labelledby="rg-d-l" aria-describedby="rg-d-error" aria-required="true" aria-invalid="true">
+    <div class="fl-field__label" id="rg-d-l">Plan <span class="fl-field__required" aria-hidden="true">*</span></div>
+    <div class="fl-radio-group"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-d" id="rg-d-1"><label class="fl-radio-group__label" for="rg-d-1">Free</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-d" id="rg-d-2"><label class="fl-radio-group__label" for="rg-d-2">Team</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-d" id="rg-d-3"><label class="fl-radio-group__label" for="rg-d-3">Business</label></div></div>
     <p class="fl-field__error" id="rg-d-error"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg>Choose a plan to continue.</p>
-  </fieldset>
+  </div>
 </div>
-<h4>The group carries <code>aria-invalid</code>: a single radio cannot be wrong on its own</h4>
+<h4>The group carries <code>aria-invalid</code>, on the field: a single radio cannot be wrong on its own</h4>
 
 <h3>States</h3>
 <div class="docs-demo docs-scroll">
@@ -417,23 +417,23 @@ X-Request-Source: console</textarea>
 
 <h3>Dark, compact, right to left</h3>
 <div class="docs-modes docs-demo--column">
-  <fieldset class="fl-field">
-    <legend class="fl-field__label" id="rg-m1-l">Visibility</legend>
-    <div class="fl-radio-group" role="radiogroup" aria-labelledby="rg-m1-l"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-m1" id="rg-m1-1" aria-describedby="rg-m1-1-d" checked><label class="fl-radio-group__label" for="rg-m1-1">Private</label><p class="fl-radio-group__description" id="rg-m1-1-d">Only you and the people you invite.</p></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-m1" id="rg-m1-2"><label class="fl-radio-group__label" for="rg-m1-2">Workspace</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-m1" id="rg-m1-3" disabled><label class="fl-radio-group__label" for="rg-m1-3">Public</label></div></div>
-  </fieldset>
-  <fieldset class="fl-field">
-    <legend class="fl-field__label" id="rg-m2-l">Billing period</legend>
-    <div class="fl-radio-group fl-radio-group--horizontal" role="radiogroup" aria-labelledby="rg-m2-l"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-m2" id="rg-m2-1" data-force="focus-visible"><label class="fl-radio-group__label" for="rg-m2-1">Monthly</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-m2" id="rg-m2-2" checked><label class="fl-radio-group__label" for="rg-m2-2">Yearly</label></div></div>
-  </fieldset>
+  <div class="fl-field" role="radiogroup" aria-labelledby="rg-m1-l">
+    <div class="fl-field__label" id="rg-m1-l">Visibility</div>
+    <div class="fl-radio-group"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-m1" id="rg-m1-1" aria-describedby="rg-m1-1-d" checked><label class="fl-radio-group__label" for="rg-m1-1">Private</label><p class="fl-radio-group__description" id="rg-m1-1-d">Only you and the people you invite.</p></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-m1" id="rg-m1-2"><label class="fl-radio-group__label" for="rg-m1-2">Workspace</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-m1" id="rg-m1-3" disabled><label class="fl-radio-group__label" for="rg-m1-3">Public</label></div></div>
+  </div>
+  <div class="fl-field" role="radiogroup" aria-labelledby="rg-m2-l">
+    <div class="fl-field__label" id="rg-m2-l">Billing period</div>
+    <div class="fl-radio-group fl-radio-group--horizontal"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-m2" id="rg-m2-1" data-force="focus-visible"><label class="fl-radio-group__label" for="rg-m2-1">Monthly</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="rg-m2" id="rg-m2-2" checked><label class="fl-radio-group__label" for="rg-m2-2">Yearly</label></div></div>
+  </div>
 </div>
 
 <table class="docs-spec">
 <caption>Spec</caption>
 <tbody>
-<tr><th scope="row">Element</th><td><code>&lt;fieldset class="fl-field"&gt;</code> with a <code>&lt;legend class="fl-field__label"&gt;</code>, and in it <code>&lt;div class="fl-radio-group" role="radiogroup"&gt;</code>. Each choice is a <code>&lt;div class="fl-radio-group__item"&gt;</code> around <code>&lt;input class="fl-radio-group__control" type="radio"&gt;</code>, its <code>&lt;label&gt;</code> and an optional description. The inputs share one <code>name</code>.</td></tr>
-<tr><th scope="row">ARIA and keys</th><td><ul><li>The radio group pattern, with the native inputs. Tab enters the group on the checked radio, or on the first one; the arrow keys move and check; Space checks the one in focus.</li><li>The group is named by the legend through <code>aria-labelledby</code>, and lists the error and the help in <code>aria-describedby</code>.</li><li>Invalid and required are on the group: <code>aria-invalid="true"</code>, <code>aria-required="true"</code>. One input also carries <code>required</code>, so that the form checks it.</li><li>Disabled: <code>disabled</code> on an input, or on the <code>&lt;fieldset&gt;</code> for all of them.</li></ul></td></tr>
+<tr><th scope="row">Element</th><td><code>&lt;div class="fl-field" role="radiogroup"&gt;</code> with a <code>&lt;div class="fl-field__label"&gt;</code>, and in it <code>&lt;div class="fl-radio-group"&gt;</code>, which has no role there. With no field around it, <code>&lt;div class="fl-radio-group" role="radiogroup" aria-label&gt;</code>. Each choice is a <code>&lt;div class="fl-radio-group__item"&gt;</code> around <code>&lt;input class="fl-radio-group__control" type="radio"&gt;</code>, its <code>&lt;label&gt;</code> and an optional description. The inputs share one <code>name</code>.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>The radio group pattern, with the native inputs. Tab enters the group on the checked radio, or on the first one; the arrow keys move and check; Space checks the one in focus.</li><li>The role is on the field, once: a screen reader announces one group, with its name, its state and its description. The field is named by its label through <code>aria-labelledby</code>, and lists the error and the help in <code>aria-describedby</code>.</li><li>Invalid and required are on the same element: <code>aria-invalid="true"</code>, <code>aria-required="true"</code>. One input also carries <code>required</code>, so that the form checks it.</li><li>Disabled: <code>disabled</code> on each input. Nothing disables them all at once.</li></ul></td></tr>
 <tr><th scope="row">Level</th><td>Static. Posts as a form field in static rendering.</td></tr>
-<tr><th scope="row">Parameters</th><td><ul><li><code>Value</code> with <code>@bind-Value</code>; <code>Name</code></li><li><code>Options</code>, or <code>FlRadio</code> children, each with a <code>Value</code>, a <code>Label</code>, a <code>Description</code> and <code>Disabled</code></li><li><code>Orientation</code>: Vertical (default), Horizontal</li><li><code>Disabled</code>: the whole group</li></ul></td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Value</code> with <code>@bind-Value</code>; <code>Name</code></li><li><code>Options</code>, or <code>FlRadio</code> children, each with a <code>Value</code>, a <code>Label</code>, a <code>Description</code> and <code>Disabled</code></li><li><code>Orientation</code>: Vertical (default), Horizontal</li><li><code>Disabled</code>: the whole group, set on every input</li></ul></td></tr>
 <tr><th scope="row">Classes</th><td><code>fl-radio-group</code>; <code>--horizontal</code>; parts <code>fl-radio-group__item</code>, <code>__control</code>, <code>__label</code>, <code>__description</code></td></tr>
 <tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>surface</code>, <code>border-control</code>, <code>text</code>, <code>text-subtle</code>, <code>hover</code>, <code>pressed</code>, <code>accent</code> with its hover and pressed steps, <code>on-accent</code>, <code>danger-solid</code>, the disabled three</li><li>Size: <code>--fl-space-4</code> for the circle, <code>--fl-space-1-5</code> for the dot, <code>--fl-space-2</code>, <code>--fl-gap-s</code>, <code>--fl-gap-l</code>, <code>--fl-target-min</code>, <code>--fl-radius-full</code></li><li>Type: <code>--fl-font-size-m</code>, <code>-xs</code>, <code>--fl-line-height-normal</code></li><li>Focus: <code>--fl-focus-ring</code>, <code>--fl-focus-ring-offset</code>, <code>--fl-focus-halo</code>, around the circle</li><li>Own: <code>--fl-radio-group-size</code>, <code>-dot</code>, <code>-gap</code>, <code>-bg</code>, <code>-bg-hover</code>, <code>-bg-pressed</code>, <code>-border</code>, <code>-border-hover</code>, <code>-mark</code></li></ul></td></tr>
 </tbody>
@@ -470,15 +470,15 @@ X-Request-Source: console</textarea>
   </div>
 </div>
 <div class="docs-demo docs-demo--column docs-demo--narrow">
-  <fieldset class="fl-field">
-    <legend class="fl-field__label">Notifications</legend>
+  <div class="fl-field" role="group" aria-labelledby="sw-e-label" aria-describedby="sw-e-help">
+    <div class="fl-field__label" id="sw-e-label">Notifications</div>
     <div class="fl-stack fl-stack--gap-3">
       <div class="fl-switch fl-switch--label-start"><input class="fl-switch__control" type="checkbox" role="switch" id="sw-e1" checked><label class="fl-switch__label" for="sw-e1">Email</label></div>
       <div class="fl-switch fl-switch--label-start"><input class="fl-switch__control" type="checkbox" role="switch" id="sw-e2"><label class="fl-switch__label" for="sw-e2">In the browser</label></div>
       <div class="fl-switch fl-switch--label-start"><input class="fl-switch__control" type="checkbox" role="switch" id="sw-e3" checked><label class="fl-switch__label" for="sw-e3">On my phone</label></div>
     </div>
-    <p class="fl-field__help">Each one applies as soon as you change it.</p>
-  </fieldset>
+    <p class="fl-field__help" id="sw-e-help">Each one applies as soon as you change it.</p>
+  </div>
 </div>
 
 <h3>States</h3>
@@ -559,11 +559,11 @@ X-Request-Source: console</textarea>
 
 <h3>In a field</h3>
 <div class="docs-demo docs-demo--column docs-demo--narrow">
-  <fieldset class="fl-field">
-    <legend class="fl-field__label">Density</legend>
-    <div><div class="fl-segmented" role="radiogroup" aria-label="Density"><label class="fl-segmented__item"><input class="fl-segmented__control" type="radio" name="seg-f1" checked><span class="fl-segmented__label">Comfortable</span></label><label class="fl-segmented__item"><input class="fl-segmented__control" type="radio" name="seg-f1"><span class="fl-segmented__label">Compact</span></label></div></div>
-    <p class="fl-field__help">How close the rows of a table are to each other.</p>
-  </fieldset>
+  <div class="fl-field" role="radiogroup" aria-labelledby="seg-f1-label" aria-describedby="seg-f1-help">
+    <div class="fl-field__label" id="seg-f1-label">Density</div>
+    <div><div class="fl-segmented"><label class="fl-segmented__item"><input class="fl-segmented__control" type="radio" name="seg-f1" checked><span class="fl-segmented__label">Comfortable</span></label><label class="fl-segmented__item"><input class="fl-segmented__control" type="radio" name="seg-f1"><span class="fl-segmented__label">Compact</span></label></div></div>
+    <p class="fl-field__help" id="seg-f1-help">How close the rows of a table are to each other.</p>
+  </div>
 </div>
 
 <h3>States</h3>
@@ -588,8 +588,8 @@ X-Request-Source: console</textarea>
 <table class="docs-spec">
 <caption>Spec</caption>
 <tbody>
-<tr><th scope="row">Element</th><td><code>&lt;div class="fl-segmented" role="radiogroup"&gt;</code>, and for each choice a <code>&lt;label class="fl-segmented__item"&gt;</code> around <code>&lt;input class="fl-segmented__control" type="radio"&gt;</code>, an optional icon, <code>&lt;span class="fl-segmented__label"&gt;</code> and an optional <code>&lt;span class="fl-segmented__count"&gt;</code>. The input lies over its item, unseen.</td></tr>
-<tr><th scope="row">ARIA and keys</th><td><ul><li>The radio group pattern, with the native inputs. Tab enters the group on the chosen item; the arrow keys move and choose.</li><li>The group has a name: <code>aria-label</code>, or <code>aria-labelledby</code> the legend of its field.</li><li>Icon only: each input has its name in <code>aria-label</code>.</li><li>A count is read after the label, as part of the name of the item. Disabled: <code>disabled</code> on an input.</li></ul></td></tr>
+<tr><th scope="row">Element</th><td><code>&lt;div class="fl-segmented" role="radiogroup"&gt;</code>; in a field the role is on the field, as for the radio group. For each choice a <code>&lt;label class="fl-segmented__item"&gt;</code> around <code>&lt;input class="fl-segmented__control" type="radio"&gt;</code>, an optional icon, <code>&lt;span class="fl-segmented__label"&gt;</code> and an optional <code>&lt;span class="fl-segmented__count"&gt;</code>. The input lies over its item, unseen.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>The radio group pattern, with the native inputs. Tab enters the group on the chosen item; the arrow keys move and choose.</li><li>The group has a name: <code>aria-label</code>, or, in a field, the label of the field through <code>aria-labelledby</code> on the field, which then carries the role.</li><li>Icon only: each input has its name in <code>aria-label</code>.</li><li>A count is read after the label, as part of the name of the item. Disabled: <code>disabled</code> on an input.</li></ul></td></tr>
 <tr><th scope="row">Level</th><td>Static. Posts as a form field in static rendering; showing another part of the page on a change needs an event, or a form that is sent.</td></tr>
 <tr><th scope="row">Parameters</th><td><ul><li><code>Value</code> with <code>@bind-Value</code>; <code>Name</code>; <code>Label</code>: the name of the group</li><li><code>Options</code>, or <code>FlSegment</code> children, each with a <code>Value</code>, a <code>Label</code>, an <code>Icon</code>, a <code>Count</code> and <code>Disabled</code></li><li><code>Size</code>: Small, Medium (default), Large</li><li><code>IconOnly</code>: the labels become the names of the icons; <code>Block</code>: full width</li></ul></td></tr>
 <tr><th scope="row">Classes</th><td><code>fl-segmented</code>; <code>--s</code>, <code>--l</code>, <code>--icon</code>, <code>--block</code>; parts <code>fl-segmented__item</code>, <code>__control</code>, <code>__label</code>, <code>__count</code></td></tr>
@@ -624,14 +624,14 @@ X-Request-Source: console</textarea>
     <p class="fl-field__error" id="date-b-error"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg>Choose a time that has not passed.</p>
     <span class="fl-field__meta" id="date-b-meta">Europe/Lisbon</span>
   </div>
-  <fieldset class="fl-field">
-    <legend class="fl-field__label">Period</legend>
+  <div class="fl-field" role="group" aria-labelledby="date-c-label" aria-describedby="date-c-help">
+    <div class="fl-field__label" id="date-c-label">Period</div>
     <div class="fl-cluster">
       <span class="fl-input fl-date-input docs-narrow"><input class="fl-input__control fl-date-input__control" type="date" value="2026-11-01" aria-label="From"></span>
       <span class="fl-input fl-date-input docs-narrow"><input class="fl-input__control fl-date-input__control" type="date" value="2026-11-30" aria-label="To"></span>
     </div>
-    <p class="fl-field__help">A range is two inputs: the native control has no range of its own.</p>
-  </fieldset>
+    <p class="fl-field__help" id="date-c-help">A range is two inputs: the native control has no range of its own.</p>
+  </div>
 </div>
 <h4>The time zone, when it matters, is the hint in the label row: the control does not know it</h4>
 
@@ -717,14 +717,14 @@ X-Request-Source: console</textarea>
     <p class="fl-field__help" id="time-a-help">In steps of a quarter of an hour.</p>
     <span class="fl-field__meta" id="time-a-meta">Europe/Lisbon</span>
   </div>
-  <fieldset class="fl-field">
-    <legend class="fl-field__label">Quiet hours</legend>
+  <div class="fl-field" role="group" aria-labelledby="time-b-label" aria-describedby="time-b-help">
+    <div class="fl-field__label" id="time-b-label">Quiet hours</div>
     <div class="fl-cluster">
       <span class="fl-input fl-time-input docs-narrow"><input class="fl-input__control fl-time-input__control" type="time" value="22:00" aria-label="From"></span>
       <span class="fl-input fl-time-input docs-narrow"><input class="fl-input__control fl-time-input__control" type="time" value="07:00" aria-label="To"></span>
     </div>
-    <p class="fl-field__help">No notification is sent between these times.</p>
-  </fieldset>
+    <p class="fl-field__help" id="time-b-help">No notification is sent between these times.</p>
+  </div>
 </div>
 
 <h3>Sizes</h3>
