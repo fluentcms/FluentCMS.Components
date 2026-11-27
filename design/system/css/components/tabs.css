@@ -1,0 +1,216 @@
+/* Tabs: views of one subject, one shown at a time. A list of tabs with
+   role="tablist" over the panels; or a <nav> of links when each tab is a page
+   of its own. More tabs than fit scroll inside the list. */
+
+@layer fl.components {
+  .fl-tabs {
+    --fl-tabs-height: var(--fl-row-height);
+    --fl-tabs-inset: 0;
+    --fl-tabs-gap: var(--fl-gap-m);
+    --fl-tabs-fg: var(--fl-color-text-muted);
+    --fl-tabs-fg-hover: var(--fl-color-text);
+    --fl-tabs-wash: transparent;
+    --fl-tabs-wash-pressed: var(--fl-color-pressed);
+    --fl-tabs-indicator: transparent;
+    --fl-tabs-count-bg: var(--fl-color-neutral-soft);
+    --fl-tabs-count-fg: var(--fl-color-neutral-text);
+    --fl-tabs-dot: var(--fl-color-accent);
+
+    min-inline-size: 0;
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-m);
+    line-height: var(--fl-line-height-normal);
+
+    /* The line under the tabs is painted, not a border, so that the mark of
+       the selected tab lies on it while the list scrolls. */
+    & > .fl-tabs__list {
+      display: flex;
+      gap: var(--fl-space-1);
+      min-inline-size: 0;
+      padding-inline: var(--fl-tabs-inset);
+      background: linear-gradient(var(--fl-color-border) 0 0) 0 100% / 100% var(--fl-border-width) no-repeat;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    & .fl-tabs__tab {
+      position: relative;
+      isolation: isolate;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--fl-space-2);
+      flex: none;
+      block-size: var(--fl-tabs-height);
+      margin: 0;
+      padding-block: 0;
+      padding-inline: var(--fl-space-3);
+      border: 0;
+      border-radius: var(--fl-control-radius);
+      background-color: transparent;
+      color: var(--fl-tabs-fg);
+      font-family: var(--fl-font-family);
+      font-size: var(--fl-font-size-s);
+      font-weight: var(--fl-font-weight-medium);
+      line-height: var(--fl-line-height-tight);
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+
+      /* Hover and pressed, behind the content and clear of the line. */
+      &::before {
+        content: "";
+        position: absolute;
+        inset-block: var(--fl-space-1-5);
+        inset-inline: 0;
+        z-index: -1;
+        border-radius: var(--fl-control-radius);
+        background-color: var(--fl-tabs-wash);
+      }
+
+      /* The mark of the selected tab. */
+      &::after {
+        content: "";
+        position: absolute;
+        inset-block-end: 0;
+        inset-inline: 0;
+        block-size: var(--fl-border-width-strong);
+        background-color: var(--fl-tabs-indicator);
+      }
+
+      & > .fl-tabs__count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-inline-size: var(--fl-space-5);
+        block-size: var(--fl-space-5);
+        padding-inline: var(--fl-space-1-5);
+        border-radius: var(--fl-radius-full);
+        background-color: var(--fl-tabs-count-bg);
+        color: var(--fl-tabs-count-fg);
+        font-size: var(--fl-font-size-2xs);
+        font-weight: var(--fl-font-weight-semibold);
+        font-variant-numeric: tabular-nums;
+        line-height: 1;
+      }
+
+      /* A dot that says the view needs a look. Its meaning is in a hidden text. */
+      & > .fl-tabs__dot {
+        flex: none;
+        inline-size: var(--fl-space-2);
+        block-size: var(--fl-space-2);
+        border-radius: var(--fl-radius-full);
+        background-color: var(--fl-tabs-dot);
+
+        &.fl-tabs__dot--success { --fl-tabs-dot: var(--fl-color-success-solid); }
+        &.fl-tabs__dot--warning { --fl-tabs-dot: var(--fl-color-warning-solid); }
+        &.fl-tabs__dot--danger { --fl-tabs-dot: var(--fl-color-danger-solid); }
+      }
+
+      /* States, once and in this order: a later one wins over an earlier one. */
+
+      &:hover {
+        --fl-tabs-wash: var(--fl-color-hover);
+
+        color: var(--fl-tabs-fg-hover);
+      }
+
+      &:active {
+        --fl-tabs-wash: var(--fl-tabs-wash-pressed);
+      }
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: calc(-1 * var(--fl-focus-ring-width));
+      }
+
+      &[aria-selected="true"],
+      &[aria-current="page"] {
+        --fl-tabs-fg: var(--fl-color-accent-text);
+        --fl-tabs-fg-hover: var(--fl-color-accent-text);
+        /* The accent text is not checked on the pressed colour. */
+        --fl-tabs-wash-pressed: var(--fl-color-hover);
+        --fl-tabs-indicator: var(--fl-color-accent);
+        --fl-tabs-count-bg: var(--fl-color-accent-soft);
+        --fl-tabs-count-fg: var(--fl-color-accent-text);
+      }
+
+      &:disabled,
+      &[aria-disabled="true"] {
+        --fl-tabs-wash: transparent;
+        --fl-tabs-count-bg: var(--fl-color-disabled-fill);
+        --fl-tabs-count-fg: var(--fl-color-disabled-text);
+        --fl-tabs-dot: var(--fl-color-disabled-text);
+
+        color: var(--fl-color-disabled-text);
+        cursor: not-allowed;
+      }
+    }
+
+    & > .fl-tabs__panel {
+      padding-block-start: var(--fl-tabs-gap);
+      border-radius: var(--fl-radius-s);
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: var(--fl-focus-ring-offset);
+      }
+    }
+
+    /* Contained: at the top of a card or a panel. The list takes the inset of
+       the region, and the panel starts under the line. */
+    &.fl-tabs--contained {
+      --fl-tabs-inset: var(--fl-inset-s);
+      --fl-tabs-gap: 0;
+    }
+
+    /* Where the list scrolls, the end that hides tabs fades out. */
+    @supports (animation-timeline: scroll()) {
+      & > .fl-tabs__list {
+        animation: fl-tabs-fade linear both;
+        animation-timeline: scroll(inline self);
+
+        &:dir(rtl) {
+          animation-name: fl-tabs-fade-rtl;
+        }
+      }
+    }
+
+    @media (forced-colors: active) {
+      & > .fl-tabs__list {
+        border-block-end: var(--fl-border-width) solid CanvasText;
+        background: none;
+      }
+
+      & .fl-tabs__tab {
+        & > .fl-tabs__dot {
+          background-color: CanvasText;
+        }
+
+        &[aria-selected="true"],
+        &[aria-current="page"] {
+          --fl-tabs-fg: Highlight;
+          --fl-tabs-fg-hover: Highlight;
+          --fl-tabs-indicator: Highlight;
+        }
+
+        &:disabled,
+        &[aria-disabled="true"] {
+          color: GrayText;
+        }
+      }
+    }
+  }
+
+  @keyframes fl-tabs-fade {
+    0% { mask-image: linear-gradient(to right, currentColor calc(100% - var(--fl-space-10)), transparent); }
+    1%, 99% { mask-image: linear-gradient(to right, transparent, currentColor var(--fl-space-10), currentColor calc(100% - var(--fl-space-10)), transparent); }
+    100% { mask-image: linear-gradient(to left, currentColor calc(100% - var(--fl-space-10)), transparent); }
+  }
+
+  @keyframes fl-tabs-fade-rtl {
+    0% { mask-image: linear-gradient(to left, currentColor calc(100% - var(--fl-space-10)), transparent); }
+    1%, 99% { mask-image: linear-gradient(to right, transparent, currentColor var(--fl-space-10), currentColor calc(100% - var(--fl-space-10)), transparent); }
+    100% { mask-image: linear-gradient(to right, currentColor calc(100% - var(--fl-space-10)), transparent); }
+  }
+}

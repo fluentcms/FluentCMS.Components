@@ -1,0 +1,186 @@
+/* App shell: the frame of an application: a sidebar, a header and the main
+   region, which scrolls. Below 48rem of its own width the sidebar leaves the
+   grid, and the navigation opens as a drawer from the menu button of the
+   header. The drawer is drawn here on a plain <dialog>. */
+
+@layer fl.components {
+  .fl-app-shell {
+    /* The shell fills the window; a length of the viewport is no token. */
+    --fl-app-shell-block-size: 100dvh;
+    --fl-app-shell-sidebar-size: var(--fl-size-xs);
+    --fl-app-shell-drawer-size: var(--fl-size-xs);
+    --fl-app-shell-header-size: var(--fl-space-14);
+
+    container: fl-app-shell / inline-size;
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: var(--fl-app-shell-header-size) minmax(0, 1fr);
+    block-size: var(--fl-app-shell-block-size);
+    background-color: var(--fl-color-canvas);
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-m);
+    line-height: var(--fl-line-height-normal);
+
+    /* Skip link: the first thing in the page, seen only while it has focus. */
+    & > .fl-app-shell__skip {
+      position: absolute;
+      inset-block-start: var(--fl-space-2);
+      inset-inline-start: var(--fl-space-2);
+      z-index: var(--fl-z-sticky);
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      border-radius: var(--fl-control-radius);
+      background-color: var(--fl-color-accent);
+      color: var(--fl-color-on-accent);
+      font-size: var(--fl-font-size-s);
+      font-weight: var(--fl-font-weight-medium);
+      line-height: var(--fl-control-height-m);
+      text-decoration: none;
+      white-space: nowrap;
+
+      &:focus-visible {
+        inline-size: auto;
+        block-size: var(--fl-control-height-m);
+        padding-inline: var(--fl-control-padding-m);
+        clip-path: none;
+        outline: var(--fl-focus-ring);
+        outline-offset: var(--fl-focus-ring-offset);
+        box-shadow: var(--fl-focus-halo);
+      }
+    }
+
+    & > .fl-app-shell__sidebar {
+      display: none;
+      grid-column: 1;
+      grid-row: 1 / -1;
+      inline-size: var(--fl-app-shell-sidebar-size);
+      min-block-size: 0;
+      overflow: hidden;
+      border-inline-end: var(--fl-border-width) solid var(--fl-color-border);
+      background-color: var(--fl-color-surface);
+      transition: inline-size var(--fl-duration-normal) var(--fl-ease-standard);
+    }
+
+    & > .fl-app-shell__header {
+      display: flex;
+      align-items: center;
+      gap: var(--fl-gap-s);
+      grid-column: 2;
+      grid-row: 1;
+      min-inline-size: 0;
+      padding-inline: var(--fl-inset-m);
+      border-block-end: var(--fl-border-width) solid var(--fl-color-border);
+      background-color: var(--fl-color-surface);
+
+      /* The breadcrumb. It gives way first. */
+      & > .fl-app-shell__start {
+        display: none;
+        align-items: center;
+        flex: 1 1 var(--fl-size-2xs);
+        min-inline-size: 0;
+      }
+
+      /* The global search. */
+      & > .fl-app-shell__center {
+        display: flex;
+        align-items: center;
+        flex: 1 1 var(--fl-size-xs);
+        min-inline-size: 0;
+        max-inline-size: var(--fl-size-m);
+      }
+
+      & > .fl-app-shell__end {
+        display: flex;
+        align-items: center;
+        gap: var(--fl-space-1);
+        flex: none;
+        margin-inline-start: auto;
+      }
+    }
+
+    & > .fl-app-shell__main {
+      grid-column: 2;
+      grid-row: 2;
+      min-inline-size: 0;
+      padding: var(--fl-inset-m);
+      overflow: auto;
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: calc(-1 * var(--fl-focus-ring-width));
+      }
+    }
+
+    & > .fl-app-shell__drawer {
+      position: fixed;
+      inset-block: 0;
+      inset-inline: 0 auto;
+      inline-size: var(--fl-app-shell-drawer-size);
+      max-inline-size: calc(100% - var(--fl-space-12));
+      block-size: 100%;
+      max-block-size: 100%;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      border-inline-end: var(--fl-border-width) solid transparent;
+      background-color: var(--fl-color-surface-raised);
+      color: var(--fl-color-text);
+      box-shadow: var(--fl-shadow-l);
+      overflow: hidden;
+
+      &::backdrop {
+        background-color: var(--fl-color-backdrop);
+      }
+
+      /* Lies over the end of the brand row of the navigation. */
+      & > .fl-app-shell__close {
+        position: absolute;
+        inset-block-start: calc((var(--fl-app-shell-header-size) - var(--fl-control-height-m)) / 2);
+        inset-inline-end: var(--fl-space-3);
+      }
+    }
+
+    /* The sidebar as a rail of icons. */
+    &.fl-app-shell--collapsed {
+      --fl-app-shell-sidebar-size: var(--fl-space-14);
+    }
+
+    @container fl-app-shell (min-inline-size: 48rem) {
+      & > .fl-app-shell__sidebar {
+        display: block;
+      }
+
+      & > .fl-app-shell__header {
+        gap: var(--fl-gap-m);
+        padding-inline: var(--fl-inset-l);
+
+        & > .fl-app-shell__menu {
+          display: none;
+        }
+
+        & > .fl-app-shell__start {
+          display: flex;
+        }
+
+        /* The start and the end share what the search leaves, which keeps
+           the search near the middle. */
+        & > .fl-app-shell__center {
+          flex: 0 1 var(--fl-size-m);
+        }
+
+        & > .fl-app-shell__end {
+          flex: 1 0 auto;
+          justify-content: flex-end;
+        }
+      }
+
+      & > .fl-app-shell__main {
+        padding: var(--fl-inset-l);
+      }
+    }
+  }
+}

@@ -1,0 +1,130 @@
+/* Disclosure: a summary that shows and hides what follows it. On a <details>.
+   Plain, or as a bordered block whose header holds actions beside the summary. */
+
+@layer fl.components {
+  .fl-disclosure {
+    --fl-disclosure-padding: var(--fl-space-2);
+    --fl-disclosure-summary-height: var(--fl-control-height-m);
+    --fl-disclosure-summary-radius: var(--fl-control-radius);
+    --fl-disclosure-font-size: var(--fl-font-size-s);
+    --fl-disclosure-font-weight: var(--fl-font-weight-medium);
+
+    /* The summary and the actions share the first row. */
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    min-inline-size: 0;
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-m);
+    line-height: var(--fl-line-height-normal);
+
+    &::details-content {
+      grid-column: 1 / -1;
+    }
+
+    /* Actions are kept out of the summary, so that no control sits inside
+       another, and follow it in the page. For them to stay when the block is
+       closed, the block lays out its children itself and hides only the content. */
+    &:has(> .fl-disclosure__actions)::details-content {
+      display: contents;
+      content-visibility: visible;
+    }
+
+    &:not([open]) > .fl-disclosure__content {
+      display: none;
+    }
+
+    & > .fl-disclosure__summary {
+      display: flex;
+      align-items: center;
+      gap: var(--fl-space-2);
+      grid-column: 1;
+      min-inline-size: 0;
+      min-block-size: var(--fl-disclosure-summary-height);
+      padding-inline: var(--fl-disclosure-padding);
+      border-radius: var(--fl-disclosure-summary-radius);
+      font-size: var(--fl-disclosure-font-size);
+      font-weight: var(--fl-disclosure-font-weight);
+      line-height: var(--fl-line-height-tight);
+      list-style: none;
+      cursor: pointer;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      & > .fl-disclosure__chevron {
+        color: var(--fl-color-text-subtle);
+        transition: rotate var(--fl-duration-fast) var(--fl-ease-standard);
+      }
+
+      &:hover {
+        background-color: var(--fl-color-hover);
+      }
+
+      &:active {
+        background-color: var(--fl-color-pressed);
+      }
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: calc(-1 * var(--fl-focus-ring-width));
+      }
+    }
+
+    &[open] > .fl-disclosure__summary > .fl-disclosure__chevron {
+      rotate: 90deg;
+
+      /* The mirrored chevron turns the other way to point down. */
+      &:dir(rtl) {
+        rotate: -90deg;
+      }
+    }
+
+    & > .fl-disclosure__actions {
+      display: flex;
+      align-items: center;
+      gap: var(--fl-space-1);
+      grid-column: 2;
+      grid-row: 1;
+      padding-inline: var(--fl-space-2) var(--fl-disclosure-padding);
+    }
+
+    /* The content lines up with the text of the summary. */
+    & > .fl-disclosure__content {
+      grid-column: 1 / -1;
+      padding-block: var(--fl-space-1) var(--fl-space-3);
+      padding-inline: calc(var(--fl-disclosure-padding) + var(--fl-icon-size-m) + var(--fl-space-2)) var(--fl-disclosure-padding);
+      color: var(--fl-color-text-muted);
+    }
+
+    &.fl-disclosure--bordered {
+      --fl-disclosure-padding: var(--fl-inset-m);
+      --fl-disclosure-summary-height: calc(var(--fl-row-height) + var(--fl-space-1));
+      --fl-disclosure-summary-radius: calc(var(--fl-radius-l) - var(--fl-border-width));
+      --fl-disclosure-font-size: var(--fl-font-size-m);
+      --fl-disclosure-font-weight: var(--fl-font-weight-semibold);
+
+      border: var(--fl-border-width) solid var(--fl-color-border);
+      border-radius: var(--fl-radius-l);
+      background-color: var(--fl-color-surface);
+
+      & > .fl-disclosure__content {
+        padding: var(--fl-disclosure-padding);
+        border-block-start: var(--fl-border-width) solid var(--fl-color-border);
+        color: inherit;
+      }
+
+      /* The header keeps the corners of the block only where it meets them. */
+      &[open] > .fl-disclosure__summary {
+        border-end-start-radius: 0;
+        border-end-end-radius: 0;
+      }
+
+      &:has(> .fl-disclosure__actions) > .fl-disclosure__summary {
+        border-start-end-radius: 0;
+        border-end-end-radius: 0;
+      }
+    }
+  }
+}

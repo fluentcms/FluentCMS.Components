@@ -1,0 +1,109 @@
+/* Card: a bordered surface around one group of content. On a <section>, or on
+   an <a> when the whole card is one link. */
+
+@layer fl.components {
+  .fl-card {
+    --fl-card-padding: var(--fl-inset-m);
+    --fl-card-inner-radius: calc(var(--fl-radius-l) - var(--fl-border-width));
+    --fl-card-border: var(--fl-color-border);
+    --fl-card-overlay: transparent;
+
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+    border: var(--fl-border-width) solid var(--fl-card-border);
+    border-radius: var(--fl-radius-l);
+    background: linear-gradient(var(--fl-card-overlay) 0 0) var(--fl-color-surface);
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-m);
+    line-height: var(--fl-line-height-normal);
+    text-decoration: none;
+
+    & > .fl-card__header {
+      display: flex;
+      align-items: center;
+      gap: var(--fl-gap-s);
+      flex: none;
+      min-block-size: calc(var(--fl-row-height) + var(--fl-space-1));
+      padding-block: var(--fl-space-2);
+      padding-inline: var(--fl-card-padding);
+      border-block-end: var(--fl-border-width) solid var(--fl-color-border);
+
+      & > .fl-card__title {
+        flex: 1;
+        min-inline-size: 0;
+        margin: 0;
+        font-size: var(--fl-font-size-m);
+        font-weight: var(--fl-font-weight-semibold);
+        line-height: var(--fl-line-height-tight);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      & > .fl-card__actions {
+        display: flex;
+        align-items: center;
+        gap: var(--fl-space-1);
+        flex: none;
+        font-size: var(--fl-font-size-s);
+      }
+    }
+
+    & > .fl-card__body {
+      flex: 1;
+      min-inline-size: 0;
+      padding: var(--fl-card-padding);
+
+      /* Flush: a table or a list reaches the border and is clipped to the corners. */
+      &.fl-card__body--flush {
+        padding: 0;
+        overflow: hidden;
+
+        &:first-child {
+          border-start-start-radius: var(--fl-card-inner-radius);
+          border-start-end-radius: var(--fl-card-inner-radius);
+        }
+
+        &:last-child {
+          border-end-start-radius: var(--fl-card-inner-radius);
+          border-end-end-radius: var(--fl-card-inner-radius);
+        }
+      }
+    }
+
+    & > .fl-card__footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--fl-gap-s);
+      flex: none;
+      padding-block: var(--fl-inset-s);
+      padding-inline: var(--fl-card-padding);
+      border-block-start: var(--fl-border-width) solid var(--fl-color-border);
+      color: var(--fl-color-text-muted);
+      font-size: var(--fl-font-size-s);
+    }
+
+    /* The whole card is one link. */
+    &.fl-card--link {
+      cursor: pointer;
+    }
+
+    &.fl-card--link:hover {
+      --fl-card-border: var(--fl-color-border-strong);
+      --fl-card-overlay: var(--fl-color-hover);
+    }
+
+    &.fl-card--link:active {
+      --fl-card-overlay: var(--fl-color-pressed);
+    }
+
+    &.fl-card--link:focus-visible {
+      outline: var(--fl-focus-ring);
+      outline-offset: var(--fl-focus-ring-offset);
+      box-shadow: var(--fl-focus-halo);
+    }
+  }
+}
