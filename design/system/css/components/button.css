@@ -37,6 +37,8 @@
     text-decoration: none;
     white-space: nowrap;
     cursor: pointer;
+    /* A button keeps the width of its label in a row that is short of room. */
+    flex-shrink: 0;
 
     & > .fl-icon {
       color: var(--fl-button-icon);

@@ -17,6 +17,8 @@
       align-items: center;
       gap: var(--fl-space-0-5);
       margin-inline-end: var(--fl-space-1-5);
+      /* The keys of a chord keep their order in right-to-left. */
+      direction: ltr;
       pointer-events: none;
     }
 

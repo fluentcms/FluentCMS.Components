@@ -91,7 +91,7 @@
     }
 
     & .fl-tree__count {
-      color: var(--fl-color-text-subtle);
+      color: var(--fl-color-text-muted);
       font-size: var(--fl-font-size-xs);
       font-variant-numeric: tabular-nums;
     }

@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="css/components/button.css">
 <link rel="stylesheet" href="css/components/field.css">
 <link rel="stylesheet" href="css/components/input.css">
+<link rel="stylesheet" href="css/components/checkbox.css">
 <link rel="stylesheet" href="css/patterns/divider.css">
 <link rel="stylesheet" href="css/patterns/link.css">
 <link rel="stylesheet" href="css/patterns/kbd.css">
@@ -130,7 +131,7 @@
     <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Save as a copy</span></button>
     <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#layers"/></svg><span class="fl-menu__text">Save as a template</span></button>
     <hr class="fl-menu__separator">
-    <button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#undo-2"/></svg><span class="fl-menu__text">Discard changes</span></button>
+    <button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#undo-2"/></svg><span class="fl-menu__text">Discard changes</span></button>
   </div>
     </div>
     <div class="demo-open demo-open--end">
@@ -151,7 +152,7 @@
     <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Save as a copy</span></button>
     <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#layers"/></svg><span class="fl-menu__text">Save as a template</span></button>
     <hr class="fl-menu__separator">
-    <button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#undo-2"/></svg><span class="fl-menu__text">Discard changes</span></button>
+    <button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#undo-2"/></svg><span class="fl-menu__text">Discard changes</span></button>
   </div>
   <div class="fl-split-button fl-split-button--primary" role="group" aria-label="New project"><button class="fl-button fl-button--primary fl-split-button__action" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>New project</button><button class="fl-button fl-button--icon fl-button--primary fl-split-button__toggle" type="button" aria-label="Other things to create" aria-haspopup="menu" popovertarget="split-live-2" aria-expanded="false"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#chevron-down"/></svg></button></div>
   <div class="fl-menu fl-menu--end" id="split-live-2" popover role="menu" aria-label="Other things to create">
@@ -615,9 +616,9 @@
     <div class="fl-popover__body">
       <fieldset class="fl-field">
         <legend class="fl-field__label">Status</legend>
-        <label class="fl-cluster"><input type="checkbox" checked> Active</label>
-        <label class="fl-cluster"><input type="checkbox" checked> On hold</label>
-        <label class="fl-cluster"><input type="checkbox"> Archived</label>
+        <span class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="filter-check-1" checked><label class="fl-checkbox__label" for="filter-check-1">Active</label></span>
+        <span class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="filter-check-2" checked><label class="fl-checkbox__label" for="filter-check-2">On hold</label></span>
+        <span class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="filter-check-3"><label class="fl-checkbox__label" for="filter-check-3">Archived</label></span>
       </fieldset>
       <div class="fl-field"><label class="fl-field__label" for="pop-s1-owner">Owner</label><span class="fl-input"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#user"/></svg><input class="fl-input__control" type="text" id="pop-s1-owner" placeholder="Anyone"></span></div>
     </div>
@@ -666,9 +667,9 @@
     <div class="fl-popover__body">
       <fieldset class="fl-field">
         <legend class="fl-field__label">Status</legend>
-        <label class="fl-cluster"><input type="checkbox" checked autofocus> Active</label>
-        <label class="fl-cluster"><input type="checkbox" checked> On hold</label>
-        <label class="fl-cluster"><input type="checkbox"> Archived</label>
+        <span class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="filter-check-4" checked autofocus><label class="fl-checkbox__label" for="filter-check-4">Active</label></span>
+        <span class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="filter-check-5" checked><label class="fl-checkbox__label" for="filter-check-5">On hold</label></span>
+        <span class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="filter-check-6"><label class="fl-checkbox__label" for="filter-check-6">Archived</label></span>
       </fieldset>
       <div class="fl-field"><label class="fl-field__label" for="pop-live-1-owner">Owner</label><span class="fl-input"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#user"/></svg><input class="fl-input__control" type="text" id="pop-live-1-owner" placeholder="Anyone"></span></div>
     </div>
@@ -706,9 +707,9 @@
     <div class="fl-popover__body">
       <fieldset class="fl-field">
         <legend class="fl-field__label">Status</legend>
-        <label class="fl-cluster"><input type="checkbox" checked autofocus> Active</label>
-        <label class="fl-cluster"><input type="checkbox" checked> On hold</label>
-        <label class="fl-cluster"><input type="checkbox"> Archived</label>
+        <span class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="filter-check-7" checked autofocus><label class="fl-checkbox__label" for="filter-check-7">Active</label></span>
+        <span class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="filter-check-8" checked><label class="fl-checkbox__label" for="filter-check-8">On hold</label></span>
+        <span class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="filter-check-9"><label class="fl-checkbox__label" for="filter-check-9">Archived</label></span>
       </fieldset>
       <div class="fl-field"><label class="fl-field__label" for="pop-live-4-owner">Owner</label><span class="fl-input"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#user"/></svg><input class="fl-input__control" type="text" id="pop-live-4-owner" placeholder="Anyone"></span></div>
     </div>
@@ -732,9 +733,9 @@
     <div class="fl-popover__body">
       <fieldset class="fl-field">
         <legend class="fl-field__label">Status</legend>
-        <label class="fl-cluster"><input type="checkbox" checked> Active</label>
-        <label class="fl-cluster"><input type="checkbox" checked> On hold</label>
-        <label class="fl-cluster"><input type="checkbox"> Archived</label>
+        <span class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="filter-check-10" checked><label class="fl-checkbox__label" for="filter-check-10">Active</label></span>
+        <span class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="filter-check-11" checked><label class="fl-checkbox__label" for="filter-check-11">On hold</label></span>
+        <span class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="filter-check-12"><label class="fl-checkbox__label" for="filter-check-12">Archived</label></span>
       </fieldset>
       <div class="fl-field"><label class="fl-field__label" for="pop-m-owner">Owner</label><span class="fl-input"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="icons/lucide.svg#user"/></svg><input class="fl-input__control" type="text" id="pop-m-owner" placeholder="Anyone"></span></div>
     </div>
@@ -799,9 +800,9 @@
   <div class="fl-tooltip" role="tooltip" id="tip-live-2" popover="hint">Bold<kbd class="fl-tooltip__shortcut">Ctrl+B</kbd></div>
   <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="Below" interestfor="tip-live-3"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button>
   <div class="fl-tooltip fl-tooltip--below" role="tooltip" id="tip-live-3" popover="hint">Below</div>
-  <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="At the start" interestfor="tip-live-4"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-left"/></svg></button>
+  <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="At the start" interestfor="tip-live-4"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#arrow-left"/></svg></button>
   <div class="fl-tooltip fl-tooltip--start" role="tooltip" id="tip-live-4" popover="hint">At the start</div>
-  <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="At the end" interestfor="tip-live-5"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-right"/></svg></button>
+  <button class="fl-button fl-button--icon fl-button--subtle" type="button" aria-label="At the end" interestfor="tip-live-5"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#arrow-right"/></svg></button>
   <div class="fl-tooltip fl-tooltip--end" role="tooltip" id="tip-live-5" popover="hint">At the end</div>
 </div>
 <h4>Point at a button, or move to it with Tab. Above by default, centred on the button; then below, at the inline start and at the inline end. One that has no room on its side goes to the other side. Esc hides it.</h4>
