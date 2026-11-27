@@ -1,0 +1,117 @@
+/* Page header: the title of a page with its actions. On a <header>. For a list
+   it holds a title with a count and a subtitle; for an item being edited, a
+   back button, a title that truncates, a state and a line of meta. */
+
+@layer fl.components {
+  .fl-page-header {
+    container-type: inline-size;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--fl-gap-s) var(--fl-gap-m);
+    min-inline-size: 0;
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-m);
+    line-height: var(--fl-line-height-normal);
+
+    & > .fl-page-header__back {
+      flex: none;
+    }
+
+    & > .fl-page-header__main {
+      flex: 1 1 0;
+      min-inline-size: 0;
+    }
+
+    /* The row of the title has the height of a control, so that the title,
+       the back button and the actions sit on one line. */
+    & .fl-page-header__heading {
+      display: flex;
+      align-items: center;
+      gap: var(--fl-space-2);
+      min-inline-size: 0;
+      min-block-size: var(--fl-control-height-m);
+    }
+
+    & .fl-page-header__title {
+      min-inline-size: 0;
+      margin: 0;
+      font-size: var(--fl-font-size-2xl);
+      font-weight: var(--fl-font-weight-semibold);
+      letter-spacing: var(--fl-letter-spacing-tight);
+      line-height: var(--fl-line-height-tight);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    & .fl-page-header__count {
+      flex: none;
+      padding-block: var(--fl-space-0-5);
+      padding-inline: var(--fl-space-2);
+      border-radius: var(--fl-radius-full);
+      background-color: var(--fl-color-neutral-soft);
+      color: var(--fl-color-neutral-text);
+      font-size: var(--fl-font-size-s);
+      font-weight: var(--fl-font-weight-semibold);
+      font-variant-numeric: tabular-nums;
+      line-height: var(--fl-line-height-tight);
+    }
+
+    /* A slot beside the title for the state of the item. */
+    & .fl-page-header__state {
+      display: flex;
+      align-items: center;
+      flex: none;
+    }
+
+    & .fl-page-header__subtitle {
+      margin: 0;
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-s);
+    }
+
+    /* A line of facts, with a dot between them. The dot lies in the gap
+       before each fact, where the edge of the line clips it away when the fact
+       starts a line. */
+    & .fl-page-header__meta {
+      display: flex;
+      flex-wrap: wrap;
+      column-gap: var(--fl-space-4);
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-s);
+      list-style: none;
+
+      & > li {
+        position: relative;
+
+        &::before {
+          content: "·";
+          position: absolute;
+          inset-inline-end: 100%;
+          inline-size: var(--fl-space-4);
+          text-align: center;
+        }
+      }
+    }
+
+    /* In a narrow place the actions take a row of their own. */
+    & > .fl-page-header__actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--fl-gap-s);
+      flex: 1 0 100%;
+    }
+
+    @container (min-inline-size: 30rem) {
+      & > .fl-page-header__actions {
+        flex: none;
+      }
+    }
+  }
+}

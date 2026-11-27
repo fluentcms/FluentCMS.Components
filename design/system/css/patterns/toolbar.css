@@ -1,0 +1,85 @@
+/* Toolbar: the row above a table: a search, filters as buttons that show
+   their value, and what changes the view at the end. While rows are selected
+   it takes its selection form: the count and the actions on the soft accent. */
+
+@layer fl.components {
+  .fl-toolbar {
+    --fl-toolbar-padding: var(--fl-inset-s);
+
+    container-type: inline-size;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--fl-gap-s);
+    min-inline-size: 0;
+    /* Both forms have the height of one row of controls. */
+    min-block-size: calc(var(--fl-control-height-m) + 2 * var(--fl-toolbar-padding));
+    padding: var(--fl-toolbar-padding);
+    border-block: var(--fl-border-width) solid transparent;
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-s);
+    line-height: var(--fl-line-height-tight);
+
+    /* In a narrow place the search takes a row of its own. */
+    & > .fl-toolbar__search {
+      flex: 1 0 100%;
+      min-inline-size: 0;
+    }
+
+    & > .fl-toolbar__group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--fl-gap-s);
+      min-inline-size: 0;
+    }
+
+    & > .fl-toolbar__end {
+      display: flex;
+      align-items: center;
+      gap: var(--fl-gap-s);
+      margin-inline-start: auto;
+    }
+
+    /* The name and the value of a filter, inside its button. */
+    & .fl-toolbar__label {
+      color: var(--fl-color-text-muted);
+      font-weight: var(--fl-font-weight-regular);
+    }
+
+    & .fl-toolbar__value {
+      font-weight: var(--fl-font-weight-semibold);
+    }
+
+    & > .fl-toolbar__count {
+      font-weight: var(--fl-font-weight-semibold);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      /* Keeps "2 selected" in that order in right-to-left. */
+      unicode-bidi: plaintext;
+    }
+
+    /* Outside a card, on the background of the page. */
+    &.fl-toolbar--flush {
+      --fl-toolbar-padding: 0;
+    }
+
+    &.fl-toolbar--selection {
+      border-block-color: var(--fl-color-accent-border);
+      background-color: var(--fl-color-accent-soft);
+    }
+
+    @container (min-inline-size: 30rem) {
+      & > .fl-toolbar__search {
+        flex: 0 1 var(--fl-size-xs);
+      }
+    }
+
+    @media (forced-colors: active) {
+      &.fl-toolbar--selection {
+        border-block-color: Highlight;
+      }
+    }
+  }
+}

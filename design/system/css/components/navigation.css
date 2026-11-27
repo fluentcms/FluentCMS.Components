@@ -1,0 +1,295 @@
+/* Navigation: the main navigation of an application, in the sidebar of the
+   shell or in its drawer. On a <nav>. A section is a labelled list of links; a
+   group of links opens through <details>, and its summary is drawn as a link. */
+
+@layer fl.components {
+  .fl-navigation {
+    --fl-navigation-padding: var(--fl-space-3);
+    --fl-navigation-link-padding: var(--fl-space-2);
+    --fl-navigation-brand-size: var(--fl-space-14);
+    --fl-navigation-link-bg: transparent;
+    --fl-navigation-link-bg-hover: var(--fl-color-hover);
+    --fl-navigation-link-bg-pressed: var(--fl-color-pressed);
+    --fl-navigation-link-fg: var(--fl-color-text-muted);
+    --fl-navigation-link-fg-hover: var(--fl-color-text);
+    --fl-navigation-link-icon: var(--fl-color-text-subtle);
+    --fl-navigation-link-bar: transparent;
+
+    display: flex;
+    flex-direction: column;
+    inline-size: 100%;
+    block-size: 100%;
+    min-block-size: 0;
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-s);
+    line-height: var(--fl-line-height-tight);
+
+    /* The brand has the height of the header of the shell, so their lines meet. */
+    & > .fl-navigation__brand {
+      display: flex;
+      align-items: center;
+      gap: var(--fl-space-2);
+      flex: none;
+      block-size: var(--fl-navigation-brand-size);
+      /* Centres the logo over the icons of the links. */
+      padding-inline: calc(var(--fl-navigation-padding) + var(--fl-navigation-link-padding) - (var(--fl-icon-size-l) - var(--fl-icon-size-m)) / 2);
+      border-block-end: var(--fl-border-width) solid var(--fl-color-border);
+      color: var(--fl-color-text);
+      font-size: var(--fl-font-size-l);
+      font-weight: var(--fl-font-weight-bold);
+      letter-spacing: var(--fl-letter-spacing-tight);
+      text-decoration: none;
+      white-space: nowrap;
+
+      & > .fl-navigation__logo {
+        flex: none;
+        color: var(--fl-color-accent);
+      }
+
+      & > .fl-navigation__name {
+        min-inline-size: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: calc(-1 * var(--fl-focus-ring-width));
+      }
+    }
+
+    /* A slot for the control that changes the workspace. */
+    & > .fl-navigation__switcher {
+      flex: none;
+      padding: var(--fl-navigation-padding) var(--fl-navigation-padding) 0;
+    }
+
+    & > .fl-navigation__body {
+      flex: 1;
+      min-block-size: 0;
+      padding: var(--fl-space-2) var(--fl-navigation-padding) var(--fl-space-4);
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    & .fl-navigation__heading {
+      padding: var(--fl-space-4) var(--fl-navigation-link-padding) var(--fl-space-1-5);
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-2xs);
+      font-weight: var(--fl-font-weight-semibold);
+      letter-spacing: var(--fl-letter-spacing-caps);
+      text-transform: uppercase;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    & .fl-navigation__list,
+    & .fl-navigation__children {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--fl-space-0-5);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    /* The children of a group hang on a guide line under the icon of the group. */
+    & .fl-navigation__children {
+      margin-block-start: var(--fl-space-0-5);
+      margin-inline-start: calc(var(--fl-navigation-link-padding) + var(--fl-icon-size-m) / 2);
+      padding-inline-start: calc(var(--fl-navigation-link-padding) - var(--fl-border-width));
+      border-inline-start: var(--fl-border-width) solid var(--fl-color-border);
+    }
+
+    & .fl-navigation__link {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: var(--fl-space-2);
+      min-inline-size: 0;
+      block-size: var(--fl-item-height);
+      padding-inline: var(--fl-navigation-link-padding);
+      border-radius: var(--fl-control-radius);
+      background-color: var(--fl-navigation-link-bg);
+      color: var(--fl-navigation-link-fg);
+      font-weight: var(--fl-font-weight-medium);
+      text-decoration: none;
+      white-space: nowrap;
+      list-style: none;
+      cursor: pointer;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      /* The bar of the current link, in the gutter at its start. */
+      &::before {
+        content: "";
+        position: absolute;
+        inset-block: var(--fl-space-2);
+        inset-inline-start: calc(-1 * var(--fl-space-2));
+        inline-size: var(--fl-space-1);
+        border-radius: var(--fl-radius-full);
+        background-color: var(--fl-navigation-link-bar);
+      }
+
+      & > .fl-icon {
+        color: var(--fl-navigation-link-icon);
+      }
+
+      & > .fl-navigation__label {
+        flex: 1;
+        min-inline-size: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      & > .fl-navigation__count {
+        flex: none;
+        color: var(--fl-navigation-link-icon);
+        font-size: var(--fl-font-size-xs);
+        font-weight: var(--fl-font-weight-regular);
+        font-variant-numeric: tabular-nums;
+      }
+
+      & > .fl-navigation__badge {
+        flex: none;
+        padding-block: var(--fl-space-0-5);
+        padding-inline: var(--fl-space-1-5);
+        border: var(--fl-border-width) solid var(--fl-color-neutral-border);
+        border-radius: var(--fl-radius-s);
+        background-color: var(--fl-color-neutral-soft);
+        color: var(--fl-color-neutral-text);
+        font-size: var(--fl-font-size-2xs);
+        font-weight: var(--fl-font-weight-medium);
+        line-height: 1;
+      }
+
+      & > .fl-navigation__chevron {
+        transition: rotate var(--fl-duration-fast) var(--fl-ease-standard);
+      }
+
+      /* States, once and in this order: a later one wins over an earlier one. */
+
+      &:hover {
+        --fl-navigation-link-icon: var(--fl-color-text-muted);
+
+        background-color: var(--fl-navigation-link-bg-hover);
+        color: var(--fl-navigation-link-fg-hover);
+      }
+
+      &:active {
+        background-color: var(--fl-navigation-link-bg-pressed);
+      }
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: calc(-1 * var(--fl-focus-ring-width));
+      }
+
+      /* Current: the link of this page, and a group that hides it. */
+      &[aria-current="page"],
+      .fl-navigation__group:not([open]):has([aria-current="page"]) > &,
+      .fl-navigation--collapsed .fl-navigation__group:has([aria-current="page"]) > & {
+        --fl-navigation-link-bg: var(--fl-color-accent-soft);
+        --fl-navigation-link-bg-hover: var(--fl-color-accent-soft-hover);
+        --fl-navigation-link-bg-pressed: var(--fl-color-accent-soft-hover);
+        --fl-navigation-link-fg: var(--fl-color-accent-text);
+        --fl-navigation-link-fg-hover: var(--fl-color-accent-text);
+        --fl-navigation-link-icon: currentColor;
+        --fl-navigation-link-bar: var(--fl-color-accent);
+      }
+
+      &[aria-disabled="true"] {
+        background-color: transparent;
+        color: var(--fl-color-disabled-text);
+        cursor: not-allowed;
+
+        & > .fl-icon,
+        & > .fl-navigation__count {
+          color: currentColor;
+        }
+      }
+    }
+
+    & .fl-navigation__group[open] > .fl-navigation__link > .fl-navigation__chevron {
+      rotate: 90deg;
+
+      /* The mirrored chevron turns the other way to point down. */
+      &:dir(rtl) {
+        rotate: -90deg;
+      }
+    }
+
+    & > .fl-navigation__footer {
+      display: flex;
+      align-items: center;
+      gap: var(--fl-space-1);
+      flex: none;
+      padding: var(--fl-space-2) var(--fl-navigation-padding);
+      border-block-start: var(--fl-border-width) solid var(--fl-color-border);
+
+      & > .fl-navigation__list {
+        flex: 1;
+        min-inline-size: 0;
+      }
+    }
+
+    /* Collapsed: a rail of icons. The texts stay in the page for a screen
+       reader and for the tooltip of each link; a group shows as its icon. */
+    &.fl-navigation--collapsed {
+      & > .fl-navigation__brand > .fl-navigation__name,
+      & .fl-navigation__label,
+      & .fl-navigation__count,
+      & .fl-navigation__badge,
+      & .fl-navigation__chevron {
+        position: absolute;
+        inline-size: 1px;
+        block-size: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+      }
+
+      & > .fl-navigation__switcher,
+      & .fl-navigation__children {
+        display: none;
+      }
+
+      & > .fl-navigation__body {
+        scrollbar-width: none;
+      }
+
+      /* The label of a section becomes a line between the groups of icons. */
+      & .fl-navigation__heading {
+        block-size: 0;
+        margin-block: var(--fl-space-2);
+        padding: 0;
+        border-block-start: var(--fl-border-width) solid var(--fl-color-border);
+      }
+
+      & > .fl-navigation__footer {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    @media (forced-colors: active) {
+      & .fl-navigation__link {
+        &[aria-current="page"],
+        .fl-navigation__group:not([open]):has([aria-current="page"]) > &,
+        .fl-navigation--collapsed .fl-navigation__group:has([aria-current="page"]) > & {
+          --fl-navigation-link-fg: Highlight;
+          --fl-navigation-link-fg-hover: Highlight;
+          --fl-navigation-link-bar: Highlight;
+        }
+
+        &[aria-disabled="true"] {
+          color: GrayText;
+        }
+      }
+    }
+  }
+}
