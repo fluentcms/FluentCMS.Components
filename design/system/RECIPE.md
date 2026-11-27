@@ -22,7 +22,7 @@ Read the exemplars first: `css/components/button.css`, `field.css` and `input.cs
 | File | the block without `fl-` | `button.css` |
 
 - The box of a text control is `fl-input`. The number, date and time inputs use the same box and add a file for their own parts.
-- **State comes from the real attribute, never from a class**: `disabled`, `readonly`, `[aria-invalid="true"]`, `[aria-pressed="true"]`, `[aria-selected="true"]`, `[aria-current]`, `[aria-expanded]`, `[aria-busy="true"]`, `[open]`, `:checked`, `:indeterminate`, `:popover-open`. There are no `is-` classes.
+- **State comes from the real attribute, never from a class**: `disabled`, `readonly`, `[aria-invalid="true"]`, `[aria-pressed="true"]`, `[aria-selected="true"]`, `[aria-current]`, `[aria-expanded]`, `[aria-busy="true"]`, `[open]`, `:checked`, `:indeterminate`, `:popover-open`. There are no `is-` classes. Where no attribute exists, as for the option under the arrow keys or an area that files are held over, the state is a `data-fl-` attribute: `data-fl-active`, `data-fl-dragover`.
 - A modifier names what a thing is (`--primary`, `--horizontal`), not how it looks (`--blue`, `--big-padding`).
 - A part is a direct child where it can be, and the selector says so: `& > .fl-input__control`.
 
@@ -57,7 +57,7 @@ Read the exemplars first: `css/components/button.css`, `field.css` and `input.cs
 ```
 
 - Everything is inside `@layer fl.components`, in one block per component, with native nesting.
-- **Tokens only.** No raw colour, length, font family, font size, weight, duration or shadow. Allowed without a token: `0`, `1`, `100%`, `fr`, `auto`, numbers inside `calc()`, `1lh` and `em` for an offset that follows the text, `currentColor`, `transparent`, system colours inside `@media (forced-colors: active)`, and the length in a container or media query, since a query cannot read a token.
+- **Tokens only.** No raw colour, length, font family, font size, weight, duration or shadow. Allowed without a token: `0`, `1`, `100%`, `fr`, `auto`, numbers inside `calc()`, `1lh` and `em` for an offset that follows the text, `currentColor`, `transparent`, system colours inside `@media (forced-colors: active)`, the length in a container or media query, since a query cannot read a token, and `100vi` and `100vb` as the limit of a thing in the top layer, where a percentage measures the area beside the anchor and not the view.
 - **Logical properties only**: `inline-size`, `padding-inline`, `margin-block-start`, `inset-inline-end`, `border-start-start-radius`, `text-align: start`. Never `left`, `right`, `width`, `height`, `margin-top`.
 - **Variants set tokens.** A variant or size sets the component's tokens and nothing else. This keeps every state rule at the same specificity.
 - **States are written once, in this order**, so that a later one wins: hover, active, focus-visible, selected or pressed, read-only, invalid, disabled, busy.
@@ -109,6 +109,7 @@ The first six follow the density. A thing that should tighten in compact density
 | Placeholder | `--fl-color-text-subtle` |
 | Icon in a control | `--fl-icon-size-m`, in `--fl-color-text-muted` or the colour of the text |
 | What floats (menu, popover, toast) | `--fl-color-surface-raised`, `--fl-shadow-m`, `--fl-radius-l`, a border in `--fl-color-border` |
+| An item in a floating list (menu item, option, result) | `--fl-item-height`, `--fl-radius-s`, `--fl-font-size-s`; the label of its group is `--fl-font-size-2xs`, semibold, in capitals, in `--fl-color-text-subtle` |
 | Dialog, drawer | `--fl-color-surface-raised`, `--fl-shadow-l`, backdrop `--fl-color-backdrop` |
 | Tone | `soft` background with `text` on it and `border` around it; `solid` for a mark or a strong fill with `on-solid` on it. A tone never carries a meaning alone |
 

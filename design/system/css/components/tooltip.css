@@ -31,6 +31,7 @@
       margin-inline-start: var(--fl-space-1-5);
       padding-inline-start: var(--fl-space-1-5);
       border-inline-start: var(--fl-border-width) solid currentColor;
+      color: var(--fl-color-text-inverse-subtle);
       font: inherit;
       font-weight: var(--fl-font-weight-regular);
       unicode-bidi: isolate;

@@ -122,7 +122,8 @@ body.docs {
   color: var(--fl-color-accent-text);
 }
 
-.docs a:focus-visible,
+.docs-header a:focus-visible,
+.docs-toc a:focus-visible,
 .docs-switch button:focus-visible {
   outline: var(--fl-focus-ring);
   outline-offset: var(--fl-focus-ring-offset);
@@ -204,13 +205,13 @@ body.docs {
   line-height: var(--fl-line-height-tight);
 }
 
-.docs-section h3 {
+.docs-section > h3 {
   margin-block: var(--fl-space-8) var(--fl-space-2);
   font-size: var(--fl-font-size-l);
   font-weight: var(--fl-font-weight-semibold);
 }
 
-.docs-section h4 {
+.docs-section > h4 {
   margin-block: var(--fl-space-5) var(--fl-space-2);
   color: var(--fl-color-text-muted);
   font-size: var(--fl-font-size-xs);
@@ -247,7 +248,9 @@ body.docs {
   unicode-bidi: plaintext;
 }
 
+/* Positioned, so that text hidden from sight inside it does not widen the page. */
 .docs-scroll {
+  position: relative;
   overflow-x: auto;
 }
 

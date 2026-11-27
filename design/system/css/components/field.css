@@ -93,16 +93,16 @@
       }
 
       @container (min-inline-size: 30rem) {
+        /* The label shares the first baseline of its control, whatever the
+           control is: a box of one line, a text area, a switch. */
         & > * {
           grid-column: 2;
+          align-self: baseline;
         }
 
         & > .fl-field__label {
           grid-column: 1;
           grid-row: 1;
-          align-self: start;
-          /* Centres the label on a control of one line. */
-          padding-block-start: calc((var(--fl-control-height-m) - 1lh) / 2);
         }
 
         & > .fl-field__help {

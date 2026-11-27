@@ -27,6 +27,7 @@
     --fl-color-text-muted: light-dark(#454C5A, #B9BFCB);
     --fl-color-text-subtle: light-dark(#5F6877, #8D95A3);
     --fl-color-text-inverse: light-dark(#FFFFFF, #0E131E);
+    --fl-color-text-inverse-subtle: light-dark(#B9BFCB, #454C5A);
 
     --fl-color-disabled-fill: light-dark(#F0F2F5, #1B212C);
     --fl-color-disabled-border: light-dark(#E3E6EB, #262E3B);

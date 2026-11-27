@@ -87,7 +87,7 @@
 
       /* Files are held over the area. A script sets the attribute, since no
          selector tells a drag. */
-      &[data-dragover] {
+      &[data-fl-dragover] {
         --fl-file-drop-zone-border: var(--fl-color-accent);
         --fl-file-drop-zone-bg: var(--fl-color-accent-soft);
         --fl-file-drop-zone-fg: var(--fl-color-accent-text);
@@ -285,7 +285,7 @@
     }
 
     @media (forced-colors: active) {
-      & > .fl-file-drop-zone__area[data-dragover] {
+      & > .fl-file-drop-zone__area[data-fl-dragover] {
         --fl-file-drop-zone-border: Highlight;
       }
 
