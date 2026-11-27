@@ -14,40 +14,56 @@ A back-office library is mostly forms. Blazor offers `EditForm`, an `EditContext
 
 A form validation framework is not part of the library (section 3 of the plan). Validation stays with `DataAnnotationsValidator` or whatever the host chooses.
 
-The open question is the base class of the inputs. `InputBase<T>` handles parsing, the `EditContext`, field identity and change notification. But its `SetParametersAsync` throws when there is no cascaded `EditContext`, and when `ValueExpression` is not set. The cascading parameter is private, so a derived class cannot supply a substitute. Deriving from `InputBase<T>` therefore cannot meet "work without an `EditForm`".
+The open question was the base class of the inputs: `InputBase<T>`, or a base of the library's own. A first draft of this record assumed that `InputBase<T>` cannot work without an `EditForm`. That was wrong, and it was found by testing.
+
+### What was tested
+
+On 27 November 2026, with .NET SDK 10.0.401 and the shared framework `Microsoft.AspNetCore.App` 10.0.12, in a scratch web application outside this repository (static server-side rendering, no render mode, requests made over HTTP, including a form post with its antiforgery token). The scratch code is not committed.
+
+| Case | Result |
+| --- | --- |
+| `InputText` with `@bind-Value`, no `EditForm` | Renders: `<input name="v" value="hello">`. The name is the text of the bound expression. |
+| `InputText` with `Value` and `ValueChanged`, no `ValueExpression`, no `EditForm` | Throws `InvalidOperationException`: requires a value for the `ValueExpression` parameter. |
+| `InputText` with `Value` only | The same exception. |
+| `InputText` with an explicit `name="custom"` attribute | Renders `name="custom"`. |
+| `InputText` in an `EditForm` with a `FormName` and `[SupplyParameterFromForm] Model`, bound to `Model.Name`, `Model.Address.City` and `Model.Tags[0]` | Renders `name="Model.Name"`, `name="Model.Address.City"` and `name="Model.Tags[0]"`. |
+| The same form, posted with values | Re-renders with every value bound back into the model, flat, nested and indexed. |
+| The same form, posted empty, with `DataAnnotationsValidator` and a `[Required]` property | The invalid `InputText` renders `aria-invalid="true"` and `class="invalid"`. |
+| A class derived from `InputBase<string>`, no `EditForm` | Renders, with `EditContext` null. Its `NameAttributeValue` is the name from the expression, and `CurrentValueAsString` is the value. |
+| The same derived class in an `EditForm`, after an invalid post | Reads its `FieldIdentifier` (field `Name` of `Model`) and the message `Name is required` through `EditContext.GetValidationMessages`. |
+
+Two other things were seen and are worth knowing. `DataAnnotationsValidator` validated the top-level `Name` but not `Address.City` of the nested object, which is how the framework's validator works and not a property of the inputs. The cascaded `EditContext` is optional: nothing in `InputBase<T>` requires it.
 
 ## Decision
 
-**Binding.** Every input has `Value`, `ValueChanged` and `ValueExpression`, so `@bind-Value` works. `ValueExpression` is optional.
+**Binding.** Every input has `Value`, `ValueChanged` and `ValueExpression`, so `@bind-Value` works.
 
-**Base class.** The inputs derive from a base class of the library's own, `FlInputBase<TValue>`, and not from `InputBase<TValue>`. The base class:
+**Base class.** The inputs that hold one value derive from `InputBase<TValue>`. The tests show that it meets every requirement above, and the framework then owns what the library would otherwise copy and see drift: parsing, the field identity, change notification, the validation state and the `name` that a form post depends on in static rendering. The library adds only what is its own: the markup and classes of the design system, `FlField` wiring, and the parameters of each input.
 
-- takes an optional cascading `EditContext`;
-- when there is a context and a `ValueExpression`, builds the `FieldIdentifier`, notifies the context of each change, follows its validation state and reads the messages of its field;
-- when there is no context, works as a plain bound input with no validation;
-- parses and formats values in one place, with a `TryParseValueFromString` that each input overrides, as `InputBase<T>` does, so that culture handling is the same;
-- sets the `name` attribute from a `Name` parameter, and otherwise from the field name of `ValueExpression`, so a post in static SSR carries stable names;
-- sets `id`, `disabled`, `readonly`, `required` and `aria-invalid` from its own state;
-- exposes what `FlField` needs through a cascading field context: the id of the control, whether it is required or invalid, and the messages.
+**Limit: a `ValueExpression` is required.** `InputBase<T>` throws without one, with or without an `EditForm`. Writing `@bind-Value` always supplies it. A one-way use, such as `Value="@x"` with no change callback, must give `ValueExpression="() => x"` too, or use a read-only element. The library does not work around this: the exception names the missing parameter, and the gallery shows the two correct forms. If a case appears where an input must exist with no expression, it is a new record.
 
-**`FlField`.** It renders the `<label for>`, the help text, the error and the counter, and wires `aria-describedby` and `aria-invalid` on the control it wraps through the field context, not by guessing at its child. It shows the validation messages of the `EditContext` for its field when there is one, and an error text given as a parameter when there is not. A control used without `FlField` still works; it takes its accessible name from `aria-label`.
+**`name`.** An input posts under the name the framework derives from the expression, or under a `name` attribute given by the host, which wins. The library does not invent names, so form model binding with `[SupplyParameterFromForm]` finds the values, as tested.
 
-**Static SSR.** An input renders `<input name="…" value="…">` and the form posts it. The host receives the values with `[SupplyParameterFromForm]` and form model binding, or reads the request's form. The library renders no hidden fields of its own beyond those the framework adds. Checkbox, radio, switch and select follow the rules of HTML (an unchecked box posts nothing), and each documents them.
+**`FlField`.** It renders the `<label for>`, the help text, the error and the counter, and wires `aria-describedby` and `aria-invalid` on the control it wraps. The control tells it its id and its state through a small cascading context that `FlField` provides and the inputs read, so the field does not guess at its child. Messages come from the `EditContext` when there is one, through the field identity of the input, and from an `Error` text given as a parameter when there is not. An input used without `FlField` still works and takes its accessible name from `aria-label`. This part is design, not yet tested; the form issues of the plan (C-17 and C-23) build and test it.
 
-**Interactive modes.** The input renders the same markup and updates .NET state when the browser reports a change.
+**Inputs that are not one value.** `FlRadioGroup`, `FlSegmented` and `FlCheckbox` with a mixed state may need markup or parameters that `InputBase<T>` does not shape. They still derive from it where one value is bound. A case where that does not fit is decided in its own issue, with the fact named.
+
+**Static SSR.** An input renders a native element with its `name` and `value`, and the form posts it. The host receives the values with `[SupplyParameterFromForm]` and form model binding. Checkbox, radio, switch and select follow the rules of HTML (an unchecked box posts nothing), and each documents them.
 
 ## Consequences
 
-- The inputs work in all three render modes, with and without an `EditForm`, which `InputBase<T>` cannot give.
-- The library owns a base class and its upkeep. When the framework changes how field names, parsing or validation notification work, the base follows. The form issues of the plan (C-17 and C-23) include a test of the posted names in static SSR against form model binding, to keep the base honest.
-- A host cannot pass a `FlTextInput` where code expects an `InputBase<string>`. Such code is rare, and the `EditContext`, not the type, is the contract with validation.
-- The base class is public API, named with the `Fl` prefix and tracked by the public API analyzer. It cannot be internal, since `FlField` and the inputs need a common type.
-- No dependency is added: `EditContext`, `FieldIdentifier` and the rest are in `Microsoft.AspNetCore.Components.Web`.
+- The library owns no copy of the framework's form logic. When the framework changes how names, parsing or validation work, the inputs follow with no work.
+- The inputs are `InputBase<T>`, so host code and tools that expect that type accept them.
+- The public API of every input includes the members of `InputBase<T>`, such as `AdditionalAttributes` and `CurrentValueAsString`. That is accepted: the host's own inputs have them too.
+- The library cannot render an input with no `ValueExpression`. This is the cost of the choice, and the one fact that restricts it.
+- `InputBase<T>` sets validation classes itself (`valid` and `invalid` were seen in the tests). The stylesheet reads `aria-invalid`, as the design system does, so those classes are left unstyled and do not become a second source of state.
+- The nested-object case needs a validator that walks objects. That is the host's choice; the library does not add one.
+- No dependency is added: `InputBase<T>`, `EditContext` and `FieldIdentifier` are in `Microsoft.AspNetCore.Components.Web`.
 
-**What would make `InputBase<T>` the better choice:**
+**What would make a base class of the library's own right:**
 
-- The library decides that every input requires an `EditForm`. That ends the promise to work without one, and makes a bare input in a toolbar or a filter bar impossible.
-- The framework makes the `EditContext` optional in `InputBase<T>`, or offers a way to supply one.
-- Keeping our own base costs more than it is worth, for example because the framework's form naming becomes hard to match from outside.
+- A requirement for an input without a `ValueExpression`, for example a bare control driven only by a value and a callback in a filter bar, that the host cannot meet with `ValueExpression="() => x"`.
+- A behaviour of `InputBase<T>` that the library cannot work with, for instance its validation classes becoming impossible to ignore, or its parse path unable to express a type the library needs.
+- The framework changing `InputBase<T>` to demand an `EditContext` again.
 
 In any of these cases a new record replaces this one. The inputs change their base class and keep their parameters, since the contract of this record is on the parameters.

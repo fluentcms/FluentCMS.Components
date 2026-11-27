@@ -6,7 +6,7 @@ A decision record is a short document that says what was decided, why, and what 
 | --- | --- | --- |
 | [0001](0001-render-mode-contract.md) | Render mode contract | Accepted |
 | [0002](0002-styling-architecture.md) | Styling architecture | Accepted |
-| 0003 | Script policy | Coming: written by the browser spike (issue 28) |
+| [0003](0003-script-policy.md) | Script policy | Accepted |
 | [0004](0004-forms-model.md) | Forms model | Accepted |
 
 A new record takes the next number. The [implementation plan](../planning/implementation-plan.md) is the larger context.
