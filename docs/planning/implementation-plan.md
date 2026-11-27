@@ -196,7 +196,7 @@ What the design system fixed about this list:
 
 ## 6. The design system
 
-Static HTML and CSS in `design/system/`, made before any component is written. It is the visual contract the components are built and reviewed against, and the source of the inventory.
+Static HTML pages in `design/system/`, made before any component is written, which link the library's stylesheet under `src/FluentCMS.Components/Styles/`. It is the visual contract the components are built and reviewed against, and the source of the inventory.
 
 - **Tokens**: colour (neutrals, accent, the status colours, both themes), type scale, spacing scale, radius, borders, elevation, motion, focus ring, the two densities.
 - **Every component of section 5** with its variants, sizes and states: rest, hover, focus, pressed, disabled, read-only, invalid, loading, selected, empty.
@@ -204,7 +204,7 @@ Static HTML and CSS in `design/system/`, made before any component is written. I
 - **The reference screens** of section 4.8, composed from the parts, to prove they hold together.
 - **Light, dark and right-to-left** views of all of it.
 
-It settled the icon family, the typeface, the date and time inputs and the two candidates (D12 to D15). Its CSS is the first draft of the library's stylesheet: the tokens and the component files are copied into the library as they are.
+It settled the icon family, the typeface, the date and time inputs and the two candidates (D12 to D15). Its CSS is the library's stylesheet: the tokens and the component files are in `src/FluentCMS.Components/Styles/`, unchanged from the design system, and that one copy is loaded by the design system pages and the gallery.
 
 ```text
 design/system/index.html                              overview and the tokens
