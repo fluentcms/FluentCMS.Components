@@ -1,0 +1,28 @@
+@* A section of a page. Its title goes in the list of sections. *@
+@implements IDisposable
+
+<section class="gallery-section" id="@AnchorId">
+    <h2>@Title</h2>
+    @ChildContent
+</section>
+
+@code {
+    [CascadingParameter]
+    public GalleryPage Page { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = "";
+
+    // The anchor of the section. It is made from the title when it is not given.
+    [Parameter]
+    public string? Id { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    internal string AnchorId => Id ?? string.Join('-', Title.ToLowerInvariant().Split(' ', StringSplitOptions.RemoveEmptyEntries));
+
+    protected override void OnInitialized() => Page.Add(this);
+
+    public void Dispose() => Page.Remove(this);
+}

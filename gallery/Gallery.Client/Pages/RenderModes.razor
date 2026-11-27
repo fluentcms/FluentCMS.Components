@@ -1,0 +1,67 @@
+@page "/render-modes"
+
+<GalleryPage Title="Render modes">
+    <Lede>The sample page that proves the three modes. It says which mode it runs in, and its counter only works where code runs.</Lede>
+
+    <Section Title="This page">
+        <p>This page runs in <strong data-testid="render-mode">@_mode.Name</strong>.</p>
+        @if (_mode == GalleryMode.Static)
+        {
+            <p>The server sent this HTML and no .NET code runs in the browser. Links and forms are all that act.</p>
+        }
+        else if (_mode == GalleryMode.Server)
+        {
+            <p>The server sent this HTML first. Then a circuit connected, and the components now live on the server.</p>
+        }
+        else
+        {
+            <p>The components run in the browser, on the .NET runtime compiled to WebAssembly. Under the host the server sent this HTML first.</p>
+        }
+    </Section>
+
+    <Section Title="Counter">
+        <p>The button is off until the page is interactive, so in static server-side rendering it stays off.</p>
+        <Demo>
+            <button class="fl-button fl-button--primary" type="button" disabled="@(!RendererInfo.IsInteractive)" @onclick="() => _count++">Add one</button>
+            <output data-testid="count">@_count</output>
+        </Demo>
+        <Example Code="@CounterCode" />
+    </Section>
+
+    <Section Title="Addresses">
+        <p>The address says the mode, and the page is the same component in each. The first switch in the header goes from one to the other.</p>
+        <div class="gallery-scroll">
+            <table class="gallery-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Mode</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Code runs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Static server-side rendering</td><td><code>/static/render-modes</code></td><td>Nowhere after the response</td></tr>
+                    <tr><td>Interactive server</td><td><code>/server/render-modes</code></td><td>On the server, over a circuit</td></tr>
+                    <tr><td>Interactive WebAssembly</td><td><code>/wasm/render-modes</code></td><td>In the browser</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </Section>
+</GalleryPage>
+
+@code {
+    private const string CounterCode = """
+        <button class="fl-button fl-button--primary" type="button"
+                disabled="@(!RendererInfo.IsInteractive)" @onclick="() => _count++">Add one</button>
+        <output>@_count</output>
+
+        @code {
+            private int _count;
+        }
+        """;
+
+    private GalleryMode _mode = default!;
+    private int _count;
+
+    protected override void OnInitialized() => _mode = GalleryMode.Of(AssignedRenderMode);
+}

@@ -1,0 +1,62 @@
+@* The frame of every page: the title, the level of a component, and the list of sections. *@
+<PageTitle>@Title · FluentCMS Components</PageTitle>
+
+<SectionContent SectionName="@Contents">
+    @if (_sections.Count > 0)
+    {
+        <strong>On this page</strong>
+        @foreach (Section section in _sections)
+        {
+            <a href="@Context.Href(Context.Page, section.AnchorId)">@section.Title</a>
+        }
+    }
+</SectionContent>
+
+<CascadingValue Value="this" IsFixed="true">
+    <h1>@Title</h1>
+    @if (Level is ComponentLevel level)
+    {
+        <p class="gallery-level" data-level="@level.ToString().ToLowerInvariant()">
+            <strong>@level</strong>
+            <span>@Meaning(level)</span>
+        </p>
+    }
+    @ChildContent
+</CascadingValue>
+
+@code {
+    public const string Contents = "gallery-contents";
+
+    private readonly List<Section> _sections = [];
+
+    [CascadingParameter]
+    public GalleryContext Context { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = "";
+
+    [Parameter]
+    public ComponentLevel? Level { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    internal void Add(Section section)
+    {
+        _sections.Add(section);
+        StateHasChanged();
+    }
+
+    internal void Remove(Section section)
+    {
+        _sections.Remove(section);
+        StateHasChanged();
+    }
+
+    private static string Meaning(ComponentLevel level) => level switch
+    {
+        ComponentLevel.Static => "Markup and CSS. It works fully with no code running.",
+        ComponentLevel.Native => "Its behaviour comes from native elements and the script of the library. It works fully in static server-side rendering.",
+        _ => "It needs an interactive render mode for its full function, and renders a static fallback where there is none.",
+    };
+}

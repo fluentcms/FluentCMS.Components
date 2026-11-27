@@ -1,0 +1,25 @@
+<tr>
+    <th scope="row"><code>@Name</code></th>
+    <td><code>@Type</code></td>
+    <td>
+        @if (Default is not null)
+        {
+            <code>@Default</code>
+        }
+    </td>
+    <td>@ChildContent</td>
+</tr>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Name { get; set; } = "";
+
+    [Parameter, EditorRequired]
+    public string Type { get; set; } = "";
+
+    [Parameter]
+    public string? Default { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

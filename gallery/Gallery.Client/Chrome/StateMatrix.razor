@@ -1,0 +1,23 @@
+@* The table of states: variants down, states across. Its rows are StateRow. *@
+<div class="gallery-demo gallery-scroll">
+    <table class="gallery-matrix">
+        <thead>
+            <tr>
+                <td></td>
+                @foreach (string state in States)
+                {
+                    <th scope="col">@state</th>
+                }
+            </tr>
+        </thead>
+        <tbody>@ChildContent</tbody>
+    </table>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public IReadOnlyList<string> States { get; set; } = [];
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

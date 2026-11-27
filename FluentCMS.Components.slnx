@@ -5,6 +5,10 @@
     <File Path="Directory.Packages.props" />
     <File Path="nuget.config" />
   </Folder>
+  <Folder Name="/gallery/">
+    <Project Path="gallery/Gallery.Client/Gallery.Client.csproj" />
+    <Project Path="gallery/Gallery/Gallery.csproj" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/FluentCMS.Components/FluentCMS.Components.csproj" />
   </Folder>

@@ -1,0 +1,13 @@
+@* A row of a StateMatrix. Its content is one <td> for each state. *@
+<tr>
+    <th scope="row">@Label</th>
+    @ChildContent
+</tr>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Label { get; set; } = "";
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

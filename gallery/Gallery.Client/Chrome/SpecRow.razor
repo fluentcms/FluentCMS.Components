@@ -1,0 +1,12 @@
+<tr>
+    <th scope="row">@Name</th>
+    <td>@ChildContent</td>
+</tr>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Name { get; set; } = "";
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

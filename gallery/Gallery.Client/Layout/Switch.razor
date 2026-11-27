@@ -1,0 +1,22 @@
+@* A switch of the header. Its options are links, so it works where no code runs. *@
+<div class="gallery-switch" role="group" aria-label="@Label">
+    @foreach (SwitchOption option in Options)
+    {
+        if (option.Href is null)
+        {
+            <span aria-current="@(option.Current ? "true" : null)">@option.Label</span>
+        }
+        else
+        {
+            <a href="@option.Href" aria-current="@(option.Current ? "true" : null)">@option.Label</a>
+        }
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Label { get; set; } = "";
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<SwitchOption> Options { get; set; } = [];
+}

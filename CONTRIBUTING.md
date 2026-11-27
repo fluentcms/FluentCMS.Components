@@ -44,6 +44,80 @@ Then open `http://localhost:5600/design/system/index.html`. The switches in the 
 node design/tools/contrast.mjs
 ```
 
+## The gallery
+
+The gallery is the documentation of the library and the target of its browser tests. `gallery/Gallery` is the host, for static server-side rendering and interactive server mode. `gallery/Gallery.Client` holds the layout and the pages, and is the WebAssembly build.
+
+```powershell
+dotnet run --project gallery/Gallery
+```
+
+Then open `http://localhost:5610`.
+
+### Addresses
+
+- **The first part of an address is the render mode**: `/static/tokens`, `/server/tokens` and `/wasm/tokens` are the one page that declares `@page "/tokens"`. The host takes that part off as the base of the application (`Program.cs`), and `App.razor` sets the render mode from it. That is the only place where a mode is set: a page never names one, and the library never does. An address with no mode goes to the static one.
+- **A link to another mode leaves the base**, so the browser loads a new document. Links inside the gallery are relative, with no slash in front (`tokens`, not `/tokens`), so they stay in the mode.
+- **Theme, density and direction are in the query string**: `?theme=dark&density=compact&dir=rtl`, with `auto`, `light` or `dark`, `comfortable` or `compact`, and `ltr` or `rtl`. They become `data-fl-theme`, `data-fl-density` and `dir` on `<html>`. The switches in the header are links that change them, so they work with no script, and every link the gallery writes keeps them. A link to another page inside a page is a `<PageLink>` for that reason.
+- **For a test**, `<main>` carries `data-render-mode` (`static`, `server` or `wasm`) and `data-interactive`, which turns to `true` once the page is interactive.
+
+### Writing a page
+
+A page is one file in `gallery/Gallery.Client/Pages` and one line in `GalleryPages.cs`, which is the list of pages in the header.
+
+```razor
+@page "/button"
+
+<GalleryPage Title="Button" Level="ComponentLevel.Static">
+    <Lede>Starts an action, or goes somewhere when it is a link.</Lede>
+
+    <Section Title="Variants">
+        <Demo>
+            <FlButton>Secondary</FlButton>
+            <FlButton Variant="ButtonVariant.Primary">Primary</FlButton>
+        </Demo>
+        <Example Code="@Variants" />
+    </Section>
+
+    <Section Title="Parameters">
+        <ParameterTable>
+            <ParameterRow Name="Variant" Type="ButtonVariant" Default="Secondary">The weight of the button.</ParameterRow>
+        </ParameterTable>
+    </Section>
+</GalleryPage>
+
+@code {
+    private const string Variants = """
+        <FlButton>Secondary</FlButton>
+        <FlButton Variant="ButtonVariant.Primary">Primary</FlButton>
+        """;
+}
+```
+
+| Component | For |
+| --- | --- |
+| `GalleryPage` | The frame: the title, the level of a component, the list of sections |
+| `Lede` | The sentence or two under the title |
+| `Section` | One section; its title goes in the list of sections |
+| `Demo` | A frame around library markup: `Column`, `Canvas`, `Scroll` |
+| `Example` | The source of a demo, to be copied |
+| `StateMatrix`, `StateRow` | The table of states: variants down, states across |
+| `ParameterTable`, `ParameterRow` | The parameters of the component |
+| `SpecTable`, `SpecRow` | The element, the ARIA attributes and keys, the classes and the tokens |
+| `PageLink` | A link to another page of the gallery |
+
+- A page has no `@rendermode`, no inline `style` attribute and no inline script, so the gallery runs under the content security policy the library is made for.
+- The gallery's own classes start with `gallery-` and are in `wwwroot/gallery.css`. The `fl-` prefix is the library's.
+- What a page shows must hold in the three modes, in dark, in compact density, in right to left and at 320 pixels wide.
+
+### The static site
+
+```powershell
+dotnet publish gallery/Gallery.Client -c Release -o artifacts/gallery
+```
+
+`artifacts/gallery/wwwroot` is then a static site that runs the gallery in WebAssembly alone, from `index.html`. The client tells the two cases apart by the base of the address: under the host it ends with a mode, such as `/wasm/`. So the static site must not be served from a folder named `static`, `server` or `wasm`.
+
 ## Markdown
 
 Every Markdown file passes markdownlint with the rules in `.markdownlint-cli2.jsonc`:
