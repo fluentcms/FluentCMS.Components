@@ -118,6 +118,69 @@ dotnet publish gallery/Gallery.Client -c Release -o artifacts/gallery
 
 `artifacts/gallery/wwwroot` is then a static site that runs the gallery in WebAssembly alone, from `index.html`. The client tells the two cases apart by the base of the address: under the host it ends with a mode, such as `/wasm/`. So the static site must not be served from a folder named `static`, `server` or `wasm`.
 
+## Tests
+
+There are two test projects, both xUnit v3 on the Microsoft Testing Platform. `global.json` switches `dotnet test` to that platform, which the .NET 10 SDK needs for xUnit v3. Both run from the root, and building is part of the run:
+
+```powershell
+dotnet test
+```
+
+### Component tests
+
+`tests/FluentCMS.Components.Tests` renders components with bUnit and checks their markup, parameters, ARIA attributes and texts. It needs nothing but the SDK.
+
+```powershell
+dotnet test --project tests/FluentCMS.Components.Tests
+```
+
+### Browser tests
+
+`tests/FluentCMS.Components.Browser` uses Playwright for .NET against the gallery. The fixture starts the built gallery once, on a free port, and stops it when the run ends, whether the tests passed or not. Install the browsers once, after the first build (the script needs PowerShell 7, `pwsh`; Windows PowerShell works with `-ExecutionPolicy Bypass`):
+
+```powershell
+pwsh tests/FluentCMS.Components.Browser/bin/Debug/net10.0/playwright.ps1 install chromium
+```
+
+Install `firefox` or `webkit` the same way to run those. Then:
+
+```powershell
+dotnet test --project tests/FluentCMS.Components.Browser
+```
+
+- **One render mode**: `FLUENTCMS_MODES` lists the modes of the run, `static`, `server` and `wasm`, separated by commas. A row for a mode left out is reported as skipped.
+- **One browser**: `FLUENTCMS_BROWSER` is `chromium` (the default), `firefox` or `webkit`. `FLUENTCMS_BROWSER_PATH` runs a browser program of your own in place of the one Playwright installed.
+- **One test**: `--filter-class` and `--filter-method` take a name, with `*` at either end. A row of a theory shows its mode and page in its name, so `--filter-display-name "*mode: Wasm*"` runs the WebAssembly rows.
+
+```powershell
+$env:FLUENTCMS_MODES = "wasm"
+$env:FLUENTCMS_BROWSER = "firefox"
+dotnet test --project tests/FluentCMS.Components.Browser --filter-class "*AccessibilitySamples"
+```
+
+A test is written once for the three modes. The mode comes from `[ModeData]`, and `OpenAsync` opens the page at the address of that mode and, in the interactive modes, waits for `data-interactive="true"`:
+
+```csharp
+[Theory]
+[ModeData(Pages = ["", "tokens"])]
+public Task PageHasNoAxeViolations(RenderMode mode, string page) =>
+    Accessibility.AssertNoViolationsAsync(gallery, mode, page);
+```
+
+`[ModeData(RenderMode.Static)]` limits a test to the modes it names. The helpers are in `tests/FluentCMS.Components.Browser/Harness`:
+
+| Helper | Checks |
+| --- | --- |
+| `Accessibility.AssertNoViolationsAsync` | axe-core finds nothing, in light, dark and right to left. A failure names the rule, the target and the help address |
+| `page.Keys()` | Drives the page with the keyboard alone: `StartAtTopAsync`, `TabToAsync`, `PressAsync`, `TypeAsync`, `AssertFocusAsync`, `FocusAsync` |
+| `Wcag.AssertTargetSizesAsync` | Every target is at least 24 by 24 CSS pixels (2.5.8). The comment on it says which exceptions apply |
+| `Wcag.AssertNoHorizontalScrollAsync` | The page does not scroll sideways at 320 pixels (1.4.10) |
+| `Wcag.AssertNoMotionAsync` | Nothing moves under reduced motion (2.3.3) |
+
+`tests/FluentCMS.Components.Browser/Samples` holds one test for each helper, which a new component's test is copied from, and `HelperFaultTests`, which proves that each helper fails on a page with the fault it looks for. The faults are put in by script, so the gallery itself holds none.
+
+In the WebKit build that Playwright installs on Windows, links are left out of the Tab order, so a keyboard test that needs a link fails there.
+
 ## Markdown
 
 Every Markdown file passes markdownlint with the rules in `.markdownlint-cli2.jsonc`:

@@ -10,4 +10,12 @@
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.15" />
   </ItemGroup>
 
+  <!-- Test projects only. -->
+  <ItemGroup>
+    <PackageVersion Include="xunit.v3" Version="4.0.2" />
+    <PackageVersion Include="bunit" Version="2.15.2" />
+    <PackageVersion Include="Microsoft.Playwright" Version="1.64.1" />
+    <PackageVersion Include="Deque.AxeCore.Playwright" Version="4.14.0" />
+  </ItemGroup>
+
 </Project>
