@@ -41,6 +41,10 @@
 
     /* A title that opens its item: the text colour until it is pointed at. */
     &.fl-link--quiet {
+      /* It stands alone, so its target is at least as tall as the least target:
+         an inline box is no lower than its font size, and this padding adds
+         no height to the line. */
+      padding-block: calc((var(--fl-target-min) - 1em) / 2);
       color: inherit;
       text-decoration: none;
 

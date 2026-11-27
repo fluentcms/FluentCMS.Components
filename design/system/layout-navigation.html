@@ -1247,7 +1247,7 @@
       }
     }
     for (const place of document.querySelectorAll('[data-nav]')) {
-      const nav = stamp(sample, `-${place.dataset.nav}`);
+      const nav = stamp(sample, `-nav-${place.dataset.nav}`);
       place.append(nav);
       collapse(nav, true);
     }

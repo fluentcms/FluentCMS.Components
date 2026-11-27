@@ -272,7 +272,7 @@
 
       & > .fl-combobox__option-note {
         flex: none;
-        color: var(--fl-color-text-subtle);
+        color: var(--fl-color-text-muted);
         font-size: var(--fl-font-size-xs);
       }
 

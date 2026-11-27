@@ -33,6 +33,7 @@ body.docs {
 .docs-brand {
   display: flex;
   align-items: baseline;
+  min-block-size: 1.5rem;
   gap: var(--fl-space-2);
   color: var(--fl-color-text);
   font-size: var(--fl-font-size-l);
@@ -710,6 +711,25 @@ body.docs {
 .docs-bar a:focus-visible {
   outline: var(--fl-focus-ring);
   outline-offset: var(--fl-focus-ring-offset);
+}
+
+/* In a narrow view the bar is one row that scrolls, so it covers little. */
+@media (max-width: 48rem) {
+  .docs-bar,
+  .docs-bar .docs-nav,
+  .docs-bar .docs-switches {
+    flex-wrap: nowrap;
+  }
+
+  .docs-bar {
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+
+  .docs-bar .docs-nav a,
+  .docs-bar .docs-switch {
+    flex: none;
+  }
 }
 
 /* The header stays in view where it fits on one line. */

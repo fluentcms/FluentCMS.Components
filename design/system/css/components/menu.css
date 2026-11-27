@@ -98,7 +98,7 @@
       & .fl-menu__description {
         display: block;
         margin-block-start: var(--fl-space-0-5);
-        color: var(--fl-color-text-subtle);
+        color: var(--fl-color-text-muted);
         font-size: var(--fl-font-size-xs);
         font-weight: var(--fl-font-weight-regular);
       }
@@ -107,7 +107,7 @@
       & > .fl-menu__shortcut {
         flex: none;
         margin-inline-start: var(--fl-space-4);
-        color: var(--fl-color-text-subtle);
+        color: var(--fl-color-text-muted);
         font-family: var(--fl-font-family);
         font-size: var(--fl-font-size-xs);
         line-height: calc(var(--fl-font-size-s) * var(--fl-line-height-tight));
