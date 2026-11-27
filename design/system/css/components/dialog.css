@@ -1,0 +1,133 @@
+/* Dialog: a task or a question over the page, which waits until it is
+   answered. On a <dialog>, opened as a modal. */
+
+@layer fl.components {
+  .fl-dialog {
+    --fl-dialog-width: var(--fl-size-l);
+    --fl-dialog-gutter: var(--fl-space-4);
+    --fl-dialog-rise: var(--fl-space-2);
+
+    inset: 0;
+    flex-direction: column;
+    inline-size: calc(100% - 2 * var(--fl-dialog-gutter));
+    max-inline-size: var(--fl-dialog-width);
+    block-size: fit-content;
+    max-block-size: calc(100% - 2 * var(--fl-dialog-gutter));
+    margin: auto;
+    padding: 0;
+    border: var(--fl-border-width) solid var(--fl-color-border);
+    border-radius: var(--fl-radius-xl);
+    background-color: var(--fl-color-surface-raised);
+    box-shadow: var(--fl-shadow-l);
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-m);
+    line-height: var(--fl-line-height-normal);
+    overflow: hidden;
+    opacity: 0;
+    translate: 0 var(--fl-dialog-rise);
+    transition:
+      opacity var(--fl-duration-normal) var(--fl-ease-exit),
+      translate var(--fl-duration-normal) var(--fl-ease-exit),
+      overlay var(--fl-duration-normal) allow-discrete,
+      display var(--fl-duration-normal) allow-discrete;
+
+    &::backdrop {
+      background-color: transparent;
+      transition:
+        background-color var(--fl-duration-normal) var(--fl-ease-exit),
+        overlay var(--fl-duration-normal) allow-discrete,
+        display var(--fl-duration-normal) allow-discrete;
+    }
+
+    & > .fl-dialog__header {
+      display: flex;
+      flex: none;
+      align-items: center;
+      gap: var(--fl-gap-s);
+      min-block-size: calc(var(--fl-control-height-m) + 2 * var(--fl-inset-s));
+      padding-block: var(--fl-inset-s);
+      padding-inline: var(--fl-inset-l);
+      border-block-end: var(--fl-border-width) solid var(--fl-color-border);
+    }
+
+    & .fl-dialog__title {
+      flex: 1;
+      min-inline-size: 0;
+      margin: 0;
+      font-size: var(--fl-font-size-l);
+      font-weight: var(--fl-font-weight-semibold);
+      line-height: var(--fl-line-height-tight);
+      overflow-wrap: anywhere;
+    }
+
+    /* The mark of the close button lines up with the edge of the content. */
+    & .fl-dialog__close {
+      flex: none;
+      margin-inline-end: calc(-1 * var(--fl-space-2));
+    }
+
+    /* The body is the part that scrolls; the header and the footer stay. */
+    & > .fl-dialog__body {
+      flex: 1;
+      min-block-size: 0;
+      padding: var(--fl-inset-l);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+
+      & > p {
+        margin: 0;
+        color: var(--fl-color-text-muted);
+      }
+
+      & > p + p {
+        margin-block-start: var(--fl-space-3);
+      }
+    }
+
+    & > .fl-dialog__footer {
+      display: flex;
+      flex: none;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: var(--fl-gap-s);
+      padding-block: var(--fl-inset-s);
+      padding-inline: var(--fl-inset-l);
+      border-block-start: var(--fl-border-width) solid var(--fl-color-border);
+    }
+
+    /* Sizes set tokens only. */
+
+    &.fl-dialog--s {
+      --fl-dialog-width: var(--fl-size-m);
+    }
+
+    &.fl-dialog--l {
+      --fl-dialog-width: var(--fl-size-xl);
+    }
+
+    /* States */
+
+    &[open] {
+      display: flex;
+      opacity: 1;
+      translate: 0 0;
+      transition-timing-function: var(--fl-ease-standard);
+
+      @starting-style {
+        opacity: 0;
+        translate: 0 var(--fl-dialog-rise);
+      }
+    }
+
+    &[open]::backdrop {
+      background-color: var(--fl-color-backdrop);
+    }
+  }
+
+  @starting-style {
+    .fl-dialog[open]::backdrop {
+      background-color: transparent;
+    }
+  }
+}

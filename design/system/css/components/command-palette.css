@@ -1,0 +1,264 @@
+/* Command palette (candidate): a search box over the page that finds a place
+   or a command by name. On a <dialog>, opened as a modal; the search box is a
+   combobox and the results are its listbox. */
+
+@layer fl.components {
+  .fl-command-palette {
+    --fl-command-palette-width: var(--fl-size-l);
+    --fl-command-palette-gutter: var(--fl-space-4);
+    --fl-command-palette-offset: var(--fl-space-16);
+    --fl-command-palette-list-height: var(--fl-size-s);
+
+    inset: 0;
+    flex-direction: column;
+    inline-size: calc(100% - 2 * var(--fl-command-palette-gutter));
+    max-inline-size: var(--fl-command-palette-width);
+    block-size: fit-content;
+    max-block-size: calc(100% - var(--fl-command-palette-offset) - var(--fl-command-palette-gutter));
+    /* It opens near the top, so the list grows downwards and the box stays. */
+    margin-block: var(--fl-command-palette-offset) auto;
+    margin-inline: auto;
+    padding: 0;
+    border: var(--fl-border-width) solid var(--fl-color-border);
+    border-radius: var(--fl-radius-xl);
+    background-color: var(--fl-color-surface-raised);
+    box-shadow: var(--fl-shadow-l);
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-m);
+    line-height: var(--fl-line-height-tight);
+    overflow: hidden;
+    opacity: 0;
+    transition:
+      opacity var(--fl-duration-fast) var(--fl-ease-exit),
+      overlay var(--fl-duration-fast) allow-discrete,
+      display var(--fl-duration-fast) allow-discrete;
+
+    &::backdrop {
+      background-color: transparent;
+      transition:
+        background-color var(--fl-duration-fast) var(--fl-ease-exit),
+        overlay var(--fl-duration-fast) allow-discrete,
+        display var(--fl-duration-fast) allow-discrete;
+    }
+
+    /* The search box: an icon, the input, and the key that closes. */
+    & > .fl-command-palette__search {
+      display: flex;
+      flex: none;
+      align-items: center;
+      gap: var(--fl-space-3);
+      padding-inline: var(--fl-inset-m);
+      border-block-end: var(--fl-border-width) solid var(--fl-color-border);
+
+      & > .fl-icon {
+        color: var(--fl-color-text-subtle);
+      }
+    }
+
+    & .fl-command-palette__input {
+      flex: 1;
+      min-inline-size: 0;
+      block-size: var(--fl-space-12);
+      margin: 0;
+      padding: 0;
+      border: 0;
+      outline: 0;
+      background-color: transparent;
+      color: inherit;
+      font: inherit;
+      font-size: var(--fl-font-size-l);
+
+      &::placeholder {
+        color: var(--fl-color-text-subtle);
+        opacity: 1;
+      }
+
+      &::-webkit-search-cancel-button {
+        display: none;
+      }
+    }
+
+    & > .fl-command-palette__list {
+      flex: 1;
+      min-block-size: 0;
+      max-block-size: var(--fl-command-palette-list-height);
+      padding: var(--fl-space-1);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scroll-padding-block: var(--fl-space-1);
+    }
+
+    & .fl-command-palette__label {
+      padding-block: var(--fl-space-2) var(--fl-space-1);
+      padding-inline: var(--fl-space-3);
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-2xs);
+      font-weight: var(--fl-font-weight-semibold);
+      letter-spacing: var(--fl-letter-spacing-caps);
+      text-transform: uppercase;
+    }
+
+    /* Option: focus stays in the search box, and the active option is the
+       selected one. */
+    & .fl-command-palette__option {
+      --fl-command-palette-option-meta: var(--fl-color-text-subtle);
+      --fl-command-palette-option-icon: var(--fl-color-text-muted);
+
+      display: flex;
+      align-items: center;
+      gap: var(--fl-space-3);
+      min-block-size: var(--fl-item-height);
+      padding-block: var(--fl-space-1);
+      padding-inline: var(--fl-space-3);
+      border: var(--fl-border-width) solid transparent;
+      border-radius: var(--fl-radius-m);
+      font-size: var(--fl-font-size-s);
+      cursor: pointer;
+
+      & > .fl-icon {
+        color: var(--fl-command-palette-option-icon);
+      }
+
+      /* A long name wraps; it is not cut, since the end of it may be the
+         part that tells two results apart. */
+      & > .fl-command-palette__text {
+        flex: 1;
+        min-inline-size: 0;
+        overflow-wrap: anywhere;
+      }
+
+      /* Where the result lives, after its name. It is isolated from the
+         direction of the name, so it stays after it in right-to-left. */
+      & .fl-command-palette__meta {
+        margin-inline-start: var(--fl-space-2);
+        color: var(--fl-command-palette-option-meta);
+        font-size: var(--fl-font-size-xs);
+        unicode-bidi: isolate;
+      }
+
+      /* Keys are pressed in one order, whatever the reading direction. */
+      & > .fl-command-palette__shortcut {
+        display: flex;
+        flex: none;
+        gap: var(--fl-space-1);
+        direction: ltr;
+      }
+
+      &:hover {
+        background-color: var(--fl-color-hover);
+      }
+
+      &:active {
+        background-color: var(--fl-color-pressed);
+      }
+
+      &[aria-selected="true"] {
+        --fl-command-palette-option-meta: currentColor;
+        --fl-command-palette-option-icon: currentColor;
+
+        background-color: var(--fl-color-accent-soft);
+        color: var(--fl-color-accent-text);
+        font-weight: var(--fl-font-weight-medium);
+      }
+
+      &[aria-disabled="true"] {
+        --fl-command-palette-option-meta: currentColor;
+        --fl-command-palette-option-icon: currentColor;
+
+        background-color: transparent;
+        color: var(--fl-color-disabled-text);
+        cursor: not-allowed;
+      }
+
+      /* A result that the text in the box does not match. */
+      &[hidden] {
+        display: none;
+      }
+
+      @media (forced-colors: active) {
+        &[aria-selected="true"] {
+          border-color: Highlight;
+        }
+
+        &[aria-disabled="true"] {
+          color: GrayText;
+        }
+      }
+    }
+
+    /* Shown in place of the list when nothing matches. */
+    & > .fl-command-palette__empty {
+      display: grid;
+      gap: var(--fl-space-1);
+      justify-items: center;
+      margin: 0;
+      padding-block: var(--fl-space-8);
+      padding-inline: var(--fl-inset-l);
+      color: var(--fl-color-text-muted);
+      font-size: var(--fl-font-size-s);
+      line-height: var(--fl-line-height-normal);
+      text-align: center;
+
+      & > .fl-icon {
+        margin-block-end: var(--fl-space-2);
+        color: var(--fl-color-text-subtle);
+      }
+
+      & > strong {
+        color: var(--fl-color-text);
+        font-size: var(--fl-font-size-m);
+        font-weight: var(--fl-font-weight-semibold);
+        overflow-wrap: anywhere;
+      }
+
+      &[hidden] {
+        display: none;
+      }
+    }
+
+    /* The keys of the palette, for someone who meets it for the first time. */
+    & > .fl-command-palette__footer {
+      display: flex;
+      flex: none;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--fl-space-1) var(--fl-space-4);
+      padding-block: var(--fl-space-2);
+      padding-inline: var(--fl-inset-m);
+      border-block-start: var(--fl-border-width) solid var(--fl-color-border);
+      background-color: var(--fl-color-surface-subtle);
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-xs);
+
+      & > span {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--fl-space-1);
+        white-space: nowrap;
+      }
+    }
+
+    /* States */
+
+    &[open] {
+      display: flex;
+      opacity: 1;
+      transition-timing-function: var(--fl-ease-standard);
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+
+    &[open]::backdrop {
+      background-color: var(--fl-color-backdrop);
+    }
+  }
+
+  @starting-style {
+    .fl-command-palette[open]::backdrop {
+      background-color: transparent;
+    }
+  }
+}

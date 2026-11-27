@@ -1,0 +1,79 @@
+/* Tooltip: the name of a control that shows no text, on the inverse surface.
+   On an element with role="tooltip" and popover="hint", shown when its
+   control is pointed at or takes focus. Without the attribute it lies in the
+   page, which is how a static page draws it open. */
+
+@layer fl.components {
+  .fl-tooltip {
+    --fl-tooltip-area: block-start;
+
+    inline-size: fit-content;
+    max-inline-size: min(var(--fl-size-xs), 100%);
+    margin: 0;
+    padding-block: var(--fl-space-1);
+    padding-inline: var(--fl-space-2);
+    /* The border carries the shape in forced colours. */
+    border: var(--fl-border-width) solid transparent;
+    border-radius: var(--fl-radius-m);
+    background-color: var(--fl-color-surface-inverse);
+    box-shadow: var(--fl-shadow-s);
+    color: var(--fl-color-text-inverse);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-xs);
+    font-weight: var(--fl-font-weight-medium);
+    line-height: var(--fl-line-height-normal);
+    text-align: start;
+    overflow: visible;
+
+    /* A shortcut after the name, parted from it by a hairline. It is isolated
+       from the direction of the name, so it stays after it in right-to-left. */
+    & > .fl-tooltip__shortcut {
+      margin-inline-start: var(--fl-space-1-5);
+      padding-inline-start: var(--fl-space-1-5);
+      border-inline-start: var(--fl-border-width) solid currentColor;
+      font: inherit;
+      font-weight: var(--fl-font-weight-regular);
+      unicode-bidi: isolate;
+    }
+
+    /* Variants set tokens only. */
+
+    &.fl-tooltip--below {
+      --fl-tooltip-area: block-end;
+    }
+
+    &.fl-tooltip--start {
+      --fl-tooltip-area: inline-start;
+    }
+
+    &.fl-tooltip--end {
+      --fl-tooltip-area: inline-end;
+    }
+
+    /* In the top layer. Where the browser cannot anchor, it opens in the
+       middle of the view, as the browser places any popover. */
+    &[popover] {
+      max-inline-size: min(var(--fl-size-xs), calc(100vi - 2 * var(--fl-space-2)));
+      margin: auto;
+      opacity: 0;
+      transition:
+        opacity var(--fl-duration-fast) var(--fl-ease-exit),
+        overlay var(--fl-duration-fast) allow-discrete,
+        display var(--fl-duration-fast) allow-discrete;
+
+      @supports (position-area: block-start) {
+        position-area: var(--fl-tooltip-area);
+        position-try-fallbacks: flip-block, flip-inline;
+        margin: var(--fl-space-1);
+      }
+    }
+
+    &:popover-open {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+  }
+}
