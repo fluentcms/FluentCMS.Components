@@ -1,6 +1,6 @@
 # FluentCMS Components: implementation plan
 
-Status: draft for review, 26 November 2026. The design system of section 6 is drawn; nothing else in this plan is built yet.
+Status: draft for review, 27 November 2026. The decision records, the design system of section 6, the stylesheet and the gallery are built; no component is.
 
 FluentCMS Components is an opinionated, minimal Blazor component library. It is the user interface layer of the [FluentCMS](https://github.com/fluentcms/FluentCMS) admin, and it can be used without the CMS. This document says what the library is, how it is built and tested, in which order, and how the FluentCMS admin is rebuilt on it.
 
@@ -32,14 +32,15 @@ FluentCMS Components is an opinionated, minimal Blazor component library. It is 
 | D13 | The typeface is the system font stack by default. The family is one token, `--fl-font-family`, so a host can set Inter and serve it; the library bundles no font. |
 | D14 | Date and time inputs are the browser's own `date`, `time` and `datetime-local` inputs in the box of the text input. A range is two inputs. A custom calendar is not part of the library; it would be a later component, only for a range in one control or a format fixed by the application. What the native control cannot do is listed on the forms page of the design system. |
 | D15 | Both candidates are in. The command palette is what the global search of the app shell opens, on every screen. The sortable list orders the columns of a list and the ordered fields of an editor; it stays one level and one list, and its move buttons work without dragging. |
+| D16 | The package targets `net10.0` only, as FluentCMS. A second target is added when someone asks for it. |
+| D17 | A preview is published on a maintainer's tag (`v0.3.0-preview.2`) and never on a merge, since a version on nuget.org can be unlisted but never deleted. The local source switch of section 9.3 covers daily work. |
+| D18 | The gallery is hosted on GitHub Pages of this repository, as the WebAssembly build. The other two render modes run in CI and locally. |
+| D19 | The package requires `Microsoft.AspNetCore.Components.Web` 10.0.0, so that a host on any 10.0 patch is not pushed to a newer one. The gallery and the tests run on the newest patch. |
 
 ### 2.2 Open, with a recommendation
 
 | # | Question | Recommendation |
 | --- | --- | --- |
-| O2 | Target frameworks. | `net10.0` only, as FluentCMS. A second target is added when someone asks for it. |
-| O5 | How often a preview is published. | On a maintainer's tag (`v0.3.0-preview.2`), not on every merge: a version on nuget.org can be unlisted but never deleted. The local source switch of section 9.3 covers daily work. |
-| O6 | Where the gallery is hosted. | GitHub Pages of this repository, as the WebAssembly build. The other two render modes run in CI and locally. |
 | O7 | Scope of the table. | Columns, external sort with several keys, row selection, loading and empty states, keyboard movement between rows. No virtual scrolling, no inline editing, no column resizing. |
 | O10 | Version at which the library is stable. | `1.0.0` before FluentCMS `1.0.0`, which freezes its contract; plugin authors compile against both. |
 
@@ -106,7 +107,7 @@ Each component declares one of three levels, shown on its gallery page.
 | Native | Behaviour from native elements and the script. Works fully in static SSR. | dialog, drawer, menu, popover, tooltip, tabs, disclosure |
 | Interactive | Needs an interactive mode for its full function, and renders a documented static fallback. | table with sort and selection callbacks, combobox, file drop zone with progress, tree with lazy loading, toasts raised from code |
 
-Rules for every component: no `@rendermode` inside the library; no service that exists in one mode only; nothing done in `OnInitialized` that needs the browser; prerendering followed by interactivity must not flash or lose focus.
+Rules for every component: no `@rendermode` inside the library; no service that exists in one mode only; nothing done in `OnInitialized` that needs the browser; prerendering followed by interactivity must not flash, so the interactive render produces the markup the prerender produced, ids included. The framework's swap of the prerendered DOM loses the focus and the text typed into an input before it, and the library does not restore either. A host that cannot accept that turns prerendering off for that page or component. See the [update of decision record 0001](../decisions/0001-render-mode-contract.md#update-focus-across-prerendering).
 
 ### 4.5 Forms
 
@@ -206,22 +207,22 @@ Static HTML and CSS in `design/system/`, made before any component is written. I
 It settled the icon family, the typeface, the date and time inputs and the two candidates (D12 to D15). Its CSS is the first draft of the library's stylesheet: the tokens and the component files are copied into the library as they are.
 
 ```text
-design/system/index.html                  overview and the tokens
-design/system/RECIPE.md                   how a component is drawn and specified
-design/system/css/tokens.css              the tokens; becomes the library's
-design/system/css/base.css                layers, base rules, stack and cluster
-design/system/css/components/<name>.css   one file per component; becomes the library's
-design/system/css/patterns/<name>.css     one file per CSS-only pattern
-design/system/foundations.html            icon, button, field, text input and the base patterns
-design/system/forms.html                  the form controls
-design/system/actions-overlays.html       split button, menu, overlays, alert, toast, command palette
-design/system/data.html                   badge, tag, avatar, table, pagination, tree and the data patterns
-design/system/layout-navigation.html      card, app shell, navigation, breadcrumb, tabs, disclosure
-design/system/screens/                    the four reference screens, their layout rules and their script
-design/system/icons/lucide.svg            the icon set
-design/system/docs/                       the chrome of the pages; never the library's
-design/tools/contrast.mjs                 checks the colour tokens against WCAG AA
-design/tools/icons.mjs                    builds the icon set from a pinned version
+design/system/index.html                              overview and the tokens
+design/system/RECIPE.md                               how a component is drawn and specified
+src/FluentCMS.Components/Styles/tokens.css            the tokens
+src/FluentCMS.Components/Styles/base.css              layers, base rules, stack and cluster
+src/FluentCMS.Components/Styles/components/<name>.css one file per component
+src/FluentCMS.Components/Styles/patterns/<name>.css   one file per CSS-only pattern
+design/system/foundations.html                        icon, button, field, text input and the base patterns
+design/system/forms.html                              the form controls
+design/system/actions-overlays.html                   split button, menu, overlays, alert, toast, command palette
+design/system/data.html                               badge, tag, avatar, table, pagination, tree and the data patterns
+design/system/layout-navigation.html                  card, app shell, navigation, breadcrumb, tabs, disclosure
+design/system/screens/                                the four reference screens, their layout rules and their script
+design/system/icons/lucide.svg                        the icon set
+design/system/docs/                                   the chrome of the pages; never the library's
+design/tools/contrast.mjs                             checks the colour tokens against WCAG AA
+design/tools/icons.mjs                                builds the icon set from a pinned version
 ```
 
 ## 7. Testing
@@ -243,8 +244,8 @@ A screen reader pass (NVDA and VoiceOver) of every Native and Interactive compon
 ## 8. CI and releases
 
 - **CI** on every pull request: build with warnings as errors, component tests, browser tests in the three render modes, pack, size check, markdownlint.
-- **Gallery**: built as WebAssembly and deployed to GitHub Pages on each merge to `main` (O6).
-- **Previews**: a tag `v0.3.0-preview.2` publishes that version to nuget.org (O5).
+- **Gallery**: built as WebAssembly and deployed to GitHub Pages on each merge to `main` (D18).
+- **Previews**: a tag `v0.3.0-preview.2` publishes that version to nuget.org, and a merge never does (D17).
 - **Releases**: a tag `v0.3.0` publishes the stable version and creates the GitHub release with its notes.
 - **Signing in to nuget.org** uses trusted publishing, as FluentCMS does. The maintainer adds a trusted publishing policy for this repository on nuget.org and the `NUGET_USER` secret of a `release` environment.
 - **Versioning** is semantic. Before `1.0.0` a minor version may break the API, and says so in its notes. The version comes from the tag; no versioning tool is added.

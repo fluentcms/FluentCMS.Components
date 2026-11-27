@@ -31,3 +31,12 @@ Components also differ in how much they can do with no code running. A button or
 - The gallery needs a host that can run the same page in each mode (issue C-05 of the plan).
 - A host that wants one mode everywhere sets it once at its root and loses nothing.
 - A feature that cannot meet these rules is not part of the library until it can. It is not allowed to work in one mode only.
+
+## Update: focus across prerendering
+
+Rule 3 said that "prerendering followed by interactivity does not flash or lose focus". The first half holds. The second cannot be kept, and this update replaces it.
+
+- **What Blazor does.** When a prerendered page becomes interactive, Blazor replaces the prerendered DOM with the interactive one. An element that held focus loses it, and text typed into an input before that moment is gone.
+- **Why the library does not repair it.** A script could bring focus back to the element, but not the text that was typed, and a repair of focus alone would hide half of the loss. The [script policy](0003-script-policy.md) lists no such behaviour, and none is added.
+- **The rule that stays.** Nothing flashes: the interactive render produces the markup the prerender produced, ids included. That is tested, in the same browser tests as the rest of rule 3. Focus and typed text are lost by the framework's swap, and the library does not restore them.
+- **What a host can do.** A host that cannot accept the loss turns prerendering off for that page or component.
