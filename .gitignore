@@ -1,0 +1,40 @@
+# Build output
+bin/
+obj/
+artifacts/
+publish/
+*.nupkg
+*.snupkg
+
+# Tests
+TestResults/
+coverage/
+*.trx
+playwright-report/
+test-results/
+
+# Node
+node_modules/
+
+# Visual Studio and Rider
+.vs/
+.idea/
+*.user
+*.suo
+*.DotSettings.user
+
+# Visual Studio Code: keep the shared settings only
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Local environment
+.env
+.env.*
+*.local
+launchSettings.local.json
+
+# Operating system
+.DS_Store
+Thumbs.db
+Desktop.ini
