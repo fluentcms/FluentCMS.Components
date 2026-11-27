@@ -92,9 +92,9 @@ The gallery is the documentation site and the test target at once. It holds one 
 ### 4.3 Behaviour and script
 
 - **One script**, a JavaScript initializer of the package (`FluentCMS.Components.lib.module.js`), which Blazor loads in every render mode with no setup by the host. It enhances the HTML that is already on the page, found by `data-fl-*` attributes, and applies again after an enhanced navigation.
-- **It adds only what HTML lacks**: roving focus in tabs, menus and trees, focus return when an overlay closes, placement of a popover where the browser has no anchor positioning, and the dismissal rules of overlays.
+- **It adds only what HTML lacks**: roving focus in tabs, menus and trees, focus return where a browser leaves it on the page, the tooltip where a browser has no interest invokers, and the keys and states that no browser offers. The placement of a popover and the dismissal rules of overlays are native in every target browser and are not in the script.
 - **No call from .NET per interaction.** In the interactive modes .NET state is the source of truth and the script reports changes through DOM events the component listens to. No synchronous interop, which exists in WebAssembly only.
-- **A spike in C0** checks `<dialog>`, `popover`, anchor positioning and invoker commands in the target browsers, and sets which of them the script has to cover.
+- **The spike of C0** checked `<dialog>`, `popover`, anchor positioning, invoker commands and the other recent features the design system leans on, in Chromium, Firefox and WebKit builds. Its result, and the list of what the script covers for each component, is [decision record 0003](../decisions/0003-script-policy.md). Real Safari was not available to it.
 
 ### 4.4 Render modes
 
@@ -330,7 +330,7 @@ Sizes are S (hours), M (a day or two) and L (several days). FluentCMS issues are
 | C-05 | Gallery that runs every page in static SSR, interactive server and WebAssembly, with theme, density and direction switches | M |
 | C-06 | Test harness: the bUnit project, and the browser project with the render mode matrix, axe-core, a keyboard-only helper and the WCAG 2.2 checks | L |
 | C-07 | CI workflow under ten minutes, with the size report | M |
-| C-08 | The script as a JavaScript initializer, and the spike on dialog, popover, anchor positioning and invoker commands | M |
+| C-08 | The script as a JavaScript initializer, after the policy of decision record 0003; the spike is done | M |
 | C-09 | `IFlTextProvider` with the English texts | S |
 | C-10 | `FlIcon` and the icon set (D12) | M |
 | C-11 | `FlButton` through every gate of section 11 | M |
@@ -418,8 +418,8 @@ Sizes are S (hours), M (a day or two) and L (several days). FluentCMS issues are
 | Risk | What limits it |
 | --- | --- |
 | A library designed without its consumer meets the real admin late, and its API has gaps. | The reference screens of section 4.8 are real screens, not samples; a short spike at the end of C2 rebuilds the admin's shell on a throwaway FluentCMS branch; before `1.0.0` the API may still change. |
-| Static SSR makes the behaviour-heavy components slow to build. | Native elements first; the spike of C-08 before any overlay is written; the three levels of section 4.4 let a component ship with a documented fallback. |
-| A native feature is missing in one of the target browsers. | The spike names them; the script covers the gap; the nightly run in Firefox and WebKit watches for regressions. |
+| Static SSR makes the behaviour-heavy components slow to build. | Native elements first; the spike, which found the overlays native in every target browser (decision record 0003); the three levels of section 4.4 let a component ship with a documented fallback. |
+| A native feature is missing in one of the target browsers. | The spike names them (interest invokers outside Chromium); the script covers the gap; the nightly run in Firefox and WebKit watches for regressions; real Safari is still to be checked on a Mac. |
 | The admin's accessibility gets worse than it is today. | The rules of section 5 are tests here; the admin's own accessibility walk and keyboard loop gate every slice; the screen reader pass before each minor release. |
 | Rebuilding every admin screen is more work than renaming components. | It is the cost of the new design, which needs new markup in any case; the slices keep each step reviewable. |
 | Two repositories slow daily work. | The local source switch of section 9.3; previews by tag. |
