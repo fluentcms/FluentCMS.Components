@@ -668,6 +668,50 @@ body.docs {
   color: var(--fl-color-text-muted);
 }
 
+/* The bar of a reference screen */
+
+.docs-bar {
+  position: fixed;
+  inset-block-end: var(--fl-space-3);
+  inset-inline: var(--fl-space-3);
+  z-index: 100;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--fl-space-1) var(--fl-space-3);
+  inline-size: fit-content;
+  max-inline-size: calc(100% - 2 * var(--fl-space-3));
+  margin-inline: auto;
+  padding: var(--fl-space-1) var(--fl-space-2);
+  border: 1px solid var(--fl-color-border-strong);
+  border-radius: var(--fl-radius-xl);
+  background-color: var(--fl-color-surface-raised);
+  box-shadow: var(--fl-shadow-l);
+  font-family: var(--fl-font-family);
+  opacity: 0.94;
+}
+
+.docs-bar:hover,
+.docs-bar:focus-within {
+  opacity: 1;
+}
+
+.docs-bar .docs-nav {
+  margin-inline-end: 0;
+}
+
+.docs-bar .docs-nav a {
+  block-size: 1.75rem;
+  padding-inline: var(--fl-space-2);
+  font-size: var(--fl-font-size-xs);
+}
+
+.docs-bar a:focus-visible {
+  outline: var(--fl-focus-ring);
+  outline-offset: var(--fl-focus-ring-offset);
+}
+
 /* The header stays in view where it fits on one line. */
 @media (min-width: 90rem) {
   html {

@@ -105,6 +105,9 @@
     & > .fl-app-shell__main {
       grid-column: 2;
       grid-row: 2;
+      /* Positioned, so that text hidden from sight scrolls with the region
+         and does not give the page a scrollbar of its own. */
+      position: relative;
       min-inline-size: 0;
       padding: var(--fl-inset-m);
       overflow: auto;

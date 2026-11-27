@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screens · FluentCMS Components design system</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components/icon.css">
+<link rel="stylesheet" href="../css/patterns/link.css">
+<link rel="stylesheet" href="../docs/docs.css">
+<script src="../docs/docs.js"></script>
+</head>
+<body class="fl-root docs">
+<div class="docs-layout">
+<main class="docs-main">
+<h1>Screens</h1>
+<p class="docs-lede">Four screens of the FluentCMS admin, composed from the library's CSS alone. They prove that the components hold together: each screen is the markup of the component pages, joined, with the content of the reference design.</p>
+
+<section class="docs-section" id="reference-screens">
+<h2>Reference screens</h2>
+<p>Every screen has the same frame: the app shell with the navigation, and the header with the breadcrumb, the global search, the locale, the notifications and the user menu. A screen opens without the chrome of these pages; a small bar at its end holds the theme, the density and the direction, and the links between the screens.</p>
+<div class="docs-scroll">
+<table class="docs-table">
+<thead><tr><th>Screen</th><th>What it proves</th></tr></thead>
+<tbody>
+<tr><td><a class="fl-link" href="dashboard.html">Dashboard</a></td><td>The frame, and a page of cards: stat tiles with their charts, a table, a timeline, progress bars and a description list side by side in two columns, and the split button with its menu.</td></tr>
+<tr><td><a class="fl-link" href="content-list.html">Content list</a></td><td>A list of records in one card: tabs as saved views, the toolbar with its filters and its selection form, the table with selection, badges, avatars and row actions, the pagination, and a dialog that confirms a deletion.</td></tr>
+<tr><td><a class="fl-link" href="entry-editor.html">Entry editor</a></td><td>A long form beside a column of details: the page header of an item with its state, as a bar that stays in view with the actions that save and publish; tabs for the locales; fields with counters, an affix and an action; a sortable list of blocks that open; and cards with an alert, a popover, comboboxes, a timeline and a description list.</td></tr>
+<tr><td><a class="fl-link" href="settings.html">Settings</a></td><td>A form of settings in cards of horizontal fields: every form control once, with its help; one invalid field with the alert that points at it; a file drop zone; a dialog that confirms a deletion by a typed name; and the toast of a save.</td></tr>
+</tbody>
+</table>
+</div>
+<p class="docs-note"><strong>What the screens add to the library is in one file.</strong> <code>screens.css</code> holds the layout rules that a screen needs and the library lacks. Every rule in it names the missing pattern, part or variant that would make it unnecessary.</p>
+</section>
+
+</main>
+</div>
+</body>
+</html>

@@ -7,6 +7,8 @@
 //   on an element shows the rule of that pseudo-class on a static page
 // - .docs-modes: repeats its content in the other theme, density and direction
 // - specimens of tokens, measured contrast, the icon grid
+// - on a reference screen (<body data-docs="screen">): a small bar with the
+//   switches and the links between the screens, in place of the header
 
 (() => {
   const root = document.documentElement;
@@ -19,7 +21,14 @@
     ['actions-overlays.html', 'Actions and overlays'],
     ['data.html', 'Data'],
     ['layout-navigation.html', 'Layout and navigation'],
-    ['screens/index.html', 'Screens', true],
+    ['screens/index.html', 'Screens'],
+  ];
+
+  const screens = [
+    ['screens/dashboard.html', 'Dashboard'],
+    ['screens/content-list.html', 'List'],
+    ['screens/entry-editor.html', 'Editor'],
+    ['screens/settings.html', 'Settings'],
   ];
 
   const options = {
@@ -164,17 +173,8 @@
     return e;
   }
 
-  function header() {
-    const current = location.pathname.replace(/\/$/, '/index.html');
-    const nav = element('nav', { class: 'docs-nav', 'aria-label': 'Pages' });
-    for (const [path, title, planned] of pages) {
-      const url = new URL(path, base);
-      const here = url.pathname === current;
-      nav.append(planned && !here
-        ? element('span', { title: 'Not drawn yet' }, title)
-        : element('a', here ? { href: url.href, 'aria-current': 'page' } : { href: url.href }, title));
-    }
-    const switches = element('div', { class: 'docs-switches' });
+  function switches() {
+    const all = element('div', { class: 'docs-switches' });
     for (const [key, values] of Object.entries(options)) {
       const group = element('div', { class: 'docs-switch', role: 'group', 'aria-label': key });
       for (const value of values) {
@@ -185,10 +185,34 @@
         });
         group.append(button);
       }
-      switches.append(group);
+      all.append(group);
+    }
+    return all;
+  }
+
+  // The bar of a reference screen: it floats over the screen and is no part of it.
+  function bar() {
+    const nav = element('nav', { class: 'docs-nav', 'aria-label': 'Reference screens' });
+    nav.append(element('a', { href: new URL('screens/index.html', base).href }, 'Design system'));
+    for (const [path, title] of screens) {
+      const url = new URL(path, base);
+      nav.append(element('a', url.pathname === location.pathname ? { href: url.href, 'aria-current': 'page' } : { href: url.href }, title));
+    }
+    document.body.append(element('aside', { class: 'docs docs-bar', 'aria-label': 'Design system controls' }, nav, switches()));
+  }
+
+  function header() {
+    const current = location.pathname.replace(/\/$/, '/index.html');
+    const nav = element('nav', { class: 'docs-nav', 'aria-label': 'Pages' });
+    for (const [path, title, planned] of pages) {
+      const url = new URL(path, base);
+      const here = url.pathname === current;
+      nav.append(planned && !here
+        ? element('span', { title: 'Not drawn yet' }, title)
+        : element('a', here ? { href: url.href, 'aria-current': 'page' } : { href: url.href }, title));
     }
     const brand = element('a', { class: 'docs-brand', href: new URL('index.html', base).href }, 'FluentCMS Components', element('small', {}, 'Design system'));
-    document.body.prepend(element('header', { class: 'docs-header' }, brand, nav, switches));
+    document.body.prepend(element('header', { class: 'docs-header' }, brand, nav, switches()));
   }
 
   function contents() {
@@ -253,8 +277,12 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     forceAll();
-    header();
-    contents();
+    if (document.body.dataset.docs === 'screen') {
+      bar();
+    } else {
+      header();
+      contents();
+    }
     modes();
     for (const input of document.querySelectorAll('[data-indeterminate]')) input.indeterminate = true;
     apply();
