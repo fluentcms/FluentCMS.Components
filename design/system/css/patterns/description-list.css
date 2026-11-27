@@ -1,0 +1,70 @@
+/* Description list: the facts of one record as pairs of a term and a value,
+   on a <dl>. Each pair is a <div> around its <dt> and <dd>. */
+
+@layer fl.components {
+  .fl-description-list {
+    container-type: inline-size;
+    margin: 0;
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-m);
+    line-height: var(--fl-line-height-normal);
+
+    /* Rows: the term at the start, the value beside it, a line between pairs.
+       A narrow list puts the value under its term. */
+    & > .fl-description-list__item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--fl-space-0-5) var(--fl-gap-m);
+      padding-block: var(--fl-inset-s);
+      border-block-end: var(--fl-border-width) solid var(--fl-color-border);
+
+      &:first-child {
+        padding-block-start: 0;
+      }
+
+      &:last-child {
+        padding-block-end: 0;
+        border-block-end-width: 0;
+      }
+    }
+
+    & > .fl-description-list__item > dt {
+      margin: 0;
+      color: var(--fl-color-text-muted);
+      font-size: var(--fl-font-size-s);
+    }
+
+    & > .fl-description-list__item > dd {
+      min-inline-size: 0;
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+
+    @container (min-inline-size: 30rem) {
+      & > .fl-description-list__item {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+        align-items: baseline;
+      }
+    }
+
+    /* Columns: two pairs side by side where each has room, each value under
+       its term, no lines. */
+    &.fl-description-list--columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, max(var(--fl-size-2xs), (100% - var(--fl-gap-l)) / 2)), 1fr));
+      gap: var(--fl-gap-m) var(--fl-gap-l);
+
+      & > .fl-description-list__item {
+        grid-template-columns: minmax(0, 1fr);
+        align-content: start;
+        padding-block: 0;
+        border-block-end-width: 0;
+      }
+
+      & > .fl-description-list__item > dt {
+        font-size: var(--fl-font-size-xs);
+      }
+    }
+  }
+}

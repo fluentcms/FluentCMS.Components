@@ -1,0 +1,167 @@
+/* Tree: nested items that open and close, on a <ul>. With role="tree" the
+   items take focus; without it, it is a nested list of links. */
+
+@layer fl.components {
+  .fl-tree {
+    --fl-tree-row-padding: var(--fl-space-1);
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-s);
+    line-height: var(--fl-line-height-tight);
+
+    /* A level: set in by one step, with a line that joins its items. The line
+       stands under the middle of the toggle above it. */
+    & .fl-tree__group {
+      margin: 0;
+      margin-inline-start: calc(var(--fl-tree-row-padding) + var(--fl-target-min) / 2 - var(--fl-border-width));
+      padding: 0;
+      padding-inline-start: var(--fl-space-1);
+      border-inline-start: var(--fl-border-width) solid var(--fl-color-border);
+      list-style: none;
+    }
+
+    & .fl-tree__item {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* The row of an item: a <span> in a tree, an <a> in a list of links. */
+    & .fl-tree__row {
+      /* Holds the text that a count hides for sight. */
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: var(--fl-space-1);
+      min-block-size: var(--fl-item-height);
+      padding-inline: var(--fl-tree-row-padding) var(--fl-space-2);
+      border-radius: var(--fl-control-radius);
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+
+      & > .fl-icon {
+        color: var(--fl-color-text-muted);
+      }
+    }
+
+    /* An item of a tree that cannot open keeps the place of the toggle free. */
+    & .fl-tree__item[role="treeitem"]:not([aria-expanded]) > .fl-tree__row {
+      padding-inline-start: calc(var(--fl-tree-row-padding) + var(--fl-target-min) + var(--fl-space-1));
+    }
+
+    /* The toggle: a target for the pointer; the keyboard uses the arrow keys. */
+    & .fl-tree__toggle {
+      display: grid;
+      place-items: center;
+      flex: none;
+      inline-size: var(--fl-target-min);
+      block-size: var(--fl-target-min);
+      border-radius: var(--fl-radius-s);
+      color: var(--fl-color-text-subtle);
+      transition: rotate var(--fl-duration-fast) var(--fl-ease-standard);
+
+      &:hover {
+        background-color: var(--fl-color-hover);
+        color: var(--fl-color-text);
+      }
+    }
+
+    & .fl-tree__item[aria-expanded="true"] > .fl-tree__row > .fl-tree__toggle {
+      rotate: calc(1turn / 4);
+
+      &:dir(rtl) {
+        rotate: calc(-1turn / 4);
+      }
+    }
+
+    & .fl-tree__item[aria-expanded="false"] > .fl-tree__group {
+      display: none;
+    }
+
+    & .fl-tree__label {
+      flex: 1;
+      min-inline-size: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    & .fl-tree__count {
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-xs);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* States, once and in this order: a later one wins over an earlier one. */
+
+    & .fl-tree__row:hover {
+      background-color: var(--fl-color-hover);
+    }
+
+    & .fl-tree__row:active {
+      background-color: var(--fl-color-pressed);
+    }
+
+    /* Focus is on the item, and the ring is drawn on its row, inside it. */
+    & .fl-tree__item:focus-visible {
+      outline: 0;
+    }
+
+    & .fl-tree__item:focus-visible > .fl-tree__row,
+    & .fl-tree__row:focus-visible {
+      outline: var(--fl-focus-ring);
+      outline-offset: calc(-1 * var(--fl-focus-ring-width));
+    }
+
+    & .fl-tree__item[aria-selected="true"] > .fl-tree__row,
+    & .fl-tree__row[aria-current] {
+      background-color: var(--fl-color-accent-soft);
+      color: var(--fl-color-accent-text);
+      font-weight: var(--fl-font-weight-semibold);
+
+      &:hover {
+        background-color: var(--fl-color-accent-soft-hover);
+      }
+
+      & > .fl-icon,
+      & > .fl-tree__toggle,
+      & > .fl-tree__count {
+        color: currentColor;
+      }
+    }
+
+    & .fl-tree__item[aria-disabled="true"] > .fl-tree__row {
+      background-color: transparent;
+      color: var(--fl-color-disabled-text);
+      cursor: not-allowed;
+
+      & > .fl-icon,
+      & > .fl-tree__toggle,
+      & > .fl-tree__count {
+        color: currentColor;
+      }
+    }
+
+    /* A branch that is loading shows a spinner in the place of its toggle. */
+    & .fl-tree__item[aria-busy="true"] > .fl-tree__row > .fl-tree__toggle {
+      rotate: none;
+    }
+
+    @media (forced-colors: active) {
+      & .fl-tree__item[aria-selected="true"] > .fl-tree__row,
+      & .fl-tree__row[aria-current] {
+        outline: var(--fl-border-width) solid Highlight;
+        outline-offset: calc(-1 * var(--fl-border-width));
+        color: Highlight;
+      }
+
+      & .fl-tree__item[aria-disabled="true"] > .fl-tree__row {
+        color: GrayText;
+      }
+    }
+  }
+}

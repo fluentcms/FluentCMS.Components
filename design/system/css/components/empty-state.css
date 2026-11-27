@@ -1,0 +1,64 @@
+/* Empty state: what a list, a table or a page shows when it has nothing to
+   show, and the way out of it. On a <div>. */
+
+@layer fl.components {
+  .fl-empty-state {
+    --fl-empty-state-padding: calc(var(--fl-inset-l) * 2);
+    --fl-empty-state-icon: var(--fl-space-12);
+    --fl-empty-state-title: var(--fl-font-size-l);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--fl-space-1);
+    padding-block: var(--fl-empty-state-padding);
+    padding-inline: var(--fl-inset-l);
+    color: var(--fl-color-text-muted);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-s);
+    line-height: var(--fl-line-height-normal);
+    text-align: center;
+
+    & > .fl-empty-state__icon {
+      display: grid;
+      place-items: center;
+      flex: none;
+      inline-size: var(--fl-empty-state-icon);
+      block-size: var(--fl-empty-state-icon);
+      margin-block-end: var(--fl-space-3);
+      border: var(--fl-border-width) solid var(--fl-color-border);
+      border-radius: var(--fl-radius-l);
+      background-color: var(--fl-color-surface-muted);
+      color: var(--fl-color-text-subtle);
+    }
+
+    & > .fl-empty-state__title {
+      margin: 0;
+      color: var(--fl-color-text);
+      font-size: var(--fl-empty-state-title);
+      font-weight: var(--fl-font-weight-semibold);
+      line-height: var(--fl-line-height-tight);
+    }
+
+    & > .fl-empty-state__text {
+      max-inline-size: var(--fl-size-s);
+      margin: 0;
+      text-wrap: balance;
+    }
+
+    & > .fl-empty-state__actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--fl-gap-s);
+      margin-block-start: var(--fl-space-4);
+    }
+
+    /* Small: inside a table, a card or a panel. */
+    &.fl-empty-state--s {
+      --fl-empty-state-padding: var(--fl-inset-l);
+      --fl-empty-state-icon: var(--fl-space-10);
+      --fl-empty-state-title: var(--fl-font-size-m);
+    }
+  }
+}

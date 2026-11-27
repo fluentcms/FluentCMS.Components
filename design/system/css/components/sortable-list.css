@@ -1,0 +1,118 @@
+/* Sortable list (candidate): items that a user puts in order, on an <ol>.
+   Every item has a handle to drag and two buttons that move it by one place,
+   so the order never depends on dragging. */
+
+@layer fl.components {
+  .fl-sortable-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fl-space-1-5);
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-s);
+    line-height: var(--fl-line-height-normal);
+
+    & > .fl-sortable-list__item {
+      display: flex;
+      align-items: center;
+      gap: var(--fl-gap-s);
+      min-block-size: var(--fl-row-height);
+      padding-block: var(--fl-space-1);
+      padding-inline: var(--fl-space-1-5) var(--fl-inset-s);
+      border: var(--fl-border-width) solid var(--fl-color-border);
+      border-radius: var(--fl-control-radius);
+      background-color: var(--fl-color-surface);
+    }
+
+    /* The handle: a button, pressed while its item is lifted. */
+    & > .fl-sortable-list__item > .fl-sortable-list__handle {
+      display: grid;
+      place-items: center;
+      flex: none;
+      inline-size: var(--fl-target-min);
+      block-size: var(--fl-target-min);
+      margin: 0;
+      padding: 0;
+      border: 0;
+      border-radius: var(--fl-radius-s);
+      background-color: transparent;
+      color: var(--fl-color-text-subtle);
+      cursor: grab;
+      /* A touch on the handle drags the item and does not scroll the page. */
+      touch-action: none;
+
+      &:hover {
+        background-color: var(--fl-color-hover);
+        color: var(--fl-color-text);
+      }
+
+      &:active {
+        background-color: var(--fl-color-pressed);
+        cursor: grabbing;
+      }
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: var(--fl-focus-ring-offset);
+        box-shadow: var(--fl-focus-halo);
+      }
+
+      &[aria-pressed="true"] {
+        background-color: var(--fl-color-accent-soft);
+        color: var(--fl-color-accent-text);
+        cursor: grabbing;
+      }
+
+      &:disabled {
+        background-color: transparent;
+        color: var(--fl-color-disabled-text);
+        cursor: not-allowed;
+      }
+    }
+
+    /* What the item is: the rest of the row. */
+    & > .fl-sortable-list__item > .fl-sortable-list__content {
+      flex: 1;
+      min-inline-size: 0;
+    }
+
+    /* Move up and move down. */
+    & > .fl-sortable-list__item > .fl-sortable-list__actions {
+      display: flex;
+      flex: none;
+      gap: var(--fl-space-0-5);
+    }
+
+    /* The item while it is lifted, by the pointer or by the keyboard. */
+    & > .fl-sortable-list__item:has(> .fl-sortable-list__handle[aria-pressed="true"]) {
+      position: relative;
+      z-index: var(--fl-z-raised);
+      border-color: var(--fl-color-accent-border);
+      background-color: var(--fl-color-surface-raised);
+      box-shadow: var(--fl-shadow-m);
+    }
+
+    /* The place where the lifted item would drop: an empty <li>. */
+    & > .fl-sortable-list__place {
+      min-block-size: var(--fl-row-height);
+      border: var(--fl-border-width) dashed var(--fl-color-accent-border);
+      border-radius: var(--fl-control-radius);
+      background-color: var(--fl-color-accent-soft);
+    }
+
+    @media (forced-colors: active) {
+      & > .fl-sortable-list__item:has(> .fl-sortable-list__handle[aria-pressed="true"]),
+      & > .fl-sortable-list__place {
+        border-color: Highlight;
+      }
+
+      & > .fl-sortable-list__item > .fl-sortable-list__handle:disabled {
+        color: GrayText;
+      }
+    }
+  }
+}
