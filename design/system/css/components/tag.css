@@ -1,0 +1,105 @@
+/* Tag: a value that a user gave, such as a label or a recipient. On a <span>,
+   or on the <li> of a tag list; its remove action is a <button>. */
+
+@layer fl.components {
+  .fl-tag {
+    --fl-tag-height: var(--fl-space-6);
+    --fl-tag-padding: var(--fl-space-2);
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--fl-space-1);
+    max-inline-size: 100%;
+    min-inline-size: 0;
+    block-size: var(--fl-tag-height);
+    padding-inline: var(--fl-tag-padding);
+    border: var(--fl-border-width) solid var(--fl-color-border-strong);
+    border-radius: var(--fl-radius-s);
+    background-color: var(--fl-color-surface-muted);
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-xs);
+    font-weight: var(--fl-font-weight-medium);
+    line-height: var(--fl-line-height-tight);
+    vertical-align: middle;
+
+    & > .fl-icon {
+      color: var(--fl-color-text-subtle);
+    }
+
+    /* The text. A value longer than its place is cut with an ellipsis. */
+    & > .fl-tag__label {
+      min-inline-size: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Remove: as high as the tag and as wide, so the target is 24 by 24. Its
+       transparent border lies over the border of the tag. */
+    & > .fl-tag__remove {
+      display: grid;
+      place-items: center;
+      flex: none;
+      inline-size: var(--fl-tag-height);
+      block-size: var(--fl-tag-height);
+      margin-block: calc(-1 * var(--fl-border-width));
+      margin-inline: 0 calc(-1 * (var(--fl-tag-padding) + var(--fl-border-width)));
+      padding: 0;
+      border: var(--fl-border-width) solid transparent;
+      border-radius: var(--fl-radius-s);
+      background: transparent padding-box;
+      color: var(--fl-color-text-subtle);
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--fl-color-hover);
+        color: var(--fl-color-text);
+      }
+
+      &:active {
+        background-color: var(--fl-color-pressed);
+      }
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: calc(-1 * var(--fl-focus-ring-width));
+      }
+
+      &:disabled {
+        background-color: transparent;
+        color: var(--fl-color-disabled-text);
+        cursor: not-allowed;
+      }
+    }
+
+    /* A tag whose remove action is disabled is itself disabled. */
+    &:has(> .fl-tag__remove:disabled) {
+      border-color: var(--fl-color-disabled-border);
+      background-color: var(--fl-color-disabled-fill);
+      color: var(--fl-color-disabled-text);
+
+      & > .fl-icon {
+        color: currentColor;
+      }
+    }
+
+    @media (forced-colors: active) {
+      &:has(> .fl-tag__remove:disabled) {
+        border-color: GrayText;
+        color: GrayText;
+      }
+    }
+  }
+
+  /* Tag list: the row of the tags of one value, which wraps. On a <ul>. */
+  .fl-tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--fl-space-1-5);
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}

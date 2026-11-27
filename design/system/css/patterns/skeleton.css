@@ -1,0 +1,68 @@
+/* Skeleton: the shape of content that is loading. On a <span> or a <div>
+   that is hidden from assistive technology; the region around it is busy. */
+
+@layer fl.components {
+  .fl-skeleton {
+    --fl-skeleton-size: var(--fl-space-3);
+
+    /* A line: as wide as its place, as high as a line of small text reads. */
+    display: block;
+    inline-size: 100%;
+    block-size: var(--fl-skeleton-size);
+    /* Transparent, and drawn by the system in forced colours. */
+    border: var(--fl-border-width) solid transparent;
+    border-radius: var(--fl-radius-s);
+    background-color: var(--fl-color-border);
+    animation: fl-skeleton-pulse var(--fl-duration-pulse) var(--fl-ease-standard) infinite alternate;
+
+    /* A line that ends early, as the last line of a text does. */
+    &.fl-skeleton--short {
+      inline-size: calc(100% * 0.6);
+    }
+
+    /* A block: an image, a chart, a control. */
+    &.fl-skeleton--block {
+      --fl-skeleton-size: var(--fl-space-24);
+
+      border-radius: var(--fl-radius-m);
+    }
+
+    /* A circle: an avatar, in its sizes. */
+    &.fl-skeleton--circle {
+      --fl-skeleton-size: var(--fl-space-8);
+
+      flex: none;
+      inline-size: var(--fl-skeleton-size);
+      border-radius: var(--fl-radius-full);
+    }
+
+    /* Sizes set tokens only: a small and a large circle, a line of a heading
+       or a figure. */
+
+    &.fl-skeleton--s {
+      --fl-skeleton-size: var(--fl-space-2);
+    }
+
+    &.fl-skeleton--l {
+      --fl-skeleton-size: var(--fl-space-5);
+    }
+
+    &.fl-skeleton--circle.fl-skeleton--s {
+      --fl-skeleton-size: var(--fl-space-6);
+    }
+
+    &.fl-skeleton--circle.fl-skeleton--l {
+      --fl-skeleton-size: var(--fl-space-10);
+    }
+  }
+
+  @keyframes fl-skeleton-pulse {
+    to { opacity: calc(1 / 2); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fl-skeleton {
+      animation: none;
+    }
+  }
+}

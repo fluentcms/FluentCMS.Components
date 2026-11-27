@@ -1,0 +1,239 @@
+/* Table: records in rows, on a <table>. Cells stay on one line, and a table
+   wider than its place scrolls inside its region and never moves the page. */
+
+@layer fl.components {
+  .fl-table {
+    --fl-table-cell-padding: var(--fl-inset-s);
+    --fl-table-edge-padding: var(--fl-inset-m);
+    --fl-table-head-height: calc(var(--fl-row-height) - var(--fl-space-2));
+    --fl-table-row-bg: transparent;
+    /* Hover is painted over the fill of the row; a selected row replaces it. */
+    --fl-table-row-hover: var(--fl-color-hover);
+    --fl-table-row-overlay: transparent;
+    --fl-table-meta: var(--fl-color-text-subtle);
+
+    inline-size: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-s);
+    line-height: var(--fl-line-height-normal);
+    text-align: start;
+    white-space: nowrap;
+
+    & > thead > tr > th {
+      block-size: var(--fl-table-head-height);
+      padding-block: 0;
+      padding-inline: var(--fl-table-cell-padding);
+      border-block-end: var(--fl-border-width) solid var(--fl-color-border);
+      background-color: var(--fl-color-surface-subtle);
+      color: var(--fl-color-text-muted);
+      font-size: var(--fl-font-size-xs);
+      font-weight: var(--fl-font-weight-medium);
+      text-align: start;
+      vertical-align: middle;
+    }
+
+    & > tbody > tr > :is(td, th) {
+      block-size: var(--fl-row-height);
+      padding-block: calc(var(--fl-inset-s) / 2);
+      padding-inline: var(--fl-table-cell-padding);
+      border-block-end: var(--fl-border-width) solid var(--fl-color-border);
+      background: linear-gradient(var(--fl-table-row-overlay) 0 0) var(--fl-table-row-bg);
+      font-weight: var(--fl-font-weight-regular);
+      text-align: start;
+      vertical-align: middle;
+    }
+
+    /* The first and the last cell line up with the padding of a card. */
+    & > :is(thead, tbody) > tr > :first-child {
+      padding-inline-start: var(--fl-table-edge-padding);
+    }
+
+    & > :is(thead, tbody) > tr > :last-child {
+      padding-inline-end: var(--fl-table-edge-padding);
+    }
+
+    /* The frame around the table draws the last line. */
+    & > tbody:last-child > tr:last-child > :is(td, th) {
+      border-block-end-width: 0;
+    }
+
+    /* Sort: the button, or the link, that fills a sortable header. It reaches
+       past the text, so that the text keeps the edge of its column. */
+    & > thead > tr > th > .fl-table__sort {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--fl-space-1);
+      min-block-size: var(--fl-target-min);
+      margin-inline: calc(-1 * var(--fl-space-1-5));
+      padding-block: 0;
+      padding-inline: var(--fl-space-1-5);
+      border: 0;
+      border-radius: var(--fl-radius-s);
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      text-decoration: none;
+      cursor: pointer;
+
+      & > .fl-icon {
+        color: var(--fl-color-text-subtle);
+      }
+
+      &:hover {
+        background-color: var(--fl-color-hover);
+        color: var(--fl-color-text);
+      }
+
+      &:active {
+        background-color: var(--fl-color-pressed);
+      }
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: calc(-1 * var(--fl-focus-ring-width));
+      }
+    }
+
+    & > thead > tr > :is([aria-sort="ascending"], [aria-sort="descending"]) > .fl-table__sort {
+      color: var(--fl-color-text);
+      font-weight: var(--fl-font-weight-semibold);
+
+      & > .fl-icon {
+        color: currentColor;
+      }
+    }
+
+    /* The place of a column among several sort keys. */
+    & .fl-table__order {
+      display: grid;
+      place-items: center;
+      min-inline-size: var(--fl-space-4);
+      block-size: var(--fl-space-4);
+      border-radius: var(--fl-radius-full);
+      background-color: var(--fl-color-neutral-soft);
+      color: var(--fl-color-neutral-text);
+      font-size: var(--fl-font-size-2xs);
+      font-weight: var(--fl-font-weight-semibold);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    /* A column of numbers: at the end, in figures of one width. Its sort mark
+       goes before the text, so that the text stays over the numbers. */
+    & > :is(thead, tbody) > tr > .fl-table__num {
+      font-variant-numeric: tabular-nums;
+      text-align: end;
+
+      & > .fl-table__sort {
+        flex-direction: row-reverse;
+      }
+    }
+
+    /* The column that selects rows: as narrow as its checkbox. */
+    & > :is(thead, tbody) > tr > .fl-table__select {
+      inline-size: 0;
+      padding-inline-end: 0;
+    }
+
+    & .fl-table__check {
+      display: grid;
+      place-items: center;
+      inline-size: var(--fl-target-min);
+      block-size: var(--fl-target-min);
+      margin-inline-start: calc(-1 * var(--fl-space-1));
+      cursor: pointer;
+
+      & > input {
+        inline-size: var(--fl-space-4);
+        block-size: var(--fl-space-4);
+        margin: 0;
+        accent-color: var(--fl-color-accent);
+        cursor: pointer;
+      }
+    }
+
+    /* The column of row actions: at the end, as narrow as its buttons. */
+    & > :is(thead, tbody) > tr > .fl-table__actions {
+      inline-size: 0;
+      text-align: end;
+    }
+
+    /* Two lines in a cell: a title that may hold the link to the item, and a
+       secondary line. */
+    & .fl-table__title,
+    & .fl-table__meta {
+      display: block;
+    }
+
+    & .fl-table__title {
+      font-weight: var(--fl-font-weight-medium);
+    }
+
+    & .fl-table__meta {
+      color: var(--fl-table-meta);
+      font-size: var(--fl-font-size-xs);
+    }
+
+    /* The cell that spans an empty table and holds the empty state. */
+    & > tbody > tr > .fl-table__empty {
+      padding: 0;
+      white-space: normal;
+    }
+
+    /* States of a row, once and in this order: a later one wins over an earlier one. */
+
+    & > tbody > tr:hover {
+      --fl-table-row-overlay: var(--fl-table-row-hover);
+    }
+
+    & > tbody > tr:focus-visible {
+      outline: var(--fl-focus-ring);
+      outline-offset: calc(-1 * var(--fl-focus-ring-width));
+    }
+
+    & > tbody > tr:is([aria-selected="true"], :has(> .fl-table__select input:checked)) {
+      --fl-table-row-bg: var(--fl-color-accent-soft);
+      --fl-table-row-hover: var(--fl-color-accent-soft-hover);
+      /* The subtle text is not measured on the soft accent. */
+      --fl-table-meta: var(--fl-color-text);
+    }
+
+    & > tbody > tr:has(> .fl-table__empty),
+    &[aria-busy="true"] > tbody > tr {
+      --fl-table-row-hover: transparent;
+    }
+
+    @media (forced-colors: active) {
+      & > tbody > tr:is([aria-selected="true"], :has(> .fl-table__select input:checked)) > :is(td, th) {
+        border-block-end-color: Highlight;
+      }
+    }
+  }
+
+  /* The region a table scrolls in, and its frame. On a <div> with a name,
+     which takes focus so that the keyboard can scroll it. */
+  .fl-table-scroll {
+    /* Holds what the table hides for sight, so that it scrolls with the table. */
+    position: relative;
+    max-inline-size: 100%;
+    overflow-x: auto;
+    border: var(--fl-border-width) solid var(--fl-color-border);
+    border-radius: var(--fl-radius-l);
+    background-color: var(--fl-color-surface);
+
+    /* Inside a card, which has the frame already. */
+    &.fl-table-scroll--flush {
+      border-width: 0;
+      border-radius: 0;
+      background-color: transparent;
+    }
+
+    &:focus-visible {
+      outline: var(--fl-focus-ring);
+      outline-offset: calc(-1 * var(--fl-focus-ring-width));
+    }
+  }
+}

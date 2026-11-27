@@ -1,0 +1,1483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data · FluentCMS Components design system</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components/icon.css">
+<link rel="stylesheet" href="css/components/button.css">
+<link rel="stylesheet" href="css/components/field.css">
+<link rel="stylesheet" href="css/components/input.css">
+<link rel="stylesheet" href="css/patterns/divider.css">
+<link rel="stylesheet" href="css/patterns/link.css">
+<link rel="stylesheet" href="css/components/badge.css">
+<link rel="stylesheet" href="css/components/tag.css">
+<link rel="stylesheet" href="css/components/avatar.css">
+<link rel="stylesheet" href="css/components/table.css">
+<link rel="stylesheet" href="css/components/pagination.css">
+<link rel="stylesheet" href="css/components/empty-state.css">
+<link rel="stylesheet" href="css/components/progress.css">
+<link rel="stylesheet" href="css/components/tree.css">
+<link rel="stylesheet" href="css/components/sortable-list.css">
+<link rel="stylesheet" href="css/patterns/stat-tile.css">
+<link rel="stylesheet" href="css/patterns/timeline.css">
+<link rel="stylesheet" href="css/patterns/description-list.css">
+<link rel="stylesheet" href="css/patterns/skeleton.css">
+<link rel="stylesheet" href="docs/docs.css">
+<script src="docs/docs.js"></script>
+</head>
+<body class="fl-root docs">
+<div class="docs-layout">
+<main class="docs-main">
+<h1>Data</h1>
+<p class="docs-lede">What shows records and their state: the badge, the tag and the avatar that describe one record, the table and the tree that hold many, and the pagination, the empty state and the progress around them. Then four patterns of CSS alone, and the sortable list, which is a candidate.</p>
+
+<section class="docs-section" id="badge">
+<h2>Badge</h2>
+<p>The state of a record, in a word and a tone. The word says the state; the tone and the dot repeat it, so a badge is never read by its colour alone. A badge is not pressed and takes no focus.</p>
+
+<h3>Tones</h3>
+<div class="docs-demo">
+  <span class="fl-badge">Draft</span> <span class="fl-badge fl-badge--accent">New</span> <span class="fl-badge fl-badge--success">Active</span> <span class="fl-badge fl-badge--warning">At risk</span> <span class="fl-badge fl-badge--danger">Overdue</span> <span class="fl-badge fl-badge--info">Syncing</span> <span class="fl-badge fl-badge--pending">Scheduled</span>
+</div>
+<h4>Neutral, accent, success, warning, danger, info and pending</h4>
+<div class="docs-demo">
+  <span class="fl-badge fl-badge--dot">Draft</span> <span class="fl-badge fl-badge--accent fl-badge--dot">New</span> <span class="fl-badge fl-badge--success fl-badge--dot">Active</span> <span class="fl-badge fl-badge--warning fl-badge--dot">At risk</span> <span class="fl-badge fl-badge--danger fl-badge--dot">Overdue</span> <span class="fl-badge fl-badge--info fl-badge--dot">Syncing</span> <span class="fl-badge fl-badge--pending fl-badge--dot">Scheduled</span>
+</div>
+<h4>With a dot, in the solid step of the tone: for a state that is live, such as the status of a record in a table</h4>
+<div class="docs-demo">
+  <span class="fl-badge fl-badge--success"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#check"/></svg>Paid</span> <span class="fl-badge fl-badge--pending"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#clock"/></svg>Due Dec 1, 09:00</span> <span class="fl-badge fl-badge--danger"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#circle-alert"/></svg>Failed</span> <span class="fl-badge"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#lock"/></svg>Locked</span>
+</div>
+<h4>With an icon in the place of the dot</h4>
+
+<h3>Square</h3>
+<div class="docs-demo">
+  <span class="fl-badge fl-badge--square">PDF</span> <span class="fl-badge fl-badge--info fl-badge--square">API</span> <span class="fl-badge fl-badge--accent fl-badge--square">v14</span> <span class="fl-badge fl-badge--pending fl-badge--square">Beta</span>
+  <span class="fl-badge fl-badge--square">3</span> <span class="fl-badge fl-badge--danger fl-badge--square">12</span> <span class="fl-badge fl-badge--accent fl-badge--square">128</span> <span class="fl-badge fl-badge--success fl-badge--square">99+</span>
+</div>
+<h4>Small and square, for a short code or a count; one figure makes a square</h4>
+<div class="docs-demo docs-demo--column">
+  <div class="fl-cluster"><strong>Invoices</strong><span class="fl-badge fl-badge--square">128<span class="fl-visually-hidden"> invoices</span></span></div>
+  <div class="fl-cluster"><span>Quarterly report</span><span class="fl-badge fl-badge--square">PDF</span><span class="fl-badge fl-badge--accent fl-badge--square">v14</span><span class="fl-badge fl-badge--info fl-badge--dot">In review</span></div>
+  <div class="fl-cluster"><span>Overdue</span><span class="fl-badge fl-badge--danger fl-badge--square">12<span class="fl-visually-hidden"> overdue invoices</span></span></div>
+</div>
+<h4>Beside a heading, a title and a label. A count that stands alone says what it counts in hidden text.</h4>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes">
+  <span class="fl-badge">Draft</span> <span class="fl-badge fl-badge--success fl-badge--dot">Active</span> <span class="fl-badge fl-badge--warning fl-badge--dot">At risk</span> <span class="fl-badge fl-badge--danger fl-badge--dot">Overdue</span> <span class="fl-badge fl-badge--info">Syncing</span> <span class="fl-badge fl-badge--pending"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#clock"/></svg>Due Dec 1</span> <span class="fl-badge fl-badge--accent">New</span>
+  <span class="fl-badge fl-badge--square">PDF</span> <span class="fl-badge fl-badge--accent fl-badge--square">v14</span> <span class="fl-badge fl-badge--danger fl-badge--square">12</span>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;span class="fl-badge"&gt;</code> around its text.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>Text. It takes no focus and has no keys.</li><li>The text names the state; the tone adds nothing a screen reader needs.</li><li>A count that stands alone carries what it counts in <code>fl-visually-hidden</code> text.</li><li>A state that changes while the page is open is announced by a live region around it, not by the badge.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Static</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Tone</code>: Neutral (default), Accent, Success, Warning, Danger, Info, Pending</li><li><code>Dot</code>: the mark before the text</li><li><code>Icon</code>: an icon before the text, in the place of the dot</li><li><code>Square</code>: the small form for a code or a count</li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-badge</code>; <code>--accent</code>, <code>--success</code>, <code>--warning</code>, <code>--danger</code>, <code>--info</code>, <code>--pending</code>; <code>--dot</code>, <code>--square</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: the <code>soft</code>, <code>border</code>, <code>text</code> and <code>solid</code> steps of each tone, and the accent steps</li><li>Size: <code>--fl-space-0-5</code>, <code>-1</code>, <code>-1-5</code>, <code>-2</code>, <code>-4</code>, <code>-5</code>, <code>--fl-radius-full</code>, <code>--fl-radius-s</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-xs</code>, <code>-2xs</code>, <code>--fl-font-weight-medium</code>, <code>-semibold</code>, <code>--fl-line-height-tight</code></li><li>Own: <code>--fl-badge-height</code>, <code>-padding</code>, <code>-radius</code>, <code>-font-size</code>, <code>-bg</code>, <code>-border</code>, <code>-fg</code>, <code>-mark</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="tag">
+<h2>Tag</h2>
+<p>A value that a user gave: a label on a record, a recipient, a filter that is on. It is neutral, since it names a thing and not a state, and it can be removed with its own button.</p>
+
+<h3>Variants</h3>
+<div class="docs-demo">
+  <span class="fl-tag"><span class="fl-tag__label">Design</span></span> <span class="fl-tag"><span class="fl-tag__label">Design</span><button class="fl-tag__remove" type="button" aria-label="Remove Design"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></span> <span class="fl-tag"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#tag"/></svg><span class="fl-tag__label">Finance</span><button class="fl-tag__remove" type="button" aria-label="Remove Finance"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></span> <span class="fl-tag"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#mail"/></svg><span class="fl-tag__label">ada@example.com</span><button class="fl-tag__remove" type="button" aria-label="Remove ada@example.com"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></span> <span class="fl-tag"><span class="fl-tag__label">Locked</span><button class="fl-tag__remove" type="button" aria-label="Remove Locked" disabled><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></span>
+</div>
+<h4>Plain, removable, with an icon, and disabled with the field it is in</h4>
+
+<h3>In a row that wraps</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+  <ul class="fl-tag-list" aria-label="Labels">
+    <li class="fl-tag"><span class="fl-tag__label">Design</span><button class="fl-tag__remove" type="button" aria-label="Remove Design"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></li>
+    <li class="fl-tag"><span class="fl-tag__label">Finance</span><button class="fl-tag__remove" type="button" aria-label="Remove Finance"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></li>
+    <li class="fl-tag"><span class="fl-tag__label">Quarterly report</span><button class="fl-tag__remove" type="button" aria-label="Remove Quarterly report"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></li>
+    <li class="fl-tag"><span class="fl-tag__label">Marketing</span><button class="fl-tag__remove" type="button" aria-label="Remove Marketing"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></li>
+    <li class="fl-tag"><span class="fl-tag__label">Internal</span><button class="fl-tag__remove" type="button" aria-label="Remove Internal"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></li>
+    <li class="fl-tag"><span class="fl-tag__label">Needs review</span><button class="fl-tag__remove" type="button" aria-label="Remove Needs review"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></li>
+    <li class="fl-tag"><span class="fl-tag__label">Europe</span><button class="fl-tag__remove" type="button" aria-label="Remove Europe"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></li>
+    <li class="fl-tag"><span class="fl-tag__label">A label that is much longer than the row it sits in, so that it is cut short with an ellipsis</span><button class="fl-tag__remove" type="button" aria-label="Remove A label that is much longer than the row it sits in, so that it is cut short with an ellipsis"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></li>
+  </ul>
+</div>
+<h4>A list of tags wraps; a tag never grows past its row, and a longer value is cut with an ellipsis</h4>
+
+<h3>States</h3>
+<div class="docs-demo docs-scroll">
+<table class="docs-matrix">
+<thead><tr><td></td><th scope="col">Rest</th><th scope="col">Hover</th><th scope="col">Focus</th><th scope="col">Pressed</th><th scope="col">Disabled</th></tr></thead>
+<tbody>
+<tr><th scope="row">Remove</th><td><span class="fl-tag"><span class="fl-tag__label">Design</span><button class="fl-tag__remove" type="button" aria-label="Remove Design"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></span></td><td><span class="fl-tag"><span class="fl-tag__label">Design</span><button class="fl-tag__remove" type="button" aria-label="Remove Design" data-force="hover"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></span></td><td><span class="fl-tag"><span class="fl-tag__label">Design</span><button class="fl-tag__remove" type="button" aria-label="Remove Design" data-force="focus-visible"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></span></td><td><span class="fl-tag"><span class="fl-tag__label">Design</span><button class="fl-tag__remove" type="button" aria-label="Remove Design" data-force="hover active"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></span></td><td><span class="fl-tag"><span class="fl-tag__label">Design</span><button class="fl-tag__remove" type="button" aria-label="Remove Design" disabled><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></span></td></tr>
+</tbody>
+</table>
+</div>
+<p>Only the remove button has states. Its target is as high as the tag and as wide: 24 by 24 px in both densities.</p>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes">
+  <span class="fl-tag"><span class="fl-tag__label">Design</span><button class="fl-tag__remove" type="button" aria-label="Remove Design"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></span> <span class="fl-tag"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#tag"/></svg><span class="fl-tag__label">Finance</span><button class="fl-tag__remove" type="button" aria-label="Remove Finance"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></span> <span class="fl-tag"><span class="fl-tag__label">Internal</span></span> <span class="fl-tag"><span class="fl-tag__label">Focus</span><button class="fl-tag__remove" type="button" aria-label="Remove Focus" data-force="focus-visible"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></span> <span class="fl-tag"><span class="fl-tag__label">Locked</span><button class="fl-tag__remove" type="button" aria-label="Remove Locked" disabled><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#x"/></svg></button></span>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;span class="fl-tag"&gt;</code>, or the <code>&lt;li&gt;</code> of a <code>&lt;ul class="fl-tag-list"&gt;</code>; the text in <code>fl-tag__label</code>; remove is a <code>&lt;button type="button"&gt;</code>.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>The list is a <code>&lt;ul&gt;</code> with a name, so a screen reader says how many tags there are.</li><li>Remove is a native button named with the value: <code>aria-label="Remove Design"</code>. Enter and Space.</li><li>After a removal focus goes to the remove button of the next tag, or of the previous one, or to the control that adds tags.</li><li>A cut value keeps its full text for a screen reader; a tooltip shows it to sight.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Static. Removal posts a form in static rendering.</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Text</code>; <code>Icon</code></li><li><code>Removable</code> with <code>OnRemove</code>; <code>RemoveLabel</code>: the name of the button</li><li><code>Disabled</code></li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-tag</code>; parts <code>fl-tag__label</code>, <code>fl-tag__remove</code>; <code>fl-tag-list</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>surface-muted</code>, <code>border-strong</code>, <code>text</code>, <code>text-subtle</code>, <code>hover</code>, <code>pressed</code>, the disabled three</li><li>Size: <code>--fl-space-1</code>, <code>-1-5</code>, <code>-2</code>, <code>-6</code>, <code>--fl-radius-s</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-xs</code>, <code>--fl-font-weight-medium</code>, <code>--fl-line-height-tight</code></li><li>Focus: <code>--fl-focus-ring</code>, drawn inside the button</li><li>Own: <code>--fl-tag-height</code>, <code>-padding</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="avatar">
+<h2>Avatar</h2>
+<p>A person, or a thing that acts like one, as initials, an image or an icon. Beside a name it is decoration; alone it carries the name.</p>
+
+<h3>Content</h3>
+<div class="docs-demo">
+  <span class="fl-avatar fl-avatar--category-1" role="img" aria-label="Jonas Weber">JW</span>
+  <span class="fl-avatar" role="img" aria-label="Ada Lindqvist">AL<img class="fl-avatar__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23c7d2e8'/%3E%3Ccircle cx='20' cy='15' r='7' fill='%23586a8e'/%3E%3Cpath d='M6 40c0-9 6-14 14-14s14 5 14 14z' fill='%23586a8e'/%3E%3C/svg%3E" alt=""></span>
+  <span class="fl-avatar" role="img" aria-label="Automation"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#bot"/></svg></span>
+  <span class="fl-avatar" role="img" aria-label="Unknown member"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#user"/></svg></span>
+  <span class="fl-avatar" role="img" aria-label="Priya Nair">PN</span>
+</div>
+<h4>Initials on a category colour, an image over its initials, an icon, and the neutral fill when no category is given</h4>
+
+<h3>Sizes</h3>
+<div class="docs-demo">
+  <span class="fl-avatar fl-avatar--s fl-avatar--category-4" role="img" aria-label="Elena Marsh">EM</span> <span class="fl-avatar fl-avatar--category-4" role="img" aria-label="Elena Marsh">EM</span> <span class="fl-avatar fl-avatar--l fl-avatar--category-4" role="img" aria-label="Elena Marsh">EM</span> <span class="fl-avatar fl-avatar--xl fl-avatar--category-4" role="img" aria-label="Elena Marsh">EM</span>
+  <span class="fl-avatar fl-avatar--s" role="img" aria-label="Ada Lindqvist">AL<img class="fl-avatar__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23c7d2e8'/%3E%3Ccircle cx='20' cy='15' r='7' fill='%23586a8e'/%3E%3Cpath d='M6 40c0-9 6-14 14-14s14 5 14 14z' fill='%23586a8e'/%3E%3C/svg%3E" alt=""></span> <span class="fl-avatar" role="img" aria-label="Ada Lindqvist">AL<img class="fl-avatar__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23c7d2e8'/%3E%3Ccircle cx='20' cy='15' r='7' fill='%23586a8e'/%3E%3Cpath d='M6 40c0-9 6-14 14-14s14 5 14 14z' fill='%23586a8e'/%3E%3C/svg%3E" alt=""></span> <span class="fl-avatar fl-avatar--l" role="img" aria-label="Ada Lindqvist">AL<img class="fl-avatar__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23c7d2e8'/%3E%3Ccircle cx='20' cy='15' r='7' fill='%23586a8e'/%3E%3Cpath d='M6 40c0-9 6-14 14-14s14 5 14 14z' fill='%23586a8e'/%3E%3C/svg%3E" alt=""></span> <span class="fl-avatar fl-avatar--xl" role="img" aria-label="Ada Lindqvist">AL<img class="fl-avatar__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23c7d2e8'/%3E%3Ccircle cx='20' cy='15' r='7' fill='%23586a8e'/%3E%3Cpath d='M6 40c0-9 6-14 14-14s14 5 14 14z' fill='%23586a8e'/%3E%3C/svg%3E" alt=""></span>
+  <span class="fl-avatar fl-avatar--s" role="img" aria-label="Automation"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#bot"/></svg></span> <span class="fl-avatar" role="img" aria-label="Automation"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#bot"/></svg></span> <span class="fl-avatar fl-avatar--l" role="img" aria-label="Automation"><svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#bot"/></svg></span> <span class="fl-avatar fl-avatar--xl" role="img" aria-label="Automation"><svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#bot"/></svg></span>
+</div>
+<h4>Small 24 px for a row of a table, medium 32 px, large 40 px, extra large 56 px for the head of a profile</h4>
+
+<h3>Category colours</h3>
+<div class="docs-demo">
+  <span class="fl-avatar fl-avatar--category-1" role="img" aria-label="Jonas Weber">JW</span> <span class="fl-avatar fl-avatar--category-2" role="img" aria-label="Ada Lindqvist">AL</span> <span class="fl-avatar fl-avatar--category-3" role="img" aria-label="Priya Nair">PN</span> <span class="fl-avatar fl-avatar--category-4" role="img" aria-label="Elena Marsh">EM</span> <span class="fl-avatar fl-avatar--category-5" role="img" aria-label="Tomas Okafor">TO</span> <span class="fl-avatar fl-avatar--category-6" role="img" aria-label="Rin Sato">RS</span>
+</div>
+<h4>Six fills that tell people apart and mean nothing. A person keeps one colour everywhere, picked from the name.</h4>
+
+<h3>With a name, and in a group</h3>
+<div class="docs-demo">
+  <span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-1" aria-hidden="true">JW</span>Jonas Weber</span>
+  <span class="fl-cluster fl-cluster--nowrap fl-cluster--gap-3"><span class="fl-avatar fl-avatar--l fl-avatar--category-2" aria-hidden="true">AL</span><span class="fl-stack fl-stack--gap-1"><strong>Ada Lindqvist</strong><span>ada@example.com</span></span></span>
+  <span class="fl-avatar-group" role="group" aria-label="Members: 7"><span class="fl-avatar fl-avatar--category-1" role="img" aria-label="Jonas Weber">JW</span><span class="fl-avatar fl-avatar--category-2" role="img" aria-label="Ada Lindqvist">AL</span><span class="fl-avatar fl-avatar--category-3" role="img" aria-label="Priya Nair">PN</span><span class="fl-avatar fl-avatar--category-4" role="img" aria-label="Elena Marsh">EM</span><span class="fl-avatar" role="img" aria-label="3 more members">+3</span></span>
+  <span class="fl-avatar-group" role="group" aria-label="Members: 5"><span class="fl-avatar fl-avatar--s fl-avatar--category-5" role="img" aria-label="Tomas Okafor">TO</span><span class="fl-avatar fl-avatar--s fl-avatar--category-6" role="img" aria-label="Rin Sato">RS</span><span class="fl-avatar fl-avatar--s fl-avatar--category-1" role="img" aria-label="Jonas Weber">JW</span><span class="fl-avatar fl-avatar--s" role="img" aria-label="2 more members">+2</span></span>
+</div>
+<h4>A group overlaps its avatars and ends with a count of the rest; each has a ring in the colour of the surface below</h4>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes">
+  <span class="fl-avatar fl-avatar--s fl-avatar--category-1" role="img" aria-label="Jonas Weber">JW</span> <span class="fl-avatar fl-avatar--category-2" role="img" aria-label="Ada Lindqvist">AL</span> <span class="fl-avatar fl-avatar--l fl-avatar--category-3" role="img" aria-label="Priya Nair">PN</span> <span class="fl-avatar" role="img" aria-label="Automation"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#bot"/></svg></span> <span class="fl-avatar" role="img" aria-label="Rin Sato">RS</span>
+  <span class="fl-avatar-group" role="group" aria-label="Members: 6"><span class="fl-avatar fl-avatar--category-1" role="img" aria-label="Jonas Weber">JW</span><span class="fl-avatar fl-avatar--category-2" role="img" aria-label="Ada Lindqvist">AL</span><span class="fl-avatar fl-avatar--category-3" role="img" aria-label="Priya Nair">PN</span><span class="fl-avatar" role="img" aria-label="3 more members">+3</span></span>
+  <span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-4" aria-hidden="true">EM</span>Elena Marsh</span>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;span class="fl-avatar"&gt;</code> around the initials, with an optional <code>&lt;img class="fl-avatar__image" alt=""&gt;</code> or an icon. A group is a <code>&lt;span class="fl-avatar-group"&gt;</code>, or a <code>&lt;ul&gt;</code> whose items are the avatars.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>Beside the name it stands for: <code>aria-hidden="true"</code>.</li><li>Alone: <code>role="img"</code> and the name in <code>aria-label</code>; the image inside has an empty <code>alt</code>.</li><li>A group is <code>role="group"</code> with a name that says how many there are; the count at its end is an avatar with its own name.</li><li>It takes no focus. An avatar that opens a profile sits inside a link or a button, which has the name and the focus ring.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Static</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Name</code>: gives the initials, the label and the category</li><li><code>Src</code>: the image; the initials show while it loads and when it fails</li><li><code>Icon</code>: in the place of initials</li><li><code>Size</code>: Small, Medium (default), Large, ExtraLarge</li><li><code>Category</code>: 1 to 6, or none; taken from the name when absent</li><li><code>Decorative</code>: hides it from assistive technology</li><li>Group: <code>Max</code>: how many show before the count</li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-avatar</code>; <code>--s</code>, <code>--l</code>, <code>--xl</code>; <code>--category-1</code> to <code>--category-6</code>; part <code>fl-avatar__image</code>; <code>fl-avatar-group</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>neutral-soft</code>, <code>neutral-text</code>, <code>category-1</code> to <code>-6</code>, <code>on-category</code>, <code>surface</code> for the ring of a group</li><li>Size: <code>--fl-space-6</code>, <code>-8</code>, <code>-10</code>, <code>-14</code>, <code>--fl-radius-full</code>, <code>--fl-border-width</code>, <code>-strong</code></li><li>Type: <code>--fl-font-size-2xs</code>, <code>-xs</code>, <code>-m</code>, <code>-xl</code>, <code>--fl-font-weight-semibold</code></li><li>Own: <code>--fl-avatar-size</code>, <code>-font-size</code>, <code>-bg</code>, <code>-fg</code>; <code>--fl-avatar-group-ring</code>, set where a group sits on another surface</li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="table">
+<h2>Table</h2>
+<p>Records in rows and their fields in columns. It sorts by one key or by several, selects rows, shows that it is loading or empty, and moves between rows with the arrow keys. It does not scroll virtually, edit in a cell or resize a column.</p>
+
+<h3>Rows of two lines, with selection, sorting and row actions</h3>
+<div class="docs-demo docs-demo--column docs-demo--canvas">
+<div class="fl-table-scroll" role="region" aria-label="Projects" tabindex="0">
+<table class="fl-table" data-demo="table">
+<thead><tr>
+<th class="fl-table__select"><label class="fl-table__check"><input type="checkbox" data-indeterminate><span class="fl-visually-hidden">Select all projects</span></label></th>
+<th scope="col"><button class="fl-table__sort" type="button">Project<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></button></th>
+<th scope="col" aria-sort="ascending"><button class="fl-table__sort" type="button">Status<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg><span class="fl-table__order"><span class="fl-visually-hidden">sort key </span>1</span></button></th>
+<th scope="col">Owner</th>
+<th scope="col" class="fl-table__num"><button class="fl-table__sort" type="button">Budget<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></button></th>
+<th scope="col" aria-sort="descending"><button class="fl-table__sort" type="button">Updated<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg><span class="fl-table__order"><span class="fl-visually-hidden">sort key </span>2</span></button></th>
+<th class="fl-table__actions"><span class="fl-visually-hidden">Actions</span></th>
+</tr></thead>
+<tbody>
+<tr tabindex="0">
+<td class="fl-table__select"><label class="fl-table__check"><input type="checkbox" checked><span class="fl-visually-hidden">Select Website redesign</span></label></td>
+<th scope="row"><span class="fl-table__title"><a class="fl-link fl-link--quiet" href="#table">Website redesign</a></span><span class="fl-table__meta">PRJ-1042 · Marketing</span></th>
+<td><span class="fl-badge fl-badge--success fl-badge--dot">Active</span></td>
+<td><span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-1" aria-hidden="true">JW</span>Jonas Weber</span></td>
+<td class="fl-table__num">$48,200.00</td>
+<td>Today, 09:12</td>
+<td class="fl-table__actions"><span class="fl-cluster fl-cluster--nowrap fl-cluster--gap-1 fl-cluster--end"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Edit Website redesign"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="More actions for Website redesign"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#ellipsis"/></svg></button></span></td>
+</tr>
+<tr tabindex="-1">
+<td class="fl-table__select"><label class="fl-table__check"><input type="checkbox"><span class="fl-visually-hidden">Select Billing migration</span></label></td>
+<th scope="row"><span class="fl-table__title"><a class="fl-link fl-link--quiet" href="#table">Billing migration</a></span><span class="fl-table__meta">PRJ-1038 · Finance</span></th>
+<td><span class="fl-badge fl-badge--success fl-badge--dot">Active</span></td>
+<td><span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-2" aria-hidden="true">AL</span>Ada Lindqvist</span></td>
+<td class="fl-table__num">$126,750.00</td>
+<td>Today, 07:40</td>
+<td class="fl-table__actions"><span class="fl-cluster fl-cluster--nowrap fl-cluster--gap-1 fl-cluster--end"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Edit Billing migration"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="More actions for Billing migration"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#ellipsis"/></svg></button></span></td>
+</tr>
+<tr tabindex="-1">
+<td class="fl-table__select"><label class="fl-table__check"><input type="checkbox" checked><span class="fl-visually-hidden">Select Mobile app 2.0</span></label></td>
+<th scope="row"><span class="fl-table__title"><a class="fl-link fl-link--quiet" href="#table">Mobile app 2.0</a></span><span class="fl-table__meta">PRJ-1031 · Product</span></th>
+<td><span class="fl-badge fl-badge--warning fl-badge--dot">At risk</span></td>
+<td><span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-3" aria-hidden="true">PN</span>Priya Nair</span></td>
+<td class="fl-table__num">$89,400.00</td>
+<td>Yesterday</td>
+<td class="fl-table__actions"><span class="fl-cluster fl-cluster--nowrap fl-cluster--gap-1 fl-cluster--end"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Edit Mobile app 2.0"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="More actions for Mobile app 2.0"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#ellipsis"/></svg></button></span></td>
+</tr>
+<tr tabindex="-1">
+<td class="fl-table__select"><label class="fl-table__check"><input type="checkbox"><span class="fl-visually-hidden">Select Data warehouse</span></label></td>
+<th scope="row"><span class="fl-table__title"><a class="fl-link fl-link--quiet" href="#table">Data warehouse</a></span><span class="fl-table__meta">PRJ-1027 · Platform</span></th>
+<td><span class="fl-badge fl-badge--danger fl-badge--dot">Blocked</span></td>
+<td><span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-4" aria-hidden="true">EM</span>Elena Marsh</span></td>
+<td class="fl-table__num">$212,000.00</td>
+<td>Nov 24</td>
+<td class="fl-table__actions"><span class="fl-cluster fl-cluster--nowrap fl-cluster--gap-1 fl-cluster--end"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Edit Data warehouse"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="More actions for Data warehouse"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#ellipsis"/></svg></button></span></td>
+</tr>
+<tr tabindex="-1">
+<td class="fl-table__select"><label class="fl-table__check"><input type="checkbox"><span class="fl-visually-hidden">Select Onboarding flow</span></label></td>
+<th scope="row"><span class="fl-table__title"><a class="fl-link fl-link--quiet" href="#table">Onboarding flow</a></span><span class="fl-table__meta">PRJ-1019 · Product</span></th>
+<td><span class="fl-badge fl-badge--dot">Draft</span></td>
+<td><span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-1" aria-hidden="true">JW</span>Jonas Weber</span></td>
+<td class="fl-table__num">$18,950.00</td>
+<td>Nov 21</td>
+<td class="fl-table__actions"><span class="fl-cluster fl-cluster--nowrap fl-cluster--gap-1 fl-cluster--end"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Edit Onboarding flow"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="More actions for Onboarding flow"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#ellipsis"/></svg></button></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<nav class="fl-pagination" aria-label="Pages of projects">
+<p class="fl-pagination__range">1 to 5 of 128</p><label class="fl-pagination__size" for="table-size">Rows per page<span class="fl-input fl-input--s"><select class="fl-input__control" id="table-size"><option>10</option><option selected>25</option><option>50</option><option>100</option></select></span></label>
+<ul class="fl-pagination__pages"><li><a class="fl-pagination__step" role="link" aria-disabled="true" aria-label="Previous page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-left"/></svg></a></li><li><a class="fl-pagination__page" href="#pagination" aria-current="page"><span class="fl-visually-hidden">Page </span>1</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 2">2</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 3">3</a></li><li class="fl-pagination__gap" aria-hidden="true">…</li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 26">26</a></li><li><a class="fl-pagination__step" href="#pagination" rel="next" aria-label="Next page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></a></li></ul>
+</nav>
+</div>
+<h4>This one is live: tick rows, tick the header, and move between rows with the arrow keys, Home and End; Space selects the row in focus</h4>
+<ul>
+<li>The header is on the subtle surface. A sortable header is a button over its text; a column that is not sorted shows a quiet mark, so that sorting is found without pointing at it.</li>
+<li>Sorted by status, then by the time of the last update: each sorted header shows its direction and, with several keys, its place among them.</li>
+<li>The title opens the item through a link. The row itself opens nothing, so the text in it can be selected and a click beside the title does no harm.</li>
+<li>A selected row is on the soft accent and its checkbox is ticked; the select-all checkbox is mixed while some rows are selected.</li>
+<li>Numbers are at the end of their column in figures of one width, and their header is over them.</li>
+<li>Row actions are always shown, in the last column. Nothing appears only when a row is pointed at.</li>
+</ul>
+
+<h3>Rows of one line</h3>
+<div class="docs-demo docs-demo--column docs-demo--canvas">
+<div class="fl-table-scroll" role="region" aria-label="Invoices" tabindex="0">
+<table class="fl-table">
+<thead><tr>
+<th scope="col"><a class="fl-table__sort" href="#table">Invoice<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></a></th>
+<th scope="col"><a class="fl-table__sort" href="#table">Customer<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></a></th>
+<th scope="col" aria-sort="descending"><a class="fl-table__sort" href="#table">Issued<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></a></th>
+<th scope="col">Due</th>
+<th scope="col">Status</th>
+<th scope="col" class="fl-table__num"><a class="fl-table__sort" href="#table">Amount<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></a></th>
+<th class="fl-table__actions"><span class="fl-visually-hidden">Actions</span></th>
+</tr></thead>
+<tbody>
+<tr>
+<th scope="row"><a class="fl-link fl-link--quiet" href="#table">INV-2041</a></th>
+<td>Northwind Traders</td>
+<td>Nov 12, 2026</td>
+<td>Dec 12, 2026</td>
+<td><span class="fl-badge fl-badge--success">Paid</span></td>
+<td class="fl-table__num">$12,480.00</td>
+<td class="fl-table__actions"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Download INV-2041"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#download"/></svg></button></td>
+</tr>
+<tr>
+<th scope="row"><a class="fl-link fl-link--quiet" href="#table">INV-2040</a></th>
+<td>Contoso</td>
+<td>Nov 10, 2026</td>
+<td>Dec 10, 2026</td>
+<td><span class="fl-badge fl-badge--info">Sent</span></td>
+<td class="fl-table__num">$3,150.50</td>
+<td class="fl-table__actions"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Download INV-2040"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#download"/></svg></button></td>
+</tr>
+<tr>
+<th scope="row"><a class="fl-link fl-link--quiet" href="#table">INV-2039</a></th>
+<td>Fabrikam</td>
+<td>Nov 3, 2026</td>
+<td>Nov 17, 2026</td>
+<td><span class="fl-badge fl-badge--danger">Overdue</span></td>
+<td class="fl-table__num">$860.00</td>
+<td class="fl-table__actions"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Download INV-2039"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#download"/></svg></button></td>
+</tr>
+<tr>
+<th scope="row"><a class="fl-link fl-link--quiet" href="#table">INV-2038</a></th>
+<td>Adventure Works</td>
+<td>Oct 28, 2026</td>
+<td>Nov 27, 2026</td>
+<td><span class="fl-badge">Draft</span></td>
+<td class="fl-table__num">$24,900.00</td>
+<td class="fl-table__actions"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Download INV-2038"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#download"/></svg></button></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h4>Without selection, sorted by one key. Here the sortable headers are links, which is the table in static rendering: each one loads the page in its order.</h4>
+
+<h3>States of a header</h3>
+<div class="docs-demo docs-demo--column">
+<div class="fl-table-scroll" role="region" aria-label="States of a sortable header" tabindex="0">
+<table class="fl-table">
+<thead><tr>
+<th scope="col"><button class="fl-table__sort" type="button">Rest<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></button></th>
+<th scope="col"><button class="fl-table__sort" type="button" data-force="hover">Hover<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></button></th>
+<th scope="col"><button class="fl-table__sort" type="button" data-force="focus-visible">Focus<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></button></th>
+<th scope="col"><button class="fl-table__sort" type="button" data-force="hover active">Pressed<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></button></th>
+<th scope="col" aria-sort="ascending"><button class="fl-table__sort" type="button">Ascending<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></button></th>
+<th scope="col" aria-sort="descending"><button class="fl-table__sort" type="button">Descending<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button></th>
+<th scope="col" aria-sort="ascending"><button class="fl-table__sort" type="button">First key<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg><span class="fl-table__order"><span class="fl-visually-hidden">sort key </span>1</span></button></th>
+<th scope="col" aria-sort="descending"><button class="fl-table__sort" type="button">Second key<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg><span class="fl-table__order"><span class="fl-visually-hidden">sort key </span>2</span></button></th>
+<th scope="col">Not sortable</th>
+<th scope="col" class="fl-table__num" aria-sort="descending"><button class="fl-table__sort" type="button">Number<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button></th>
+</tr></thead>
+<tbody>
+<tr><td>Value</td><td>Value</td><td>Value</td><td>Value</td><td>Value</td><td>Value</td><td>Value</td><td>Value</td><td>Value</td><td class="fl-table__num">1,024.00</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<h4>A press on a header sorts by it ascending, a second press descending, a third removes it. With Shift held, the column is added as a further key.</h4>
+
+<h3>States of a row</h3>
+<div class="docs-demo docs-demo--column">
+<div class="fl-table-scroll" role="region" aria-label="States of a row" tabindex="0">
+<table class="fl-table">
+<thead><tr>
+<th class="fl-table__select"><label class="fl-table__check"><input type="checkbox"><span class="fl-visually-hidden">Select all projects</span></label></th>
+<th scope="col"><button class="fl-table__sort" type="button">Project<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></button></th>
+<th scope="col" aria-sort="ascending"><button class="fl-table__sort" type="button">Status<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg><span class="fl-table__order"><span class="fl-visually-hidden">sort key </span>1</span></button></th>
+<th scope="col">Owner</th>
+<th scope="col" class="fl-table__num"><button class="fl-table__sort" type="button">Budget<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></button></th>
+<th scope="col" aria-sort="descending"><button class="fl-table__sort" type="button">Updated<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg><span class="fl-table__order"><span class="fl-visually-hidden">sort key </span>2</span></button></th>
+<th class="fl-table__actions"><span class="fl-visually-hidden">Actions</span></th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="fl-table__select"><label class="fl-table__check"><input type="checkbox"><span class="fl-visually-hidden">Select the row at rest</span></label></td>
+<th scope="row"><span class="fl-table__title"><a class="fl-link fl-link--quiet" href="#table">Rest</a></span><span class="fl-table__meta">PRJ-1042 · Marketing</span></th>
+<td><span class="fl-badge fl-badge--success fl-badge--dot">Active</span></td>
+<td><span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-1" aria-hidden="true">JW</span>Jonas Weber</span></td>
+<td class="fl-table__num">$48,200.00</td>
+<td>Today, 09:12</td>
+<td class="fl-table__actions"><span class="fl-cluster fl-cluster--nowrap fl-cluster--gap-1 fl-cluster--end"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Edit the row at rest"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="More actions for the row at rest"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#ellipsis"/></svg></button></span></td>
+</tr>
+<tr data-force="hover">
+<td class="fl-table__select"><label class="fl-table__check"><input type="checkbox"><span class="fl-visually-hidden">Select the row pointed at</span></label></td>
+<th scope="row"><span class="fl-table__title"><a class="fl-link fl-link--quiet" href="#table">Hover</a></span><span class="fl-table__meta">PRJ-1038 · Finance</span></th>
+<td><span class="fl-badge fl-badge--success fl-badge--dot">Active</span></td>
+<td><span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-2" aria-hidden="true">AL</span>Ada Lindqvist</span></td>
+<td class="fl-table__num">$126,750.00</td>
+<td>Today, 07:40</td>
+<td class="fl-table__actions"><span class="fl-cluster fl-cluster--nowrap fl-cluster--gap-1 fl-cluster--end"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Edit the row pointed at"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="More actions for the row pointed at"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#ellipsis"/></svg></button></span></td>
+</tr>
+<tr data-force="focus-visible">
+<td class="fl-table__select"><label class="fl-table__check"><input type="checkbox"><span class="fl-visually-hidden">Select the row in focus</span></label></td>
+<th scope="row"><span class="fl-table__title"><a class="fl-link fl-link--quiet" href="#table">Focus</a></span><span class="fl-table__meta">PRJ-1031 · Product</span></th>
+<td><span class="fl-badge fl-badge--warning fl-badge--dot">At risk</span></td>
+<td><span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-3" aria-hidden="true">PN</span>Priya Nair</span></td>
+<td class="fl-table__num">$89,400.00</td>
+<td>Yesterday</td>
+<td class="fl-table__actions"><span class="fl-cluster fl-cluster--nowrap fl-cluster--gap-1 fl-cluster--end"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Edit the row in focus"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="More actions for the row in focus"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#ellipsis"/></svg></button></span></td>
+</tr>
+<tr>
+<td class="fl-table__select"><label class="fl-table__check"><input type="checkbox" checked><span class="fl-visually-hidden">Select the selected row</span></label></td>
+<th scope="row"><span class="fl-table__title"><a class="fl-link fl-link--quiet" href="#table">Selected</a></span><span class="fl-table__meta">PRJ-1027 · Platform</span></th>
+<td><span class="fl-badge fl-badge--danger fl-badge--dot">Blocked</span></td>
+<td><span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-4" aria-hidden="true">EM</span>Elena Marsh</span></td>
+<td class="fl-table__num">$212,000.00</td>
+<td>Nov 24</td>
+<td class="fl-table__actions"><span class="fl-cluster fl-cluster--nowrap fl-cluster--gap-1 fl-cluster--end"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Edit the selected row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="More actions for the selected row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#ellipsis"/></svg></button></span></td>
+</tr>
+<tr data-force="hover">
+<td class="fl-table__select"><label class="fl-table__check"><input type="checkbox" checked><span class="fl-visually-hidden">Select the selected row pointed at</span></label></td>
+<th scope="row"><span class="fl-table__title"><a class="fl-link fl-link--quiet" href="#table">Selected, hover</a></span><span class="fl-table__meta">PRJ-1019 · Product</span></th>
+<td><span class="fl-badge fl-badge--dot">Draft</span></td>
+<td><span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-1" aria-hidden="true">JW</span>Jonas Weber</span></td>
+<td class="fl-table__num">$18,950.00</td>
+<td>Nov 21</td>
+<td class="fl-table__actions"><span class="fl-cluster fl-cluster--nowrap fl-cluster--gap-1 fl-cluster--end"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Edit the selected row pointed at"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#pencil"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="More actions for the selected row pointed at"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#ellipsis"/></svg></button></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h4>The focus ring of a row is drawn inside it, so the region does not clip it. A selected row turns its secondary line to the text colour, which is measured on the soft accent.</h4>
+
+<h3>Loading</h3>
+<div class="docs-demo docs-demo--column docs-demo--canvas">
+<div class="fl-table-scroll" role="region" aria-label="Projects, loading" tabindex="0">
+<table class="fl-table" aria-busy="true">
+<thead><tr>
+<th class="fl-table__select"><label class="fl-table__check"><input type="checkbox" disabled><span class="fl-visually-hidden">Select all projects</span></label></th>
+<th scope="col"><button class="fl-table__sort" type="button">Project<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></button></th>
+<th scope="col" aria-sort="ascending"><button class="fl-table__sort" type="button">Status<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg><span class="fl-table__order"><span class="fl-visually-hidden">sort key </span>1</span></button></th>
+<th scope="col">Owner</th>
+<th scope="col" class="fl-table__num"><button class="fl-table__sort" type="button">Budget<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></button></th>
+<th scope="col" aria-sort="descending"><button class="fl-table__sort" type="button">Updated<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg><span class="fl-table__order"><span class="fl-visually-hidden">sort key </span>2</span></button></th>
+<th class="fl-table__actions"><span class="fl-visually-hidden">Actions</span></th>
+</tr></thead>
+<tbody aria-hidden="true">
+<tr>
+<td class="fl-table__select"></td>
+<td><span class="fl-skeleton"></span></td>
+<td><span class="fl-skeleton fl-skeleton--short"></span></td>
+<td><span class="fl-skeleton fl-skeleton--short"></span></td>
+<td class="fl-table__num"><span class="fl-skeleton"></span></td>
+<td><span class="fl-skeleton"></span></td>
+<td class="fl-table__actions"></td>
+</tr>
+<tr>
+<td class="fl-table__select"></td>
+<td><span class="fl-skeleton fl-skeleton--short"></span></td>
+<td><span class="fl-skeleton fl-skeleton--short"></span></td>
+<td><span class="fl-skeleton"></span></td>
+<td class="fl-table__num"><span class="fl-skeleton"></span></td>
+<td><span class="fl-skeleton fl-skeleton--short"></span></td>
+<td class="fl-table__actions"></td>
+</tr>
+<tr>
+<td class="fl-table__select"></td>
+<td><span class="fl-skeleton"></span></td>
+<td><span class="fl-skeleton fl-skeleton--short"></span></td>
+<td><span class="fl-skeleton fl-skeleton--short"></span></td>
+<td class="fl-table__num"><span class="fl-skeleton"></span></td>
+<td><span class="fl-skeleton"></span></td>
+<td class="fl-table__actions"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="fl-visually-hidden" role="status">Loading projects</p>
+</div>
+<h4>Skeleton rows keep the columns and the height of the rows to come. The table is <code>aria-busy</code>, its rows are hidden from a screen reader, and a status says that it loads.</h4>
+
+<h3>Empty</h3>
+<div class="docs-demo docs-demo--column docs-demo--canvas">
+<div class="fl-table-scroll" role="region" aria-label="Invoices, filtered" tabindex="0">
+<table class="fl-table">
+<thead><tr><th scope="col"><button class="fl-table__sort" type="button">Invoice<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></button></th><th scope="col"><button class="fl-table__sort" type="button">Customer<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></button></th><th scope="col"><button class="fl-table__sort" type="button">Issued<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></button></th><th scope="col">Status</th><th scope="col" class="fl-table__num"><button class="fl-table__sort" type="button">Amount<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></button></th></tr></thead>
+<tbody>
+<tr><td class="fl-table__empty" colspan="5">
+<div class="fl-empty-state fl-empty-state--s">
+  <span class="fl-empty-state__icon"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg></span>
+  <p class="fl-empty-state__title">No invoices match these filters</p>
+  <p class="fl-empty-state__text">Change the status or the dates, or clear the filters to see all 128 invoices.</p>
+  <div class="fl-empty-state__actions"><button class="fl-button" type="button">Clear filters</button></div>
+</div>
+</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<h4>The header stays, so the columns and the way to sort them are still known; one cell spans the table and holds the small empty state</h4>
+
+<h3>Wider than its place</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+<div class="fl-table-scroll" role="region" aria-label="Projects, in a narrow place" tabindex="0">
+<table class="fl-table">
+<thead><tr><th scope="col"><button class="fl-table__sort" type="button">Project<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></button></th><th scope="col">Status</th><th scope="col">Owner</th><th scope="col" class="fl-table__num">Budget</th><th scope="col" aria-sort="descending"><button class="fl-table__sort" type="button">Updated<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button></th></tr></thead>
+<tbody>
+<tr><th scope="row"><span class="fl-table__title"><a class="fl-link fl-link--quiet" href="#table">Website redesign</a></span><span class="fl-table__meta">PRJ-1042 · Marketing</span></th><td><span class="fl-badge fl-badge--success fl-badge--dot">Active</span></td><td><span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-1" aria-hidden="true">JW</span>Jonas Weber</span></td><td class="fl-table__num">$48,200.00</td><td>Today, 09:12</td></tr>
+<tr><th scope="row"><span class="fl-table__title"><a class="fl-link fl-link--quiet" href="#table">Billing migration</a></span><span class="fl-table__meta">PRJ-1038 · Finance</span></th><td><span class="fl-badge fl-badge--success fl-badge--dot">Active</span></td><td><span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-2" aria-hidden="true">AL</span>Ada Lindqvist</span></td><td class="fl-table__num">$126,750.00</td><td>Today, 07:40</td></tr>
+<tr><th scope="row"><span class="fl-table__title"><a class="fl-link fl-link--quiet" href="#table">Mobile app 2.0</a></span><span class="fl-table__meta">PRJ-1031 · Product</span></th><td><span class="fl-badge fl-badge--warning fl-badge--dot">At risk</span></td><td><span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-3" aria-hidden="true">PN</span>Priya Nair</span></td><td class="fl-table__num">$89,400.00</td><td>Yesterday</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<h4>Cells keep one line, so a table has a least width. In a narrower place it scrolls inside its region, which has a name and takes focus so the keyboard can scroll it; the page never scrolls sideways.</h4>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column">
+<div class="fl-table-scroll" role="region" aria-label="Projects" tabindex="0">
+<table class="fl-table">
+<thead><tr>
+<th class="fl-table__select"><label class="fl-table__check"><input type="checkbox" data-indeterminate><span class="fl-visually-hidden">Select all projects</span></label></th>
+<th scope="col" aria-sort="ascending"><button class="fl-table__sort" type="button">Project<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></button></th>
+<th scope="col">Status</th>
+<th scope="col" class="fl-table__num"><button class="fl-table__sort" type="button">Budget<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#chevrons-up-down"/></svg></button></th>
+</tr></thead>
+<tbody>
+<tr><td class="fl-table__select"><label class="fl-table__check"><input type="checkbox" checked><span class="fl-visually-hidden">Select Website redesign</span></label></td><th scope="row"><span class="fl-table__title"><a class="fl-link fl-link--quiet" href="#table">Website redesign</a></span><span class="fl-table__meta">PRJ-1042 · Marketing</span></th><td><span class="fl-badge fl-badge--success fl-badge--dot">Active</span></td><td class="fl-table__num">$48,200.00</td></tr>
+<tr><td class="fl-table__select"><label class="fl-table__check"><input type="checkbox"><span class="fl-visually-hidden">Select Billing migration</span></label></td><th scope="row"><span class="fl-table__title"><a class="fl-link fl-link--quiet" href="#table">Billing migration</a></span><span class="fl-table__meta">PRJ-1038 · Finance</span></th><td><span class="fl-badge fl-badge--success fl-badge--dot">Active</span></td><td class="fl-table__num">$126,750.00</td></tr>
+<tr data-force="focus-visible"><td class="fl-table__select"><label class="fl-table__check"><input type="checkbox"><span class="fl-visually-hidden">Select Mobile app 2.0</span></label></td><th scope="row"><span class="fl-table__title"><a class="fl-link fl-link--quiet" href="#table">Mobile app 2.0</a></span><span class="fl-table__meta">PRJ-1031 · Product</span></th><td><span class="fl-badge fl-badge--warning fl-badge--dot">At risk</span></td><td class="fl-table__num">$89,400.00</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><ul><li><code>&lt;table class="fl-table"&gt;</code> with <code>&lt;thead&gt;</code> and <code>&lt;tbody&gt;</code>; a header cell is <code>&lt;th scope="col"&gt;</code>, and the cell that names a row is <code>&lt;th scope="row"&gt;</code>.</li><li>Around it, <code>&lt;div class="fl-table-scroll" role="region" aria-label tabindex="0"&gt;</code>: the frame, and the region the table scrolls in.</li><li>A sortable header holds a <code>&lt;button class="fl-table__sort"&gt;</code>, or an <code>&lt;a&gt;</code> in static rendering.</li></ul></td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>The table pattern, with its native roles. The region is named after the table.</li><li>Sorting: <code>aria-sort="ascending"</code> or <code>"descending"</code> on the header that is sorted. ARIA advises one such header for a table; with several keys every sorted header carries it, and its place is in the text of the button ("sort key 2"), since nothing else tells a second key. Enter or Space on a header sorts by it; with Shift it becomes a further key.</li><li>Selection: a native checkbox in each row, named after the row, and one in the header that is checked, unchecked or mixed. The style of a selected row follows the checkbox; <code>aria-selected="true"</code> on the row does the same where there is none.</li><li>Rows: one row is in the tab order (<code>tabindex="0"</code>, the others <code>-1</code>). Up and Down move between rows, Home and End go to the first and the last, Space selects the row, Enter opens its item. Tab leaves the row for the controls inside it.</li><li>Loading: <code>aria-busy="true"</code> on the table, the skeleton rows <code>aria-hidden</code>, and a <code>role="status"</code> that says what loads.</li><li>Row actions are buttons named after the row: "Edit Website redesign".</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Interactive. Static fallback: sortable headers are links that load the page in its order, the checkboxes post with a form around the table, and rows take no focus; Tab reaches the links and the controls.</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li>Table: <code>Items</code>; <code>Label</code>; <code>RowKey</code></li><li><code>Sort</code> with <code>@bind-Sort</code>: the list of keys and directions; <code>MultiSort</code></li><li><code>Selectable</code>; <code>SelectedItems</code> with <code>@bind-SelectedItems</code></li><li><code>Loading</code>, with <code>SkeletonRows</code>; <code>Empty</code>: the content of the empty state</li><li><code>Flush</code>: no frame, inside a card</li><li>Column: <code>Title</code>; <code>Field</code> or a template; <code>Sortable</code>; <code>Numeric</code>; <code>RowHeader</code>: the cell that names the row</li><li>Column kinds: the selection column and the actions column are set by the table</li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><ul><li><code>fl-table</code>; parts <code>fl-table__sort</code>, <code>__order</code>, <code>__num</code>, <code>__select</code>, <code>__check</code>, <code>__actions</code>, <code>__title</code>, <code>__meta</code>, <code>__empty</code></li><li><code>fl-table-scroll</code>; <code>--flush</code></li></ul></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>surface</code>, <code>surface-subtle</code>, <code>border</code>, <code>text</code>, <code>text-muted</code>, <code>text-subtle</code>, <code>hover</code>, <code>pressed</code>, <code>accent</code>, <code>accent-soft</code>, <code>accent-soft-hover</code>, <code>neutral-soft</code>, <code>neutral-text</code></li><li>Size: <code>--fl-row-height</code>, <code>--fl-inset-s</code>, <code>-m</code>, <code>--fl-target-min</code>, <code>--fl-space-1</code>, <code>-1-5</code>, <code>-2</code>, <code>-4</code>, <code>--fl-radius-s</code>, <code>-l</code>, <code>-full</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-s</code>, <code>-xs</code>, <code>-2xs</code>, the weights, <code>--fl-line-height-normal</code></li><li>Focus: <code>--fl-focus-ring</code>, drawn inside the row, the header button and the region</li><li>Own: <code>--fl-table-cell-padding</code>, <code>-edge-padding</code>, <code>-head-height</code>, <code>-row-bg</code>, <code>-row-hover</code>, <code>-meta</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="pagination">
+<h2>Pagination</h2>
+<p>The pages of a list: where the reader is, how much there is, and the way to the next page. It stands under a table or a list, and its parts are links, so it works without script.</p>
+
+<h3>Parts</h3>
+<div class="docs-demo docs-demo--column">
+<nav class="fl-pagination" aria-label="Pagination">
+<p class="fl-pagination__range">26 to 50 of 128</p><label class="fl-pagination__size" for="pagination-a">Rows per page<span class="fl-input fl-input--s"><select class="fl-input__control" id="pagination-a"><option>10</option><option selected>25</option><option>50</option><option>100</option></select></span></label>
+<ul class="fl-pagination__pages"><li><a class="fl-pagination__step" href="#pagination" rel="prev" aria-label="Previous page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-left"/></svg></a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 1">1</a></li><li><a class="fl-pagination__page" href="#pagination" aria-current="page"><span class="fl-visually-hidden">Page </span>2</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 3">3</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 4">4</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 5">5</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 6">6</a></li><li><a class="fl-pagination__step" href="#pagination" rel="next" aria-label="Next page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></a></li></ul>
+</nav>
+</div>
+<h4>The range, the rows per page, previous, the pages with the current one marked, next</h4>
+
+<h3>Pages with a gap</h3>
+<div class="docs-demo docs-demo--column">
+<nav class="fl-pagination" aria-label="First page">
+<p class="fl-pagination__range">1 to 10 of 128</p>
+<ul class="fl-pagination__pages"><li><a class="fl-pagination__step" role="link" aria-disabled="true" aria-label="Previous page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-left"/></svg></a></li><li><a class="fl-pagination__page" href="#pagination" aria-current="page"><span class="fl-visually-hidden">Page </span>1</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 2">2</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 3">3</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 4">4</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 5">5</a></li><li class="fl-pagination__gap" aria-hidden="true">…</li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 13">13</a></li><li><a class="fl-pagination__step" href="#pagination" rel="next" aria-label="Next page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></a></li></ul>
+</nav>
+<hr class="fl-divider">
+<nav class="fl-pagination" aria-label="A middle page">
+<p class="fl-pagination__range">61 to 70 of 128</p>
+<ul class="fl-pagination__pages"><li><a class="fl-pagination__step" href="#pagination" rel="prev" aria-label="Previous page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-left"/></svg></a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 1">1</a></li><li class="fl-pagination__gap" aria-hidden="true">…</li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 6">6</a></li><li><a class="fl-pagination__page" href="#pagination" aria-current="page"><span class="fl-visually-hidden">Page </span>7</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 8">8</a></li><li class="fl-pagination__gap" aria-hidden="true">…</li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 13">13</a></li><li><a class="fl-pagination__step" href="#pagination" rel="next" aria-label="Next page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></a></li></ul>
+</nav>
+<hr class="fl-divider">
+<nav class="fl-pagination" aria-label="Last page">
+<p class="fl-pagination__range">121 to 128 of 128</p>
+<ul class="fl-pagination__pages"><li><a class="fl-pagination__step" href="#pagination" rel="prev" aria-label="Previous page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-left"/></svg></a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 1">1</a></li><li class="fl-pagination__gap" aria-hidden="true">…</li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 9">9</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 10">10</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 11">11</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 12">12</a></li><li><a class="fl-pagination__page" href="#pagination" aria-current="page"><span class="fl-visually-hidden">Page </span>13</a></li><li><a class="fl-pagination__step" role="link" aria-disabled="true" aria-label="Next page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></a></li></ul>
+</nav>
+</div>
+<h4>Seven places at most: the first and the last page always, the current one with its neighbours, and a gap for what is left out. On the first page there is no previous, and on the last no next.</h4>
+
+<h3>Without page numbers</h3>
+<div class="docs-demo docs-demo--column">
+<nav class="fl-pagination" aria-label="Previous and next">
+<p class="fl-pagination__range">26 to 50 of many</p>
+<ul class="fl-pagination__pages"><li><a class="fl-pagination__step" href="#pagination" rel="prev" aria-label="Previous page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-left"/></svg></a></li><li><a class="fl-pagination__step" href="#pagination" rel="next" aria-label="Next page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></a></li></ul>
+</nav>
+</div>
+<h4>For a list whose length is not known: the range, previous and next</h4>
+
+<h3>States</h3>
+<div class="docs-demo docs-demo--column">
+<nav class="fl-pagination" aria-label="States of a page">
+<p class="fl-pagination__range">A page</p>
+<ul class="fl-pagination__pages"><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 1">1</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 2" data-force="hover">2</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 3" data-force="focus-visible">3</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 4" data-force="hover active">4</a></li><li><a class="fl-pagination__page" href="#pagination" aria-current="page"><span class="fl-visually-hidden">Page </span>5</a></li></ul>
+</nav>
+<hr class="fl-divider">
+<nav class="fl-pagination" aria-label="States of a step">
+<p class="fl-pagination__range">A step</p>
+<ul class="fl-pagination__pages"><li><a class="fl-pagination__step" href="#pagination" rel="next" aria-label="Next page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></a></li><li><a class="fl-pagination__step" href="#pagination" rel="next" aria-label="Next page" data-force="hover"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></a></li><li><a class="fl-pagination__step" href="#pagination" rel="next" aria-label="Next page" data-force="focus-visible"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></a></li><li><a class="fl-pagination__step" href="#pagination" rel="next" aria-label="Next page" data-force="hover active"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></a></li><li><a class="fl-pagination__step" role="link" aria-disabled="true" aria-label="Next page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></a></li></ul>
+</nav>
+</div>
+<h4>A page at rest, pointed at, in focus, pressed and current; a step at rest, pointed at, in focus, pressed and disabled</h4>
+
+<h3>In a narrow place</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+<nav class="fl-pagination" aria-label="In a narrow place">
+<p class="fl-pagination__range">61 to 70 of 128</p><label class="fl-pagination__size" for="pagination-b">Rows per page<span class="fl-input fl-input--s"><select class="fl-input__control" id="pagination-b"><option>10</option><option selected>25</option><option>50</option><option>100</option></select></span></label>
+<ul class="fl-pagination__pages"><li><a class="fl-pagination__step" href="#pagination" rel="prev" aria-label="Previous page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-left"/></svg></a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 1">1</a></li><li class="fl-pagination__gap" aria-hidden="true">…</li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 6">6</a></li><li><a class="fl-pagination__page" href="#pagination" aria-current="page"><span class="fl-visually-hidden">Page </span>7</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 8">8</a></li><li class="fl-pagination__gap" aria-hidden="true">…</li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 13">13</a></li><li><a class="fl-pagination__step" href="#pagination" rel="next" aria-label="Next page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></a></li></ul>
+</nav>
+</div>
+<h4>Below 480 px of its own width it keeps previous, the current page and next, and the row wraps: the range keeps the start, and the pages the end of their line. It measures itself, so it fills the width of its place.</h4>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column">
+<nav class="fl-pagination" aria-label="Sample">
+<p class="fl-pagination__range">11 to 20 of 128</p>
+<ul class="fl-pagination__pages"><li><a class="fl-pagination__step" href="#pagination" rel="prev" aria-label="Previous page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-left"/></svg></a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 1">1</a></li><li><a class="fl-pagination__page" href="#pagination" aria-current="page"><span class="fl-visually-hidden">Page </span>2</a></li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 3">3</a></li><li class="fl-pagination__gap" aria-hidden="true">…</li><li><a class="fl-pagination__page" href="#pagination" aria-label="Page 13">13</a></li><li><a class="fl-pagination__step" href="#pagination" rel="next" aria-label="Next page"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></a></li></ul>
+</nav>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><ul><li><code>&lt;nav class="fl-pagination"&gt;</code> with a name. It is a size container, so it stands in a block or is given a width; in a row of other things it does not size itself.</li><li>The pages are a <code>&lt;ul&gt;</code> of <code>&lt;a&gt;</code>, or of <code>&lt;button type="button"&gt;</code> when the list changes in place</li><li>The range is a <code>&lt;p&gt;</code>; the rows per page are a <code>&lt;label&gt;</code> around a select</li></ul></td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>A navigation landmark: <code>aria-label="Pagination"</code>, or the name of the list when a page has several.</li><li>The current page has <code>aria-current="page"</code>; the others are named "Page 3".</li><li>Previous and next are named in <code>aria-label</code> and carry <code>rel="prev"</code> and <code>rel="next"</code>. Where there is none, the link has no <code>href</code> and <code>aria-disabled="true"</code>; a button is <code>disabled</code>.</li><li>The gap is hidden from a screen reader.</li><li>Native links and buttons: Tab, Enter, and Space on a button. After a change of page in place, focus stays on the control and the range is announced by a live region.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Static: every page is a link, and the rows per page post a form. Interactive rendering changes the list in place with the same markup on buttons.</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Page</code> with <code>@bind-Page</code>; <code>PageSize</code> with <code>@bind-PageSize</code>; <code>TotalItems</code></li><li><code>PageSizes</code>: the choices of rows per page; none hides the select</li><li><code>ShowRange</code>; <code>ShowPages</code>: off leaves previous and next</li><li><code>Href</code>: a template for the link of a page, for static rendering</li><li><code>Label</code></li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-pagination</code>; parts <code>fl-pagination__range</code>, <code>__size</code>, <code>__pages</code>, <code>__page</code>, <code>__step</code>, <code>__gap</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>text</code>, <code>text-muted</code>, <code>text-subtle</code>, <code>hover</code>, <code>pressed</code>, <code>accent-soft</code>, <code>accent-border</code>, <code>accent-text</code>, <code>disabled-text</code></li><li>Size: <code>--fl-control-height-s</code>, <code>--fl-control-radius</code>, <code>--fl-gap-s</code>, <code>-m</code>, <code>--fl-space-1</code>, <code>-1-5</code>, <code>-2</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-s</code>, <code>--fl-font-weight-semibold</code>, <code>--fl-line-height-tight</code></li><li>Focus: <code>--fl-focus-ring</code>, <code>--fl-focus-ring-offset</code>, <code>--fl-focus-halo</code></li><li>Own: <code>--fl-pagination-size</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="empty-state">
+<h2>Empty state</h2>
+<p>What a page, a table or a card shows when it has nothing to show. It says what is missing, why, and what to do next, in that order, and offers one main action at most.</p>
+
+<h3>In a page</h3>
+<div class="docs-demo docs-demo--column docs-demo--canvas">
+<div class="fl-empty-state">
+  <span class="fl-empty-state__icon"><svg class="fl-icon fl-icon--l" aria-hidden="true"><use href="icons/lucide.svg#folder-open"/></svg></span>
+  <p class="fl-empty-state__title" role="heading" aria-level="3">No projects yet</p>
+  <p class="fl-empty-state__text">A project holds the files, the members and the invoices of one piece of work. Create the first one to start.</p>
+  <div class="fl-empty-state__actions"><button class="fl-button fl-button--primary" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#plus"/></svg>New project</button><a class="fl-button fl-button--subtle" href="#empty-state">Learn about projects</a></div>
+</div>
+</div>
+<h4>First use: the main action of the page, and a quieter way to learn more</h4>
+
+<h3>In a card or a panel</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+<div class="fl-empty-state fl-empty-state--s">
+  <span class="fl-empty-state__icon"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#users"/></svg></span>
+  <p class="fl-empty-state__title">No members</p>
+  <p class="fl-empty-state__text">Invite people to work on this project with you.</p>
+  <div class="fl-empty-state__actions"><button class="fl-button fl-button--s" type="button">Invite members</button></div>
+</div>
+</div>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+<div class="fl-empty-state fl-empty-state--s">
+  <span class="fl-empty-state__icon"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#triangle-alert"/></svg></span>
+  <p class="fl-empty-state__title">The files could not be loaded</p>
+  <p class="fl-empty-state__text">The server did not answer in time. Your files are safe.</p>
+  <div class="fl-empty-state__actions"><button class="fl-button fl-button--s" type="button"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#refresh-cw"/></svg>Try again</button></div>
+</div>
+</div>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+<div class="fl-empty-state fl-empty-state--s">
+  <span class="fl-empty-state__icon"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#bell"/></svg></span>
+  <p class="fl-empty-state__title">You are up to date</p>
+  <p class="fl-empty-state__text">New activity on your projects shows here.</p>
+
+</div>
+</div>
+<h4>The small form: nothing yet, an error with a way to try again, and nothing to do. Inside a table it sits in a cell that spans the columns, as the <a class="fl-link" href="#table">table</a> shows.</h4>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column">
+<div class="fl-empty-state fl-empty-state--s">
+  <span class="fl-empty-state__icon"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#search"/></svg></span>
+  <p class="fl-empty-state__title">No results</p>
+  <p class="fl-empty-state__text">No member matches “weber”. Check the spelling or search by email.</p>
+  <div class="fl-empty-state__actions"><button class="fl-button fl-button--s" type="button">Clear search</button></div>
+</div>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;div class="fl-empty-state"&gt;</code>; the title is a heading of the level its place asks for, or a <code>&lt;p&gt;</code> inside a table or a card that has a heading already. On this page the title of the first example is a <code>&lt;p role="heading"&gt;</code>, since the page styles its own headings.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>Plain content: the icon is <code>aria-hidden</code>, the actions are buttons or links.</li><li>When it replaces content after a search or a filter, a <code>role="status"</code> around it announces it.</li><li>An error says what failed in the title, and the action tries again; it does not rely on the icon.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Static</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Icon</code>; <code>Title</code>; <code>Text</code> or child content</li><li><code>Actions</code>: a fragment of buttons</li><li><code>Size</code>: Medium for a page (default), Small inside a table, a card or a panel</li><li><code>HeadingLevel</code>: 2 to 6, or none</li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-empty-state</code>; <code>--s</code>; parts <code>fl-empty-state__icon</code>, <code>__title</code>, <code>__text</code>, <code>__actions</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>text</code>, <code>text-muted</code>, <code>text-subtle</code>, <code>surface-muted</code>, <code>border</code></li><li>Size: <code>--fl-inset-l</code>, <code>--fl-gap-s</code>, <code>--fl-space-1</code>, <code>-3</code>, <code>-4</code>, <code>-10</code>, <code>-12</code>, <code>--fl-size-s</code>, <code>--fl-radius-l</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-s</code>, <code>-m</code>, <code>-l</code>, <code>--fl-font-weight-semibold</code></li><li>Own: <code>--fl-empty-state-padding</code>, <code>-icon</code>, <code>-title</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="progress">
+<h2>Progress</h2>
+<p>How far a task is: an upload, an import, a quota. With a value it shows the part that is done; without one it shows only that the task runs.</p>
+
+<h3>With a value, and without</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+  <progress class="fl-progress" aria-label="Not started" value="0" max="100">0%</progress>
+  <progress class="fl-progress" aria-label="A quarter" value="25" max="100">25%</progress>
+  <progress class="fl-progress" aria-label="More than half" value="60" max="100">60%</progress>
+  <progress class="fl-progress" aria-label="Done" value="100" max="100">100%</progress>
+  <progress class="fl-progress" aria-label="Working" max="100"></progress>
+</div>
+<h4>0, 25, 60 and 100 percent, then without a value: a part of the track travels along it, and stands still as a dashed track under reduced motion</h4>
+
+<h3>With a label and a figure</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+  <div class="fl-field">
+    <label class="fl-field__label" for="progress-a">Importing invoices</label>
+    <progress class="fl-progress" id="progress-a" value="62" max="100">62%</progress>
+    <span class="fl-field__meta">62%</span>
+  </div>
+  <div class="fl-field">
+    <label class="fl-field__label" for="progress-b">Storage</label>
+    <progress class="fl-progress fl-progress--warning" id="progress-b" value="86" max="100">86%</progress>
+    <span class="fl-field__meta">17.2 of 20 GB</span>
+    <p class="fl-field__help">Files over the limit are not uploaded.</p>
+  </div>
+  <div class="fl-field">
+    <label class="fl-field__label" for="progress-c">Preparing the export</label>
+    <progress class="fl-progress" id="progress-c" max="100"></progress>
+  </div>
+</div>
+<h4>The label, the figure and the help are those of a field: the label names the bar, and the figure stands at the end of the label row</h4>
+<div class="docs-demo">
+  <span class="fl-cluster fl-cluster--nowrap docs-narrow"><progress class="fl-progress" aria-label="Budget spent" value="40" max="100">40%</progress><span>40%</span></span>
+  <span class="fl-cluster fl-cluster--nowrap docs-narrow"><progress class="fl-progress fl-progress--success" aria-label="Upload" value="100" max="100">100%</progress><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#circle-check"/></svg></span>
+</div>
+<h4>In a row: the figure, or a mark when it is done, follows the bar</h4>
+
+<h3>Tones</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+  <progress class="fl-progress" aria-label="Accent" value="30" max="100">30%</progress>
+  <progress class="fl-progress fl-progress--neutral" aria-label="Neutral" value="40" max="100">40%</progress>
+  <progress class="fl-progress fl-progress--success" aria-label="Success" value="50" max="100">50%</progress>
+  <progress class="fl-progress fl-progress--warning" aria-label="Warning" value="60" max="100">60%</progress>
+  <progress class="fl-progress fl-progress--danger" aria-label="Danger" value="70" max="100">70%</progress>
+  <progress class="fl-progress fl-progress--info" aria-label="Info" value="80" max="100">80%</progress>
+  <progress class="fl-progress fl-progress--pending" aria-label="Pending" value="90" max="100">90%</progress>
+</div>
+<h4>Accent, neutral, success, warning, danger, info and pending. A tone repeats what the label or the figure says: a quota near its limit says so in words.</h4>
+
+<h3>Heights</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+  <progress class="fl-progress" aria-label="Medium" value="60" max="100">60%</progress>
+  <progress class="fl-progress fl-progress--s" aria-label="Small" value="60" max="100">60%</progress>
+  <progress class="fl-progress fl-progress--s" aria-label="Small, working" max="100"></progress>
+</div>
+<h4>Medium 8 px, and small 4 px for the edge of a card or a row of a table</h4>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column">
+  <div class="fl-field">
+    <label class="fl-field__label" for="progress-m">Importing invoices</label>
+    <progress class="fl-progress" id="progress-m" value="62" max="100">62%</progress>
+    <span class="fl-field__meta">62%</span>
+  </div>
+  <progress class="fl-progress fl-progress--warning" aria-label="Storage" value="86" max="100">86%</progress>
+  <progress class="fl-progress fl-progress--success fl-progress--s" aria-label="Upload" value="100" max="100">100%</progress>
+  <progress class="fl-progress" aria-label="Working" max="100"></progress>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;progress class="fl-progress" value max&gt;</code>; without <code>value</code> it has no known end. Its content is the figure as text, for a browser that does not draw it.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>The native progress bar role, with the value and the maximum from the attributes.</li><li>Named by a <code>&lt;label for&gt;</code>, or by <code>aria-label</code> where there is no visible label.</li><li>A figure that is not a percentage, such as "17.2 of 20 GB", is also in <code>aria-valuetext</code>.</li><li>The region that the task fills is <code>aria-busy="true"</code> while it runs. It takes no focus and has no keys.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Static</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Value</code>; <code>Max</code> (100 by default); no value means that the end is not known</li><li><code>Label</code>; <code>ValueText</code>: the figure as it is shown and read; <code>ShowValue</code></li><li><code>Tone</code>: Accent (default), Neutral, Success, Warning, Danger, Info, Pending</li><li><code>Size</code>: Medium (default), Small</li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-progress</code>; <code>--neutral</code>, <code>--success</code>, <code>--warning</code>, <code>--danger</code>, <code>--info</code>, <code>--pending</code>; <code>--s</code>. With a label it sits in a <code>fl-field</code>.</td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>surface-muted</code>, <code>accent</code>, the <code>solid</code> step of each tone</li><li>Size: <code>--fl-space-1</code>, <code>-2</code>, <code>-4</code>, <code>--fl-size-3xs</code>, <code>--fl-radius-full</code>, <code>--fl-border-width</code></li><li>Motion: <code>--fl-duration-slow</code>, <code>--fl-duration-pulse</code>, <code>--fl-ease-standard</code></li><li>Own: <code>--fl-progress-height</code>, <code>-track</code>, <code>-fill</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="tree">
+<h2>Tree</h2>
+<p>Things that hold other things: folders and files, categories, the parts of an organisation. A branch opens and closes, and one item is selected. Without script it is a nested list of links.</p>
+
+<h3>A tree of files</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+<ul class="fl-tree" role="tree" aria-label="Files" data-demo="tree">
+<li class="fl-tree__item" role="treeitem" aria-expanded="true" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder-open"/></svg><span class="fl-tree__label">Projects</span><span class="fl-tree__count">3<span class="fl-visually-hidden"> items</span></span></span>
+<ul class="fl-tree__group" role="group">
+<li class="fl-tree__item" role="treeitem" aria-expanded="true" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder-open"/></svg><span class="fl-tree__label">Website redesign</span><span class="fl-tree__count">14<span class="fl-visually-hidden"> items</span></span></span>
+<ul class="fl-tree__group" role="group">
+<li class="fl-tree__item" role="treeitem" aria-selected="true" tabindex="0"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-tree__label">Brief.pdf</span></span></li>
+<li class="fl-tree__item" role="treeitem" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-tree__label">Wireframes</span><span class="fl-tree__count">12<span class="fl-visually-hidden"> items</span></span></span>
+<ul class="fl-tree__group" role="group">
+<li class="fl-tree__item" role="treeitem" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#image"/></svg><span class="fl-tree__label">Home.png</span></span></li>
+<li class="fl-tree__item" role="treeitem" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#image"/></svg><span class="fl-tree__label">Checkout.png</span></span></li>
+</ul>
+</li>
+<li class="fl-tree__item" role="treeitem" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file"/></svg><span class="fl-tree__label">Budget.xlsx</span></span></li>
+</ul>
+</li>
+<li class="fl-tree__item" role="treeitem" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-tree__label">Billing migration</span><span class="fl-tree__count">6<span class="fl-visually-hidden"> items</span></span></span>
+<ul class="fl-tree__group" role="group">
+<li class="fl-tree__item" role="treeitem" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-tree__label">Plan.pdf</span></span></li>
+</ul>
+</li>
+<li class="fl-tree__item" role="treeitem" aria-expanded="true" aria-selected="false" aria-busy="true" tabindex="-1"><span class="fl-tree__row"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--spin" aria-hidden="true"><use href="icons/lucide.svg#loader-circle"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder-open"/></svg><span class="fl-tree__label">Archive</span></span></li>
+</ul>
+</li>
+<li class="fl-tree__item" role="treeitem" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-tree__label">Invoices</span><span class="fl-tree__count">128<span class="fl-visually-hidden"> items</span></span></span>
+<ul class="fl-tree__group" role="group">
+<li class="fl-tree__item" role="treeitem" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-tree__label">2026</span><span class="fl-tree__count">96<span class="fl-visually-hidden"> items</span></span></span>
+<ul class="fl-tree__group" role="group">
+<li class="fl-tree__item" role="treeitem" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-tree__label">INV-2041.pdf</span></span></li>
+</ul>
+</li>
+<li class="fl-tree__item" role="treeitem" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-tree__label">2025</span><span class="fl-tree__count">32<span class="fl-visually-hidden"> items</span></span></span>
+<ul class="fl-tree__group" role="group">
+<li class="fl-tree__item" role="treeitem" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-tree__label">INV-1877.pdf</span></span></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fl-tree__item" role="treeitem" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#users"/></svg><span class="fl-tree__label">Members</span><span class="fl-tree__count">7<span class="fl-visually-hidden"> items</span></span></span></li>
+<li class="fl-tree__item" role="treeitem" aria-selected="false" aria-disabled="true" tabindex="-1"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#lock"/></svg><span class="fl-tree__label">Restricted</span></span></li>
+</ul>
+</div>
+<h4>This one is live: press a toggle or a row, or use the arrow keys. A branch shows an icon, its name and a count; a line joins the items of a level.</h4>
+<ul>
+<li>The toggle is a target of 24 by 24 px beside the row; a press on the row selects, a press on the toggle opens.</li>
+<li>The selected item is on the soft accent, in a heavier weight.</li>
+<li>Archive is loading: a spinner stands in the place of its toggle until its items arrive.</li>
+<li>Restricted is disabled: it takes focus, so it can be read, and cannot be selected.</li>
+</ul>
+
+<h3>States</h3>
+<div class="docs-demo docs-scroll">
+<table class="docs-matrix">
+<thead><tr><td></td><th scope="col">Rest</th><th scope="col">Hover</th><th scope="col">Focus</th><th scope="col">Pressed</th><th scope="col">Selected</th><th scope="col">Selected, hover</th><th scope="col">Disabled</th><th scope="col">Loading</th></tr></thead>
+<tbody>
+<tr><th scope="row">Branch</th><td><ul class="fl-tree docs-narrow" role="tree" aria-label="Rest"><li class="fl-tree__item" role="treeitem" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-tree__label">Files</span><span class="fl-tree__count">12<span class="fl-visually-hidden"> items</span></span></span></li></ul></td><td><ul class="fl-tree docs-narrow" role="tree" aria-label="Hover"><li class="fl-tree__item" role="treeitem" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="fl-tree__row" data-force="hover"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-tree__label">Files</span><span class="fl-tree__count">12<span class="fl-visually-hidden"> items</span></span></span></li></ul></td><td><ul class="fl-tree docs-narrow" role="tree" aria-label="Focus"><li class="fl-tree__item" role="treeitem" aria-expanded="false" aria-selected="false" tabindex="-1" data-force="focus-visible"><span class="fl-tree__row"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-tree__label">Files</span><span class="fl-tree__count">12<span class="fl-visually-hidden"> items</span></span></span></li></ul></td><td><ul class="fl-tree docs-narrow" role="tree" aria-label="Pressed"><li class="fl-tree__item" role="treeitem" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="fl-tree__row" data-force="hover active"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-tree__label">Files</span><span class="fl-tree__count">12<span class="fl-visually-hidden"> items</span></span></span></li></ul></td><td><ul class="fl-tree docs-narrow" role="tree" aria-label="Selected"><li class="fl-tree__item" role="treeitem" aria-expanded="false" aria-selected="true" tabindex="-1"><span class="fl-tree__row"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-tree__label">Files</span><span class="fl-tree__count">12<span class="fl-visually-hidden"> items</span></span></span></li></ul></td><td><ul class="fl-tree docs-narrow" role="tree" aria-label="Selected, hover"><li class="fl-tree__item" role="treeitem" aria-expanded="false" aria-selected="true" tabindex="-1"><span class="fl-tree__row" data-force="hover"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-tree__label">Files</span><span class="fl-tree__count">12<span class="fl-visually-hidden"> items</span></span></span></li></ul></td><td><ul class="fl-tree docs-narrow" role="tree" aria-label="Disabled"><li class="fl-tree__item" role="treeitem" aria-expanded="false" aria-selected="false" aria-disabled="true" tabindex="-1"><span class="fl-tree__row"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-tree__label">Files</span><span class="fl-tree__count">12<span class="fl-visually-hidden"> items</span></span></span></li></ul></td><td><ul class="fl-tree docs-narrow" role="tree" aria-label="Loading"><li class="fl-tree__item" role="treeitem" aria-expanded="true" aria-selected="false" aria-busy="true" tabindex="-1"><span class="fl-tree__row"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--spin" aria-hidden="true"><use href="icons/lucide.svg#loader-circle"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder-open"/></svg><span class="fl-tree__label">Files</span></span></li></ul></td></tr>
+<tr><th scope="row">Leaf</th><td><ul class="fl-tree docs-narrow" role="tree" aria-label="Rest"><li class="fl-tree__item" role="treeitem" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-tree__label">Brief.pdf</span></span></li></ul></td><td><ul class="fl-tree docs-narrow" role="tree" aria-label="Hover"><li class="fl-tree__item" role="treeitem" aria-selected="false" tabindex="-1"><span class="fl-tree__row" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-tree__label">Brief.pdf</span></span></li></ul></td><td><ul class="fl-tree docs-narrow" role="tree" aria-label="Focus"><li class="fl-tree__item" role="treeitem" aria-selected="false" tabindex="-1" data-force="focus-visible"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-tree__label">Brief.pdf</span></span></li></ul></td><td><ul class="fl-tree docs-narrow" role="tree" aria-label="Pressed"><li class="fl-tree__item" role="treeitem" aria-selected="false" tabindex="-1"><span class="fl-tree__row" data-force="hover active"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-tree__label">Brief.pdf</span></span></li></ul></td><td><ul class="fl-tree docs-narrow" role="tree" aria-label="Selected"><li class="fl-tree__item" role="treeitem" aria-selected="true" tabindex="-1"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-tree__label">Brief.pdf</span></span></li></ul></td><td><ul class="fl-tree docs-narrow" role="tree" aria-label="Selected, hover"><li class="fl-tree__item" role="treeitem" aria-selected="true" tabindex="-1"><span class="fl-tree__row" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-tree__label">Brief.pdf</span></span></li></ul></td><td><ul class="fl-tree docs-narrow" role="tree" aria-label="Disabled"><li class="fl-tree__item" role="treeitem" aria-selected="false" aria-disabled="true" tabindex="-1"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-tree__label">Brief.pdf</span></span></li></ul></td><td></td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Static fallback</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+<ul class="fl-tree">
+<li class="fl-tree__item"><a class="fl-tree__row" href="#tree"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder-open"/></svg><span class="fl-tree__label">Projects</span><span class="fl-tree__count">3<span class="fl-visually-hidden"> items</span></span></a>
+<ul class="fl-tree__group">
+<li class="fl-tree__item"><a class="fl-tree__row" href="#tree"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder-open"/></svg><span class="fl-tree__label">Website redesign</span><span class="fl-tree__count">14<span class="fl-visually-hidden"> items</span></span></a>
+<ul class="fl-tree__group">
+<li class="fl-tree__item"><a class="fl-tree__row" href="#tree" aria-current="page"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-tree__label">Brief.pdf</span></a></li>
+<li class="fl-tree__item"><a class="fl-tree__row" href="#tree"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-tree__label">Wireframes</span><span class="fl-tree__count">12<span class="fl-visually-hidden"> items</span></span></a></li>
+<li class="fl-tree__item"><a class="fl-tree__row" href="#tree" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file"/></svg><span class="fl-tree__label">Budget.xlsx</span></a></li>
+</ul>
+</li>
+<li class="fl-tree__item"><a class="fl-tree__row" href="#tree"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-tree__label">Billing migration</span><span class="fl-tree__count">6<span class="fl-visually-hidden"> items</span></span></a></li>
+</ul>
+</li>
+<li class="fl-tree__item"><a class="fl-tree__row" href="#tree"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-tree__label">Invoices</span><span class="fl-tree__count">128<span class="fl-visually-hidden"> items</span></span></a></li>
+</ul>
+</div>
+<h4>Nested lists of links, every level open: each row is an <code>&lt;a&gt;</code>, the page in view has <code>aria-current="page"</code>, and Tab moves through the rows. There are no toggles, since nothing can close.</h4>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column">
+<ul class="fl-tree" role="tree" aria-label="Files" data-demo="tree">
+<li class="fl-tree__item" role="treeitem" aria-expanded="true" aria-selected="false" tabindex="0"><span class="fl-tree__row"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder-open"/></svg><span class="fl-tree__label">Projects</span><span class="fl-tree__count">3<span class="fl-visually-hidden"> items</span></span></span>
+<ul class="fl-tree__group" role="group">
+<li class="fl-tree__item" role="treeitem" aria-expanded="true" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder-open"/></svg><span class="fl-tree__label">Website redesign</span></span>
+<ul class="fl-tree__group" role="group">
+<li class="fl-tree__item" role="treeitem" aria-selected="true" tabindex="-1"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-tree__label">Brief.pdf</span></span></li>
+<li class="fl-tree__item" role="treeitem" aria-selected="false" tabindex="-1" data-force="focus-visible"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file"/></svg><span class="fl-tree__label">Budget.xlsx</span></span></li>
+</ul>
+</li>
+<li class="fl-tree__item" role="treeitem" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><span class="fl-tree__toggle" aria-hidden="true"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="icons/lucide.svg#chevron-right"/></svg></span><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#folder"/></svg><span class="fl-tree__label">Billing migration</span><span class="fl-tree__count">6<span class="fl-visually-hidden"> items</span></span></span>
+<ul class="fl-tree__group" role="group">
+<li class="fl-tree__item" role="treeitem" aria-selected="false" tabindex="-1"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg><span class="fl-tree__label">Plan.pdf</span></span></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fl-tree__item" role="treeitem" aria-selected="false" aria-disabled="true" tabindex="-1"><span class="fl-tree__row"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#lock"/></svg><span class="fl-tree__label">Restricted</span></span></li>
+</ul>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><ul><li><code>&lt;ul class="fl-tree" role="tree"&gt;</code>; an item is <code>&lt;li class="fl-tree__item" role="treeitem"&gt;</code> around its row, a <code>&lt;span class="fl-tree__row"&gt;</code>, and the <code>&lt;ul class="fl-tree__group" role="group"&gt;</code> of its children.</li><li>The toggle is a <code>&lt;span&gt;</code> inside the row: a target for the pointer, hidden from a screen reader.</li><li>Static: the same lists without roles, and each row an <code>&lt;a&gt;</code>.</li></ul></td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>The tree view pattern. The tree has a name; a branch has <code>aria-expanded</code>; every item has <code>aria-selected</code>, or none has it when the tree only navigates.</li><li>One item is in the tab order (<code>tabindex="0"</code>, the others <code>-1</code>): the selected one, or the first.</li><li>Down and Up move through the items in view. Right opens a closed branch, then goes to its first child; Left closes an open branch, then goes to its parent. Home and End go to the first and the last item in view.</li><li>Enter or Space selects the item in focus. A letter goes to the next item that starts with it; <code>*</code> opens the branches of the level.</li><li>A branch that loads its items has <code>aria-busy="true"</code> until they arrive. A disabled item has <code>aria-disabled="true"</code> and still takes focus.</li><li>A count is followed by hidden text that says what it counts.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Interactive. Static fallback: nested lists of links with every level open, and <code>aria-current="page"</code> on the row of the page in view.</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li>Tree: <code>Items</code>; <code>Label</code>; <code>Selected</code> with <code>@bind-Selected</code>; <code>Expanded</code> with <code>@bind-Expanded</code></li><li><code>LoadChildren</code>: a callback for a branch that loads when it opens</li><li>Item: <code>Text</code>; <code>Icon</code>, and <code>IconOpen</code> for an open branch; <code>Count</code>; <code>Href</code>; <code>Disabled</code>; child items</li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-tree</code>; parts <code>fl-tree__item</code>, <code>__row</code>, <code>__toggle</code>, <code>__label</code>, <code>__count</code>, <code>__group</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>text</code>, <code>text-muted</code>, <code>text-subtle</code>, <code>border</code>, <code>hover</code>, <code>pressed</code>, <code>accent-soft</code>, <code>accent-soft-hover</code>, <code>accent-text</code>, <code>disabled-text</code></li><li>Size: <code>--fl-item-height</code>, <code>--fl-target-min</code>, <code>--fl-control-radius</code>, <code>--fl-radius-s</code>, <code>--fl-space-1</code>, <code>-2</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-s</code>, <code>-xs</code>, <code>--fl-font-weight-semibold</code>, <code>--fl-line-height-tight</code></li><li>Motion: <code>--fl-duration-fast</code>, <code>--fl-ease-standard</code></li><li>Focus: <code>--fl-focus-ring</code>, drawn inside the row</li><li>Own: <code>--fl-tree-row-padding</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="stat-tile">
+<h2>Stat tile</h2>
+<p>One figure of a dashboard: what it counts, the figure, how it moved, and room for a small chart. A row of tiles opens a dashboard, and a tile that is a link opens the list behind its figure.</p>
+
+<h3>A row of tiles</h3>
+<div class="docs-demo docs-demo--column docs-demo--canvas">
+<div class="fl-stat-tile-group">
+<div class="fl-stat-tile">
+  <p class="fl-stat-tile__label">Active projects</p>
+  <svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#layers"/></svg>
+  <p class="fl-stat-tile__value">24</p>
+  <svg class="fl-stat-tile__chart" viewBox="0 0 96 36" aria-hidden="true"><polyline points="1,30 12,26 23,28 34,20 45,22 56,14 67,16 78,9 95,5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <p class="fl-stat-tile__note"><span class="fl-stat-tile__trend fl-stat-tile__trend--good"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#trending-up"/></svg><span class="fl-visually-hidden">Up </span>+3</span>since last month</p>
+</div>
+<div class="fl-stat-tile">
+  <p class="fl-stat-tile__label">Open invoices</p>
+  <svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg>
+  <p class="fl-stat-tile__value">128</p>
+  <svg class="fl-stat-tile__chart" viewBox="0 0 96 36" aria-hidden="true"><rect x="0" y="22" width="10" height="14" rx="2" fill="currentColor" fill-opacity="0.3"/><rect x="14" y="16" width="10" height="20" rx="2" fill="currentColor" fill-opacity="0.3"/><rect x="28" y="24" width="10" height="12" rx="2" fill="currentColor" fill-opacity="0.3"/><rect x="42" y="12" width="10" height="24" rx="2" fill="currentColor" fill-opacity="0.3"/><rect x="56" y="18" width="10" height="18" rx="2" fill="currentColor" fill-opacity="0.3"/><rect x="70" y="6" width="10" height="30" rx="2" fill="currentColor"/><rect x="84" y="2" width="10" height="34" rx="2" fill="currentColor"/></svg>
+  <p class="fl-stat-tile__note"><span class="fl-stat-tile__trend"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#trending-up"/></svg><span class="fl-visually-hidden">Up </span>+12</span>this week</p>
+</div>
+<div class="fl-stat-tile">
+  <p class="fl-stat-tile__label">Overdue</p>
+  <svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#clock"/></svg>
+  <p class="fl-stat-tile__value">$8,460</p>
+
+  <p class="fl-stat-tile__note"><span class="fl-stat-tile__trend fl-stat-tile__trend--bad"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#trending-up"/></svg><span class="fl-visually-hidden">Up </span>+$1,200</span>since last week</p>
+</div>
+<div class="fl-stat-tile">
+  <p class="fl-stat-tile__label">Members</p>
+  <svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#users"/></svg>
+  <p class="fl-stat-tile__value">312</p>
+
+  <p class="fl-stat-tile__note"><span class="fl-stat-tile__trend"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#minus"/></svg><span class="fl-visually-hidden">No change </span>0</span>in 30 days</p>
+</div>
+</div>
+</div>
+<h4>The label and an icon, the figure, a chart beside it where there is one, and a note with the trend. The tone of a trend says whether it is good: more overdue money rises, and is bad.</h4>
+
+<h3>As a link</h3>
+<div class="docs-demo docs-demo--column docs-demo--canvas">
+<div class="fl-stat-tile-group">
+<a class="fl-stat-tile" href="#stat-tile">
+  <p class="fl-stat-tile__label">Open invoices</p>
+  <svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg>
+  <p class="fl-stat-tile__value">128</p>
+
+  <p class="fl-stat-tile__note">Rest</p>
+</a>
+<a class="fl-stat-tile" href="#stat-tile" data-force="hover">
+  <p class="fl-stat-tile__label">Open invoices</p>
+  <svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg>
+  <p class="fl-stat-tile__value">128</p>
+
+  <p class="fl-stat-tile__note">Hover</p>
+</a>
+<a class="fl-stat-tile" href="#stat-tile" data-force="focus-visible">
+  <p class="fl-stat-tile__label">Open invoices</p>
+  <svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#file-text"/></svg>
+  <p class="fl-stat-tile__value">128</p>
+
+  <p class="fl-stat-tile__note">Focus</p>
+</a>
+</div>
+</div>
+<h4>The whole tile is one link, named by its label and its figure</h4>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column">
+<div class="fl-stat-tile">
+  <p class="fl-stat-tile__label">Active projects</p>
+  <svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#layers"/></svg>
+  <p class="fl-stat-tile__value">24</p>
+  <svg class="fl-stat-tile__chart" viewBox="0 0 96 36" aria-hidden="true"><polyline points="1,30 12,26 23,28 34,20 45,22 56,14 67,16 78,9 95,5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <p class="fl-stat-tile__note"><span class="fl-stat-tile__trend fl-stat-tile__trend--good"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#trending-up"/></svg><span class="fl-visually-hidden">Up </span>+3</span>since last month</p>
+</div>
+<div class="fl-stat-tile">
+  <p class="fl-stat-tile__label">Overdue</p>
+  <svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#clock"/></svg>
+  <p class="fl-stat-tile__value">$8,460</p>
+
+  <p class="fl-stat-tile__note"><span class="fl-stat-tile__trend fl-stat-tile__trend--bad"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="icons/lucide.svg#trending-up"/></svg><span class="fl-visually-hidden">Up </span>+$1,200</span>since last week</p>
+</div>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;div class="fl-stat-tile"&gt;</code>, or <code>&lt;a href&gt;</code> when it opens a list. In the markup the order is label, icon, figure, chart, note, which is the order it is read in.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>Plain content, read as "Active projects, 24, up 3 since last month": the arrow of the trend is <code>aria-hidden</code> and hidden text says its direction.</li><li>The icon and a chart that only decorates are <code>aria-hidden</code>; a chart that says more has <code>role="img"</code> and a label.</li><li>As a link it is one target with the native keys; nothing inside it takes focus.</li><li>A figure that updates while the page is open is not a live region: a dashboard that speaks at every change is noise.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Static</td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-stat-tile</code>; parts <code>fl-stat-tile__label</code>, <code>__value</code>, <code>__chart</code>, <code>__note</code>, <code>__trend</code> with <code>--good</code> and <code>--bad</code>; <code>fl-stat-tile-group</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>surface</code>, <code>border</code>, <code>border-strong</code>, <code>text</code>, <code>text-muted</code>, <code>text-subtle</code>, <code>accent</code>, <code>success-text</code>, <code>danger-text</code></li><li>Size: <code>--fl-inset-m</code>, <code>--fl-gap-m</code>, <code>--fl-space-1</code>, <code>-2</code>, <code>-9</code>, <code>-24</code>, <code>--fl-icon-size-m</code>, <code>--fl-size-2xs</code>, <code>--fl-radius-l</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-3xl</code>, <code>-s</code>, <code>-xs</code>, <code>--fl-font-weight-medium</code>, <code>-semibold</code>, <code>--fl-letter-spacing-tight</code></li><li>Elevation and focus: <code>--fl-shadow-s</code>, <code>--fl-focus-ring</code>, <code>--fl-focus-ring-offset</code>, <code>--fl-focus-halo</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="timeline">
+<h2>Timeline</h2>
+<p>What happened, newest first: the activity of a workspace, the history of a record. Each entry has a marker, a sentence and a time, and a line joins the markers so the list reads as one run of events.</p>
+
+<h3>Entries</h3>
+<div class="docs-demo docs-demo--column">
+<ol class="fl-timeline">
+<li class="fl-timeline__item">
+  <span class="fl-timeline__marker"><span class="fl-avatar fl-avatar--s fl-avatar--category-1" aria-hidden="true">JW</span></span>
+  <p class="fl-timeline__text"><strong>Jonas Weber</strong> changed the status of <a class="fl-link" href="#timeline">Website redesign</a> to Active<span class="fl-timeline__detail">Project · PRJ-1042</span></p>
+  <time class="fl-timeline__time" datetime="2026-11-26T09:00">12 min ago</time>
+</li>
+<li class="fl-timeline__item">
+  <span class="fl-timeline__marker"><span class="fl-avatar fl-avatar--s fl-avatar--category-2" aria-hidden="true">AL</span></span>
+  <p class="fl-timeline__text"><strong>Ada Lindqvist</strong> sent invoice <a class="fl-link" href="#timeline">INV-2040</a> to Contoso<span class="fl-timeline__detail">Invoice · $3,150.50</span></p>
+  <time class="fl-timeline__time" datetime="2026-11-26T07:10">2 h ago</time>
+</li>
+<li class="fl-timeline__item">
+  <span class="fl-timeline__marker"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#refresh-cw"/></svg></span>
+  <p class="fl-timeline__text">The nightly export wrote <a class="fl-link" href="#timeline">128 invoices</a> to the archive<span class="fl-timeline__detail">Scheduled task</span></p>
+  <time class="fl-timeline__time" datetime="2026-11-26T02:00">Today, 02:00</time>
+</li>
+<li class="fl-timeline__item">
+  <span class="fl-timeline__marker"><span class="fl-avatar fl-avatar--s fl-avatar--category-3" aria-hidden="true">PN</span></span>
+  <p class="fl-timeline__text"><strong>Priya Nair</strong> uploaded 3 files to <a class="fl-link" href="#timeline">Mobile app 2.0</a></p>
+  <time class="fl-timeline__time" datetime="2026-11-25T16:42">Yesterday</time>
+</li>
+<li class="fl-timeline__item">
+  <span class="fl-timeline__marker"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#user-check"/></svg></span>
+  <p class="fl-timeline__text"><strong>Rin Sato</strong> joined the workspace as a member<span class="fl-timeline__detail">Invited by Elena Marsh</span></p>
+  <time class="fl-timeline__time" datetime="2026-11-24T11:05">Nov 24</time>
+</li>
+</ol>
+</div>
+<h4>The marker is the small avatar of the person who acted, or an icon for what the system did. The time stands at the end of the row.</h4>
+
+<h3>In a narrow place</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+<ol class="fl-timeline">
+<li class="fl-timeline__item">
+  <span class="fl-timeline__marker"><span class="fl-avatar fl-avatar--s fl-avatar--category-1" aria-hidden="true">JW</span></span>
+  <p class="fl-timeline__text"><strong>Jonas Weber</strong> changed the status of <a class="fl-link" href="#timeline">Website redesign</a> to Active<span class="fl-timeline__detail">Project · PRJ-1042</span></p>
+  <time class="fl-timeline__time" datetime="2026-11-26T09:00">12 min ago</time>
+</li>
+<li class="fl-timeline__item">
+  <span class="fl-timeline__marker"><span class="fl-avatar fl-avatar--s fl-avatar--category-2" aria-hidden="true">AL</span></span>
+  <p class="fl-timeline__text"><strong>Ada Lindqvist</strong> sent invoice <a class="fl-link" href="#timeline">INV-2040</a> to Contoso<span class="fl-timeline__detail">Invoice · $3,150.50</span></p>
+  <time class="fl-timeline__time" datetime="2026-11-26T07:10">2 h ago</time>
+</li>
+<li class="fl-timeline__item">
+  <span class="fl-timeline__marker"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#refresh-cw"/></svg></span>
+  <p class="fl-timeline__text">The nightly export wrote <a class="fl-link" href="#timeline">128 invoices</a> to the archive<span class="fl-timeline__detail">Scheduled task</span></p>
+  <time class="fl-timeline__time" datetime="2026-11-26T02:00">Today, 02:00</time>
+</li>
+</ol>
+</div>
+<h4>Below 480 px of its own width the time moves under the text</h4>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column">
+<ol class="fl-timeline">
+<li class="fl-timeline__item">
+  <span class="fl-timeline__marker"><span class="fl-avatar fl-avatar--s fl-avatar--category-2" aria-hidden="true">AL</span></span>
+  <p class="fl-timeline__text"><strong>Ada Lindqvist</strong> sent invoice <a class="fl-link" href="#timeline">INV-2040</a> to Contoso<span class="fl-timeline__detail">Invoice · $3,150.50</span></p>
+  <time class="fl-timeline__time" datetime="2026-11-26T07:10">2 h ago</time>
+</li>
+<li class="fl-timeline__item">
+  <span class="fl-timeline__marker"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#refresh-cw"/></svg></span>
+  <p class="fl-timeline__text">The nightly export wrote <a class="fl-link" href="#timeline">128 invoices</a> to the archive<span class="fl-timeline__detail">Scheduled task</span></p>
+  <time class="fl-timeline__time" datetime="2026-11-26T02:00">Today, 02:00</time>
+</li>
+<li class="fl-timeline__item">
+  <span class="fl-timeline__marker"><span class="fl-avatar fl-avatar--s fl-avatar--category-3" aria-hidden="true">PN</span></span>
+  <p class="fl-timeline__text"><strong>Priya Nair</strong> uploaded 3 files to <a class="fl-link" href="#timeline">Mobile app 2.0</a></p>
+  <time class="fl-timeline__time" datetime="2026-11-25T16:42">Yesterday</time>
+</li>
+</ol>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;ol class="fl-timeline"&gt;</code> of <code>&lt;li class="fl-timeline__item"&gt;</code>; the text is a <code>&lt;p&gt;</code>, the time a <code>&lt;time datetime&gt;</code>. The list is ordered because the order is the content.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>A list: a screen reader says how many entries there are and where it is.</li><li>The marker is <code>aria-hidden</code>: the sentence names who acted. An icon that says something the sentence does not has a label.</li><li>A relative time ("2 h ago") has the full date in <code>datetime</code> and in a tooltip.</li><li>A timeline that grows while the page is open is in a <code>role="log"</code> region. Links inside an entry are the only things that take focus.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Static</td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-timeline</code>; parts <code>fl-timeline__item</code>, <code>__marker</code>, <code>__text</code>, <code>__detail</code>, <code>__time</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>text</code>, <code>text-subtle</code>, <code>border-strong</code></li><li>Size: <code>--fl-gap-m</code>, <code>--fl-space-1</code>, <code>-3</code>, <code>-6</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-s</code>, <code>-xs</code>, <code>--fl-font-weight-semibold</code>, <code>--fl-line-height-normal</code></li><li>Own: <code>--fl-timeline-marker</code>, <code>--fl-timeline-gap</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="description-list">
+<h2>Description list</h2>
+<p>The facts of one record, as pairs of a term and a value: the details of a project, the summary beside an editor. It only reads; what can be changed is a form.</p>
+
+<h3>In rows</h3>
+<div class="docs-demo docs-demo--column">
+<dl class="fl-description-list">
+<div class="fl-description-list__item"><dt>Name</dt><dd>Website redesign</dd></div>
+<div class="fl-description-list__item"><dt>Key</dt><dd>PRJ-1042</dd></div>
+<div class="fl-description-list__item"><dt>Status</dt><dd><span class="fl-badge fl-badge--success fl-badge--dot">Active</span></dd></div>
+<div class="fl-description-list__item"><dt>Owner</dt><dd><span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-1" aria-hidden="true">JW</span>Jonas Weber</span></dd></div>
+<div class="fl-description-list__item"><dt>Budget</dt><dd>$48,200.00</dd></div>
+<div class="fl-description-list__item"><dt>Labels</dt><dd><ul class="fl-tag-list" aria-label="Labels"><li class="fl-tag"><span class="fl-tag__label">Design</span></li><li class="fl-tag"><span class="fl-tag__label">Marketing</span></li><li class="fl-tag"><span class="fl-tag__label">Europe</span></li></ul></dd></div>
+<div class="fl-description-list__item"><dt>Summary</dt><dd>A new structure and a new look for the public site, with the checkout rebuilt on the current billing service.</dd></div>
+</dl>
+</div>
+<h4>The term at the start in a third of the width, the value beside it, a line between pairs. A value can be text, a badge, a person, a list of tags.</h4>
+
+<h3>In two columns</h3>
+<div class="docs-demo docs-demo--column">
+<dl class="fl-description-list fl-description-list--columns">
+<div class="fl-description-list__item"><dt>Created</dt><dd>Nov 3, 2026 by Elena Marsh</dd></div>
+<div class="fl-description-list__item"><dt>Updated</dt><dd>Today, 09:12</dd></div>
+<div class="fl-description-list__item"><dt>Start</dt><dd>Dec 1, 2026</dd></div>
+<div class="fl-description-list__item"><dt>End</dt><dd>Mar 31, 2027</dd></div>
+<div class="fl-description-list__item"><dt>Customer</dt><dd>Northwind Traders</dd></div>
+<div class="fl-description-list__item"><dt>Billing</dt><dd>Monthly, in arrears</dd></div>
+</dl>
+</div>
+<h4>Each value under its term, two pairs side by side, no lines: for short facts that are scanned, not read</h4>
+
+<h3>In a narrow place</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+<dl class="fl-description-list">
+<div class="fl-description-list__item"><dt>Name</dt><dd>Website redesign</dd></div>
+<div class="fl-description-list__item"><dt>Key</dt><dd>PRJ-1042</dd></div>
+<div class="fl-description-list__item"><dt>Status</dt><dd><span class="fl-badge fl-badge--success fl-badge--dot">Active</span></dd></div>
+<div class="fl-description-list__item"><dt>Owner</dt><dd><span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-1" aria-hidden="true">JW</span>Jonas Weber</span></dd></div>
+</dl>
+<hr class="fl-divider">
+<dl class="fl-description-list fl-description-list--columns">
+<div class="fl-description-list__item"><dt>Created</dt><dd>Nov 3, 2026</dd></div>
+<div class="fl-description-list__item"><dt>Updated</dt><dd>Today, 09:12</dd></div>
+<div class="fl-description-list__item"><dt>Start</dt><dd>Dec 1, 2026</dd></div>
+<div class="fl-description-list__item"><dt>End</dt><dd>Mar 31, 2027</dd></div>
+</dl>
+</div>
+<h4>Below 480 px of its own width a row puts the value under its term; the columns stay two while each has 192 px, then become one</h4>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column">
+<dl class="fl-description-list">
+<div class="fl-description-list__item"><dt>Name</dt><dd>Website redesign</dd></div>
+<div class="fl-description-list__item"><dt>Status</dt><dd><span class="fl-badge fl-badge--success fl-badge--dot">Active</span></dd></div>
+<div class="fl-description-list__item"><dt>Owner</dt><dd><span class="fl-cluster fl-cluster--nowrap"><span class="fl-avatar fl-avatar--s fl-avatar--category-1" aria-hidden="true">JW</span>Jonas Weber</span></dd></div>
+<div class="fl-description-list__item"><dt>Budget</dt><dd>$48,200.00</dd></div>
+</dl>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;dl class="fl-description-list"&gt;</code>; each pair is a <code>&lt;div class="fl-description-list__item"&gt;</code> around one <code>&lt;dt&gt;</code> and one <code>&lt;dd&gt;</code>.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>The native description list: a screen reader pairs each term with its value.</li><li>It takes no focus; a link or a button inside a value does.</li><li>An empty value shows a dash with hidden text that says "None", so the pair is never read as a term alone.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Static</td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-description-list</code>; <code>--columns</code>; part <code>fl-description-list__item</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>text</code>, <code>text-muted</code>, <code>border</code></li><li>Size: <code>--fl-inset-s</code>, <code>--fl-gap-m</code>, <code>-l</code>, <code>--fl-space-0-5</code>, <code>--fl-size-2xs</code>, <code>--fl-border-width</code></li><li>Type: <code>--fl-font-size-m</code>, <code>-s</code>, <code>-xs</code>, <code>--fl-line-height-normal</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="skeleton">
+<h2>Skeleton</h2>
+<p>The shape of content that is on its way, so that the page does not jump when it arrives. It is for a first load that takes more than a moment; a short wait shows nothing, and a task that runs shows progress.</p>
+
+<h3>Shapes</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow" aria-hidden="true">
+  <span class="fl-skeleton"></span>
+  <span class="fl-skeleton fl-skeleton--short"></span>
+  <span class="fl-skeleton fl-skeleton--l fl-skeleton--short"></span>
+  <span class="fl-skeleton fl-skeleton--s"></span>
+</div>
+<h4>A line, a line that ends early, a large line for a heading or a figure, a small one</h4>
+<div class="docs-demo" aria-hidden="true">
+  <span class="fl-skeleton fl-skeleton--circle fl-skeleton--s"></span> <span class="fl-skeleton fl-skeleton--circle"></span> <span class="fl-skeleton fl-skeleton--circle fl-skeleton--l"></span>
+  <div class="docs-narrow"><span class="fl-skeleton fl-skeleton--block"></span></div>
+</div>
+<h4>A circle in the sizes of the avatar, and a block for an image, a chart or a control</h4>
+
+<h3>Composed into a card</h3>
+<div class="docs-demo docs-demo--column docs-demo--canvas" aria-hidden="true">
+<div class="fl-stat-tile-group">
+<div class="fl-stat-tile">
+  <span class="fl-skeleton fl-skeleton--short"></span>
+  <span class="fl-skeleton fl-skeleton--l fl-skeleton--short"></span>
+  <span class="fl-skeleton"></span>
+</div>
+<div class="fl-stat-tile">
+  <span class="fl-skeleton fl-skeleton--short"></span>
+  <span class="fl-skeleton fl-skeleton--l fl-skeleton--short"></span>
+  <span class="fl-skeleton"></span>
+</div>
+<div class="fl-stat-tile">
+  <span class="fl-skeleton fl-skeleton--circle fl-skeleton--l"></span>
+  <span class="fl-skeleton"></span>
+  <span class="fl-skeleton fl-skeleton--short"></span>
+  <span class="fl-skeleton fl-skeleton--block"></span>
+</div>
+</div>
+</div>
+<h4>The skeleton sits in the real container, with its padding and its border, and takes the places of the content to come</h4>
+
+<h3>Composed into the rows of a table</h3>
+<div class="docs-demo docs-demo--column docs-demo--canvas">
+<div class="fl-table-scroll" role="region" aria-label="Members, loading" tabindex="0">
+<table class="fl-table" aria-busy="true">
+<thead><tr><th scope="col">Member</th><th scope="col">Role</th><th scope="col" class="fl-table__num">Projects</th><th scope="col">Last seen</th></tr></thead>
+<tbody aria-hidden="true">
+<tr><td><span class="fl-cluster fl-cluster--nowrap"><span class="fl-skeleton fl-skeleton--circle fl-skeleton--s"></span><span class="docs-narrow"><span class="fl-skeleton"></span></span></span></td><td><span class="fl-skeleton fl-skeleton--short"></span></td><td class="fl-table__num"><span class="fl-skeleton"></span></td><td><span class="fl-skeleton"></span></td></tr>
+<tr><td><span class="fl-cluster fl-cluster--nowrap"><span class="fl-skeleton fl-skeleton--circle fl-skeleton--s"></span><span class="docs-narrow"><span class="fl-skeleton fl-skeleton--short"></span></span></span></td><td><span class="fl-skeleton fl-skeleton--short"></span></td><td class="fl-table__num"><span class="fl-skeleton"></span></td><td><span class="fl-skeleton"></span></td></tr>
+<tr><td><span class="fl-cluster fl-cluster--nowrap"><span class="fl-skeleton fl-skeleton--circle fl-skeleton--s"></span><span class="docs-narrow"><span class="fl-skeleton"></span></span></span></td><td><span class="fl-skeleton fl-skeleton--short"></span></td><td class="fl-table__num"><span class="fl-skeleton"></span></td><td><span class="fl-skeleton fl-skeleton--short"></span></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<h4>The header is real, and each row has the height of the rows to come</h4>
+<p>The pulse runs once in 1.5 s. Under reduced motion the skeleton stands still, at full strength.</p>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column" aria-hidden="true">
+  <span class="fl-skeleton fl-skeleton--circle fl-skeleton--l"></span>
+  <span class="fl-skeleton fl-skeleton--block"></span>
+  <span class="fl-skeleton"></span>
+  <span class="fl-skeleton fl-skeleton--short"></span>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><code>&lt;span class="fl-skeleton"&gt;</code>, or a <code>&lt;div&gt;</code>, with no content.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>Every skeleton, or the group of them, is <code>aria-hidden="true"</code>.</li><li>The region that loads has <code>aria-busy="true"</code>, and a <code>role="status"</code> with hidden text says what loads, once.</li><li>It takes no focus. When the content arrives it replaces the skeleton in the same place, and focus is not moved.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Static</td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-skeleton</code>; <code>--short</code>, <code>--block</code>, <code>--circle</code>; <code>--s</code>, <code>--l</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>border</code>, as the fill</li><li>Size: <code>--fl-space-2</code>, <code>-3</code>, <code>-5</code>, <code>-6</code>, <code>-8</code>, <code>-10</code>, <code>-24</code>, <code>--fl-radius-s</code>, <code>-m</code>, <code>-full</code>, <code>--fl-border-width</code></li><li>Motion: <code>--fl-duration-pulse</code>, <code>--fl-ease-standard</code></li><li>Own: <code>--fl-skeleton-size</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="docs-section" id="sortable-list">
+<h2>Sortable list <small>(candidate)</small></h2>
+<p>Items that a user puts in order. Every item has a handle to drag and two buttons that move it by one place, so the order never depends on dragging: the buttons are the component, and dragging is a faster way to do the same.</p>
+
+<h3>A list in order</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+<ol class="fl-sortable-list" aria-label="Order of the columns" data-demo="sortable">
+<li class="fl-sortable-list__item">
+  <button class="fl-sortable-list__handle" type="button" aria-pressed="false" aria-label="Reorder Project" aria-describedby="sortable-help"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button>
+  <span class="fl-sortable-list__content"><span class="fl-cluster fl-cluster--between"><span>Project</span><span class="fl-badge">Always shown</span></span></span>
+  <span class="fl-sortable-list__actions"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Project up" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Project down"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button></span>
+</li>
+<li class="fl-sortable-list__item">
+  <button class="fl-sortable-list__handle" type="button" aria-pressed="false" aria-label="Reorder Status" aria-describedby="sortable-help"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button>
+  <span class="fl-sortable-list__content"><span class="fl-cluster fl-cluster--between"><span>Status</span></span></span>
+  <span class="fl-sortable-list__actions"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Status up"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Status down"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button></span>
+</li>
+<li class="fl-sortable-list__item">
+  <button class="fl-sortable-list__handle" type="button" aria-pressed="false" aria-label="Reorder Owner" aria-describedby="sortable-help"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button>
+  <span class="fl-sortable-list__content"><span class="fl-cluster fl-cluster--between"><span>Owner</span></span></span>
+  <span class="fl-sortable-list__actions"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Owner up"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Owner down"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button></span>
+</li>
+<li class="fl-sortable-list__item">
+  <button class="fl-sortable-list__handle" type="button" aria-pressed="false" aria-label="Reorder Budget" aria-describedby="sortable-help"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button>
+  <span class="fl-sortable-list__content"><span class="fl-cluster fl-cluster--between"><span>Budget</span></span></span>
+  <span class="fl-sortable-list__actions"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Budget up"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Budget down"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button></span>
+</li>
+<li class="fl-sortable-list__item">
+  <button class="fl-sortable-list__handle" type="button" aria-pressed="false" aria-label="Reorder Updated" aria-describedby="sortable-help"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button>
+  <span class="fl-sortable-list__content"><span class="fl-cluster fl-cluster--between"><span>Updated</span></span></span>
+  <span class="fl-sortable-list__actions"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Updated up"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Updated down" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button></span>
+</li>
+</ol>
+<p class="fl-visually-hidden" id="sortable-help">Press Space to lift, the arrow keys to move, Space to drop, Escape to put it back.</p>
+<p class="fl-visually-hidden" role="status" data-demo="sortable-status"></p>
+</div>
+<h4>This one is live: the buttons move an item by one place and keep the focus; on the handle, Space lifts the item, the arrow keys move it, Space drops it and Escape puts it back. The first item cannot move up, the last cannot move down.</h4>
+
+<h3>While an item is dragged</h3>
+<div class="docs-demo docs-demo--column docs-demo--narrow">
+<ol class="fl-sortable-list" aria-label="Order of the columns, while Owner is dragged">
+<li class="fl-sortable-list__item">
+  <button class="fl-sortable-list__handle" type="button" aria-pressed="false" aria-label="Reorder Project" aria-describedby="sortable-help-b"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button>
+  <span class="fl-sortable-list__content"><span class="fl-cluster fl-cluster--between"><span>Project</span></span></span>
+  <span class="fl-sortable-list__actions"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Project up" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Project down"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button></span>
+</li>
+<li class="fl-sortable-list__place" aria-hidden="true"></li>
+<li class="fl-sortable-list__item">
+  <button class="fl-sortable-list__handle" type="button" aria-pressed="false" aria-label="Reorder Status" aria-describedby="sortable-help-b"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button>
+  <span class="fl-sortable-list__content"><span class="fl-cluster fl-cluster--between"><span>Status</span></span></span>
+  <span class="fl-sortable-list__actions"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Status up"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Status down"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button></span>
+</li>
+<li class="fl-sortable-list__item">
+  <button class="fl-sortable-list__handle" type="button" aria-pressed="true" aria-label="Reorder Owner" aria-describedby="sortable-help-b"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button>
+  <span class="fl-sortable-list__content"><span class="fl-cluster fl-cluster--between"><span>Owner</span></span></span>
+  <span class="fl-sortable-list__actions"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Owner up"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Owner down"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button></span>
+</li>
+<li class="fl-sortable-list__item">
+  <button class="fl-sortable-list__handle" type="button" aria-pressed="false" aria-label="Reorder Budget" aria-describedby="sortable-help-b"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button>
+  <span class="fl-sortable-list__content"><span class="fl-cluster fl-cluster--between"><span>Budget</span></span></span>
+  <span class="fl-sortable-list__actions"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Budget up"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Budget down" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button></span>
+</li>
+</ol>
+<p class="fl-visually-hidden" id="sortable-help-b">Press Space to lift, the arrow keys to move, Space to drop, Escape to put it back.</p>
+</div>
+<h4>The lifted item is raised, with the accent on its border and its handle; it follows the pointer. The dashed place shows where it would drop, here between Project and Status.</h4>
+
+<h3>States of the handle</h3>
+<div class="docs-demo docs-scroll">
+<table class="docs-matrix">
+<thead><tr><td></td><th scope="col">Rest</th><th scope="col">Hover</th><th scope="col">Focus</th><th scope="col">Pressed</th><th scope="col">Lifted</th><th scope="col">Disabled</th></tr></thead>
+<tbody>
+<tr><th scope="row">Handle</th><td><ol class="fl-sortable-list docs-narrow" aria-label="Sample"><li class="fl-sortable-list__item"><button class="fl-sortable-list__handle" type="button" aria-label="Reorder Status"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button><span class="fl-sortable-list__content">Status</span></li></ol></td><td><ol class="fl-sortable-list docs-narrow" aria-label="Sample"><li class="fl-sortable-list__item"><button class="fl-sortable-list__handle" type="button" aria-label="Reorder Status" data-force="hover"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button><span class="fl-sortable-list__content">Status</span></li></ol></td><td><ol class="fl-sortable-list docs-narrow" aria-label="Sample"><li class="fl-sortable-list__item"><button class="fl-sortable-list__handle" type="button" aria-label="Reorder Status" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button><span class="fl-sortable-list__content">Status</span></li></ol></td><td><ol class="fl-sortable-list docs-narrow" aria-label="Sample"><li class="fl-sortable-list__item"><button class="fl-sortable-list__handle" type="button" aria-label="Reorder Status" data-force="hover active"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button><span class="fl-sortable-list__content">Status</span></li></ol></td><td><ol class="fl-sortable-list docs-narrow" aria-label="Sample"><li class="fl-sortable-list__item"><button class="fl-sortable-list__handle" type="button" aria-label="Reorder Status" aria-pressed="true"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button><span class="fl-sortable-list__content">Status</span></li></ol></td><td><ol class="fl-sortable-list docs-narrow" aria-label="Sample"><li class="fl-sortable-list__item"><button class="fl-sortable-list__handle" type="button" aria-label="Reorder Status" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button><span class="fl-sortable-list__content">Status</span></li></ol></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="docs-note">
+<p><strong>O9: does an admin need it? Yes, on two screens at least.</strong></p>
+<p><strong>The columns of a list.</strong> The list screen of the reference has a Columns button: its panel shows the columns of the table and lets a user put them in order, as the list above does. Every list screen of an admin has that panel, so one component serves all of them.</p>
+<p><strong>An ordered field in the editor of a record.</strong> The editor screen of the reference orders the sections of its record and the chosen items of a field, each with a grip. The same is the order of the images of a gallery, of the options of a choice field and of the links of a menu.</p>
+<p>It should stay small: one level, one list, no dragging between lists. A menu with levels is the tree with move actions, not this.</p>
+</div>
+
+<h3>Dark, compact, right to left</h3>
+<div class="docs-modes docs-demo--column">
+<ol class="fl-sortable-list" aria-label="Order of the columns">
+<li class="fl-sortable-list__item">
+  <button class="fl-sortable-list__handle" type="button" aria-pressed="false" aria-label="Reorder Project" aria-describedby="sortable-help-m"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button>
+  <span class="fl-sortable-list__content"><span class="fl-cluster fl-cluster--between"><span>Project</span></span></span>
+  <span class="fl-sortable-list__actions"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Project up" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Project down"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button></span>
+</li>
+<li class="fl-sortable-list__item">
+  <button class="fl-sortable-list__handle" type="button" aria-pressed="true" aria-label="Reorder Status" aria-describedby="sortable-help-m"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button>
+  <span class="fl-sortable-list__content"><span class="fl-cluster fl-cluster--between"><span>Status</span></span></span>
+  <span class="fl-sortable-list__actions"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Status up"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Status down"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button></span>
+</li>
+<li class="fl-sortable-list__place" aria-hidden="true"></li>
+<li class="fl-sortable-list__item">
+  <button class="fl-sortable-list__handle" type="button" aria-pressed="false" aria-label="Reorder Owner" aria-describedby="sortable-help-m" data-force="focus-visible"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#grip-vertical"/></svg></button>
+  <span class="fl-sortable-list__content"><span class="fl-cluster fl-cluster--between"><span>Owner</span></span></span>
+  <span class="fl-sortable-list__actions"><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Owner up"><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-up"/></svg></button><button class="fl-button fl-button--icon fl-button--subtle fl-button--s" type="button" aria-label="Move Owner down" disabled><svg class="fl-icon" aria-hidden="true"><use href="icons/lucide.svg#arrow-down"/></svg></button></span>
+</li>
+</ol>
+<p class="fl-visually-hidden" id="sortable-help-m">Press Space to lift, the arrow keys to move, Space to drop, Escape to put it back.</p>
+</div>
+
+<table class="docs-spec">
+<caption>Spec</caption>
+<tbody>
+<tr><th scope="row">Element</th><td><ul><li><code>&lt;ol class="fl-sortable-list"&gt;</code> of <code>&lt;li class="fl-sortable-list__item"&gt;</code>: the order is the content.</li><li>The handle is a <code>&lt;button type="button"&gt;</code>; move up and move down are icon buttons.</li><li>The place of the drop is an empty <code>&lt;li class="fl-sortable-list__place" aria-hidden="true"&gt;</code>.</li></ul></td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>The list has a name. Each button is named after its item: "Move Status up", "Reorder Status".</li><li>Move up and move down: Enter or Space. Focus stays on the button; at the first or the last place the button is <code>disabled</code> and focus goes to the other one.</li><li>The handle is a toggle: Space or Enter lifts the item (<code>aria-pressed="true"</code>), Up and Down move it, Space or Enter drops it, Escape puts it back where it was. <code>aria-describedby</code> points at one hidden sentence that says so.</li><li>Every move is said by a <code>role="status"</code>: "Status, place 3 of 5".</li><li>Dragging with a pointer does what the keys do. The handle has <code>touch-action: none</code>, so a touch on it drags and a touch on the rest of the item scrolls.</li></ul></td></tr>
+<tr><th scope="row">Level</th><td>Interactive. Static fallback: no handle; move up and move down are submit buttons of a form, and each press loads the page with the new order.</td></tr>
+<tr><th scope="row">Parameters</th><td><ul><li><code>Items</code> with <code>@bind-Items</code>, or <code>OnReorder</code> with the old and the new place</li><li><code>ItemTemplate</code>: the content of an item; <code>ItemLabel</code>: the name of an item for its buttons</li><li><code>Label</code>; <code>Disabled</code>; <code>Draggable</code>: off leaves the buttons</li></ul></td></tr>
+<tr><th scope="row">Classes</th><td><code>fl-sortable-list</code>; parts <code>fl-sortable-list__item</code>, <code>__handle</code>, <code>__content</code>, <code>__actions</code>, <code>__place</code></td></tr>
+<tr><th scope="row">Tokens</th><td><ul><li>Colour: <code>surface</code>, <code>surface-raised</code>, <code>border</code>, <code>text</code>, <code>text-subtle</code>, <code>hover</code>, <code>pressed</code>, <code>accent-soft</code>, <code>accent-border</code>, <code>accent-text</code>, <code>disabled-text</code></li><li>Size: <code>--fl-row-height</code>, <code>--fl-target-min</code>, <code>--fl-inset-s</code>, <code>--fl-gap-s</code>, <code>--fl-space-0-5</code>, <code>-1</code>, <code>-1-5</code>, <code>--fl-control-radius</code>, <code>--fl-radius-s</code>, <code>--fl-border-width</code></li><li>Elevation: <code>--fl-shadow-m</code>, <code>--fl-z-raised</code></li><li>Focus: <code>--fl-focus-ring</code>, <code>--fl-focus-ring-offset</code>, <code>--fl-focus-halo</code></li></ul></td></tr>
+</tbody>
+</table>
+</section>
+
+</main>
+</div>
+<script>
+// Demos of this page. They are not part of the library.
+(() => {
+  const within = (target, selector) => target instanceof Element && target.closest(selector);
+
+  // Table: the checkbox of the header follows the rows, and sets them.
+  document.addEventListener('change', event => {
+    const table = within(event.target, '[data-demo="table"]');
+    if (!table) return;
+    const all = table.querySelector('thead input[type="checkbox"]');
+    const rows = [...table.querySelectorAll('tbody input[type="checkbox"]')];
+    if (event.target === all) rows.forEach(box => { box.checked = all.checked; });
+    const count = rows.filter(box => box.checked).length;
+    all.checked = count === rows.length;
+    all.indeterminate = count > 0 && count < rows.length;
+  });
+
+  // Table: the arrow keys move between rows, and Space selects the row in focus.
+  document.addEventListener('keydown', event => {
+    const row = event.target;
+    if (!(row instanceof HTMLTableRowElement) || !within(row, '[data-demo="table"]')) return;
+    const rows = [...row.parentElement.rows];
+    const to = { ArrowDown: rows[rows.indexOf(row) + 1], ArrowUp: rows[rows.indexOf(row) - 1], Home: rows[0], End: rows.at(-1) }[event.key];
+    if (to) {
+      row.tabIndex = -1;
+      to.tabIndex = 0;
+      to.focus();
+    } else if (event.key === ' ') {
+      row.querySelector('input[type="checkbox"]').click();
+    } else return;
+    event.preventDefault();
+  });
+
+  // Tree: a press on a toggle opens, a press on a row selects, the keys do both.
+  const shown = tree => [...tree.querySelectorAll('[role="treeitem"]')].filter(item => !item.parentElement.closest('[aria-expanded="false"]'));
+  const select = (tree, item) => {
+    if (item.getAttribute('aria-disabled') === 'true') return;
+    tree.querySelectorAll('[aria-selected="true"]').forEach(other => other.setAttribute('aria-selected', 'false'));
+    item.setAttribute('aria-selected', 'true');
+  };
+  const focus = (tree, item) => {
+    if (!item) return;
+    tree.querySelectorAll('[tabindex="0"]').forEach(other => { other.tabIndex = -1; });
+    item.tabIndex = 0;
+    item.focus();
+  };
+  const open = (item, state) => {
+    if (item.hasAttribute('aria-expanded') && !item.hasAttribute('aria-busy')) item.setAttribute('aria-expanded', String(state));
+  };
+
+  document.addEventListener('click', event => {
+    const tree = within(event.target, '[data-demo="tree"]');
+    const row = tree && event.target.closest('.fl-tree__row');
+    if (!row) return;
+    const item = row.parentElement;
+    if (event.target.closest('.fl-tree__toggle')) open(item, item.getAttribute('aria-expanded') !== 'true');
+    else select(tree, item);
+    focus(tree, item);
+  });
+
+  document.addEventListener('keydown', event => {
+    const item = event.target;
+    const tree = within(item, '[data-demo="tree"]');
+    if (!tree || item.getAttribute('role') !== 'treeitem') return;
+    const items = shown(tree);
+    const at = items.indexOf(item);
+    const state = item.getAttribute('aria-expanded');
+    const rtl = getComputedStyle(tree).direction === 'rtl';
+    const key = rtl ? { ArrowLeft: 'ArrowRight', ArrowRight: 'ArrowLeft' }[event.key] || event.key : event.key;
+    if (key === 'ArrowDown') focus(tree, items[at + 1]);
+    else if (key === 'ArrowUp') focus(tree, items[at - 1]);
+    else if (key === 'Home') focus(tree, items[0]);
+    else if (key === 'End') focus(tree, items.at(-1));
+    else if (key === 'ArrowRight') state === 'false' ? open(item, true) : state === 'true' && focus(tree, items[at + 1]);
+    else if (key === 'ArrowLeft') state === 'true' ? open(item, false) : focus(tree, item.parentElement.closest('[role="treeitem"]'));
+    else if (key === 'Enter' || key === ' ') select(tree, item);
+    else return;
+    event.preventDefault();
+  });
+
+  // Sortable list: the buttons move by one place; the handle lifts and drops.
+  const place = (list, item, to, say = true) => {
+    const items = [...list.children];
+    if (to < 0 || to >= items.length) return;
+    const at = items.indexOf(item);
+    list.insertBefore(item, to > at ? items[to].nextSibling : items[to]);
+    [...list.children].forEach((each, i, all) => {
+      const [up, down] = each.querySelectorAll('.fl-sortable-list__actions button');
+      up.disabled = i === 0;
+      down.disabled = i === all.length - 1;
+    });
+    const status = list.parentElement.querySelector('[data-demo="sortable-status"]');
+    if (say && status) status.textContent = item.querySelector('.fl-sortable-list__content').textContent.trim() + ', place ' + (to + 1) + ' of ' + items.length;
+  };
+
+  document.addEventListener('click', event => {
+    const list = within(event.target, '[data-demo="sortable"]');
+    const button = list && event.target.closest('button');
+    if (!button) return;
+    const item = button.closest('li');
+    const at = [...list.children].indexOf(item);
+    if (button.classList.contains('fl-sortable-list__handle')) {
+      const lifted = button.getAttribute('aria-pressed') !== 'true';
+      button.setAttribute('aria-pressed', String(lifted));
+      if (lifted) item.dataset.from = at;
+      return;
+    }
+    const up = button === item.querySelector('.fl-sortable-list__actions button');
+    place(list, item, at + (up ? -1 : 1));
+    (button.disabled ? item.querySelector('.fl-sortable-list__actions button:not(:disabled)') : button).focus();
+  });
+
+  document.addEventListener('keydown', event => {
+    const handle = within(event.target, '[data-demo="sortable"] .fl-sortable-list__handle[aria-pressed="true"]');
+    if (!handle) return;
+    const item = handle.closest('li');
+    const list = item.parentElement;
+    const at = [...list.children].indexOf(item);
+    if (event.key === 'ArrowUp') place(list, item, at - 1);
+    else if (event.key === 'ArrowDown') place(list, item, at + 1);
+    else if (event.key === 'Escape') {
+      place(list, item, Number(item.dataset.from), false);
+      handle.setAttribute('aria-pressed', 'false');
+    } else return;
+    handle.focus();
+    event.preventDefault();
+  });
+})();
+</script>
+</body>
+</html>

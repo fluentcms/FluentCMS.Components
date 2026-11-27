@@ -1,0 +1,95 @@
+/* Timeline: what happened, in order, on an <ol>. Each entry has a marker (an
+   avatar or an icon), a text and a time, and a line joins the markers. */
+
+@layer fl.components {
+  .fl-timeline {
+    --fl-timeline-marker: var(--fl-space-6);
+    --fl-timeline-gap: var(--fl-gap-m);
+
+    container-type: inline-size;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-s);
+    line-height: var(--fl-line-height-normal);
+
+    & > .fl-timeline__item {
+      position: relative;
+      display: grid;
+      grid-template-columns: var(--fl-timeline-marker) minmax(0, 1fr);
+      column-gap: var(--fl-space-3);
+      padding-block-end: var(--fl-timeline-gap);
+
+      /* The line, from under the marker to the next one. */
+      &::before {
+        content: "";
+        position: absolute;
+        inset-block: calc(var(--fl-timeline-marker) + var(--fl-space-1)) var(--fl-space-1);
+        inset-inline-start: calc((var(--fl-timeline-marker) - var(--fl-border-width)) / 2);
+        border-inline-start: var(--fl-border-width) solid var(--fl-color-border-strong);
+      }
+
+      &:last-child {
+        padding-block-end: 0;
+
+        &::before {
+          content: none;
+        }
+      }
+    }
+
+    /* The place of the marker: an avatar, or an icon alone. */
+    & > .fl-timeline__item > .fl-timeline__marker {
+      display: grid;
+      place-items: center;
+      grid-row: 1 / span 2;
+      align-self: start;
+      inline-size: var(--fl-timeline-marker);
+      block-size: var(--fl-timeline-marker);
+      color: var(--fl-color-text-subtle);
+    }
+
+    /* The text starts on the line of the marker's middle. */
+    & > .fl-timeline__item > .fl-timeline__text {
+      grid-column: 2;
+      margin: 0;
+      padding-block-start: calc((var(--fl-timeline-marker) - 1lh) / 2);
+
+      & strong {
+        font-weight: var(--fl-font-weight-semibold);
+      }
+    }
+
+    & > .fl-timeline__item > .fl-timeline__time {
+      grid-column: 2;
+      justify-self: start;
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-xs);
+      white-space: nowrap;
+      /* Keeps "12 min ago" in that order in right-to-left. */
+      unicode-bidi: plaintext;
+    }
+
+    /* A second line under the text: what changed, or where. */
+    & .fl-timeline__detail {
+      display: block;
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-xs);
+    }
+
+    /* With room, the time moves to the end of the row. */
+    @container (min-inline-size: 30rem) {
+      & > .fl-timeline__item {
+        grid-template-columns: var(--fl-timeline-marker) minmax(0, 1fr) auto;
+      }
+
+      & > .fl-timeline__item > .fl-timeline__time {
+        grid-column: 3;
+        grid-row: 1;
+        padding-block-start: calc((var(--fl-timeline-marker) - 1lh) / 2);
+      }
+    }
+  }
+}

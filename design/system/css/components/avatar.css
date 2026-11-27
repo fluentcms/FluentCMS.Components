@@ -1,0 +1,96 @@
+/* Avatar: a person or a thing as initials, an image or an icon. On a <span>. */
+
+@layer fl.components {
+  .fl-avatar {
+    --fl-avatar-size: var(--fl-space-8);
+    --fl-avatar-font-size: var(--fl-font-size-xs);
+    --fl-avatar-bg: var(--fl-color-neutral-soft);
+    --fl-avatar-fg: var(--fl-color-neutral-text);
+
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    inline-size: var(--fl-avatar-size);
+    block-size: var(--fl-avatar-size);
+    /* Transparent, and drawn by the system in forced colours. */
+    border: var(--fl-border-width) solid transparent;
+    border-radius: var(--fl-radius-full);
+    background-color: var(--fl-avatar-bg);
+    color: var(--fl-avatar-fg);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-avatar-font-size);
+    font-weight: var(--fl-font-weight-semibold);
+    line-height: 1;
+    white-space: nowrap;
+    vertical-align: middle;
+    overflow: hidden;
+    user-select: none;
+    /* Keeps "+3" in that order in right-to-left. */
+    unicode-bidi: plaintext;
+
+    /* The image covers the initials, which stay as its fallback. */
+    & > .fl-avatar__image {
+      position: absolute;
+      inset: calc(-1 * var(--fl-border-width));
+      inline-size: calc(100% + 2 * var(--fl-border-width));
+      block-size: calc(100% + 2 * var(--fl-border-width));
+      object-fit: cover;
+    }
+
+    /* Sizes set tokens only. */
+
+    &.fl-avatar--s {
+      --fl-avatar-size: var(--fl-space-6);
+      --fl-avatar-font-size: var(--fl-font-size-2xs);
+    }
+
+    &.fl-avatar--l {
+      --fl-avatar-size: var(--fl-space-10);
+      --fl-avatar-font-size: var(--fl-font-size-m);
+    }
+
+    &.fl-avatar--xl {
+      --fl-avatar-size: var(--fl-space-14);
+      --fl-avatar-font-size: var(--fl-font-size-xl);
+    }
+
+    /* Categories: a fill that tells one person from another and means nothing. */
+
+    &.fl-avatar--category-1 { --fl-avatar-bg: var(--fl-color-category-1); --fl-avatar-fg: var(--fl-color-on-category); }
+    &.fl-avatar--category-2 { --fl-avatar-bg: var(--fl-color-category-2); --fl-avatar-fg: var(--fl-color-on-category); }
+    &.fl-avatar--category-3 { --fl-avatar-bg: var(--fl-color-category-3); --fl-avatar-fg: var(--fl-color-on-category); }
+    &.fl-avatar--category-4 { --fl-avatar-bg: var(--fl-color-category-4); --fl-avatar-fg: var(--fl-color-on-category); }
+    &.fl-avatar--category-5 { --fl-avatar-bg: var(--fl-color-category-5); --fl-avatar-fg: var(--fl-color-on-category); }
+    &.fl-avatar--category-6 { --fl-avatar-bg: var(--fl-color-category-6); --fl-avatar-fg: var(--fl-color-on-category); }
+  }
+
+  /* Avatar group: avatars that overlap, each with a ring in the colour of the
+     surface below. On a <span>, or on a <ul> whose items are the avatars. */
+  .fl-avatar-group {
+    --fl-avatar-group-ring: var(--fl-color-surface);
+
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    vertical-align: middle;
+
+    & > .fl-avatar {
+      box-shadow: 0 0 0 var(--fl-border-width-strong) var(--fl-avatar-group-ring);
+    }
+
+    /* Each lies over a sixth of the one before it, whatever their size. */
+    & > .fl-avatar + .fl-avatar {
+      margin-inline-start: calc(var(--fl-avatar-size) / -6);
+    }
+
+    @media (forced-colors: active) {
+      & > .fl-avatar {
+        border-color: CanvasText;
+        background-color: Canvas;
+      }
+    }
+  }
+}

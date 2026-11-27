@@ -1,0 +1,126 @@
+/* Pagination: the pages of a list, on a <nav>. The range and the rows per
+   page sit at the start, the pages at the end, and the row wraps. */
+
+@layer fl.components {
+  .fl-pagination {
+    --fl-pagination-size: var(--fl-control-height-s);
+
+    /* It measures itself, so it fills the width of its place. */
+    container-type: inline-size;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--fl-gap-s) var(--fl-gap-m);
+    min-inline-size: 0;
+    color: var(--fl-color-text-muted);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-s);
+    line-height: var(--fl-line-height-tight);
+
+    /* "1 to 10 of 128" */
+    & > .fl-pagination__range {
+      margin-block: 0;
+      margin-inline: 0 auto;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      /* Keeps the sentence in its order in right-to-left. */
+      unicode-bidi: plaintext;
+    }
+
+    /* Rows per page: a <label> around its text and a select. */
+    & > .fl-pagination__size {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--fl-space-2);
+      white-space: nowrap;
+    }
+
+    & > .fl-pagination__pages {
+      display: flex;
+      align-items: center;
+      gap: var(--fl-space-1);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    /* A page, and a step to the previous or the next one: a link, or a button. */
+    & > .fl-pagination__pages > li > :is(.fl-pagination__page, .fl-pagination__step) {
+      /* Holds the text that a page hides for sight. */
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-inline-size: var(--fl-pagination-size);
+      block-size: var(--fl-pagination-size);
+      margin: 0;
+      padding-block: 0;
+      padding-inline: var(--fl-space-1-5);
+      border: var(--fl-border-width) solid transparent;
+      border-radius: var(--fl-control-radius);
+      background-color: transparent;
+      color: inherit;
+      font: inherit;
+      font-variant-numeric: tabular-nums;
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--fl-color-hover);
+        color: var(--fl-color-text);
+      }
+
+      &:active {
+        background-color: var(--fl-color-pressed);
+      }
+
+      &:focus-visible {
+        outline: var(--fl-focus-ring);
+        outline-offset: var(--fl-focus-ring-offset);
+        box-shadow: var(--fl-focus-halo);
+      }
+
+      &[aria-current] {
+        border-color: var(--fl-color-accent-border);
+        background-color: var(--fl-color-accent-soft);
+        color: var(--fl-color-accent-text);
+        font-weight: var(--fl-font-weight-semibold);
+      }
+
+      &:disabled,
+      &[aria-disabled="true"] {
+        background-color: transparent;
+        color: var(--fl-color-disabled-text);
+        cursor: not-allowed;
+      }
+    }
+
+    /* The gap between pages that are not listed. */
+    & > .fl-pagination__pages > .fl-pagination__gap {
+      display: grid;
+      place-items: center;
+      min-inline-size: var(--fl-pagination-size);
+      block-size: var(--fl-pagination-size);
+      color: var(--fl-color-text-subtle);
+    }
+
+    /* A narrow place keeps previous, the current page and next. */
+    @container (max-inline-size: 30rem) {
+      & > .fl-pagination__pages > li:has(> .fl-pagination__page:not([aria-current])),
+      & > .fl-pagination__pages > .fl-pagination__gap {
+        display: none;
+      }
+    }
+
+    @media (forced-colors: active) {
+      & > .fl-pagination__pages > li > .fl-pagination__page[aria-current] {
+        border-color: Highlight;
+        color: Highlight;
+      }
+
+      & > .fl-pagination__pages > li > :is(.fl-pagination__page, .fl-pagination__step):is(:disabled, [aria-disabled="true"]) {
+        color: GrayText;
+      }
+    }
+  }
+}

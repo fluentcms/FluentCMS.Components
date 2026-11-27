@@ -1,0 +1,118 @@
+/* Stat tile: one figure of a dashboard, with its label, an icon, a trend and
+   room for a small chart. On a <div>, or on an <a> that opens the list behind
+   the figure. */
+
+@layer fl.components {
+  .fl-stat-tile {
+    /* Holds the text that a trend hides for sight. */
+    position: relative;
+    display: grid;
+    /* The figure takes the width it needs, and the chart what is left. */
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--fl-gap-m);
+    row-gap: var(--fl-space-2);
+    min-inline-size: 0;
+    padding: var(--fl-inset-m);
+    border: var(--fl-border-width) solid var(--fl-color-border);
+    border-radius: var(--fl-radius-l);
+    background-color: var(--fl-color-surface);
+    color: var(--fl-color-text);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-font-size-s);
+    line-height: var(--fl-line-height-normal);
+    text-decoration: none;
+
+    & > * {
+      grid-column: 1 / -1;
+      margin: 0;
+    }
+
+    /* The label keeps the place of the icon free, which stands in its row. */
+    & > .fl-stat-tile__label {
+      grid-row: 1;
+      padding-inline-end: calc(var(--fl-icon-size-m) + var(--fl-space-2));
+      color: var(--fl-color-text-muted);
+      font-weight: var(--fl-font-weight-medium);
+    }
+
+    & > .fl-icon {
+      grid-row: 1;
+      justify-self: end;
+      color: var(--fl-color-text-subtle);
+    }
+
+    & > .fl-stat-tile__value {
+      grid-column: 1;
+      justify-self: start;
+      white-space: nowrap;
+      font-size: var(--fl-font-size-3xl);
+      font-weight: var(--fl-font-weight-semibold);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: var(--fl-letter-spacing-tight);
+      line-height: var(--fl-line-height-tight);
+      /* Keeps a figure with a sign or a unit in its order in right-to-left. */
+      unicode-bidi: plaintext;
+    }
+
+    /* Room for a small chart, beside the figure; it gives way to a long
+       figure. The chart draws in currentColor. */
+    & > .fl-stat-tile__chart {
+      grid-column: 2;
+      grid-row: 2;
+      align-self: end;
+      justify-self: end;
+      inline-size: min(100%, var(--fl-space-24));
+      block-size: var(--fl-space-9);
+      color: var(--fl-color-accent);
+    }
+
+    & > .fl-stat-tile__note {
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-xs);
+    }
+
+    /* The trend: a figure with an arrow. Its tone says whether the change is
+       good, which the direction alone does not. */
+    & .fl-stat-tile__trend {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--fl-space-1);
+      margin-inline-end: var(--fl-space-1);
+      color: var(--fl-color-text-muted);
+      font-weight: var(--fl-font-weight-semibold);
+      font-variant-numeric: tabular-nums;
+      vertical-align: bottom;
+      unicode-bidi: plaintext;
+
+      &.fl-stat-tile__trend--good {
+        color: var(--fl-color-success-text);
+      }
+
+      &.fl-stat-tile__trend--bad {
+        color: var(--fl-color-danger-text);
+      }
+    }
+
+    /* States of a tile that is a link. */
+
+    &:is(a):hover {
+      border-color: var(--fl-color-border-strong);
+      box-shadow: var(--fl-shadow-s);
+    }
+
+    &:is(a):focus-visible {
+      outline: var(--fl-focus-ring);
+      outline-offset: var(--fl-focus-ring-offset);
+      box-shadow: var(--fl-focus-halo);
+    }
+  }
+
+  /* A row of tiles that wraps; each tile keeps a width a figure can be read in. */
+  .fl-stat-tile-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--fl-size-2xs)), 1fr));
+    gap: var(--fl-gap-m);
+    min-inline-size: 0;
+  }
+}

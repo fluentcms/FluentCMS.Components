@@ -1,0 +1,98 @@
+/* Progress: how far a task is, on a <progress>. Without a value it says that
+   the task runs and not how far it is. */
+
+@layer fl.components {
+  .fl-progress {
+    --fl-progress-height: var(--fl-space-2);
+    --fl-progress-track: var(--fl-color-surface-muted);
+    --fl-progress-fill: var(--fl-color-accent);
+
+    appearance: none;
+    display: block;
+    inline-size: 100%;
+    min-inline-size: var(--fl-size-3xs);
+    block-size: var(--fl-progress-height);
+    border: 0;
+    /* Transparent, and drawn by the system in forced colours. */
+    outline: var(--fl-border-width) solid transparent;
+    border-radius: var(--fl-radius-full);
+    background-color: var(--fl-progress-track);
+    overflow: hidden;
+    vertical-align: middle;
+
+    /* The track is the element itself; the engines name the fill differently,
+       and a rule that holds both names is dropped by each. */
+    &::-webkit-progress-bar {
+      background-color: transparent;
+    }
+
+    &::-webkit-progress-value {
+      border-radius: var(--fl-radius-full);
+      background-color: var(--fl-progress-fill);
+      transition: inline-size var(--fl-duration-slow) var(--fl-ease-standard);
+    }
+
+    &::-moz-progress-bar {
+      border-radius: var(--fl-radius-full);
+      background-color: var(--fl-progress-fill);
+    }
+
+    /* Tones and sizes set tokens only. */
+
+    &.fl-progress--neutral { --fl-progress-fill: var(--fl-color-neutral-solid); }
+    &.fl-progress--success { --fl-progress-fill: var(--fl-color-success-solid); }
+    &.fl-progress--warning { --fl-progress-fill: var(--fl-color-warning-solid); }
+    &.fl-progress--danger { --fl-progress-fill: var(--fl-color-danger-solid); }
+    &.fl-progress--info { --fl-progress-fill: var(--fl-color-info-solid); }
+    &.fl-progress--pending { --fl-progress-fill: var(--fl-color-pending-solid); }
+
+    &.fl-progress--s {
+      --fl-progress-height: var(--fl-space-1);
+    }
+
+    /* Without a value: a third of the track that travels along it. */
+    &:indeterminate {
+      background-image: linear-gradient(var(--fl-progress-fill) 0 0);
+      background-repeat: no-repeat;
+      background-size: calc(100% / 3) 100%;
+      animation: fl-progress-travel var(--fl-duration-pulse) var(--fl-ease-standard) infinite;
+
+      &::-webkit-progress-value {
+        background-color: transparent;
+      }
+
+      &::-moz-progress-bar {
+        background-color: transparent;
+      }
+
+      &:dir(rtl) {
+        animation-direction: reverse;
+      }
+    }
+
+    @media (forced-colors: active) {
+      forced-color-adjust: none;
+      outline-color: CanvasText;
+      background-color: Canvas;
+
+      /* Every tone is the highlight of the system; this wins over a tone. */
+      &[class] {
+        --fl-progress-fill: Highlight;
+      }
+    }
+  }
+
+  @keyframes fl-progress-travel {
+    from { background-position: calc(100% * -0.5) 0; }
+    to { background-position: calc(100% * 1.5) 0; }
+  }
+
+  /* The still form: a dashed track, which shows no value either. */
+  @media (prefers-reduced-motion: reduce) {
+    .fl-progress:indeterminate {
+      background-image: repeating-linear-gradient(to right, var(--fl-progress-fill) 0 var(--fl-space-2), transparent var(--fl-space-2) var(--fl-space-4));
+      background-size: auto;
+      animation: none;
+    }
+  }
+}

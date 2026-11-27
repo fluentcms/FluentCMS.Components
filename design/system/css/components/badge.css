@@ -1,0 +1,115 @@
+/* Badge: the state of a thing, in a tone. On a <span>. The text says the
+   state; the tone and the dot only repeat it. */
+
+@layer fl.components {
+  .fl-badge {
+    --fl-badge-height: calc(var(--fl-space-5) + var(--fl-space-0-5));
+    --fl-badge-padding: var(--fl-space-2);
+    --fl-badge-radius: var(--fl-radius-full);
+    --fl-badge-font-size: var(--fl-font-size-xs);
+    --fl-badge-bg: var(--fl-color-neutral-soft);
+    --fl-badge-border: var(--fl-color-neutral-border);
+    --fl-badge-fg: var(--fl-color-neutral-text);
+    --fl-badge-mark: var(--fl-color-neutral-solid);
+
+    /* Holds the text that a count hides for sight. */
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--fl-space-1-5);
+    max-inline-size: 100%;
+    min-inline-size: var(--fl-badge-height);
+    block-size: var(--fl-badge-height);
+    padding-inline: var(--fl-badge-padding);
+    border: var(--fl-border-width) solid var(--fl-badge-border);
+    border-radius: var(--fl-badge-radius);
+    background-color: var(--fl-badge-bg);
+    color: var(--fl-badge-fg);
+    font-family: var(--fl-font-family);
+    font-size: var(--fl-badge-font-size);
+    font-weight: var(--fl-font-weight-medium);
+    line-height: var(--fl-line-height-tight);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    vertical-align: middle;
+    /* Keeps "99+" in that order in right-to-left. */
+    unicode-bidi: plaintext;
+
+    & > .fl-icon {
+      margin-inline-start: calc(-1 * var(--fl-space-0-5));
+    }
+
+    /* Variants set tokens only. */
+
+    &.fl-badge--accent {
+      --fl-badge-bg: var(--fl-color-accent-soft);
+      --fl-badge-border: var(--fl-color-accent-border);
+      --fl-badge-fg: var(--fl-color-accent-text);
+      --fl-badge-mark: var(--fl-color-accent);
+    }
+
+    &.fl-badge--success {
+      --fl-badge-bg: var(--fl-color-success-soft);
+      --fl-badge-border: var(--fl-color-success-border);
+      --fl-badge-fg: var(--fl-color-success-text);
+      --fl-badge-mark: var(--fl-color-success-solid);
+    }
+
+    &.fl-badge--warning {
+      --fl-badge-bg: var(--fl-color-warning-soft);
+      --fl-badge-border: var(--fl-color-warning-border);
+      --fl-badge-fg: var(--fl-color-warning-text);
+      --fl-badge-mark: var(--fl-color-warning-solid);
+    }
+
+    &.fl-badge--danger {
+      --fl-badge-bg: var(--fl-color-danger-soft);
+      --fl-badge-border: var(--fl-color-danger-border);
+      --fl-badge-fg: var(--fl-color-danger-text);
+      --fl-badge-mark: var(--fl-color-danger-solid);
+    }
+
+    &.fl-badge--info {
+      --fl-badge-bg: var(--fl-color-info-soft);
+      --fl-badge-border: var(--fl-color-info-border);
+      --fl-badge-fg: var(--fl-color-info-text);
+      --fl-badge-mark: var(--fl-color-info-solid);
+    }
+
+    &.fl-badge--pending {
+      --fl-badge-bg: var(--fl-color-pending-soft);
+      --fl-badge-border: var(--fl-color-pending-border);
+      --fl-badge-fg: var(--fl-color-pending-text);
+      --fl-badge-mark: var(--fl-color-pending-solid);
+    }
+
+    /* A dot before the text, in the solid step of the tone. */
+    &.fl-badge--dot::before {
+      content: "";
+      flex: none;
+      inline-size: var(--fl-space-1-5);
+      block-size: var(--fl-space-1-5);
+      border-radius: var(--fl-radius-full);
+      background-color: var(--fl-badge-mark);
+    }
+
+    /* Square: small, for a short code or a count. */
+    &.fl-badge--square {
+      --fl-badge-height: calc(var(--fl-space-4) + var(--fl-space-0-5));
+      --fl-badge-padding: var(--fl-space-1);
+      --fl-badge-radius: var(--fl-radius-s);
+      --fl-badge-font-size: var(--fl-font-size-2xs);
+
+      font-weight: var(--fl-font-weight-semibold);
+    }
+
+    @media (forced-colors: active) {
+      /* The system removes a background, so the dot is drawn in a system colour. */
+      &.fl-badge--dot::before {
+        forced-color-adjust: none;
+        background-color: CanvasText;
+      }
+    }
+  }
+}
