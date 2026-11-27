@@ -354,7 +354,7 @@
                             <span class="fl-input"><input class="fl-input__control" type="text" id="hero-subheading" value="A faster editor, scheduling per locale and smarter media."></span>
                           </div>
                           <div class="fl-field" role="group" aria-labelledby="hero-image-label">
-                            <span class="fl-field__label" id="hero-image-label">Image</span>
+                            <div class="fl-field__label" id="hero-image-label">Image</div>
                             <figure class="screen-media screen-media--s"><img src="spring-hero.svg" alt="Spring hills under a low sun"><figcaption><span>spring-hero.jpg</span><span>2400 × 1350</span></figcaption></figure>
                           </div>
                         </div>
@@ -476,10 +476,10 @@
                 <div class="fl-popover" id="schedule-popover" popover role="dialog" aria-labelledby="schedule-title">
                   <div class="fl-popover__header"><h2 class="fl-popover__title" id="schedule-title">Schedule EN</h2></div>
                   <div class="fl-popover__body">
-                    <fieldset class="fl-field">
-                      <legend class="fl-field__label" id="schedule-action-label">At that time</legend>
-                      <div class="fl-radio-group fl-radio-group--horizontal" role="radiogroup" aria-labelledby="schedule-action-label"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="schedule-action" id="schedule-publish" checked><label class="fl-radio-group__label" for="schedule-publish">Publish</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="schedule-action" id="schedule-unpublish"><label class="fl-radio-group__label" for="schedule-unpublish">Unpublish</label></div></div>
-                    </fieldset>
+                    <div class="fl-field" role="radiogroup" aria-labelledby="schedule-action-label">
+                      <div class="fl-field__label" id="schedule-action-label">At that time</div>
+                      <div class="fl-radio-group fl-radio-group--horizontal"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="schedule-action" id="schedule-publish" checked><label class="fl-radio-group__label" for="schedule-publish">Publish</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="schedule-action" id="schedule-unpublish"><label class="fl-radio-group__label" for="schedule-unpublish">Unpublish</label></div></div>
+                    </div>
                     <div class="fl-field">
                       <label class="fl-field__label" for="schedule-at">Date and time</label>
                       <span class="fl-input fl-date-input"><input class="fl-input__control fl-date-input__control" type="datetime-local" id="schedule-at" value="2026-12-01T09:00" min="2026-11-26T00:00" aria-describedby="schedule-at-meta"></span>

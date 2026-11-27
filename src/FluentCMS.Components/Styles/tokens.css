@@ -100,7 +100,11 @@
     --fl-font-size-3xl: 1.875rem;
 
     --fl-font-weight-regular: 400;
-    --fl-font-weight-medium: 500;
+    /* 600, as the semibold: the system stack has no medium of its own on
+       Windows, where Chromium and WebKit draw 500 as semibold and Firefox draws
+       it as regular. A host that serves a typeface with a true medium, such as
+       Inter, sets --fl-font-weight-medium: 500. */
+    --fl-font-weight-medium: 600;
     --fl-font-weight-semibold: 600;
     --fl-font-weight-bold: 700;
 
