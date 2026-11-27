@@ -9,6 +9,8 @@
     display: grid;
     /* The figure takes the width it needs, and the chart what is left. */
     grid-template-columns: auto minmax(0, 1fr);
+    /* Tiles of one row keep their figures in line when a note wraps. */
+    align-content: start;
     align-items: center;
     column-gap: var(--fl-gap-m);
     row-gap: var(--fl-space-2);

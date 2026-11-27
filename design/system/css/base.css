@@ -15,8 +15,18 @@
     }
   }
 
-  /* The root of an application or of a themed region. */
+  /* The hidden attribute hides, whatever display a component sets. An important
+     declaration in the first layer wins over the later ones, and this is the
+     one place the library uses it. */
+  [class^="fl-"][hidden],
+  [class*=" fl-"][hidden] {
+    display: none !important;
+  }
+
+  /* The root of an application or of a themed region. On the <body> it takes
+     the margin of the page away. */
   .fl-root {
+    margin: 0;
     background-color: var(--fl-color-canvas);
     color: var(--fl-color-text);
     font-family: var(--fl-font-family);

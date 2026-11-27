@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings · FluentCMS Components reference screens</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<!-- frame: start -->
+<link rel="stylesheet" href="../css/components/icon.css">
+<link rel="stylesheet" href="../css/components/button.css">
+<link rel="stylesheet" href="../css/components/input.css">
+<link rel="stylesheet" href="../css/components/avatar.css">
+<link rel="stylesheet" href="../css/components/badge.css">
+<link rel="stylesheet" href="../css/components/menu.css">
+<link rel="stylesheet" href="../css/components/popover.css">
+<link rel="stylesheet" href="../css/components/tooltip.css">
+<link rel="stylesheet" href="../css/components/breadcrumb.css">
+<link rel="stylesheet" href="../css/components/navigation.css">
+<link rel="stylesheet" href="../css/components/app-shell.css">
+<link rel="stylesheet" href="../css/patterns/divider.css">
+<link rel="stylesheet" href="../css/patterns/kbd.css">
+<link rel="stylesheet" href="../css/patterns/search-field.css">
+<link rel="stylesheet" href="../css/patterns/page-header.css">
+<!-- frame: end -->
+<link rel="stylesheet" href="../css/components/card.css">
+<link rel="stylesheet" href="../css/components/tabs.css">
+<link rel="stylesheet" href="../css/components/field.css">
+<link rel="stylesheet" href="../css/components/textarea.css">
+<link rel="stylesheet" href="../css/components/select.css">
+<link rel="stylesheet" href="../css/components/combobox.css">
+<link rel="stylesheet" href="../css/components/number-input.css">
+<link rel="stylesheet" href="../css/components/time-input.css">
+<link rel="stylesheet" href="../css/components/radio-group.css">
+<link rel="stylesheet" href="../css/components/checkbox.css">
+<link rel="stylesheet" href="../css/components/switch.css">
+<link rel="stylesheet" href="../css/components/file-drop-zone.css">
+<link rel="stylesheet" href="../css/components/alert.css">
+<link rel="stylesheet" href="../css/components/dialog.css">
+<link rel="stylesheet" href="../css/components/toast.css">
+<link rel="stylesheet" href="../docs/docs.css">
+<link rel="stylesheet" href="screens.css">
+<script src="../docs/docs.js"></script>
+</head>
+<body class="fl-root" data-docs="screen">
+
+<!-- The frame is copied from dashboard.html, which says what changes with
+     the screen. -->
+
+<!-- frame: start -->
+<div class="fl-app-shell">
+  <a class="fl-app-shell__skip" href="#main">Skip to content</a>
+
+  <aside class="fl-app-shell__sidebar">
+    <nav class="fl-navigation" aria-label="Main">
+      <a class="fl-navigation__brand" href="dashboard.html"><svg class="fl-icon fl-icon--l fl-navigation__logo" viewBox="12 9 59 62" aria-hidden="true"><g fill="currentColor" stroke="none"><path d="M36.171 36.3545L24.5878 43.0105H24.5855L13 49.6689V62.9856L24.5855 69.644H24.5878V56.3273L36.171 49.6689H36.1733L47.7565 43.0105L36.171 36.3545Z"/><path d="M58.4132 36.3545V49.6689V49.6712L46.8277 56.3296L35.2422 62.9856V62.988L46.8277 69.644L58.4132 62.988H58.4155L69.9987 56.3296V43.0129L58.4132 36.3545Z"/><path d="M35.9381 23.1759H35.9404L47.4072 29.7651L58.8785 36.3542V23.1759L47.4072 16.5891V16.5868L35.9404 10H35.9381L24.4714 16.5868V16.5891L13 23.1759V36.3542L24.4714 29.7651L35.9381 23.1759Z"/></g></svg><span class="fl-navigation__name">FluentCMS</span></a>
+      <div class="fl-navigation__switcher">
+        <button class="fl-button fl-button--l fl-button--block" type="button" popovertarget="site-menu" aria-haspopup="menu" aria-expanded="false" aria-label="Site: Northwind Journal. Switch site"><span class="fl-avatar fl-avatar--s fl-avatar--category-6" aria-hidden="true">NJ</span><span class="screen-identity"><span>Northwind Journal</span><small>Site · 3 locales</small></span><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#chevrons-up-down"/></svg></button>
+        <div class="fl-menu" id="site-menu" popover role="menu" aria-label="Sites">
+          <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg><span class="fl-menu__text">Northwind Journal<span class="fl-menu__description">3 locales</span></span></button>
+          <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg><span class="fl-menu__text">Northwind Docs<span class="fl-menu__description">2 locales</span></span></button>
+          <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg><span class="fl-menu__text">Northwind Careers<span class="fl-menu__description">1 locale</span></span></button>
+          <hr class="fl-menu__separator">
+          <a class="fl-menu__item" role="menuitem" href="settings.html"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#settings"/></svg><span class="fl-menu__text">Manage sites</span></a>
+        </div>
+      </div>
+      <div class="fl-navigation__body">
+        <ul class="fl-navigation__list">
+          <li><a class="fl-navigation__link" href="dashboard.html"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#house"/></svg><span class="fl-navigation__label">Home</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#activity"/></svg><span class="fl-navigation__label">Activity</span></a></li>
+        </ul>
+        <div class="fl-navigation__heading" id="nav-content">Content</div>
+        <ul class="fl-navigation__list" aria-labelledby="nav-content">
+          <li><a class="fl-navigation__link" href="content-list.html"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#file-text"/></svg><span class="fl-navigation__label">Articles</span><span class="fl-navigation__count">128</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#user"/></svg><span class="fl-navigation__label">Authors</span><span class="fl-navigation__count">14</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#layers"/></svg><span class="fl-navigation__label">Pages</span><span class="fl-navigation__count">23</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#calendar"/></svg><span class="fl-navigation__label">Events</span><span class="fl-navigation__count">9</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#tag"/></svg><span class="fl-navigation__label">Tags</span><span class="fl-navigation__badge">Global<span class="fl-visually-hidden">, shared by all sites</span></span><span class="fl-navigation__count">36</span></a></li>
+        </ul>
+        <div class="fl-navigation__heading" id="nav-singletons">Singletons</div>
+        <ul class="fl-navigation__list" aria-labelledby="nav-singletons">
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#box"/></svg><span class="fl-navigation__label">Homepage</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#menu"/></svg><span class="fl-navigation__label">Navigation</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#sliders-horizontal"/></svg><span class="fl-navigation__label">Site settings</span></a></li>
+        </ul>
+        <div class="fl-navigation__heading" id="nav-media">Media</div>
+        <ul class="fl-navigation__list" aria-labelledby="nav-media">
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#image"/></svg><span class="fl-navigation__label">Library</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#maximize-2"/></svg><span class="fl-navigation__label">Image presets</span></a></li>
+        </ul>
+        <div class="fl-navigation__heading" id="nav-agents">Agents and AI</div>
+        <ul class="fl-navigation__list" aria-labelledby="nav-agents">
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#bot"/></svg><span class="fl-navigation__label">MCP clients</span><span class="fl-navigation__count">3</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#book-open"/></svg><span class="fl-navigation__label">Agent instructions</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#message-square"/></svg><span class="fl-navigation__label">Prompts</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#history"/></svg><span class="fl-navigation__label">MCP activity</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#sparkles"/></svg><span class="fl-navigation__label">AI usage</span></a></li>
+        </ul>
+        <div class="fl-navigation__heading" id="nav-manage">Manage</div>
+        <ul class="fl-navigation__list" aria-labelledby="nav-manage">
+          <li>
+            <details class="fl-navigation__group">
+              <summary class="fl-navigation__link"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#zap"/></svg><span class="fl-navigation__label">Integrations</span><svg class="fl-icon fl-icon--s fl-icon--directional fl-navigation__chevron" aria-hidden="true"><use href="../icons/lucide.svg#chevron-right"/></svg></summary>
+              <ul class="fl-navigation__children">
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Webhooks</span></a></li>
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Search index</span></a></li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details class="fl-navigation__group" open>
+              <summary class="fl-navigation__link"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#shield"/></svg><span class="fl-navigation__label">Administration</span><svg class="fl-icon fl-icon--s fl-icon--directional fl-navigation__chevron" aria-hidden="true"><use href="../icons/lucide.svg#chevron-right"/></svg></summary>
+              <ul class="fl-navigation__children">
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Users</span></a></li>
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Roles</span></a></li>
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">API keys</span></a></li>
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Members</span></a></li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details class="fl-navigation__group">
+              <summary class="fl-navigation__link"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#server"/></svg><span class="fl-navigation__label">System</span><svg class="fl-icon fl-icon--s fl-icon--directional fl-navigation__chevron" aria-hidden="true"><use href="../icons/lucide.svg#chevron-right"/></svg></summary>
+              <ul class="fl-navigation__children">
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Plugins</span></a></li>
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Jobs</span></a></li>
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Diagnostics</span></a></li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details class="fl-navigation__group" open>
+              <summary class="fl-navigation__link"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#settings"/></svg><span class="fl-navigation__label">Settings</span><svg class="fl-icon fl-icon--s fl-icon--directional fl-navigation__chevron" aria-hidden="true"><use href="../icons/lucide.svg#chevron-right"/></svg></summary>
+              <ul class="fl-navigation__children">
+                <li><a class="fl-navigation__link" href="settings.html" aria-current="page"><span class="fl-navigation__label">Site settings</span></a></li>
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Sites</span></a></li>
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Locales</span></a></li>
+              </ul>
+            </details>
+          </li>
+        </ul>
+      </div>
+      <div class="fl-navigation__footer">
+        <ul class="fl-navigation__list">
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#circle-question-mark"/></svg><span class="fl-navigation__label">Docs and help</span></a></li>
+        </ul>
+        <button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-label="Collapse sidebar" data-screen="collapse"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="../icons/lucide.svg#panel-left"/></svg></button>
+      </div>
+    </nav>
+  </aside>
+
+  <header class="fl-app-shell__header">
+    <button class="fl-button fl-button--subtle fl-button--icon fl-app-shell__menu" type="button" aria-label="Open navigation" aria-haspopup="dialog" commandfor="nav-drawer" command="show-modal"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#menu"/></svg></button>
+    <div class="fl-app-shell__start">
+      <nav class="fl-breadcrumb" aria-label="Breadcrumb">
+        <ol class="fl-breadcrumb__list">
+<!-- frame: end -->
+          <li class="fl-breadcrumb__item"><a class="fl-breadcrumb__link" href="dashboard.html">Home</a></li>
+          <li class="fl-breadcrumb__item"><svg class="fl-icon fl-icon--s fl-icon--directional fl-breadcrumb__separator" aria-hidden="true"><use href="../icons/lucide.svg#chevron-right"/></svg><a class="fl-breadcrumb__link" href="#">Settings</a></li>
+          <li class="fl-breadcrumb__item"><svg class="fl-icon fl-icon--s fl-icon--directional fl-breadcrumb__separator" aria-hidden="true"><use href="../icons/lucide.svg#chevron-right"/></svg><span class="fl-breadcrumb__current" aria-current="page">Site settings</span></li>
+<!-- frame: start -->
+        </ol>
+      </nav>
+    </div>
+    <div class="fl-app-shell__center screen-search screen-wide" role="search">
+      <span class="fl-input fl-search-field fl-search-field--global"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="../icons/lucide.svg#search"/></svg><input class="fl-input__control fl-search-field__control" type="search" placeholder="Search content, media, settings…" aria-label="Search content, media and settings" aria-keyshortcuts="Control+K"><button class="fl-input__action fl-search-field__clear" type="button" aria-label="Clear"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#x"/></svg></button><span class="fl-search-field__hint" aria-hidden="true"><kbd class="fl-kbd">Ctrl</kbd><kbd class="fl-kbd">K</kbd></span></span>
+    </div>
+    <div class="fl-app-shell__end">
+      <button class="fl-button fl-button--subtle fl-button--icon screen-narrow" type="button" popovertarget="search-popover" aria-haspopup="dialog" aria-expanded="false" aria-label="Search"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#search"/></svg></button>
+      <div class="fl-popover fl-popover--end" id="search-popover" popover role="dialog" aria-label="Search">
+        <span class="fl-input fl-search-field fl-search-field--global"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="../icons/lucide.svg#search"/></svg><input class="fl-input__control fl-search-field__control" type="search" placeholder="Search content, media, settings…" aria-label="Search content, media and settings" autofocus><button class="fl-input__action fl-search-field__clear" type="button" aria-label="Clear"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#x"/></svg></button></span>
+      </div>
+      <button class="fl-button" type="button" popovertarget="locale-menu" aria-haspopup="menu" aria-expanded="false" aria-label="Content locale: EN, English"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#globe"/></svg><span class="screen-wide">EN</span><svg class="fl-icon fl-icon--s screen-wide" aria-hidden="true"><use href="../icons/lucide.svg#chevron-down"/></svg></button>
+      <div class="fl-menu fl-menu--end" id="locale-menu" popover role="menu" aria-labelledby="locale-menu-label">
+        <div class="fl-menu__group" role="group" aria-labelledby="locale-menu-label">
+          <div class="fl-menu__label" id="locale-menu-label">Content locale</div>
+          <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg><span class="fl-menu__text">English</span><span class="fl-badge fl-badge--square">EN</span></button>
+          <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg><span class="fl-menu__text">Français</span><span class="fl-badge fl-badge--square">FR</span></button>
+          <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg><span class="fl-menu__text">Deutsch</span><span class="fl-badge fl-badge--square">DE</span></button>
+        </div>
+      </div>
+      <button class="fl-button fl-button--subtle" type="button" aria-label="Notifications, 2 new" interestfor="tip-notifications"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#bell"/></svg><span class="fl-badge fl-badge--danger fl-badge--square screen-wide" aria-hidden="true">2</span></button>
+      <div class="fl-tooltip fl-tooltip--below" role="tooltip" id="tip-notifications" popover="hint">Notifications</div>
+      <span class="fl-divider fl-divider--vertical screen-wide" role="separator" aria-orientation="vertical"></span>
+      <button class="fl-button fl-button--subtle fl-button--l" type="button" popovertarget="user-menu" aria-haspopup="menu" aria-expanded="false" aria-label="Elena Marsh, Super Admin. Open the user menu"><span class="fl-avatar fl-avatar--category-4" aria-hidden="true">EM</span><span class="screen-identity screen-wide"><span>Elena Marsh</span><small>Super Admin</small></span><svg class="fl-icon fl-icon--s screen-wide" aria-hidden="true"><use href="../icons/lucide.svg#chevron-down"/></svg></button>
+      <div class="fl-menu fl-menu--end" id="user-menu" popover role="menu" aria-label="Elena Marsh">
+        <a class="fl-menu__item" role="menuitem" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#user"/></svg><span class="fl-menu__text">Elena Marsh<span class="fl-menu__description">Super Admin · elena@northwind.example</span></span></a>
+        <hr class="fl-menu__separator">
+        <a class="fl-menu__item" role="menuitem" href="settings.html"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#sliders-horizontal"/></svg><span class="fl-menu__text">Preferences</span></a>
+        <a class="fl-menu__item" role="menuitem" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#key-round"/></svg><span class="fl-menu__text">My API keys</span></a>
+        <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#command"/></svg><span class="fl-menu__text">Keyboard shortcuts</span><kbd class="fl-menu__shortcut">?</kbd></button>
+        <hr class="fl-menu__separator">
+        <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#log-out"/></svg><span class="fl-menu__text">Sign out</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="fl-app-shell__main" id="main" tabindex="-1">
+<!-- frame: end -->
+
+    <!-- A form of settings. As in the entry editor, the page header is a band
+         that stays in view, and it holds Save and Discard: the form is long,
+         and what was changed must be in reach from any place in it. The page
+         is drawn after a save that failed: one field is invalid, the alert
+         says so, and the changes are still in the form. -->
+    <div class="screen-band screen-band--sticky screen-form">
+      <header class="fl-page-header">
+        <div class="fl-page-header__main">
+          <div class="fl-page-header__heading"><h1 class="fl-page-header__title">Site settings</h1><span class="fl-page-header__state" data-screen="unsaved"><span class="fl-badge fl-badge--warning fl-badge--dot">Unsaved changes</span></span></div>
+          <ul class="fl-page-header__meta"><li>Northwind Journal</li><li>journal.northwind.example</li><li>Saved 24 Nov 2026 by Elena Marsh</li></ul>
+        </div>
+        <div class="fl-page-header__actions">
+          <button class="fl-button" type="reset" form="settings-form">Discard</button>
+          <button class="fl-button fl-button--primary" type="submit" form="settings-form"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#save"/></svg>Save changes</button>
+        </div>
+      </header>
+    </div>
+
+    <nav class="fl-tabs screen-band screen-band--tabs screen-form" aria-label="Site settings">
+      <div class="fl-tabs__list">
+        <a class="fl-tabs__tab" href="settings.html" aria-current="page">General<span class="fl-tabs__dot fl-tabs__dot--warning" data-screen="unsaved"></span><span class="fl-visually-hidden" data-screen="unsaved">has changes that are not saved</span></a>
+        <a class="fl-tabs__tab" href="#">Domains</a>
+        <a class="fl-tabs__tab" href="#">Email</a>
+        <a class="fl-tabs__tab" href="#">Search engines</a>
+        <a class="fl-tabs__tab" href="#">Backups</a>
+      </div>
+    </nav>
+
+    <div class="fl-stack screen-page screen-form">
+      <div class="fl-alert fl-alert--danger" role="alert" data-screen="errors"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#circle-alert"/></svg><div class="fl-alert__content"><p class="fl-alert__title">The settings were not saved</p><p class="fl-alert__text">One field needs a correction: the number of items per page. Your other changes are still in the form.</p><div class="fl-alert__actions"><a class="fl-button fl-button--s" href="#set-page-size" data-screen="go-to-error">Go to the field</a></div></div></div>
+
+      <form class="fl-stack" id="settings-form" novalidate data-toast="toast-saved">
+
+        <section class="fl-card" aria-labelledby="card-identity">
+          <header class="fl-card__header"><h2 class="fl-card__title" id="card-identity">Identity</h2></header>
+          <div class="fl-card__body">
+            <div class="fl-stack">
+              <div class="fl-field fl-field--horizontal">
+                <label class="fl-field__label" for="set-name">Site name <span class="fl-field__required" aria-hidden="true">*</span></label>
+                <span class="fl-input"><input class="fl-input__control" type="text" id="set-name" value="Northwind Journal" required maxlength="60" aria-describedby="set-name-help"></span>
+                <p class="fl-field__help" id="set-name-help">Shown in the browser tab, in emails and in the admin.</p>
+              </div>
+              <hr class="fl-divider">
+              <div class="fl-field fl-field--horizontal">
+                <label class="fl-field__label" for="set-description">Description</label>
+                <textarea class="fl-textarea screen-tall" id="set-description" rows="3" maxlength="160" aria-describedby="set-description-help set-description-meta">Stories, release notes and guides from the people who build Northwind.</textarea>
+                <p class="fl-field__help" id="set-description-help">One or two sentences for search engines and link previews.</p>
+                <span class="fl-field__meta" id="set-description-meta">70 / 160</span>
+              </div>
+              <hr class="fl-divider">
+              <div class="fl-field fl-field--horizontal">
+                <label class="fl-field__label" for="set-logo">Logo</label>
+                <div class="fl-file-drop-zone screen-tall screen-tall--start" data-drop-zone><div class="fl-file-drop-zone__area"><svg class="fl-icon fl-icon--l fl-file-drop-zone__icon" aria-hidden="true"><use href="../icons/lucide.svg#upload"/></svg><p class="fl-file-drop-zone__title">Drop an image here, or <span class="fl-file-drop-zone__browse">browse</span></p><p class="fl-file-drop-zone__hint" id="set-logo-hint">SVG or PNG, up to 1 MB</p><input class="fl-file-drop-zone__input" type="file" id="set-logo" accept=".svg,.png" aria-describedby="set-logo-hint set-logo-help"></div><ul class="fl-file-drop-zone__list" aria-label="Logo" aria-live="polite"><li class="fl-file-drop-zone__file fl-file-drop-zone__file--done"><svg class="fl-icon fl-file-drop-zone__status" aria-hidden="true"><use href="../icons/lucide.svg#circle-check"/></svg><span class="fl-file-drop-zone__name">northwind-journal.svg</span><span class="fl-file-drop-zone__meta">4 KB · In use</span><span class="fl-file-drop-zone__actions"><button class="fl-button fl-button--subtle fl-button--icon fl-button--s" type="button" aria-label="Remove northwind-journal.svg" data-remove><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#trash-2"/></svg></button></span></li></ul></div>
+                <p class="fl-field__help" id="set-logo-help">Shown in the header of the site and in emails. At least 256 px wide.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="fl-card" aria-labelledby="card-region">
+          <header class="fl-card__header"><h2 class="fl-card__title" id="card-region">Language and region</h2></header>
+          <div class="fl-card__body">
+            <div class="fl-stack">
+              <div class="fl-field fl-field--horizontal">
+                <label class="fl-field__label" for="set-locale">Default locale</label>
+                <span class="fl-select"><select class="fl-select__control" id="set-locale" aria-describedby="set-locale-help"><option selected>English (EN)</option><option>Français (FR)</option><option>Deutsch (DE)</option></select><svg class="fl-icon fl-select__chevron" aria-hidden="true"><use href="../icons/lucide.svg#chevron-down"/></svg></span>
+                <p class="fl-field__help" id="set-locale-help">An entry without a translation is shown in this locale.</p>
+              </div>
+              <hr class="fl-divider">
+              <div class="fl-field fl-field--horizontal">
+                <label class="fl-field__label" for="set-locales">Locales</label>
+                <div class="fl-combobox" data-combobox data-multiple><div class="fl-combobox__box"><div class="fl-combobox__values"><span class="fl-combobox__tag"><span class="fl-combobox__tag-label">English</span><button class="fl-combobox__remove" type="button" aria-label="Remove English"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="../icons/lucide.svg#x"/></svg></button></span><span class="fl-combobox__tag"><span class="fl-combobox__tag-label">Français</span><button class="fl-combobox__remove" type="button" aria-label="Remove Français"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="../icons/lucide.svg#x"/></svg></button></span><span class="fl-combobox__tag"><span class="fl-combobox__tag-label">Deutsch</span><button class="fl-combobox__remove" type="button" aria-label="Remove Deutsch"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="../icons/lucide.svg#x"/></svg></button></span><input class="fl-combobox__input" type="text" role="combobox" id="set-locales" aria-expanded="false" aria-controls="set-locales-list" aria-autocomplete="list" autocomplete="off" placeholder="Add a locale" aria-describedby="set-locales-help"></div><button class="fl-combobox__action" type="button" tabindex="-1" aria-label="Show options"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#chevron-down"/></svg></button></div><div class="fl-combobox__popover" popover="manual" id="set-locales-pop"><div class="fl-combobox__list" role="listbox" id="set-locales-list" aria-label="Locales" aria-multiselectable="true"><div class="fl-combobox__option" role="option" id="set-locales-o1" aria-selected="true"><span class="fl-combobox__option-label">English</span><span class="fl-combobox__option-note">EN</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="set-locales-o2" aria-selected="true"><span class="fl-combobox__option-label">Français</span><span class="fl-combobox__option-note">FR</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="set-locales-o3" aria-selected="true"><span class="fl-combobox__option-label">Deutsch</span><span class="fl-combobox__option-note">DE</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="set-locales-o4" aria-selected="false"><span class="fl-combobox__option-label">Español</span><span class="fl-combobox__option-note">ES</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="set-locales-o5" aria-selected="false"><span class="fl-combobox__option-label">Italiano</span><span class="fl-combobox__option-note">IT</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="set-locales-o6" aria-selected="false"><span class="fl-combobox__option-label">Nederlands</span><span class="fl-combobox__option-note">NL</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="set-locales-o7" aria-selected="false"><span class="fl-combobox__option-label">Polski</span><span class="fl-combobox__option-note">PL</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="set-locales-o8" aria-selected="false"><span class="fl-combobox__option-label">Svenska</span><span class="fl-combobox__option-note">SV</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div></div><p class="fl-combobox__status" role="status" hidden>No locale matches.</p></div></div>
+                <p class="fl-field__help" id="set-locales-help">The languages that editors can write an entry in.</p>
+              </div>
+              <hr class="fl-divider">
+              <div class="fl-field fl-field--horizontal">
+                <label class="fl-field__label" for="set-zone">Time zone</label>
+                <div class="fl-combobox" data-combobox><div class="fl-combobox__box"><div class="fl-combobox__values"><input class="fl-combobox__input" type="text" role="combobox" id="set-zone" aria-expanded="false" aria-controls="set-zone-list" aria-autocomplete="list" autocomplete="off" value="Europe/Berlin" placeholder="Search for a city" aria-describedby="set-zone-help"></div><button class="fl-combobox__action" type="button" tabindex="-1" aria-label="Show options"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#chevron-down"/></svg></button></div><div class="fl-combobox__popover" popover="manual" id="set-zone-pop"><div class="fl-combobox__list" role="listbox" id="set-zone-list" aria-label="Time zones"><div class="fl-combobox__option" role="option" id="set-zone-o1" aria-selected="false"><span class="fl-combobox__option-label">America/New_York</span><span class="fl-combobox__option-note">UTC−05:00</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="set-zone-o2" aria-selected="false"><span class="fl-combobox__option-label">America/Sao_Paulo</span><span class="fl-combobox__option-note">UTC−03:00</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="set-zone-o3" aria-selected="false"><span class="fl-combobox__option-label">Europe/Lisbon</span><span class="fl-combobox__option-note">UTC±00:00</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="set-zone-o4" aria-selected="true"><span class="fl-combobox__option-label">Europe/Berlin</span><span class="fl-combobox__option-note">UTC+01:00</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="set-zone-o5" aria-selected="false"><span class="fl-combobox__option-label">Europe/Stockholm</span><span class="fl-combobox__option-note">UTC+01:00</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="set-zone-o6" aria-selected="false"><span class="fl-combobox__option-label">Asia/Kolkata</span><span class="fl-combobox__option-note">UTC+05:30</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="set-zone-o7" aria-selected="false"><span class="fl-combobox__option-label">Asia/Singapore</span><span class="fl-combobox__option-note">UTC+08:00</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="set-zone-o8" aria-selected="false"><span class="fl-combobox__option-label">Asia/Tokyo</span><span class="fl-combobox__option-note">UTC+09:00</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div></div><p class="fl-combobox__status" role="status" hidden>No time zone matches.</p></div></div>
+                <p class="fl-field__help" id="set-zone-help">Schedules and the dates of the admin are in this zone.</p>
+              </div>
+              <hr class="fl-divider">
+              <fieldset class="fl-field fl-field--horizontal">
+                <legend class="fl-field__label" id="set-date-label">Date format</legend>
+                <div class="fl-radio-group screen-tall" role="radiogroup" aria-labelledby="set-date-label" aria-describedby="set-date-help"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-date" id="set-date-1" checked><label class="fl-radio-group__label" for="set-date-1"><bdi>26 November 2026</bdi></label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-date" id="set-date-2"><label class="fl-radio-group__label" for="set-date-2"><bdi>26/11/2026</bdi></label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-date" id="set-date-3"><label class="fl-radio-group__label" for="set-date-3"><bdi>11/26/2026</bdi></label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-date" id="set-date-4"><label class="fl-radio-group__label" for="set-date-4"><bdi>2026-11-26</bdi></label></div></div>
+                <p class="fl-field__help" id="set-date-help">How a date is written in lists and in the editor.</p>
+              </fieldset>
+            </div>
+          </div>
+        </section>
+
+        <section class="fl-card" aria-labelledby="card-content">
+          <header class="fl-card__header"><h2 class="fl-card__title" id="card-content">Content</h2></header>
+          <div class="fl-card__body">
+            <div class="fl-stack">
+              <div class="fl-field fl-field--horizontal">
+                <label class="fl-field__label" for="set-page-size">Items per page <span class="fl-field__required" aria-hidden="true">*</span></label>
+                <span class="fl-input fl-number-input screen-short"><input class="fl-input__control fl-number-input__control" type="number" id="set-page-size" value="500" min="5" max="100" step="5" required aria-invalid="true" aria-describedby="set-page-size-error set-page-size-help"><span class="fl-input__affix">items</span><button class="fl-number-input__step" type="button" tabindex="-1" aria-label="Decrease"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#minus"/></svg></button><button class="fl-number-input__step" type="button" tabindex="-1" aria-label="Increase" disabled><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#plus"/></svg></button></span>
+                <p class="fl-field__error" id="set-page-size-error"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="../icons/lucide.svg#circle-alert"/></svg>Enter a number from 5 to 100.</p>
+                <p class="fl-field__help" id="set-page-size-help">The length of a list of entries, in the admin and in the API.</p>
+              </div>
+              <hr class="fl-divider">
+              <div class="fl-field fl-field--horizontal">
+                <label class="fl-field__label" for="set-publish-time">Time of a publication</label>
+                <span class="fl-input fl-time-input screen-short"><input class="fl-input__control fl-time-input__control" type="time" id="set-publish-time" value="09:00" step="900" aria-describedby="set-publish-time-help"></span>
+                <p class="fl-field__help" id="set-publish-time-help">The time an entry gets when its schedule names a day only. In the time zone of the site.</p>
+              </div>
+              <hr class="fl-divider">
+              <fieldset class="fl-field fl-field--horizontal">
+                <legend class="fl-field__label">For editors</legend>
+                <div class="fl-stack fl-stack--gap-3 screen-tall">
+                  <div class="fl-switch fl-switch--label-start"><input class="fl-switch__control" type="checkbox" role="switch" id="set-versions" aria-describedby="set-versions-d" checked disabled><label class="fl-switch__label" for="set-versions">Version history</label><p class="fl-switch__description" id="set-versions-d">A version is kept on every save. Always on.</p></div>
+                  <hr class="fl-divider">
+                  <div class="fl-switch fl-switch--label-start"><input class="fl-switch__control" type="checkbox" role="switch" id="set-schedule" aria-describedby="set-schedule-d" checked><label class="fl-switch__label" for="set-schedule">Scheduled publishing</label><p class="fl-switch__description" id="set-schedule-d">An entry can be published or unpublished at a set time, per locale.</p></div>
+                  <hr class="fl-divider">
+                  <div class="fl-switch fl-switch--label-start"><input class="fl-switch__control" type="checkbox" role="switch" id="set-ai" aria-describedby="set-ai-d" checked><label class="fl-switch__label" for="set-ai">AI assist</label><p class="fl-switch__description" id="set-ai-d">Suggestions in the editor. They count toward the daily token budget.</p></div>
+                  <hr class="fl-divider">
+                  <div class="fl-switch fl-switch--label-start"><input class="fl-switch__control" type="checkbox" role="switch" id="set-comments" aria-describedby="set-comments-d"><label class="fl-switch__label" for="set-comments">Comments on drafts</label><p class="fl-switch__description" id="set-comments-d">Editors can leave notes for each other on an entry.</p></div>
+                </div>
+                <p class="fl-field__help">What the editor of an entry offers.</p>
+              </fieldset>
+            </div>
+          </div>
+        </section>
+
+        <section class="fl-card" aria-labelledby="card-access">
+          <header class="fl-card__header"><h2 class="fl-card__title" id="card-access">Access</h2></header>
+          <div class="fl-card__body">
+            <div class="fl-stack">
+              <fieldset class="fl-field fl-field--horizontal">
+                <legend class="fl-field__label" id="set-signup-label">Who can sign up</legend>
+                <div class="fl-radio-group screen-tall" role="radiogroup" aria-labelledby="set-signup-label" aria-describedby="set-signup-help"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-signup" id="set-signup-1" aria-describedby="set-signup-1-d" checked><label class="fl-radio-group__label" for="set-signup-1">Invited people only</label><p class="fl-radio-group__description" id="set-signup-1-d">An administrator sends each invitation.</p></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-signup" id="set-signup-2" aria-describedby="set-signup-2-d"><label class="fl-radio-group__label" for="set-signup-2">People with an address at northwind.example</label><p class="fl-radio-group__description" id="set-signup-2-d">They join as authors once the address is confirmed.</p></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="set-signup" id="set-signup-3" aria-describedby="set-signup-3-d"><label class="fl-radio-group__label" for="set-signup-3">Anyone</label><p class="fl-radio-group__description" id="set-signup-3-d">A new account can read drafts and nothing more, until it is given a role.</p></div></div>
+                <p class="fl-field__help" id="set-signup-help">For the admin of this site. Readers of the site need no account.</p>
+              </fieldset>
+              <hr class="fl-divider">
+              <fieldset class="fl-field fl-field--horizontal">
+                <legend class="fl-field__label">Email the owners when</legend>
+                <div class="fl-stack fl-stack--gap-2 screen-tall">
+                  <div class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="set-mail-1" checked><label class="fl-checkbox__label" for="set-mail-1">Somebody signs up</label></div>
+                  <div class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="set-mail-2" checked><label class="fl-checkbox__label" for="set-mail-2">A scheduled publication fails</label></div>
+                  <div class="fl-checkbox"><input class="fl-checkbox__control" type="checkbox" id="set-mail-3"><label class="fl-checkbox__label" for="set-mail-3">An API key is created or rotated</label></div>
+                </div>
+                <p class="fl-field__help">Sent to the 2 owners of the site, at most once an hour.</p>
+              </fieldset>
+              <hr class="fl-divider">
+              <div class="fl-field fl-field--horizontal">
+                <span class="fl-field__label" id="set-maintenance-label">Maintenance mode</span>
+                <div class="fl-switch"><input class="fl-switch__control" type="checkbox" role="switch" id="set-maintenance" aria-describedby="set-maintenance-help"><label class="fl-switch__label" for="set-maintenance">Show the maintenance page to visitors</label></div>
+                <p class="fl-field__help" id="set-maintenance-help">The API answers with 503. People who are signed in keep their access to the admin.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </form>
+
+      <section class="fl-card" aria-labelledby="card-danger">
+        <header class="fl-card__header"><h2 class="fl-card__title" id="card-danger">Danger zone</h2></header>
+        <div class="fl-card__body">
+          <div class="fl-field fl-field--horizontal">
+            <span class="fl-field__label" id="set-delete-label">Delete this site</span>
+            <div><button class="fl-button fl-button--danger" type="button" aria-haspopup="dialog" aria-describedby="set-delete-help" commandfor="delete-dialog" command="show-modal"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#trash-2"/></svg>Delete the site…</button></div>
+            <p class="fl-field__help" id="set-delete-help">Its 210 entries, its media and every version are deleted, in all locales. This cannot be undone.</p>
+          </div>
+        </div>
+      </section>
+
+      <dialog class="fl-dialog fl-dialog--s" id="delete-dialog" role="alertdialog" aria-labelledby="delete-dialog-title" aria-describedby="delete-dialog-text">
+        <header class="fl-dialog__header">
+          <h2 class="fl-dialog__title" id="delete-dialog-title">Delete Northwind Journal?</h2>
+          <button class="fl-button fl-button--subtle fl-button--icon fl-dialog__close" type="button" aria-label="Close" commandfor="delete-dialog" command="close"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#x"/></svg></button>
+        </header>
+        <div class="fl-dialog__body">
+          <div class="fl-stack">
+            <p id="delete-dialog-text">The site is deleted with its 210 entries, its media and every version, in all 3 locales. Its domains stop answering at once. This cannot be undone.</p>
+            <div class="fl-field">
+              <label class="fl-field__label" for="delete-confirm">Type the name of the site to confirm</label>
+              <span class="fl-input"><input class="fl-input__control" type="text" id="delete-confirm" autocomplete="off" spellcheck="false" placeholder="Northwind Journal" autofocus></span>
+            </div>
+          </div>
+        </div>
+        <footer class="fl-dialog__footer">
+          <button class="fl-button" type="button" commandfor="delete-dialog" command="close">Cancel</button>
+          <button class="fl-button fl-button--primary fl-button--danger" type="button" commandfor="delete-dialog" command="close" data-screen="delete" disabled><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#trash-2"/></svg>Delete the site</button>
+        </footer>
+      </dialog>
+
+      <!-- The toasts of the application: one region, which the frame of a
+           real application holds. -->
+      <div class="fl-toast-region" role="region" aria-label="Notifications" popover="manual"></div>
+      <template id="toast-saved"><div class="fl-toast fl-toast--success" role="status"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#circle-check"/></svg><div class="fl-toast__content"><p class="fl-toast__title">Settings saved</p></div><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#x"/></svg></button></div></template>
+    </div>
+
+<!-- frame: start -->
+  </main>
+
+  <dialog class="fl-app-shell__drawer" id="nav-drawer" aria-label="Navigation" closedby="any">
+    <!-- the script puts a copy of the navigation here -->
+    <button class="fl-button fl-button--subtle fl-button--icon fl-app-shell__close" type="button" aria-label="Close navigation" commandfor="nav-drawer" command="close"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#x"/></svg></button>
+  </dialog>
+</div>
+
+<script src="screens.js"></script>
+<!-- frame: end -->
+
+<script>
+// The behaviour of this screen. It is not part of the library.
+(() => {
+  const form = document.getElementById('settings-form');
+  const size = document.getElementById('set-page-size');
+  const error = document.getElementById('set-page-size-error');
+  const errors = document.querySelector('[data-screen="errors"]');
+
+  const unsaved = on => {
+    for (const mark of document.querySelectorAll('[data-screen="unsaved"]')) mark.hidden = !on;
+  };
+
+  // Items per page: the error goes when the number is in its range, and
+  // the alert of the page goes with it.
+  function check() {
+    const valid = size.value !== '' && Number(size.value) >= Number(size.min) && Number(size.value) <= Number(size.max);
+    size.setAttribute('aria-invalid', String(!valid));
+    size.setAttribute('aria-describedby', (valid ? '' : 'set-page-size-error ') + 'set-page-size-help');
+    error.hidden = valid;
+    errors.hidden = valid;
+    return valid;
+  }
+
+  form.addEventListener('input', event => {
+    if (event.target === size) check();
+    unsaved(true);
+  });
+
+  document.querySelector('[data-screen="go-to-error"]').addEventListener('click', event => {
+    event.preventDefault();
+    size.focus();
+  });
+
+  // Save: an invalid field takes the focus and nothing is saved. A form that
+  // is valid goes on to the script of the frame, which shows the toast.
+  form.addEventListener('submit', event => {
+    if (check()) return unsaved(false);
+    event.preventDefault();
+    size.focus();
+  });
+
+  // Discard: the form goes back to what was saved.
+  form.addEventListener('reset', () => setTimeout(() => {
+    size.value = 25;
+    document.getElementById('set-description-meta').textContent = '70 / 160';
+    check();
+    unsaved(false);
+  }));
+
+  // The counter of the description.
+  const description = document.getElementById('set-description');
+  description.addEventListener('input', () => {
+    document.getElementById('set-description-meta').textContent = `${description.value.length} / ${description.maxLength}`;
+  });
+
+  // Delete the site: the button waits for the name of the site.
+  const confirm = document.getElementById('delete-confirm');
+  const remove = document.querySelector('[data-screen="delete"]');
+  confirm.addEventListener('input', () => { remove.disabled = confirm.value.trim() !== 'Northwind Journal'; });
+  document.getElementById('delete-dialog').addEventListener('close', () => {
+    confirm.value = '';
+    remove.disabled = true;
+  });
+})();
+</script>
+</body>
+</html>

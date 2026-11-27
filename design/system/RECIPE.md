@@ -63,7 +63,7 @@ Read the exemplars first: `css/components/button.css`, `field.css` and `input.cs
 - **States are written once, in this order**, so that a later one wins: hover, active, focus-visible, selected or pressed, read-only, invalid, disabled, busy.
 - The block sets its own `font-family`, `font-size`, `line-height` and `color` from tokens. It does not count on the page for them.
 - A component styles only its own block and parts. It may place another component inside it (`& > .fl-icon`), and never restyles one from outside.
-- No `!important`, no id selectors, no element selectors outside the block, no `@import`.
+- No `!important`, no id selectors, no element selectors outside the block, no `@import`. `base.css` holds the one exception: the `hidden` attribute hides an `fl-` element whatever `display` its component sets.
 - Breakpoints are container queries where a component reacts to its own space. The two widths in use are `30rem` and `48rem`.
 - **Forced colours**: borders carry the shape, so a border that is not wanted is `transparent`, never `none`. Disabled is `GrayText`, selected is `Highlight`. Focus is always an outline, which the system keeps.
 - **Reduced motion**: transitions use the duration tokens, which are zero under `prefers-reduced-motion`. A continuous animation stops there and shows a still form.

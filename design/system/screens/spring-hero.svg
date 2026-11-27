@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" preserveAspectRatio="xMidYMid slice">
+  <!-- Stands for a photograph of the media library: spring hills under a low sun. -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8FB7F2"/>
+      <stop offset="1" stop-color="#DCE9FB"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="270" fill="url(#sky)"/>
+  <circle cx="345" cy="78" r="34" fill="#FBE7A1"/>
+  <path d="M0 214C70 176 150 170 230 196C300 219 380 222 480 190V270H0Z" fill="#6FB98A"/>
+  <path d="M250 240C320 204 400 200 480 222V270H250Z" fill="#3E9B63"/>
+</svg>

@@ -117,8 +117,9 @@
       box-shadow: var(--fl-focus-halo);
     }
 
-    /* Open: the button of a menu or a popover stays pressed while it is open. */
-    &[aria-expanded="true"] {
+    /* Open: the button of a menu or a popover stays pressed while it is open.
+       A button that expands a region of the page, such as a sidebar, does not. */
+    &[aria-expanded="true"]:is([aria-haspopup], [popovertarget]) {
       --fl-button-overlay: var(--fl-button-bg-pressed);
     }
 

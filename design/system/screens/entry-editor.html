@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entry editor · FluentCMS Components reference screens</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<!-- frame: start -->
+<link rel="stylesheet" href="../css/components/icon.css">
+<link rel="stylesheet" href="../css/components/button.css">
+<link rel="stylesheet" href="../css/components/input.css">
+<link rel="stylesheet" href="../css/components/avatar.css">
+<link rel="stylesheet" href="../css/components/badge.css">
+<link rel="stylesheet" href="../css/components/menu.css">
+<link rel="stylesheet" href="../css/components/popover.css">
+<link rel="stylesheet" href="../css/components/tooltip.css">
+<link rel="stylesheet" href="../css/components/breadcrumb.css">
+<link rel="stylesheet" href="../css/components/navigation.css">
+<link rel="stylesheet" href="../css/components/app-shell.css">
+<link rel="stylesheet" href="../css/patterns/divider.css">
+<link rel="stylesheet" href="../css/patterns/kbd.css">
+<link rel="stylesheet" href="../css/patterns/search-field.css">
+<link rel="stylesheet" href="../css/patterns/page-header.css">
+<!-- frame: end -->
+<link rel="stylesheet" href="../css/components/split-button.css">
+<link rel="stylesheet" href="../css/components/card.css">
+<link rel="stylesheet" href="../css/components/tabs.css">
+<link rel="stylesheet" href="../css/components/segmented.css">
+<link rel="stylesheet" href="../css/components/field.css">
+<link rel="stylesheet" href="../css/components/textarea.css">
+<link rel="stylesheet" href="../css/components/select.css">
+<link rel="stylesheet" href="../css/components/combobox.css">
+<link rel="stylesheet" href="../css/components/number-input.css">
+<link rel="stylesheet" href="../css/components/date-input.css">
+<link rel="stylesheet" href="../css/components/radio-group.css">
+<link rel="stylesheet" href="../css/components/alert.css">
+<link rel="stylesheet" href="../css/components/disclosure.css">
+<link rel="stylesheet" href="../css/components/sortable-list.css">
+<link rel="stylesheet" href="../css/components/dialog.css">
+<link rel="stylesheet" href="../css/components/toast.css">
+<link rel="stylesheet" href="../css/patterns/link.css">
+<link rel="stylesheet" href="../css/patterns/description-list.css">
+<link rel="stylesheet" href="../css/patterns/timeline.css">
+<link rel="stylesheet" href="../docs/docs.css">
+<link rel="stylesheet" href="screens.css">
+<script src="../docs/docs.js"></script>
+</head>
+<body class="fl-root" data-docs="screen">
+
+<!-- The frame is copied from dashboard.html, which says what changes with
+     the screen. -->
+
+<!-- frame: start -->
+<div class="fl-app-shell">
+  <a class="fl-app-shell__skip" href="#main">Skip to content</a>
+
+  <aside class="fl-app-shell__sidebar">
+    <nav class="fl-navigation" aria-label="Main">
+      <a class="fl-navigation__brand" href="dashboard.html"><svg class="fl-icon fl-icon--l fl-navigation__logo" viewBox="12 9 59 62" aria-hidden="true"><g fill="currentColor" stroke="none"><path d="M36.171 36.3545L24.5878 43.0105H24.5855L13 49.6689V62.9856L24.5855 69.644H24.5878V56.3273L36.171 49.6689H36.1733L47.7565 43.0105L36.171 36.3545Z"/><path d="M58.4132 36.3545V49.6689V49.6712L46.8277 56.3296L35.2422 62.9856V62.988L46.8277 69.644L58.4132 62.988H58.4155L69.9987 56.3296V43.0129L58.4132 36.3545Z"/><path d="M35.9381 23.1759H35.9404L47.4072 29.7651L58.8785 36.3542V23.1759L47.4072 16.5891V16.5868L35.9404 10H35.9381L24.4714 16.5868V16.5891L13 23.1759V36.3542L24.4714 29.7651L35.9381 23.1759Z"/></g></svg><span class="fl-navigation__name">FluentCMS</span></a>
+      <div class="fl-navigation__switcher">
+        <button class="fl-button fl-button--l fl-button--block" type="button" popovertarget="site-menu" aria-haspopup="menu" aria-expanded="false" aria-label="Site: Northwind Journal. Switch site"><span class="fl-avatar fl-avatar--s fl-avatar--category-6" aria-hidden="true">NJ</span><span class="screen-identity"><span>Northwind Journal</span><small>Site · 3 locales</small></span><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#chevrons-up-down"/></svg></button>
+        <div class="fl-menu" id="site-menu" popover role="menu" aria-label="Sites">
+          <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg><span class="fl-menu__text">Northwind Journal<span class="fl-menu__description">3 locales</span></span></button>
+          <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg><span class="fl-menu__text">Northwind Docs<span class="fl-menu__description">2 locales</span></span></button>
+          <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg><span class="fl-menu__text">Northwind Careers<span class="fl-menu__description">1 locale</span></span></button>
+          <hr class="fl-menu__separator">
+          <a class="fl-menu__item" role="menuitem" href="settings.html"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#settings"/></svg><span class="fl-menu__text">Manage sites</span></a>
+        </div>
+      </div>
+      <div class="fl-navigation__body">
+        <ul class="fl-navigation__list">
+          <li><a class="fl-navigation__link" href="dashboard.html"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#house"/></svg><span class="fl-navigation__label">Home</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#activity"/></svg><span class="fl-navigation__label">Activity</span></a></li>
+        </ul>
+        <div class="fl-navigation__heading" id="nav-content">Content</div>
+        <ul class="fl-navigation__list" aria-labelledby="nav-content">
+          <li><a class="fl-navigation__link" href="content-list.html" aria-current="page"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#file-text"/></svg><span class="fl-navigation__label">Articles</span><span class="fl-navigation__count">128</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#user"/></svg><span class="fl-navigation__label">Authors</span><span class="fl-navigation__count">14</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#layers"/></svg><span class="fl-navigation__label">Pages</span><span class="fl-navigation__count">23</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#calendar"/></svg><span class="fl-navigation__label">Events</span><span class="fl-navigation__count">9</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#tag"/></svg><span class="fl-navigation__label">Tags</span><span class="fl-navigation__badge">Global<span class="fl-visually-hidden">, shared by all sites</span></span><span class="fl-navigation__count">36</span></a></li>
+        </ul>
+        <div class="fl-navigation__heading" id="nav-singletons">Singletons</div>
+        <ul class="fl-navigation__list" aria-labelledby="nav-singletons">
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#box"/></svg><span class="fl-navigation__label">Homepage</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#menu"/></svg><span class="fl-navigation__label">Navigation</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#sliders-horizontal"/></svg><span class="fl-navigation__label">Site settings</span></a></li>
+        </ul>
+        <div class="fl-navigation__heading" id="nav-media">Media</div>
+        <ul class="fl-navigation__list" aria-labelledby="nav-media">
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#image"/></svg><span class="fl-navigation__label">Library</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#maximize-2"/></svg><span class="fl-navigation__label">Image presets</span></a></li>
+        </ul>
+        <div class="fl-navigation__heading" id="nav-agents">Agents and AI</div>
+        <ul class="fl-navigation__list" aria-labelledby="nav-agents">
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#bot"/></svg><span class="fl-navigation__label">MCP clients</span><span class="fl-navigation__count">3</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#book-open"/></svg><span class="fl-navigation__label">Agent instructions</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#message-square"/></svg><span class="fl-navigation__label">Prompts</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#history"/></svg><span class="fl-navigation__label">MCP activity</span></a></li>
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#sparkles"/></svg><span class="fl-navigation__label">AI usage</span></a></li>
+        </ul>
+        <div class="fl-navigation__heading" id="nav-manage">Manage</div>
+        <ul class="fl-navigation__list" aria-labelledby="nav-manage">
+          <li>
+            <details class="fl-navigation__group">
+              <summary class="fl-navigation__link"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#zap"/></svg><span class="fl-navigation__label">Integrations</span><svg class="fl-icon fl-icon--s fl-icon--directional fl-navigation__chevron" aria-hidden="true"><use href="../icons/lucide.svg#chevron-right"/></svg></summary>
+              <ul class="fl-navigation__children">
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Webhooks</span></a></li>
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Search index</span></a></li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details class="fl-navigation__group" open>
+              <summary class="fl-navigation__link"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#shield"/></svg><span class="fl-navigation__label">Administration</span><svg class="fl-icon fl-icon--s fl-icon--directional fl-navigation__chevron" aria-hidden="true"><use href="../icons/lucide.svg#chevron-right"/></svg></summary>
+              <ul class="fl-navigation__children">
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Users</span></a></li>
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Roles</span></a></li>
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">API keys</span></a></li>
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Members</span></a></li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details class="fl-navigation__group">
+              <summary class="fl-navigation__link"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#server"/></svg><span class="fl-navigation__label">System</span><svg class="fl-icon fl-icon--s fl-icon--directional fl-navigation__chevron" aria-hidden="true"><use href="../icons/lucide.svg#chevron-right"/></svg></summary>
+              <ul class="fl-navigation__children">
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Plugins</span></a></li>
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Jobs</span></a></li>
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Diagnostics</span></a></li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details class="fl-navigation__group">
+              <summary class="fl-navigation__link"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#settings"/></svg><span class="fl-navigation__label">Settings</span><svg class="fl-icon fl-icon--s fl-icon--directional fl-navigation__chevron" aria-hidden="true"><use href="../icons/lucide.svg#chevron-right"/></svg></summary>
+              <ul class="fl-navigation__children">
+                <li><a class="fl-navigation__link" href="settings.html"><span class="fl-navigation__label">Site settings</span></a></li>
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Sites</span></a></li>
+                <li><a class="fl-navigation__link" href="#"><span class="fl-navigation__label">Locales</span></a></li>
+              </ul>
+            </details>
+          </li>
+        </ul>
+      </div>
+      <div class="fl-navigation__footer">
+        <ul class="fl-navigation__list">
+          <li><a class="fl-navigation__link" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#circle-question-mark"/></svg><span class="fl-navigation__label">Docs and help</span></a></li>
+        </ul>
+        <button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-label="Collapse sidebar" data-screen="collapse"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="../icons/lucide.svg#panel-left"/></svg></button>
+      </div>
+    </nav>
+  </aside>
+
+  <header class="fl-app-shell__header">
+    <button class="fl-button fl-button--subtle fl-button--icon fl-app-shell__menu" type="button" aria-label="Open navigation" aria-haspopup="dialog" commandfor="nav-drawer" command="show-modal"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#menu"/></svg></button>
+    <div class="fl-app-shell__start">
+      <nav class="fl-breadcrumb" aria-label="Breadcrumb">
+        <ol class="fl-breadcrumb__list">
+<!-- frame: end -->
+          <li class="fl-breadcrumb__item"><a class="fl-breadcrumb__link" href="#">Content</a></li>
+          <li class="fl-breadcrumb__item"><svg class="fl-icon fl-icon--s fl-icon--directional fl-breadcrumb__separator" aria-hidden="true"><use href="../icons/lucide.svg#chevron-right"/></svg><a class="fl-breadcrumb__link" href="content-list.html">Articles</a></li>
+          <li class="fl-breadcrumb__item screen-crumb-current"><svg class="fl-icon fl-icon--s fl-icon--directional fl-breadcrumb__separator" aria-hidden="true"><use href="../icons/lucide.svg#chevron-right"/></svg><span class="fl-breadcrumb__current" aria-current="page">What's new in the spring release</span></li>
+<!-- frame: start -->
+        </ol>
+      </nav>
+    </div>
+    <div class="fl-app-shell__center screen-search screen-wide" role="search">
+      <span class="fl-input fl-search-field fl-search-field--global"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="../icons/lucide.svg#search"/></svg><input class="fl-input__control fl-search-field__control" type="search" placeholder="Search content, media, settings…" aria-label="Search content, media and settings" aria-keyshortcuts="Control+K"><button class="fl-input__action fl-search-field__clear" type="button" aria-label="Clear"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#x"/></svg></button><span class="fl-search-field__hint" aria-hidden="true"><kbd class="fl-kbd">Ctrl</kbd><kbd class="fl-kbd">K</kbd></span></span>
+    </div>
+    <div class="fl-app-shell__end">
+      <button class="fl-button fl-button--subtle fl-button--icon screen-narrow" type="button" popovertarget="search-popover" aria-haspopup="dialog" aria-expanded="false" aria-label="Search"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#search"/></svg></button>
+      <div class="fl-popover fl-popover--end" id="search-popover" popover role="dialog" aria-label="Search">
+        <span class="fl-input fl-search-field fl-search-field--global"><svg class="fl-icon fl-input__icon" aria-hidden="true"><use href="../icons/lucide.svg#search"/></svg><input class="fl-input__control fl-search-field__control" type="search" placeholder="Search content, media, settings…" aria-label="Search content, media and settings" autofocus><button class="fl-input__action fl-search-field__clear" type="button" aria-label="Clear"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#x"/></svg></button></span>
+      </div>
+      <button class="fl-button" type="button" popovertarget="locale-menu" aria-haspopup="menu" aria-expanded="false" aria-label="Content locale: EN, English"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#globe"/></svg><span class="screen-wide">EN</span><svg class="fl-icon fl-icon--s screen-wide" aria-hidden="true"><use href="../icons/lucide.svg#chevron-down"/></svg></button>
+      <div class="fl-menu fl-menu--end" id="locale-menu" popover role="menu" aria-labelledby="locale-menu-label">
+        <div class="fl-menu__group" role="group" aria-labelledby="locale-menu-label">
+          <div class="fl-menu__label" id="locale-menu-label">Content locale</div>
+          <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg><span class="fl-menu__text">English</span><span class="fl-badge fl-badge--square">EN</span></button>
+          <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg><span class="fl-menu__text">Français</span><span class="fl-badge fl-badge--square">FR</span></button>
+          <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg><span class="fl-menu__text">Deutsch</span><span class="fl-badge fl-badge--square">DE</span></button>
+        </div>
+      </div>
+      <button class="fl-button fl-button--subtle" type="button" aria-label="Notifications, 2 new" interestfor="tip-notifications"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#bell"/></svg><span class="fl-badge fl-badge--danger fl-badge--square screen-wide" aria-hidden="true">2</span></button>
+      <div class="fl-tooltip fl-tooltip--below" role="tooltip" id="tip-notifications" popover="hint">Notifications</div>
+      <span class="fl-divider fl-divider--vertical screen-wide" role="separator" aria-orientation="vertical"></span>
+      <button class="fl-button fl-button--subtle fl-button--l" type="button" popovertarget="user-menu" aria-haspopup="menu" aria-expanded="false" aria-label="Elena Marsh, Super Admin. Open the user menu"><span class="fl-avatar fl-avatar--category-4" aria-hidden="true">EM</span><span class="screen-identity screen-wide"><span>Elena Marsh</span><small>Super Admin</small></span><svg class="fl-icon fl-icon--s screen-wide" aria-hidden="true"><use href="../icons/lucide.svg#chevron-down"/></svg></button>
+      <div class="fl-menu fl-menu--end" id="user-menu" popover role="menu" aria-label="Elena Marsh">
+        <a class="fl-menu__item" role="menuitem" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#user"/></svg><span class="fl-menu__text">Elena Marsh<span class="fl-menu__description">Super Admin · elena@northwind.example</span></span></a>
+        <hr class="fl-menu__separator">
+        <a class="fl-menu__item" role="menuitem" href="settings.html"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#sliders-horizontal"/></svg><span class="fl-menu__text">Preferences</span></a>
+        <a class="fl-menu__item" role="menuitem" href="#"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#key-round"/></svg><span class="fl-menu__text">My API keys</span></a>
+        <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#command"/></svg><span class="fl-menu__text">Keyboard shortcuts</span><kbd class="fl-menu__shortcut">?</kbd></button>
+        <hr class="fl-menu__separator">
+        <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#log-out"/></svg><span class="fl-menu__text">Sign out</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="fl-app-shell__main" id="main" tabindex="-1">
+<!-- frame: end -->
+
+    <!-- A page that edits one entry. Its page header is a band that stays in
+         view while the form scrolls, so that Save and Publish are in reach;
+         the locales of the entry are the tabs under it. -->
+    <div class="screen-band screen-band--sticky">
+      <header class="fl-page-header">
+        <a class="fl-button fl-button--subtle fl-button--icon fl-page-header__back" href="content-list.html" aria-label="Back to Articles"><svg class="fl-icon fl-icon--directional" aria-hidden="true"><use href="../icons/lucide.svg#arrow-left"/></svg></a>
+        <div class="fl-page-header__main">
+          <div class="fl-page-header__heading"><h1 class="fl-page-header__title" title="What's new in the spring release">What's new in the spring release</h1><span class="fl-page-header__state"><span class="fl-badge fl-badge--warning fl-badge--dot">Modified</span></span></div>
+          <ul class="fl-page-header__meta"><li>Saved 12 min ago by Jonas Weber</li><li>Version 14</li><li>Article</li></ul>
+        </div>
+        <div class="fl-page-header__actions">
+          <button class="fl-button" type="button"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#eye"/></svg>Preview</button>
+          <button class="fl-button" type="button" data-toast="toast-saved" aria-keyshortcuts="Control+S">Save draft</button>
+          <div class="fl-split-button fl-split-button--primary" role="group" aria-label="Publish"><button class="fl-button fl-button--primary fl-split-button__action" type="button" aria-keyshortcuts="Control+Shift+Enter"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#send"/></svg>Publish</button><button class="fl-button fl-button--icon fl-button--primary fl-split-button__toggle" type="button" aria-label="More publishing actions" aria-haspopup="menu" popovertarget="publish-menu" aria-expanded="false"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#chevron-down"/></svg></button></div>
+          <div class="fl-menu fl-menu--end" id="publish-menu" popover role="menu" aria-label="Publishing actions">
+            <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#send"/></svg><span class="fl-menu__text">Publish now</span><kbd class="fl-menu__shortcut">Ctrl Shift Enter</kbd></button>
+            <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#clock"/></svg><span class="fl-menu__text">Schedule…</span></button>
+            <hr class="fl-menu__separator">
+            <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#eye-off"/></svg><span class="fl-menu__text">Unpublish EN</span></button>
+            <button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#undo-2"/></svg><span class="fl-menu__text">Discard changes</span></button>
+          </div>
+          <button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-label="More entry actions" aria-haspopup="menu" popovertarget="entry-menu" aria-expanded="false"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#ellipsis-vertical"/></svg></button>
+          <div class="fl-menu fl-menu--end" id="entry-menu" popover role="menu" aria-label="Entry actions">
+            <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#history"/></svg><span class="fl-menu__text">Version history</span></button>
+            <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Duplicate</span></button>
+            <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#languages"/></svg><span class="fl-menu__text">Copy from locale…</span></button>
+            <hr class="fl-menu__separator">
+            <button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem" aria-haspopup="dialog" commandfor="trash-dialog" command="show-modal"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#trash-2"/></svg><span class="fl-menu__text">Move to trash</span></button>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <nav class="fl-tabs screen-band screen-band--tabs" aria-label="Locale of this entry">
+      <div class="fl-tabs__list">
+        <a class="fl-tabs__tab" href="entry-editor.html" aria-current="page"><span class="fl-tabs__dot fl-tabs__dot--warning"></span><b>EN</b>English<span class="screen-tab-note">Modified</span></a>
+        <a class="fl-tabs__tab" href="#"><span class="fl-tabs__dot screen-tab-dot--neutral"></span><b>FR</b>French<span class="screen-tab-note">Draft</span></a>
+        <a class="fl-tabs__tab" href="#"><span class="fl-tabs__dot fl-tabs__dot--success"></span><b>DE</b>German<span class="screen-tab-note">Published</span></a>
+        <button class="fl-button fl-button--subtle fl-button--s screen-tabs-action" type="button"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#copy"/></svg>Copy from locale</button>
+        <button class="fl-button fl-button--s screen-tabs-action" type="button"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#columns-3"/></svg>Compare locales</button>
+      </div>
+    </nav>
+
+    <div class="fl-stack screen-page">
+      <div class="screen-columns">
+        <div class="fl-stack screen-columns__main">
+
+          <!-- The groups of fields. The reference has a list of links that
+               jump to a group; the segmented control of the library is a
+               radio group, so the script of this page scrolls to the group
+               that is chosen and marks the one that is in view. -->
+          <div><div class="fl-segmented" role="radiogroup" aria-label="Go to a group of fields" data-screen="groups"><label class="fl-segmented__item"><input class="fl-segmented__control" type="radio" name="group" value="group-content" checked><span class="fl-segmented__label">Content</span></label><label class="fl-segmented__item"><input class="fl-segmented__control" type="radio" name="group" value="group-sections"><span class="fl-segmented__label">Sections</span><span class="fl-segmented__count">3<span class="fl-visually-hidden"> blocks</span></span></label><label class="fl-segmented__item"><input class="fl-segmented__control" type="radio" name="group" value="group-seo"><span class="fl-segmented__label">SEO</span></label></div></div>
+
+          <section class="fl-card" id="group-content" aria-label="Content">
+            <div class="fl-card__body">
+              <div class="fl-stack">
+                <div class="fl-field">
+                  <label class="fl-field__label" for="entry-title">Title <span class="fl-field__required" aria-hidden="true">*</span><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="../icons/lucide.svg#globe"/></svg><span class="fl-visually-hidden">(a value per locale)</span></label>
+                  <span class="fl-input fl-input--l"><input class="fl-input__control" type="text" id="entry-title" required maxlength="200" value="What's new in the spring release" aria-describedby="entry-title-meta"></span>
+                  <span class="fl-field__meta" id="entry-title-meta">32 / 200</span>
+                </div>
+                <div class="fl-field">
+                  <label class="fl-field__label" for="entry-slug">Slug <svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="../icons/lucide.svg#globe"/></svg><span class="fl-visually-hidden">(a value per locale)</span></label>
+                  <span class="fl-input fl-input--mono" dir="ltr"><span class="fl-input__affix">/articles/</span><input class="fl-input__control" type="text" id="entry-slug" value="whats-new-spring-release" readonly aria-describedby="entry-slug-help entry-slug-meta"><button class="fl-input__action" type="button" aria-pressed="true" aria-label="Lock the slug to the title" interestfor="tip-slug" data-screen="slug-lock"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#lock"/></svg></button><span class="fl-tooltip" role="tooltip" id="tip-slug" popover="hint">Locked to the title</span></span>
+                  <p class="fl-field__help" id="entry-slug-help">Generated from the title. Unlock to write your own.</p>
+                  <span class="fl-field__meta" id="entry-slug-meta">Unique</span>
+                </div>
+                <div class="fl-field">
+                  <span class="fl-field__label" id="entry-body-label">Body <svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="../icons/lucide.svg#globe"/></svg><span class="fl-visually-hidden">(a value per locale)</span></span>
+                  <!-- The rich text editor is not a component of the library:
+                       it is out of scope by plan. It is drawn as a plain
+                       bordered region with a row of subtle icon buttons over
+                       it, laid out by the screen-editor rules of screens.css.
+                       The text has the direction of its locale, not of the
+                       admin; so have the slug and the ID, which are code. -->
+                  <div class="screen-editor">
+                    <div class="screen-editor__toolbar" role="group" aria-label="Formatting">
+                      <button class="fl-button fl-button--subtle" type="button" aria-label="Text style: Paragraph" aria-haspopup="menu" popovertarget="style-menu" aria-expanded="false">Paragraph<svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="../icons/lucide.svg#chevron-down"/></svg></button>
+                      <div class="fl-menu" id="style-menu" popover role="menu" aria-label="Text style">
+                        <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="true"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg><span class="fl-menu__text">Paragraph</span></button>
+                        <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg><span class="fl-menu__text">Heading 2</span></button>
+                        <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg><span class="fl-menu__text">Heading 3</span></button>
+                        <button class="fl-menu__item" type="button" role="menuitemradio" aria-checked="false"><svg class="fl-icon fl-menu__mark" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg><span class="fl-menu__text">Code</span></button>
+                      </div>
+                      <span class="fl-divider fl-divider--vertical" role="separator" aria-orientation="vertical"></span>
+                      <button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-pressed="false" aria-label="Heading" interestfor="tip-heading"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#heading"/></svg></button>
+                      <div class="fl-tooltip" role="tooltip" id="tip-heading" popover="hint">Heading</div>
+                      <button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-pressed="true" aria-label="Bold" interestfor="tip-bold"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#bold"/></svg></button>
+                      <div class="fl-tooltip" role="tooltip" id="tip-bold" popover="hint">Bold</div>
+                      <button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-pressed="false" aria-label="Italic" interestfor="tip-italic"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#italic"/></svg></button>
+                      <div class="fl-tooltip" role="tooltip" id="tip-italic" popover="hint">Italic</div>
+                      <button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-label="Link to an entry or a URL" interestfor="tip-link"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#link"/></svg></button>
+                      <div class="fl-tooltip" role="tooltip" id="tip-link" popover="hint">Link to an entry or a URL</div>
+                      <span class="fl-divider fl-divider--vertical" role="separator" aria-orientation="vertical"></span>
+                      <button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-pressed="false" aria-label="List" interestfor="tip-list"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#list"/></svg></button>
+                      <div class="fl-tooltip" role="tooltip" id="tip-list" popover="hint">List</div>
+                      <button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-pressed="false" aria-label="Quote" interestfor="tip-quote"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#quote"/></svg></button>
+                      <div class="fl-tooltip" role="tooltip" id="tip-quote" popover="hint">Quote</div>
+                      <button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-label="Insert media" interestfor="tip-media"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#image"/></svg></button>
+                      <div class="fl-tooltip" role="tooltip" id="tip-media" popover="hint">Insert media</div>
+                      <button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-label="Insert a block" interestfor="tip-block"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#plus"/></svg></button>
+                      <div class="fl-tooltip" role="tooltip" id="tip-block" popover="hint">Insert a block</div>
+                      <button class="fl-button fl-button--subtle screen-editor__end" type="button"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#sparkles"/></svg>AI assist</button>
+                    </div>
+                    <div class="screen-editor__body" contenteditable="true" role="textbox" aria-multiline="true" aria-labelledby="entry-body-label" aria-describedby="entry-body-meta" spellcheck="false" lang="en" dir="ltr">
+                      <p>Spring is the season we ship the things you asked for most. This release brings a <strong>faster editor</strong>, scheduled publishing per locale, and a media library that finally understands focal points.</p>
+                      <h2>A calmer editor</h2>
+                      <p>We rebuilt the editor around the way teams really publish. Drafts save without getting in your way, the status of every locale sits beside the title, and a version is kept on every write, so nothing is lost when two people work on the same story.</p>
+                      <p>Scheduling is now per locale. Publish the English story on Tuesday morning and hold the French one until the translation is reviewed; the <a class="fl-link" href="#">content calendar</a> shows both.</p>
+                    </div>
+                    <div class="screen-editor__footer"><span id="entry-body-meta">118 words · about 1 min read</span><span>Markdown shortcuts are on</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="fl-card" id="group-sections" aria-labelledby="sections-title">
+            <header class="fl-card__header"><h2 class="fl-card__title" id="sections-title">Sections</h2><div class="fl-card__actions"><bdi>3 blocks</bdi><button class="fl-button fl-button--subtle fl-button--s" type="button" data-screen="collapse-blocks">Collapse all</button></div></header>
+            <div class="fl-card__body">
+              <!-- A block is an item of the sortable list, and its content is
+                   a disclosure. The two buttons that move an item by one
+                   place are in the menu of the block: as a column beside the
+                   content they would take their width from the fields of an
+                   open block. -->
+              <ol class="fl-sortable-list screen-blocks" aria-label="Blocks, in their order">
+                <li class="fl-sortable-list__item" data-name="Hero">
+                  <button class="fl-sortable-list__handle" type="button" aria-pressed="false" aria-label="Reorder Hero" aria-describedby="blocks-help"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#grip-vertical"/></svg></button>
+                  <div class="fl-sortable-list__content">
+                    <details class="fl-disclosure" open>
+                      <summary class="fl-disclosure__summary"><svg class="fl-icon fl-icon--directional fl-disclosure__chevron" aria-hidden="true"><use href="../icons/lucide.svg#chevron-right"/></svg><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#image"/></svg>Hero<span class="screen-blocks__note">Spring is here</span></summary>
+                      <div class="fl-disclosure__actions"><button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-label="Actions for the Hero block" aria-haspopup="menu" popovertarget="block-hero-menu" aria-expanded="false"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#ellipsis"/></svg></button>
+                        <div class="fl-menu fl-menu--end" id="block-hero-menu" popover role="menu" aria-label="Hero block">
+                          <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Duplicate</span></button>
+                          <button class="fl-menu__item" type="button" role="menuitem" data-move="up" disabled><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#arrow-up"/></svg><span class="fl-menu__text">Move up</span></button>
+                          <button class="fl-menu__item" type="button" role="menuitem" data-move="down"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#arrow-down"/></svg><span class="fl-menu__text">Move down</span></button>
+                          <hr class="fl-menu__separator">
+                          <button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#trash-2"/></svg><span class="fl-menu__text">Remove the block</span></button>
+                        </div>
+                      </div>
+                      <div class="fl-disclosure__content">
+                        <div class="fl-stack">
+                          <div class="fl-field">
+                            <label class="fl-field__label" for="hero-heading">Heading</label>
+                            <span class="fl-input"><input class="fl-input__control" type="text" id="hero-heading" value="Spring is here"></span>
+                          </div>
+                          <div class="fl-field">
+                            <label class="fl-field__label" for="hero-subheading">Subheading</label>
+                            <span class="fl-input"><input class="fl-input__control" type="text" id="hero-subheading" value="A faster editor, scheduling per locale and smarter media."></span>
+                          </div>
+                          <div class="fl-field" role="group" aria-labelledby="hero-image-label">
+                            <span class="fl-field__label" id="hero-image-label">Image</span>
+                            <figure class="screen-media screen-media--s"><img src="spring-hero.svg" alt="Spring hills under a low sun"><figcaption><span>spring-hero.jpg</span><span>2400 × 1350</span></figcaption></figure>
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                </li>
+                <li class="fl-sortable-list__item" data-name="Quote">
+                  <button class="fl-sortable-list__handle" type="button" aria-pressed="false" aria-label="Reorder Quote" aria-describedby="blocks-help"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#grip-vertical"/></svg></button>
+                  <div class="fl-sortable-list__content">
+                    <details class="fl-disclosure">
+                      <summary class="fl-disclosure__summary"><svg class="fl-icon fl-icon--directional fl-disclosure__chevron" aria-hidden="true"><use href="../icons/lucide.svg#chevron-right"/></svg><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#quote"/></svg>Quote<span class="screen-blocks__note">“We rebuilt the editor around the way teams really publish.” Ada Lindqvist</span></summary>
+                      <div class="fl-disclosure__actions"><button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-label="Actions for the Quote block" aria-haspopup="menu" popovertarget="block-quote-menu" aria-expanded="false"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#ellipsis"/></svg></button>
+                        <div class="fl-menu fl-menu--end" id="block-quote-menu" popover role="menu" aria-label="Quote block">
+                          <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Duplicate</span></button>
+                          <button class="fl-menu__item" type="button" role="menuitem" data-move="up"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#arrow-up"/></svg><span class="fl-menu__text">Move up</span></button>
+                          <button class="fl-menu__item" type="button" role="menuitem" data-move="down"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#arrow-down"/></svg><span class="fl-menu__text">Move down</span></button>
+                          <hr class="fl-menu__separator">
+                          <button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#trash-2"/></svg><span class="fl-menu__text">Remove the block</span></button>
+                        </div>
+                      </div>
+                      <div class="fl-disclosure__content">
+                        <div class="fl-stack">
+                          <div class="fl-field">
+                            <label class="fl-field__label" for="quote-text">Quote</label>
+                            <textarea class="fl-textarea fl-textarea--auto" id="quote-text" rows="2">We rebuilt the editor around the way teams really publish.</textarea>
+                          </div>
+                          <div class="fl-field">
+                            <label class="fl-field__label" for="quote-by">Attribution</label>
+                            <span class="fl-input"><input class="fl-input__control" type="text" id="quote-by" value="Ada Lindqvist"></span>
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                </li>
+                <li class="fl-sortable-list__item" data-name="Gallery">
+                  <button class="fl-sortable-list__handle" type="button" aria-pressed="false" aria-label="Reorder Gallery" aria-describedby="blocks-help"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#grip-vertical"/></svg></button>
+                  <div class="fl-sortable-list__content">
+                    <details class="fl-disclosure">
+                      <summary class="fl-disclosure__summary"><svg class="fl-icon fl-icon--directional fl-disclosure__chevron" aria-hidden="true"><use href="../icons/lucide.svg#chevron-right"/></svg><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#images"/></svg>Gallery<span class="screen-blocks__note">Behind the release · 3 columns · 6 images</span></summary>
+                      <div class="fl-disclosure__actions"><button class="fl-button fl-button--subtle fl-button--icon" type="button" aria-label="Actions for the Gallery block" aria-haspopup="menu" popovertarget="block-gallery-menu" aria-expanded="false"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#ellipsis"/></svg></button>
+                        <div class="fl-menu fl-menu--end" id="block-gallery-menu" popover role="menu" aria-label="Gallery block">
+                          <button class="fl-menu__item" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#copy"/></svg><span class="fl-menu__text">Duplicate</span></button>
+                          <button class="fl-menu__item" type="button" role="menuitem" data-move="up"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#arrow-up"/></svg><span class="fl-menu__text">Move up</span></button>
+                          <button class="fl-menu__item" type="button" role="menuitem" data-move="down" disabled><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#arrow-down"/></svg><span class="fl-menu__text">Move down</span></button>
+                          <hr class="fl-menu__separator">
+                          <button class="fl-menu__item fl-menu__item--danger" type="button" role="menuitem"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#trash-2"/></svg><span class="fl-menu__text">Remove the block</span></button>
+                        </div>
+                      </div>
+                      <div class="fl-disclosure__content">
+                        <div class="fl-stack">
+                          <div class="fl-field">
+                            <label class="fl-field__label" for="gallery-title">Title</label>
+                            <span class="fl-input"><input class="fl-input__control" type="text" id="gallery-title" value="Behind the release"></span>
+                          </div>
+                          <div class="fl-field">
+                            <label class="fl-field__label" for="gallery-columns">Columns</label>
+                            <span class="fl-input fl-number-input screen-short"><input class="fl-input__control fl-number-input__control" type="number" id="gallery-columns" value="3" min="1" max="6"><button class="fl-number-input__step" type="button" tabindex="-1" aria-label="Decrease"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#minus"/></svg></button><button class="fl-number-input__step" type="button" tabindex="-1" aria-label="Increase"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#plus"/></svg></button></span>
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                </li>
+              </ol>
+              <p class="fl-visually-hidden" id="blocks-help">Press Enter to lift the block, the arrow keys to move it, and Enter again to drop it. Escape puts it back.</p>
+              <p class="fl-visually-hidden" role="status" data-screen="order"></p>
+            </div>
+            <footer class="fl-card__footer">
+              <div class="fl-cluster" role="group" aria-labelledby="add-block-label">
+                <span id="add-block-label">Add a block</span>
+                <button class="fl-button fl-button--s" type="button"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#image"/></svg>Hero</button>
+                <button class="fl-button fl-button--s" type="button"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#quote"/></svg>Quote</button>
+                <button class="fl-button fl-button--s" type="button"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#images"/></svg>Gallery</button>
+              </div>
+            </footer>
+          </section>
+
+          <section class="fl-card" id="group-seo" aria-labelledby="seo-title">
+            <header class="fl-card__header"><h2 class="fl-card__title" id="seo-title">SEO</h2><div class="fl-card__actions"><span class="fl-badge fl-badge--square">Component</span></div></header>
+            <div class="fl-card__body">
+              <div class="fl-stack">
+                <div class="fl-field">
+                  <label class="fl-field__label" for="seo-title-input">Meta title</label>
+                  <span class="fl-input"><input class="fl-input__control" type="text" id="seo-title-input" maxlength="70" value="What's new in the spring release | Northwind Journal" aria-describedby="seo-title-meta"></span>
+                  <span class="fl-field__meta" id="seo-title-meta">52 / 70</span>
+                </div>
+                <div class="fl-field">
+                  <label class="fl-field__label" for="seo-description">Meta description</label>
+                  <textarea class="fl-textarea fl-textarea--auto" id="seo-description" rows="2" maxlength="160" aria-describedby="seo-description-help seo-description-meta">Faster editor, scheduled publishing per locale and a media library that understands focal points: see everything that shipped in the spring release.</textarea>
+                  <p class="fl-field__help" id="seo-description-help">Shown under the title in search results. Keep it under 160 characters.</p>
+                  <span class="fl-field__meta" id="seo-description-meta">148 / 160</span>
+                </div>
+                <figure class="screen-preview">
+                  <figcaption>Search preview</figcaption>
+                  <p class="screen-preview__address">journal.northwind.example › articles › whats-new-spring-release</p>
+                  <p class="screen-preview__title">What's new in the spring release | Northwind Journal</p>
+                  <p class="screen-preview__text">Faster editor, scheduled publishing per locale and a media library that understands focal points: see everything that shipped in the spring release.</p>
+                </figure>
+              </div>
+            </div>
+          </section>
+
+        </div>
+        <aside class="fl-stack screen-columns__side" aria-label="Entry details">
+
+          <section class="fl-card" aria-labelledby="card-status">
+            <header class="fl-card__header"><h2 class="fl-card__title" id="card-status">Status and schedule</h2></header>
+            <div class="fl-card__body">
+              <div class="fl-stack fl-stack--gap-3">
+                <div class="fl-alert fl-alert--warning" role="status"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#triangle-alert"/></svg><div class="fl-alert__content"><p class="fl-alert__text">Version 12 is live in EN. This draft has changes that are not published yet.</p></div></div>
+                <dl class="fl-description-list screen-facts">
+                  <div class="fl-description-list__item"><dt><span class="fl-badge fl-badge--square">EN</span> English</dt><dd><span class="fl-badge fl-badge--warning fl-badge--dot">Modified</span></dd></div>
+                  <div class="fl-description-list__item"><dt><span class="fl-badge fl-badge--square">FR</span> French</dt><dd><span class="fl-badge fl-badge--dot">Draft</span></dd></div>
+                  <div class="fl-description-list__item"><dt><span class="fl-badge fl-badge--square">DE</span> German</dt><dd><span class="fl-badge fl-badge--success fl-badge--dot">Published</span></dd></div>
+                </dl>
+                <div class="fl-alert" role="status"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#calendar"/></svg><div class="fl-alert__content"><p class="fl-alert__title">No schedule for EN</p><p class="fl-alert__text">Publish or unpublish at a set time.</p><div class="fl-alert__actions"><button class="fl-button fl-button--s" type="button" aria-haspopup="dialog" popovertarget="schedule-popover" aria-expanded="false">Schedule</button></div></div></div>
+                <div class="fl-popover" id="schedule-popover" popover role="dialog" aria-labelledby="schedule-title">
+                  <div class="fl-popover__header"><h2 class="fl-popover__title" id="schedule-title">Schedule EN</h2></div>
+                  <div class="fl-popover__body">
+                    <fieldset class="fl-field">
+                      <legend class="fl-field__label" id="schedule-action-label">At that time</legend>
+                      <div class="fl-radio-group fl-radio-group--horizontal" role="radiogroup" aria-labelledby="schedule-action-label"><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="schedule-action" id="schedule-publish" checked><label class="fl-radio-group__label" for="schedule-publish">Publish</label></div><div class="fl-radio-group__item"><input class="fl-radio-group__control" type="radio" name="schedule-action" id="schedule-unpublish"><label class="fl-radio-group__label" for="schedule-unpublish">Unpublish</label></div></div>
+                    </fieldset>
+                    <div class="fl-field">
+                      <label class="fl-field__label" for="schedule-at">Date and time</label>
+                      <span class="fl-input fl-date-input"><input class="fl-input__control fl-date-input__control" type="datetime-local" id="schedule-at" value="2026-12-01T09:00" min="2026-11-26T00:00" aria-describedby="schedule-at-meta"></span>
+                      <span class="fl-field__meta" id="schedule-at-meta">Europe/Berlin</span>
+                    </div>
+                  </div>
+                  <div class="fl-popover__footer">
+                    <button class="fl-button" type="button" popovertarget="schedule-popover" popovertargetaction="hide">Cancel</button>
+                    <button class="fl-button fl-button--primary" type="button" popovertarget="schedule-popover" popovertargetaction="hide">Schedule</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <footer class="fl-card__footer">
+              <button class="fl-button fl-button--subtle fl-button--s" type="button">Unpublish</button>
+              <button class="fl-button fl-button--subtle fl-button--danger fl-button--s" type="button"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#undo-2"/></svg>Discard changes</button>
+            </footer>
+          </section>
+
+          <section class="fl-card" aria-labelledby="card-details">
+            <header class="fl-card__header"><h2 class="fl-card__title" id="card-details">Details</h2></header>
+            <div class="fl-card__body">
+              <div class="fl-stack">
+                <div class="fl-field">
+                  <label class="fl-field__label" for="entry-author">Author</label>
+                  <div class="fl-combobox" data-combobox><div class="fl-combobox__box"><div class="fl-combobox__values"><input class="fl-combobox__input" type="text" role="combobox" id="entry-author" aria-expanded="false" aria-controls="entry-author-list" aria-autocomplete="list" autocomplete="off" value="Jonas Weber" placeholder="Search for an author"></div><button class="fl-combobox__action" type="button" tabindex="-1" aria-label="Show options"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#chevron-down"/></svg></button></div><div class="fl-combobox__popover" popover="manual" id="entry-author-pop"><div class="fl-combobox__list" role="listbox" id="entry-author-list" aria-label="Authors"><div class="fl-combobox__option" role="option" id="entry-author-o1" aria-selected="false"><span class="fl-combobox__option-label">Ada Lindqvist</span><span class="fl-combobox__option-note">Editor</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="entry-author-o2" aria-selected="false"><span class="fl-combobox__option-label">Elena Marsh</span><span class="fl-combobox__option-note">Super Admin</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="entry-author-o3" aria-selected="true"><span class="fl-combobox__option-label">Jonas Weber</span><span class="fl-combobox__option-note">Author</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="entry-author-o4" aria-selected="false"><span class="fl-combobox__option-label">Marta Okafor</span><span class="fl-combobox__option-note">Author</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="entry-author-o5" aria-selected="false"><span class="fl-combobox__option-label">Priya Nair</span><span class="fl-combobox__option-note">Author</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="entry-author-o6" aria-selected="false"><span class="fl-combobox__option-label">Tomas Berg</span><span class="fl-combobox__option-note">Translator</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div></div><p class="fl-combobox__status" role="status" hidden>No author matches.</p></div></div>
+                </div>
+                <div class="fl-field">
+                  <label class="fl-field__label" for="entry-tags">Tags</label>
+                  <div class="fl-combobox" data-combobox data-multiple><div class="fl-combobox__box"><div class="fl-combobox__values"><span class="fl-combobox__tag"><span class="fl-combobox__tag-label">Releases</span><button class="fl-combobox__remove" type="button" aria-label="Remove Releases"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="../icons/lucide.svg#x"/></svg></button></span><span class="fl-combobox__tag"><span class="fl-combobox__tag-label">Product</span><button class="fl-combobox__remove" type="button" aria-label="Remove Product"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="../icons/lucide.svg#x"/></svg></button></span><span class="fl-combobox__tag"><span class="fl-combobox__tag-label">Editor</span><button class="fl-combobox__remove" type="button" aria-label="Remove Editor"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="../icons/lucide.svg#x"/></svg></button></span><input class="fl-combobox__input" type="text" role="combobox" id="entry-tags" aria-expanded="false" aria-controls="entry-tags-list" aria-autocomplete="list" autocomplete="off" placeholder="Add a tag" aria-describedby="entry-tags-help entry-tags-meta"></div><button class="fl-combobox__action" type="button" tabindex="-1" aria-label="Show options"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#chevron-down"/></svg></button></div><div class="fl-combobox__popover" popover="manual" id="entry-tags-pop"><div class="fl-combobox__list" role="listbox" id="entry-tags-list" aria-label="Tags" aria-multiselectable="true"><div class="fl-combobox__option" role="option" id="entry-tags-o1" aria-selected="true"><span class="fl-combobox__option-label">Releases</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="entry-tags-o2" aria-selected="true"><span class="fl-combobox__option-label">Product</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="entry-tags-o3" aria-selected="true"><span class="fl-combobox__option-label">Editor</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="entry-tags-o4" aria-selected="false"><span class="fl-combobox__option-label">Engineering</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="entry-tags-o5" aria-selected="false"><span class="fl-combobox__option-label">Guides</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="entry-tags-o6" aria-selected="false"><span class="fl-combobox__option-label">Localization</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="entry-tags-o7" aria-selected="false"><span class="fl-combobox__option-label">Media</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div><div class="fl-combobox__option" role="option" id="entry-tags-o8" aria-selected="false"><span class="fl-combobox__option-label">Scheduling</span><svg class="fl-icon fl-combobox__check" aria-hidden="true"><use href="../icons/lucide.svg#check"/></svg></div></div><p class="fl-combobox__status" role="status" hidden>No tag matches.</p></div></div>
+                  <p class="fl-field__help" id="entry-tags-help">Shown in the order they were added.</p>
+                  <span class="fl-field__meta" id="entry-tags-meta">Ordered</span>
+                </div>
+                <div class="fl-field">
+                  <label class="fl-field__label" for="entry-category">Category</label>
+                  <span class="fl-select"><select class="fl-select__control" id="entry-category" aria-describedby="entry-category-help"><option selected>News</option><option>Guide</option><option>Engineering</option><option>Video</option></select><svg class="fl-icon fl-select__chevron" aria-hidden="true"><use href="../icons/lucide.svg#chevron-down"/></svg></span>
+                  <p class="fl-field__help" id="entry-category-help">Choosing Video adds a required Video URL field.</p>
+                </div>
+                <div class="fl-field">
+                  <label class="fl-field__label" for="entry-published">Published on</label>
+                  <span class="fl-input fl-date-input"><input class="fl-input__control fl-date-input__control" type="datetime-local" id="entry-published" value="2026-11-24T10:00" aria-describedby="entry-published-meta"></span>
+                  <span class="fl-field__meta" id="entry-published-meta">Europe/Berlin</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="fl-card" aria-labelledby="card-cover">
+            <header class="fl-card__header"><h2 class="fl-card__title" id="card-cover">Hero image</h2><div class="fl-card__actions"><button class="fl-button fl-button--subtle fl-button--s" type="button">Replace</button></div></header>
+            <div class="fl-card__body">
+              <div class="fl-stack fl-stack--gap-3">
+                <figure class="screen-media"><img src="spring-hero.svg" alt="Green hills under a low spring sun"><figcaption><span>spring-release-hero.jpg</span><span>412 KB</span></figcaption></figure>
+                <div class="fl-field">
+                  <label class="fl-field__label" for="cover-alt">Alt text <svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="../icons/lucide.svg#globe"/></svg><span class="fl-visually-hidden">(a value per locale)</span></label>
+                  <span class="fl-input"><input class="fl-input__control" type="text" id="cover-alt" value="Green hills under a low spring sun"></span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="fl-card" aria-labelledby="card-versions">
+            <header class="fl-card__header"><h2 class="fl-card__title" id="card-versions">Version history</h2><div class="fl-card__actions"><a class="fl-link fl-link--standalone" href="#">View all</a></div></header>
+            <div class="fl-card__body">
+              <ol class="fl-timeline">
+                <li class="fl-timeline__item">
+                  <span class="fl-timeline__marker"><span class="fl-avatar fl-avatar--s fl-avatar--category-1" aria-hidden="true">JW</span></span>
+                  <p class="fl-timeline__text"><strong>Jonas Weber</strong> saved v14<span class="fl-timeline__detail">This draft</span></p>
+                  <span class="fl-timeline__time"><time datetime="2026-11-26T08:48">12 min ago</time> <span class="fl-badge fl-badge--square">Admin</span></span>
+                </li>
+                <li class="fl-timeline__item">
+                  <span class="fl-timeline__marker"><span class="fl-avatar fl-avatar--s fl-avatar--category-5" aria-hidden="true"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="../icons/lucide.svg#bot"/></svg></span></span>
+                  <p class="fl-timeline__text"><strong>Content Agent</strong> saved v13</p>
+                  <span class="fl-timeline__time"><time datetime="2026-11-26T07:00">2 h ago</time> <span class="fl-badge fl-badge--accent fl-badge--square">MCP</span></span>
+                </li>
+                <li class="fl-timeline__item">
+                  <span class="fl-timeline__marker"><span class="fl-avatar fl-avatar--s fl-avatar--category-4" aria-hidden="true">EM</span></span>
+                  <p class="fl-timeline__text"><strong>Elena Marsh</strong> published v12<span class="fl-timeline__detail"><span class="fl-badge fl-badge--success fl-badge--dot">Live</span></span></p>
+                  <span class="fl-timeline__time"><time datetime="2026-11-25">Yesterday</time> <span class="fl-badge fl-badge--square">Admin</span></span>
+                </li>
+                <li class="fl-timeline__item">
+                  <span class="fl-timeline__marker"><span class="fl-avatar fl-avatar--s fl-avatar--category-6" aria-hidden="true"><svg class="fl-icon fl-icon--s" aria-hidden="true"><use href="../icons/lucide.svg#timer"/></svg></span></span>
+                  <p class="fl-timeline__text"><strong>Scheduled job</strong> published v11</p>
+                  <span class="fl-timeline__time"><time datetime="2026-11-24">24 Nov</time> <span class="fl-badge fl-badge--square">Job</span></span>
+                </li>
+              </ol>
+            </div>
+          </section>
+
+          <section class="fl-card" aria-labelledby="card-info">
+            <header class="fl-card__header"><h2 class="fl-card__title" id="card-info">Info</h2></header>
+            <div class="fl-card__body">
+              <div class="fl-stack fl-stack--gap-3">
+                <div class="fl-field">
+                  <label class="fl-field__label" for="entry-id">ID</label>
+                  <span class="fl-input fl-input--mono" dir="ltr"><input class="fl-input__control" type="text" id="entry-id" value="0193a7c4-5e1b-7c2a-9f3d-2b8e6a41d0c7" readonly><button class="fl-input__action" type="button" aria-label="Copy the ID" data-toast="toast-copied"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#copy"/></svg></button></span>
+                </div>
+                <dl class="fl-description-list screen-facts">
+                  <div class="fl-description-list__item"><dt>Created</dt><dd><bdi>18 Nov 2026 by Jonas Weber</bdi></dd></div>
+                  <div class="fl-description-list__item"><dt>Updated</dt><dd><bdi>26 Nov 2026, 12 min ago</bdi></dd></div>
+                  <div class="fl-description-list__item"><dt>Version</dt><dd>14</dd></div>
+                  <div class="fl-description-list__item"><dt>Type</dt><dd>article</dd></div>
+                </dl>
+              </div>
+            </div>
+          </section>
+
+        </aside>
+      </div>
+
+      <dialog class="fl-dialog fl-dialog--s" id="trash-dialog" role="alertdialog" aria-labelledby="trash-dialog-title" aria-describedby="trash-dialog-text">
+        <header class="fl-dialog__header">
+          <h2 class="fl-dialog__title" id="trash-dialog-title">Move this article to the trash?</h2>
+          <button class="fl-button fl-button--subtle fl-button--icon fl-dialog__close" type="button" aria-label="Close" commandfor="trash-dialog" command="close"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#x"/></svg></button>
+        </header>
+        <div class="fl-dialog__body">
+          <p id="trash-dialog-text">The article is unpublished in every locale and its schedule is cleared. It stays in the trash for 30 days, with its versions, and can be restored from there.</p>
+        </div>
+        <footer class="fl-dialog__footer">
+          <button class="fl-button" type="button" commandfor="trash-dialog" command="close" autofocus>Cancel</button>
+          <button class="fl-button fl-button--primary fl-button--danger" type="button" commandfor="trash-dialog" command="close"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#trash-2"/></svg>Move to trash</button>
+        </footer>
+      </dialog>
+
+      <!-- The toasts of the application: one region, which the frame of a
+           real application holds. -->
+      <div class="fl-toast-region" role="region" aria-label="Notifications" popover="manual"></div>
+      <template id="toast-saved"><div class="fl-toast fl-toast--success" role="status"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#circle-check"/></svg><div class="fl-toast__content"><p class="fl-toast__title">Draft saved</p><p class="fl-toast__text">Version 15 of the English article.</p></div><button class="fl-toast__close" type="button" aria-label="Close"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#x"/></svg></button></div></template>
+      <template id="toast-copied"><div class="fl-toast" role="status"><div class="fl-toast__content"><p class="fl-toast__title">ID copied</p></div></div></template>
+    </div>
+
+<!-- frame: start -->
+  </main>
+
+  <dialog class="fl-app-shell__drawer" id="nav-drawer" aria-label="Navigation" closedby="any">
+    <!-- the script puts a copy of the navigation here -->
+    <button class="fl-button fl-button--subtle fl-button--icon fl-app-shell__close" type="button" aria-label="Close navigation" commandfor="nav-drawer" command="close"><svg class="fl-icon" aria-hidden="true"><use href="../icons/lucide.svg#x"/></svg></button>
+  </dialog>
+</div>
+
+<script src="screens.js"></script>
+<!-- frame: end -->
+
+<script>
+// The behaviour of this screen. It is not part of the library.
+(() => {
+  const main = document.getElementById('main');
+
+  // The groups of fields: a choice scrolls to its group, and the group at
+  // the top of the view is the one that is marked.
+  const choices = [...document.querySelectorAll('[data-screen="groups"] input')];
+  const groups = choices.map(choice => document.getElementById(choice.value));
+  const calm = matchMedia('(prefers-reduced-motion: reduce)');
+  let target = null;
+
+  for (const choice of choices) {
+    choice.addEventListener('change', () => {
+      target = document.getElementById(choice.value);
+      target.scrollIntoView({ block: 'start', behavior: calm.matches ? 'auto' : 'smooth' });
+    });
+  }
+
+  main.addEventListener('scrollend', () => { target = null; });
+  main.addEventListener('scroll', () => {
+    if (target) return;
+    const line = main.getBoundingClientRect().top + main.clientHeight / 3;
+    const at = groups.findLastIndex(group => group.getBoundingClientRect().top <= line);
+    choices[Math.max(at, 0)].checked = true;
+  }, { passive: true });
+
+  // The counter of the title.
+  const title = document.getElementById('entry-title');
+  title.addEventListener('input', () => {
+    document.getElementById('entry-title-meta').textContent = `${title.value.length} / ${title.maxLength}`;
+  });
+
+  // The slug: locked to the title, or written by hand.
+  const lock = document.querySelector('[data-screen="slug-lock"]');
+  lock.addEventListener('click', () => {
+    const locked = lock.getAttribute('aria-pressed') !== 'true';
+    lock.setAttribute('aria-pressed', String(locked));
+    lock.querySelector('use').setAttribute('href', `../icons/lucide.svg#${locked ? 'lock' : 'lock-open'}`);
+    document.getElementById('tip-slug').textContent = locked ? 'Locked to the title' : 'Lock to the title';
+    document.getElementById('entry-slug').readOnly = locked;
+  });
+
+  // Sections: all blocks closed, or all open.
+  const all = document.querySelector('[data-screen="collapse-blocks"]');
+  const blocks = [...document.querySelectorAll('.screen-blocks details')];
+  const label = () => { all.textContent = blocks.some(block => block.open) ? 'Collapse all' : 'Expand all'; };
+  all.addEventListener('click', () => {
+    const open = !blocks.some(block => block.open);
+    for (const block of blocks) block.open = open;
+    label();
+  });
+  for (const block of blocks) block.addEventListener('toggle', label);
+})();
+</script>
+</body>
+</html>

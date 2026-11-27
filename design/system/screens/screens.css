@@ -1,0 +1,453 @@
+/* Reference screens: the page-layout rules that the screens need and the
+   library lacks. It is not part of the library. Every rule stands for a
+   missing pattern, part or variant: the comment above it names the screens
+   that need it and the library piece that would make it unnecessary. */
+
+/* Every screen: the content of the main region, kept to a width that reads
+   on a wide monitor, with room at its end for the floating bar of the design
+   system. Unnecessary with a width limit in fl-app-shell__main, or a page
+   container in base.css; the room at the end belongs to docs.css. */
+.screen-page {
+  max-inline-size: var(--fl-size-3xl);
+  margin-inline: auto;
+  padding-block-end: var(--fl-space-24);
+}
+
+/* Frame: the header in a shell that has little room. From 80rem it shows the
+   search field, the code of the locale, the count of notifications and the
+   name beside the avatar; below, the search is a button that opens the field
+   in a popover, and the rest are icons. The shell keeps the field at every
+   width: beside three actions it has 35 px at 320 px, and between 48rem and
+   80rem it takes the room of the breadcrumb. Unnecessary with a search, a
+   locale button and a user button of the shell that fold by themselves. */
+@container fl-app-shell (inline-size < 80rem) {
+  .screen-wide {
+    display: none;
+  }
+}
+
+@container fl-app-shell (inline-size >= 80rem) {
+  .screen-narrow {
+    display: none;
+  }
+}
+
+/* Frame: the room of the global search. The shell gives it 30rem and lets
+   the breadcrumb shrink with it, so at 1280 px a trail of three levels is cut
+   while the search is 442 px wide. With 24rem the trail has its room.
+   Unnecessary if the start of the header kept the width of its content
+   before the center gives way, or with a smaller basis for the center. */
+.screen-search {
+  flex-basis: calc(var(--fl-size-s) * 1.2);
+}
+
+/* Frame (site switcher, user button) and dashboard (Agents and AI): a name
+   over a second, quieter line, beside an avatar. It fills the row, and each
+   line truncates. Unnecessary with a text part on fl-avatar (a name and a
+   line of meta), which the switcher slot of the navigation and a user button
+   of the shell would use. */
+.screen-identity {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: var(--fl-font-size-s);
+  font-weight: var(--fl-font-weight-medium);
+  line-height: var(--fl-line-height-tight);
+  text-align: start;
+
+  & > * {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  & > small {
+    color: var(--fl-color-text-subtle);
+    font-size: var(--fl-font-size-xs);
+    font-weight: var(--fl-font-weight-regular);
+  }
+}
+
+/* Dashboard: a main column and a side column, two to one, which become one
+   column where the side would be narrower than a sidebar. Unnecessary with a
+   layout pattern for two columns in base.css, beside fl-stack and
+   fl-cluster. */
+.screen-columns {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--fl-gap-m);
+
+  & > .screen-columns__main {
+    flex: 2 1 calc(2 * var(--fl-size-xs));
+  }
+
+  & > .screen-columns__side {
+    flex: 1 1 var(--fl-size-xs);
+  }
+}
+
+/* Dashboard: the charts of the stat tiles that are not in the accent. The
+   chart draws in currentColor. Unnecessary with tones on
+   fl-stat-tile__chart. */
+.screen-chart--pending {
+  color: var(--fl-color-pending-solid);
+}
+
+.screen-chart--warning {
+  color: var(--fl-color-warning-solid);
+}
+
+/* Dashboard (System): the term and its value on one line in a card of a side
+   column. The description list puts them side by side only from 30rem of its
+   own width. Unnecessary with a modifier that keeps a pair on one line. */
+.screen-facts > .fl-description-list__item {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+}
+
+/* Content list (Save view), entry editor (Copy from locale, Compare locales):
+   actions at the end of the row of tabs. The first one takes the room
+   before it. Unnecessary with a part for actions in fl-tabs. */
+.screen-tabs-action {
+  align-self: center;
+  margin-inline-start: auto;
+
+  & ~ .screen-tabs-action {
+    margin-inline-start: var(--fl-space-1);
+  }
+}
+
+/* Content list: a locale that has no translation: an empty chip with a
+   dashed outline. Unnecessary with an outline variant of fl-badge. */
+.screen-badge-missing {
+  --fl-badge-bg: var(--fl-color-surface);
+  --fl-badge-border: var(--fl-color-border-strong);
+  border-style: dashed;
+}
+
+/* Frame (entry editor): the trail ends with the title of the entry, which
+   is long. Every level of the breadcrumb gives way in proportion to its
+   width, so a short level such as Content loses a part of a pixel and shows
+   an ellipsis while the title still has room to give. Here the title takes
+   all of it, down to its smallest width; the factor is this large so that
+   the share of the other levels is nothing at all. Unnecessary if the levels
+   that lead to the page kept their width until the current page is at its
+   smallest. */
+.screen-crumb-current {
+  flex-shrink: 99999;
+}
+
+/* Entry editor, settings: the page header and the tabs of a page that edits
+   one thing, as bands on the surface that span the main region. From 48rem
+   the band of the header stays at the top while the form scrolls, so that
+   Save is always in reach, and the region keeps what it scrolls to clear of
+   it. The main region of the shell has a padding and nothing above what it
+   scrolls, so a band takes the padding back with a negative margin, which
+   copies the inset of the shell at each width; its content keeps the measure
+   of the page under it. Unnecessary with a part of fl-app-shell between the
+   header and the main region, or with a modifier that makes fl-page-header
+   such a bar. */
+.screen-band {
+  --screen-inset: var(--fl-inset-m);
+  --screen-measure: var(--fl-size-3xl);
+
+  margin-inline: calc(-1 * var(--screen-inset));
+  padding-block: var(--fl-inset-s);
+  padding-inline: calc(var(--screen-inset) + max(0%, (100% - var(--screen-measure)) / 2));
+  border-block-end: var(--fl-border-width) solid var(--fl-color-border);
+  background-color: var(--fl-color-surface);
+
+  &:first-child {
+    margin-block-start: calc(-1 * var(--screen-inset));
+  }
+
+  /* The tabs bring their own line, and their list takes the inset. */
+  &.screen-band--tabs {
+    --fl-tabs-inset: max(var(--screen-inset), (100% - var(--screen-measure)) / 2);
+
+    padding: 0;
+    border-block-end-width: 0;
+  }
+
+  & ~ .screen-page {
+    margin-block-start: var(--fl-gap-m);
+  }
+}
+
+@container fl-app-shell (inline-size >= 48rem) {
+  .screen-band {
+    --screen-inset: var(--fl-inset-l);
+  }
+
+  /* The inset of a sticky box is measured from the padding of the region. */
+  .screen-band--sticky {
+    position: sticky;
+    inset-block-start: calc(-1 * var(--screen-inset));
+    z-index: var(--fl-z-sticky);
+  }
+
+  .fl-app-shell__main:has(> .screen-band--sticky) {
+    scroll-padding-block-start: var(--fl-space-24);
+  }
+}
+
+/* Settings: a form reads best in a column of 50rem, so the page and its
+   bands take that measure in place of the 90rem of the other screens.
+   Unnecessary with the page container that screen-page stands for, in two
+   widths. */
+.screen-form {
+  --screen-measure: var(--fl-size-xl);
+
+  &.screen-page {
+    max-inline-size: var(--screen-measure);
+  }
+}
+
+/* Entry editor: the tab of a locale says the state of that locale in a
+   second, quieter text, and a draft has a dot without a tone. Unnecessary
+   with a part for a note in fl-tabs__tab and a neutral fl-tabs__dot. */
+.screen-tab-note {
+  color: var(--fl-color-text-subtle);
+  font-size: var(--fl-font-size-xs);
+  font-weight: var(--fl-font-weight-regular);
+}
+
+.screen-tab-dot--neutral {
+  --fl-tabs-dot: var(--fl-color-neutral-solid);
+}
+
+/* Entry editor (Body): the rich text editor, which is out of the scope of
+   the library by plan. A bordered region as a text control draws it, with a
+   row of buttons over the text and a line of facts under it. Unnecessary
+   with a rich text editor in the library. */
+.screen-editor {
+  --screen-editor-radius: calc(var(--fl-control-radius) - var(--fl-border-width));
+
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  border: var(--fl-border-width) solid var(--fl-color-border-control);
+  border-radius: var(--fl-control-radius);
+  background-color: var(--fl-color-surface);
+
+  &:has(> .screen-editor__body:focus-visible) {
+    outline: var(--fl-focus-ring);
+    outline-offset: calc(-1 * var(--fl-border-width));
+  }
+
+  & > .screen-editor__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--fl-space-1);
+    padding: var(--fl-space-1-5);
+    border-block-end: var(--fl-border-width) solid var(--fl-color-border);
+    border-start-start-radius: var(--screen-editor-radius);
+    border-start-end-radius: var(--screen-editor-radius);
+    background-color: var(--fl-color-surface-subtle);
+
+    & > .screen-editor__end {
+      margin-inline-start: auto;
+    }
+  }
+
+  & > .screen-editor__body {
+    min-block-size: var(--fl-size-2xs);
+    padding: var(--fl-inset-m);
+    outline: 0;
+    font-size: var(--fl-font-size-l);
+    line-height: var(--fl-line-height-relaxed);
+
+    & > * {
+      margin: 0;
+    }
+
+    & > * + * {
+      margin-block-start: var(--fl-space-3);
+    }
+
+    & > h2 {
+      font-size: var(--fl-font-size-xl);
+      font-weight: var(--fl-font-weight-semibold);
+      line-height: var(--fl-line-height-tight);
+    }
+
+    & > * + h2 {
+      margin-block-start: var(--fl-space-5);
+    }
+  }
+
+  & > .screen-editor__footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--fl-space-1) var(--fl-gap-m);
+    padding-block: var(--fl-space-2);
+    padding-inline: var(--fl-inset-s);
+    border-block-start: var(--fl-border-width) solid var(--fl-color-border);
+    color: var(--fl-color-text-subtle);
+    font-size: var(--fl-font-size-xs);
+
+    /* Keeps "118 words" in that order in right-to-left. */
+    & > * {
+      unicode-bidi: plaintext;
+    }
+  }
+}
+
+/* Entry editor (Sections): a sortable list whose items open. The item of
+   the list is one row: it centres its handle on the whole item, and what
+   opens is in the column beside the handle. Here the handle stays on the row
+   of the summary, and the content of the block goes back under the handle,
+   so that its fields have the width of the block. The summary has a second,
+   quieter text that says what the block holds, cut where the row ends.
+   Unnecessary with an item of fl-sortable-list that has a header row and a
+   body under it, and a part for a note in fl-disclosure__summary. */
+.screen-blocks {
+  & > .fl-sortable-list__item {
+    align-items: flex-start;
+  }
+
+  & > .fl-sortable-list__item > .fl-sortable-list__handle {
+    margin-block: calc((var(--fl-control-height-m) - var(--fl-target-min)) / 2);
+  }
+
+  & .fl-disclosure__content {
+    margin-inline-start: calc(-1 * (var(--fl-target-min) + var(--fl-gap-s)));
+    padding-inline-start: calc(var(--fl-space-2) + var(--fl-inset-s) - var(--fl-space-1-5));
+  }
+
+  & .screen-blocks__note {
+    flex: 1;
+    min-inline-size: 0;
+    overflow: hidden;
+    color: var(--fl-color-text-subtle);
+    font-weight: var(--fl-font-weight-regular);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* Entry editor (Hero image, the image of a block): a picture of the media
+   library with its file name and a fact about it. Unnecessary with a media
+   or thumbnail component. */
+.screen-media {
+  display: grid;
+  gap: var(--fl-space-2);
+  min-inline-size: 0;
+  margin: 0;
+
+  & > img {
+    display: block;
+    inline-size: 100%;
+    aspect-ratio: 16 / 9;
+    border: var(--fl-border-width) solid var(--fl-color-border);
+    border-radius: var(--fl-radius-m);
+    background-color: var(--fl-color-surface-muted);
+    object-fit: cover;
+  }
+
+  & > figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--fl-space-1) var(--fl-gap-s);
+    font-size: var(--fl-font-size-s);
+    font-weight: var(--fl-font-weight-medium);
+
+    /* Keeps "2400 × 1350" in that order in right-to-left. */
+    & > :last-child {
+      color: var(--fl-color-text-subtle);
+      font-size: var(--fl-font-size-xs);
+      font-variant-numeric: tabular-nums;
+      font-weight: var(--fl-font-weight-regular);
+      unicode-bidi: plaintext;
+    }
+  }
+
+  &.screen-media--s {
+    max-inline-size: var(--fl-size-s);
+  }
+}
+
+/* Entry editor (SEO): how the entry looks in the results of a search
+   engine: an address, a title and a text. It belongs to the SEO component of
+   the CMS, not to the library. */
+.screen-preview {
+  display: grid;
+  gap: var(--fl-space-0-5);
+  min-inline-size: 0;
+  margin: 0;
+  padding: var(--fl-inset-s);
+  border: var(--fl-border-width) solid var(--fl-color-border);
+  border-radius: var(--fl-radius-l);
+  background-color: var(--fl-color-surface-subtle);
+
+  & > * {
+    margin: 0;
+  }
+
+  & > figcaption {
+    margin-block-end: var(--fl-space-1);
+    color: var(--fl-color-text-subtle);
+    font-size: var(--fl-font-size-2xs);
+    font-weight: var(--fl-font-weight-semibold);
+    letter-spacing: var(--fl-letter-spacing-caps);
+    text-transform: uppercase;
+  }
+
+  & > .screen-preview__address {
+    color: var(--fl-color-text-subtle);
+    font-size: var(--fl-font-size-xs);
+    overflow-wrap: anywhere;
+  }
+
+  & > .screen-preview__title {
+    color: var(--fl-color-accent-text);
+    font-size: var(--fl-font-size-l);
+    font-weight: var(--fl-font-weight-medium);
+  }
+
+  & > .screen-preview__text {
+    color: var(--fl-color-text-muted);
+    font-size: var(--fl-font-size-s);
+  }
+}
+
+/* Entry editor (Columns of a block), settings (Items per page, the time of
+   a publication): a control whose value is short does not fill the row of
+   its field. Unnecessary with a width on fl-input, such as a modifier for a
+   short value; the documentation pages needed the same and have docs-narrow
+   for it. */
+.screen-short {
+  max-inline-size: var(--fl-size-2xs);
+}
+
+/* Settings: a horizontal field whose control is higher than one line (a
+   text area, a group of radios, a list of switches, a drop zone). The field
+   puts its help in the second row of its grid, which starts under the whole
+   control, so the help lands at the foot of the control, far from its label.
+   Here the control spans the rows of the label and the help, the second row
+   takes the height that is left, and the help follows its label. The drop
+   zone starts at the top as well: its first baseline is the text inside its
+   area, which would bring the label down to it. Unnecessary if
+   fl-field--horizontal kept the label and the help together at the start,
+   whatever the height of the control. */
+.fl-field--horizontal:has(> .screen-tall) {
+  grid-template-rows: auto 1fr;
+}
+
+@container (min-inline-size: 30rem) {
+  .fl-field--horizontal > .screen-tall {
+    grid-row: 1 / span 2;
+  }
+
+  .fl-field--horizontal:has(> .screen-tall) > .fl-field__help {
+    grid-row: 2;
+  }
+
+  .fl-field--horizontal > .screen-tall--start {
+    align-self: start;
+  }
+}

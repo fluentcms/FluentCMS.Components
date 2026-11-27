@@ -5,8 +5,10 @@
   .fl-pagination {
     --fl-pagination-size: var(--fl-control-height-s);
 
-    /* It measures itself, so it fills the width of its place. */
+    /* It measures itself, so it fills the width of its place: the whole of a
+       block, and what is left of a row such as the footer of a card. */
     container-type: inline-size;
+    flex: 1 1 auto;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
