@@ -112,7 +112,7 @@
       padding-block: var(--fl-space-1);
       padding-inline: var(--fl-space-3);
       border: var(--fl-border-width) solid transparent;
-      border-radius: var(--fl-radius-m);
+      border-radius: var(--fl-radius-s);
       font-size: var(--fl-font-size-s);
       cursor: pointer;
 

@@ -15,10 +15,10 @@
   const pages = [
     ['index.html', 'Tokens'],
     ['foundations.html', 'Foundations'],
-    ['forms.html', 'Forms', true],
-    ['actions-overlays.html', 'Actions and overlays', true],
-    ['data.html', 'Data', true],
-    ['layout-navigation.html', 'Layout and navigation', true],
+    ['forms.html', 'Forms'],
+    ['actions-overlays.html', 'Actions and overlays'],
+    ['data.html', 'Data'],
+    ['layout-navigation.html', 'Layout and navigation'],
     ['screens/index.html', 'Screens', true],
   ];
 
@@ -69,7 +69,11 @@
       if (rule.selectorText && STATE.test(rule.selectorText)) {
         const selector = rule.selectorText.replace(new RegExp(STATE, 'g'), (_, state) => `[data-force~="${state}"]`);
         const text = rule.cssText;
-        parent.insertRule(selector + text.slice(text.indexOf('{')), ++i);
+        // A state after a pseudo-element has no twin: the selector is not valid.
+        try {
+          parent.insertRule(selector + text.slice(text.indexOf('{')), i + 1);
+          i++;
+        } catch { /* the rule keeps its real state only */ }
       }
       if (rule.cssRules && rule.cssRules.length) forceStates(rule.cssRules, rule);
     }
@@ -199,7 +203,7 @@
   }
 
   // Attributes that hold ids, which a copy must not share with its source.
-  const REFERENCES = ['for', 'aria-describedby', 'aria-labelledby', 'aria-controls', 'aria-owns', 'aria-activedescendant', 'popovertarget', 'commandfor', 'list', 'form', 'name'];
+  const REFERENCES = ['for', 'aria-describedby', 'aria-labelledby', 'aria-controls', 'aria-owns', 'aria-activedescendant', 'popovertarget', 'commandfor', 'interestfor', 'list', 'form', 'name'];
 
   function copy(source, suffix) {
     const clone = source.cloneNode(true);

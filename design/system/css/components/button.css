@@ -117,6 +117,11 @@
       box-shadow: var(--fl-focus-halo);
     }
 
+    /* Open: the button of a menu or a popover stays pressed while it is open. */
+    &[aria-expanded="true"] {
+      --fl-button-overlay: var(--fl-button-bg-pressed);
+    }
+
     &[aria-pressed="true"] {
       --fl-button-bg: var(--fl-color-accent-soft);
       --fl-button-bg-hover: var(--fl-color-accent-soft-hover);

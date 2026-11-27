@@ -138,21 +138,8 @@
       padding-inline-end: 0;
     }
 
-    & .fl-table__check {
-      display: grid;
-      place-items: center;
-      inline-size: var(--fl-target-min);
-      block-size: var(--fl-target-min);
-      margin-inline-start: calc(-1 * var(--fl-space-1));
-      cursor: pointer;
-
-      & > input {
-        inline-size: var(--fl-space-4);
-        block-size: var(--fl-space-4);
-        margin: 0;
-        accent-color: var(--fl-color-accent);
-        cursor: pointer;
-      }
+    & > :is(thead, tbody) > tr > .fl-table__select > .fl-checkbox {
+      vertical-align: middle;
     }
 
     /* The column of row actions: at the end, as narrow as its buttons. */

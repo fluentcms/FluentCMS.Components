@@ -29,6 +29,7 @@
       display: inline-flex;
       align-items: center;
       gap: var(--fl-space-1);
+      min-block-size: var(--fl-target-min);
       font-weight: var(--fl-font-weight-medium);
       text-decoration: none;
 

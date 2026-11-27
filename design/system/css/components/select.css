@@ -28,13 +28,17 @@
       appearance: none;
       inline-size: 100%;
       min-inline-size: 0;
-      margin: 0;
+      /* Its transparent border lies over the border of the box, so the target
+         has the full height of the box. */
+      margin-block: calc(-1 * var(--fl-border-width));
+      margin-inline: 0;
       padding-block: 0;
       padding-inline: var(--fl-select-padding) calc(var(--fl-select-padding) + var(--fl-icon-size-m) + var(--fl-space-2));
       border: 0;
+      border-block: var(--fl-border-width) solid transparent;
       border-radius: var(--fl-select-inner-radius);
       outline: 0;
-      background: transparent;
+      background: transparent padding-box;
       color: inherit;
       font: inherit;
       text-overflow: ellipsis;
