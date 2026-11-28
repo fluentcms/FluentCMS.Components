@@ -2,7 +2,7 @@
 
 An opinionated, minimal Blazor component library: the user interface layer of the [FluentCMS](https://github.com/fluentcms/FluentCMS) admin, usable with or without the CMS.
 
-> **State.** The first component, `FlIcon`, is available. The [implementation plan](docs/planning/implementation-plan.md) says what the library is, how it is built and tested, and in which order; the choices made so far are in [docs/decisions](docs/decisions/README.md).
+> **State.** `FlIcon` and `FlButton` are implemented. The [component implementation guide](docs/guides/implementing-a-blazor-component.md) walks through the button. The [implementation plan](docs/planning/implementation-plan.md) sets the order of work; the choices made so far are in [docs/decisions](docs/decisions/README.md).
 
 ## Icons
 
