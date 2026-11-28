@@ -258,13 +258,6 @@ body.gallery {
   padding-inline-start: var(--fl-space-5);
 }
 
-/* Keep links in the text flow, and reserve the padding in each line they occupy. */
-.gallery-section > :is(p, ul, ol) a.fl-link {
-  --gallery-link-padding: max(0px, (var(--fl-target-min) - 1em) / 2);
-  padding-block: var(--gallery-link-padding);
-  line-height: calc(1lh + 2 * var(--gallery-link-padding));
-}
-
 .gallery code {
   padding: 1px 4px;
   border-radius: var(--fl-radius-s);

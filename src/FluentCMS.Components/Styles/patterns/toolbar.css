@@ -37,8 +37,11 @@
 
     & > .fl-toolbar__end {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
+      justify-content: flex-end;
       gap: var(--fl-gap-s);
+      min-inline-size: 0;
       margin-inline-start: auto;
     }
 

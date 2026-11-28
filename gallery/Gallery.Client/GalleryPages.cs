@@ -11,6 +11,7 @@ public static class GalleryPages
         new("icon", "Icon"),
         new("button", "Button"),
         new("tokens", "Tokens"),
+        new("patterns", "Patterns"),
         new("texts", "Texts"),
         new("render-modes", "Render modes"),
         new("script", "Script"),
