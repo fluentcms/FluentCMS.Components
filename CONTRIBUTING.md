@@ -32,6 +32,8 @@ Packages are restored from nuget.org only (`nuget.config`). The library requires
 
 When adding a public type or member to the library, add its signature to `src/FluentCMS.Components/PublicAPI.Unshipped.txt`, in sorted order. Include nullable annotations: `string` and `string?` are different contracts. `dotnet build` reports `RS0016` as an error if a public symbol is missing. Keep `PublicAPI.Shipped.txt` for released signatures; do not edit it to make a new member pass.
 
+For a component change, follow [Implementing a Blazor component](docs/guides/implementing-a-blazor-component.md). It uses the merged `FlButton` to connect its markup and API to the gallery, tests and package checks. The visual and CSS rules remain in the design recipe below.
+
 ## The design system
 
 The design system is static HTML under `design/system/`, with no build step. Its pages load the library's stylesheet files from `src/FluentCMS.Components/Styles/`, where the one copy of them lives. Serve the repository root over HTTP, because a browser does not load the icons from a `file://` page:
@@ -69,10 +71,11 @@ Then open `http://localhost:5610`.
 
 ### Writing a page
 
-A page is one file in `gallery/Gallery.Client/Pages` and one line in `GalleryPages.cs`, which is the list of pages in the header.
+A page is one file in `gallery/Gallery.Client/Pages` and one line in `GalleryPages.cs`, which is the list of pages in the header. Here is an abridged version of the existing Button page; choose an unused route for a new page.
 
 ```razor
 @page "/button"
+@using FluentCMS.Components
 
 <GalleryPage Title="Button" Level="ComponentLevel.Static">
     <Lede>Starts an action, or goes somewhere when it is a link.</Lede>
@@ -80,14 +83,14 @@ A page is one file in `gallery/Gallery.Client/Pages` and one line in `GalleryPag
     <Section Title="Variants">
         <Demo>
             <FlButton>Secondary</FlButton>
-            <FlButton Variant="ButtonVariant.Primary">Primary</FlButton>
+            <FlButton Variant="FlButtonVariant.Primary">Primary</FlButton>
         </Demo>
         <Example Code="@Variants" />
     </Section>
 
     <Section Title="Parameters">
         <ParameterTable>
-            <ParameterRow Name="Variant" Type="ButtonVariant" Default="Secondary">The weight of the button.</ParameterRow>
+            <ParameterRow Name="Variant" Type="FlButtonVariant" Default="Secondary">The weight of the button.</ParameterRow>
         </ParameterTable>
     </Section>
 </GalleryPage>
@@ -95,7 +98,7 @@ A page is one file in `gallery/Gallery.Client/Pages` and one line in `GalleryPag
 @code {
     private const string Variants = """
         <FlButton>Secondary</FlButton>
-        <FlButton Variant="ButtonVariant.Primary">Primary</FlButton>
+        <FlButton Variant="FlButtonVariant.Primary">Primary</FlButton>
         """;
 }
 ```
