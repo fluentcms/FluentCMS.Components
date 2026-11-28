@@ -1,0 +1,220 @@
+@page "/patterns"
+@using FluentCMS.Components
+
+<GalleryPage Title="CSS patterns" Level="ComponentLevel.Static">
+    <Lede>Use these classes on ordinary HTML to compose screens without adding a component for layout.</Lede>
+
+    <Section Title="Stack" Id="stack">
+        <p>Use <code>fl-stack</code> to space blocks vertically, as the Settings screen does for its groups. The default gap follows density; use a modifier such as <code>fl-stack--gap-3</code> for a fixed gap.</p>
+        <Demo Column>
+            <div class="fl-stack">
+                <section aria-labelledby="pattern-workspace">
+                    <h3 id="pattern-workspace">Workspace</h3>
+                    <div class="fl-stack fl-stack--gap-3">
+                        <span>Workspace name: Northwind Journal</span>
+                        <span>Default locale: English</span>
+                    </div>
+                </section>
+                <section aria-labelledby="pattern-publishing">
+                    <h3 id="pattern-publishing">Publishing</h3>
+                    <div class="fl-stack fl-stack--gap-3">
+                        <span>Publishing time zone: Europe/Amsterdam</span>
+                        <span>Review required before publication</span>
+                    </div>
+                </section>
+            </div>
+        </Demo>
+    </Section>
+
+    <Section Title="Cluster" Id="cluster">
+        <p>Use <code>fl-cluster</code> for a row of related items that can wrap. The entry editor uses it for block choices. Put the class on any suitable element; here it keeps related links together without changing their order.</p>
+        <Demo Column>
+            <ul class="fl-cluster">
+                <li><a class="fl-link fl-link--standalone" href="@FactsHref">Translation details</a></li>
+                <li><a class="fl-link fl-link--standalone" href="@HistoryHref">Version history</a></li>
+                <li><a class="fl-link fl-link--standalone" href="@ToolbarHref">Search articles</a></li>
+            </ul>
+        </Demo>
+    </Section>
+
+    <Section Title="Page header" Id="page-header">
+        <p>Use a <code>header.fl-page-header</code> for the heading, metadata and actions at the top of a view. Keep the real heading level. The editor uses a back action and a metadata list; the Articles list uses a count and subtitle instead.</p>
+        <Demo Column>
+            <header class="fl-page-header">
+                <a class="fl-button fl-button--subtle fl-button--icon fl-page-header__back" href="@ToolbarHref" aria-label="Back to article search">
+                    <FlIcon Icon="FlIcons.ArrowLeft" Directional />
+                </a>
+                <div class="fl-page-header__main">
+                    <div class="fl-page-header__heading">
+                        <h3 class="fl-page-header__title" title="What's new in the spring release: our guide to publishing in multiple languages">What's new in the spring release: our guide to publishing in multiple languages</h3>
+                    </div>
+                    <ul class="fl-page-header__meta" role="list">
+                        <li>Saved 12 minutes ago</li>
+                        <li>Version 14</li>
+                        <li>Article</li>
+                    </ul>
+                </div>
+                <div class="fl-page-header__actions">
+                    <a class="fl-button" href="@FactsHref">Translation details</a>
+                    <a class="fl-button" href="@HistoryHref">Version history</a>
+                </div>
+            </header>
+        </Demo>
+    </Section>
+
+    <Section Title="Toolbar and search" Id="toolbar">
+        <p>Put <code>fl-toolbar</code> above a list. Use <code>fl-toolbar__search</code> for search, <code>fl-toolbar__group</code> for filters and <code>fl-toolbar__end</code> for trailing actions. This Articles-list example uses a native GET form and wraps its long action labels onto separate rows when needed.</p>
+        <Demo Column>
+            <form id="pattern-search" class="fl-toolbar" method="get" action="patterns#toolbar" role="search" aria-label="Article filters" data-enhance-nav="false">
+                <input type="hidden" name="theme" value="@Context.Settings.Theme" />
+                <input type="hidden" name="density" value="@Context.Settings.Density" />
+                <input type="hidden" name="dir" value="@Context.Settings.Direction" />
+                <div class="fl-toolbar__search">
+                    <span class="fl-input fl-search-field">
+                        <FlIcon Icon="FlIcons.Search" class="fl-input__icon" />
+                        <input id="pattern-query" class="fl-input__control fl-search-field__control" type="search"
+                               name="q" value="@Query" placeholder="Search articles" aria-label="Search articles" />
+                    </span>
+                </div>
+                <div class="fl-toolbar__end">
+                    <button class="fl-button fl-button--primary" type="submit" name="view" value="all">Search all articles</button>
+                    <button class="fl-button" type="submit" name="view" value="draft">Find unpublished drafts</button>
+                    <button class="fl-button" type="submit" name="view" value="scheduled">Find scheduled articles</button>
+                </div>
+            </form>
+            @if (View is "all" or "draft" or "scheduled")
+            {
+                <p id="pattern-search-result">Search: <strong>@Query</strong>. View: <strong>@View</strong>.</p>
+            }
+        </Demo>
+        <h3 id="search-field">Search field</h3>
+        <p>Add <code>fl-search-field</code> to the <code>fl-input</code> box and <code>fl-search-field__control</code> to the named search input. Give it a label even when you show only a placeholder. The global search in the reference screens adds <code>fl-search-field--global</code> for a wider box. The optional <code>__clear</code> and <code>__hint</code> parts only control visibility; leave them out unless the host implements the clear action and shortcut.</p>
+        <Example Code="@SearchCode" />
+    </Section>
+
+    <Section Title="Divider" Id="divider">
+        <p>Use <code>hr.fl-divider</code> for a break between groups, or a separator with <code>fl-divider--vertical</code> and vertical orientation in a row, as in the entry editor.</p>
+        <Demo Column>
+            <div class="fl-cluster">
+                <span>Editing</span>
+                <span class="fl-divider fl-divider--vertical" role="separator" aria-orientation="vertical"></span>
+                <span>Version 14</span>
+            </div>
+            <hr class="fl-divider fl-divider--strong" />
+            <span>Northwind Journal</span>
+        </Demo>
+    </Section>
+
+    <Section Title="Keyboard key" Id="kbd">
+        <p>Use <code>kbd.fl-kbd</code> to name a key, not to make a button. The reference screens use these keys in search hints. Only show a shortcut if the host supports it.</p>
+        <Demo>
+            <span>In the article search, press <kbd class="fl-kbd">Enter</kbd> to submit, or <kbd class="fl-kbd">Tab</kbd> to reach the next action.</span>
+        </Demo>
+    </Section>
+
+    <Section Title="Skeleton" Id="skeleton">
+        <p>While a Dashboard tile loads, mark the content region busy and hide the placeholder shapes from assistive technology. This preview shows the loading state of the tiles below. Use <code>fl-skeleton</code> for a line, <code>--short</code> for a shorter line, <code>--block</code> for a chart, and <code>--circle</code> for an avatar. The shapes stop pulsing when reduced motion is requested.</p>
+        <Demo Column>
+            <h3 id="pattern-loading">Loading dashboard totals</h3>
+            <div class="fl-stack fl-stack--gap-3" role="group" aria-labelledby="pattern-loading" aria-busy="true">
+                <span class="fl-skeleton fl-skeleton--short" aria-hidden="true"></span>
+                <span class="fl-skeleton fl-skeleton--block" aria-hidden="true"></span>
+                <span class="fl-skeleton" aria-hidden="true"></span>
+            </div>
+        </Demo>
+    </Section>
+
+    <Section Title="Link" Id="link">
+        <p>The Dashboard timeline uses <code>a.fl-link</code> to identify links in running text. Use a button for an in-place action. <code>fl-link--standalone</code> is for an action on its own, and <code>fl-link--quiet</code> for a title link in a list; keep the underline in prose.</p>
+        <Demo Column>
+            <p id="pattern-prose">Read the notes for <a class="fl-link" href="@FactsHref">EN</a> before you publish.
+                To restore the original query, <button class="fl-link" type="reset" form="pattern-search">reset the search</button>.</p>
+        </Demo>
+    </Section>
+
+    <Section Title="Description list" Id="description-list">
+        <p>Use <code>dl.fl-description-list</code> for terms and values, with one <code>fl-description-list__item</code> around each <code>dt</code> and <code>dd</code>. The Dashboard's System card uses rows. The editor's translation details can use <code>fl-description-list--columns</code> to put multiple pairs side by side when there is room.</p>
+        <Demo Column>
+            <h3>System</h3>
+            <dl class="fl-description-list">
+                <div class="fl-description-list__item"><dt>API</dt><dd>Healthy</dd></div>
+                <div class="fl-description-list__item"><dt>Webhooks</dt><dd>99.2% delivered</dd></div>
+                <div class="fl-description-list__item"><dt>Notification address</dt><dd><bdi>publishing-notifications+production@northwind-journal.example</bdi></dd></div>
+            </dl>
+            <h3>Translation details</h3>
+            <dl class="fl-description-list fl-description-list--columns">
+                <div class="fl-description-list__item"><dt>English (EN)</dt><dd>Modified</dd></div>
+                <div class="fl-description-list__item"><dt>French (FR)</dt><dd>Draft</dd></div>
+                <div class="fl-description-list__item"><dt>German (DE)</dt><dd>Published</dd></div>
+            </dl>
+        </Demo>
+    </Section>
+
+    <Section Title="Stat tile" Id="stat-tile">
+        <p>Use <code>fl-stat-tile-group</code> to arrange Dashboard figures. Put <code>fl-stat-tile</code> on a div for a figure or on a link when the whole tile leads to the underlying list. Give the figure a label, value and note. A decorative chart uses <code>fl-stat-tile__chart</code> and <code>currentColor</code>; keep its meaning in the text.</p>
+        <Demo Column>
+            <div class="fl-stat-tile-group">
+                <a class="fl-stat-tile" href="@ToolbarHref">
+                    <p class="fl-stat-tile__label">Drafts waiting for you</p>
+                    <FlIcon Icon="FlIcons.FileText" />
+                    <p class="fl-stat-tile__value">7</p>
+                    <svg class="fl-stat-tile__chart" viewBox="0 0 100 32" aria-hidden="true">
+                        <path d="M0 22L14 18L28 20L42 12L56 15L70 9L84 11L96 7V32H0Z" fill="currentColor" fill-opacity="0.1" />
+                        <polyline points="0,22 14,18 28,20 42,12 56,15 70,9 84,11 96,7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <circle cx="96" cy="7" r="2.5" fill="currentColor" />
+                    </svg>
+                    <p class="fl-stat-tile__note">3 updated today</p>
+                </a>
+                <div class="fl-stat-tile">
+                    <p class="fl-stat-tile__label">Published this week</p>
+                    <FlIcon Icon="FlIcons.Check" />
+                    <p class="fl-stat-tile__value">12</p>
+                    <p class="fl-stat-tile__note"><span class="fl-stat-tile__trend fl-stat-tile__trend--good">Up 4</span> compared with last week</p>
+                </div>
+            </div>
+        </Demo>
+    </Section>
+
+    <Section Title="Timeline" Id="timeline">
+        <p>Use <code>ol.fl-timeline</code> for activity or version history. Each <code>li.fl-timeline__item</code> can have a decorative marker, a description and a <code>time</code> with a machine-readable date. Keep the entries in reading order, as in the Dashboard and entry editor.</p>
+        <Demo Column>
+            <ol class="fl-timeline" role="list">
+                <li class="fl-timeline__item">
+                    <span class="fl-timeline__marker"><FlIcon Icon="FlIcons.Clock" /></span>
+                    <p class="fl-timeline__text"><strong>Jonas Weber</strong> saved <a class="fl-link" href="@EditorHref">What's new in the spring release</a><span class="fl-timeline__detail">Article · EN · v14</span></p>
+                    <time class="fl-timeline__time" datetime="2026-11-26T08:48">12 min ago</time>
+                </li>
+                <li class="fl-timeline__item">
+                    <span class="fl-timeline__marker"><FlIcon Icon="FlIcons.Check" /></span>
+                    <p class="fl-timeline__text"><strong><a class="fl-link fl-link--quiet" href="@FactsHref">French translation</a></strong><span class="fl-timeline__detail">Published by Ada Lindqvist · FR · v13</span></p>
+                    <time class="fl-timeline__time" datetime="2026-11-26T07:00">2 h ago</time>
+                </li>
+            </ol>
+        </Demo>
+    </Section>
+</GalleryPage>
+
+@code {
+    [CascadingParameter] public GalleryContext Context { get; set; } = default!;
+    [SupplyParameterFromQuery(Name = "q")] private string? Query { get; set; }
+    [SupplyParameterFromQuery] private string? View { get; set; }
+
+    private string FactsHref => Context.Href("patterns", "description-list");
+    private string HistoryHref => Context.Href("patterns", "timeline");
+    private string ToolbarHref => Context.Href("patterns", "toolbar");
+    private string EditorHref => Context.Href("patterns", "page-header");
+
+    private const string SearchCode = """
+        <form class="fl-toolbar" method="get" action="articles" role="search" aria-label="Articles">
+          <div class="fl-toolbar__search">
+            <span class="fl-input fl-search-field">
+              <input class="fl-input__control fl-search-field__control" type="search"
+                     name="q" placeholder="Search articles" aria-label="Search articles">
+            </span>
+          </div>
+          <div class="fl-toolbar__end">
+            <button type="submit" class="fl-button">Search</button>
+          </div>
+        </form>
+        """;
+}

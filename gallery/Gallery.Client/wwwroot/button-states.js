@@ -2,12 +2,16 @@
 const sheetLink = 'link[data-gallery-button-states]';
 const processed = new WeakSet();
 
-// The button matrix forces states on the button itself. The input matrix puts the attribute on
-// the native control, since the host's other attributes go there, and the box reads it through :has().
+// The button and card matrices force states on the element itself. The input matrix puts the
+// attribute on the native control, since the host's other attributes go there, and the box reads it through :has().
 const blocks = {
   '.fl-button': {
     pattern: /^&:(hover|active|focus-visible)$/,
     twin: state => `&[data-force~="${state}"]:where(#button-matrix .gallery-matrix button)`,
+  },
+  '.fl-card': {
+    pattern: /^&\.fl-card--link:(hover|active|focus-visible)$/,
+    twin: state => `&.fl-card--link[data-force~="${state}"]:where(#card-states .gallery-matrix a)`,
   },
   '.fl-input': {
     pattern: /^&(?::(hover)|:has\(> \.fl-input__control:(focus-visible)\))$/,

@@ -1,0 +1,33 @@
+# Composing screens with CSS patterns
+
+Load the package stylesheet at `_content/FluentCMS.Components/fluentcms-components.css` once, then put the classes on ordinary HTML. These patterns do not need Razor wrappers, a render mode or JavaScript. Run the gallery and open `/static/patterns` for the working examples; the same page is available at `/server/patterns` and `/wasm/patterns`.
+
+| Pattern | HTML and classes | Where to use it |
+| --- | --- | --- |
+| Stack | Any element with `fl-stack`; the default gap follows density. `--gap-1`, `--gap-2`, `--gap-3`, `--gap-4`, `--gap-6` and `--gap-8` set a fixed gap; `--start` aligns items at the start. | Space related vertical blocks, such as the groups in [Settings][settings]. |
+| Cluster | Any element with `fl-cluster`. It wraps and centers items across the row by default; `--nowrap` is for groups known to fit. Use `--end` or `--between` to position items along the row, or `--top` to align them at the top. | Keep related actions or links in a row, like the block choices in the [entry editor][editor]. Keep `ul` and `li` when the content is a list. |
+| Page header | `header.fl-page-header`. Put the actual heading in `__heading` with `__title`; put it and a `__subtitle` or `ul.__meta` inside `__main`. Optional parts include `__back`, `__count`, `__state` and `__actions`. | Show the title and nearby actions. See the [Articles list][articles] for a count and the [entry editor][editor] for version metadata. Use the heading level the page needs, not a level chosen for its size. |
+| Toolbar | `fl-toolbar` with `__search`, `__group` and `__end`. `--flush` removes the inset. `--selection` shows a selected count in `__count` and related actions. | Put filters and views above a table, as in the [Articles list][articles]. Use a native form or named group; the CSS class alone does not require `role="toolbar"` or add arrow-key handling. |
+| Search field | `fl-search-field` beside `fl-input`; `fl-search-field__control` beside `fl-input__control` on a named `input type="search"`. `--global` allows a wider box. | Use a labelled search control, for example to filter [Articles][articles]. The optional `__clear` and `__hint` parts only handle visibility; the host must implement the clear action and shortcut. The default example is a native GET form without either optional part. |
+| Divider | `hr.fl-divider`, or `span.fl-divider.fl-divider--vertical` with `role="separator" aria-orientation="vertical"`. Use `--strong` for more contrast. | Divide related groups as the [entry editor][editor] does in its control rows. Do not make the divider a Tab stop. |
+| Keyboard key | `kbd.fl-kbd`, with one element per key. | Name the keys in a hint, as the [reference headers][articles] do for global search. Do not advertise a shortcut unless it works. |
+| Skeleton | An `aria-busy="true"` region with decorative `span` or `div` placeholders that have `fl-skeleton` and `aria-hidden="true"`. Use `--short`, `--block`, `--circle`, `--s` or `--l` to suggest the shape of the content. | Show a loading version of a piece of the screen, such as a [Dashboard][dashboard] chart. Mark the region ready when real content replaces the shapes. The reference screen shows the loaded state; the gallery shows the adaptation. |
+| Link | `a.fl-link` for a destination or `button.fl-link` for an action in surrounding text. Use `--standalone` for a link on its own, or `--quiet` for an item title. | Keep the underline in prose, as in the [Dashboard][dashboard] activity feed. Each link reserves at least a 24 × 24 CSS-pixel box. A long label can wrap within its box; prefer a short, descriptive label in running text. |
+| Description list | `dl.fl-description-list` with a `div.fl-description-list__item` around each `dt`/`dd` pair. `--columns` arranges several pairs side by side while leaving the term above its value. | Show related facts, as in [Dashboard][dashboard] System and [entry editor][editor] translation details. The standard rows place the value below the term in a narrow space. |
+| Stat tile | `div.fl-stat-tile` or `a.fl-stat-tile` inside `fl-stat-tile-group`. Parts include `__label`, `__value`, `__note`, `__chart` and `__trend` with `--good` or `--bad`. | Show key [Dashboard][dashboard] figures. If the tile is a link, its text names the destination; don't nest another action. A decorative chart uses `currentColor` and `aria-hidden="true"`. Explain the trend in words. |
+| Timeline | `ol.fl-timeline` with `li.fl-timeline__item` entries and `__marker`, `__text`, `__detail` and `__time` parts. Use `time datetime="…"` for the date. `role="list"` preserves list announcements where removing markers disables them. | Show ordered activity on [Dashboard][dashboard] or version history in the [entry editor][editor]. Keep entries in reading order and hide decorative icons from assistive technology. |
+
+In the table, a part begins with its pattern name: for example `__end` is `fl-toolbar__end`. A modifier similarly begins with its pattern or part name.
+
+## Open design points
+
+These are the dispositions of the requests in [#27](https://github.com/fluentcms/FluentCMS.Components/issues/27), not new utility classes:
+
+- **Toolbar wrapping — addressed in #66.** The [Articles list][articles] puts Locales and view actions at the end. On `/static/patterns#toolbar` at 320 CSS px, longer labels in the same part reproduce the overflow from an end group that cannot wrap. The shipped end group now wraps and aligns to the logical end; the search stays on its own row in a narrow toolbar. An individual action still needs a label that fits its available width.
+- **Inline description list — keep as a Dashboard exception.** Open [Dashboard][dashboard] and inspect System inside the narrow side card. `screen-facts` forces short terms and values onto one line there. Compare `/static/patterns#description-list` at 320 px: the default stacks pairs and gives the long notification address the full width. Keep that robust default; the inline-only case stays owned by the Dashboard's screen CSS under #27 until a second composition needs it. `--columns` is not an inline modifier.
+- **Stat-tile chart tones — use host CSS.** On [Dashboard][dashboard], `screen-chart--pending` and `screen-chart--warning` set `color` from existing tone tokens on just the chart. The figure's label and note still carry the meaning. The Dashboard owns those choices; keep them in its stylesheet rather than adding a tone API. See `design/system/screens/screens.css` for the selectors.
+
+[settings]: ../../design/system/screens/settings.html
+[editor]: ../../design/system/screens/entry-editor.html
+[articles]: ../../design/system/screens/content-list.html
+[dashboard]: ../../design/system/screens/dashboard.html

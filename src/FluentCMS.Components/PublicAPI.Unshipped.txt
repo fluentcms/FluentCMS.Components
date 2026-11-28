@@ -41,6 +41,30 @@ FluentCMS.Components.FlButtonVariant
 FluentCMS.Components.FlButtonVariant.Primary = 1 -> FluentCMS.Components.FlButtonVariant
 FluentCMS.Components.FlButtonVariant.Secondary = 0 -> FluentCMS.Components.FlButtonVariant
 FluentCMS.Components.FlButtonVariant.Subtle = 2 -> FluentCMS.Components.FlButtonVariant
+FluentCMS.Components.FlCard
+FluentCMS.Components.FlCard.Actions.get -> Microsoft.AspNetCore.Components.RenderFragment?
+FluentCMS.Components.FlCard.Actions.set -> void
+FluentCMS.Components.FlCard.AdditionalAttributes.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object!>?
+FluentCMS.Components.FlCard.AdditionalAttributes.set -> void
+FluentCMS.Components.FlCard.ChildContent.get -> Microsoft.AspNetCore.Components.RenderFragment?
+FluentCMS.Components.FlCard.ChildContent.set -> void
+FluentCMS.Components.FlCard.FlCard() -> void
+FluentCMS.Components.FlCard.Flush.get -> bool
+FluentCMS.Components.FlCard.Flush.set -> void
+FluentCMS.Components.FlCard.Footer.get -> Microsoft.AspNetCore.Components.RenderFragment?
+FluentCMS.Components.FlCard.Footer.set -> void
+FluentCMS.Components.FlCard.HeadingLevel.get -> int
+FluentCMS.Components.FlCard.HeadingLevel.set -> void
+FluentCMS.Components.FlCard.Href.get -> string?
+FluentCMS.Components.FlCard.Href.set -> void
+FluentCMS.Components.FlCard.Title.get -> string?
+FluentCMS.Components.FlCard.Title.set -> void
+FluentCMS.Components.FlDensity
+FluentCMS.Components.FlDensity.Comfortable = 0 -> FluentCMS.Components.FlDensity
+FluentCMS.Components.FlDensity.Compact = 1 -> FluentCMS.Components.FlDensity
+FluentCMS.Components.FlDirection
+FluentCMS.Components.FlDirection.Ltr = 0 -> FluentCMS.Components.FlDirection
+FluentCMS.Components.FlDirection.Rtl = 1 -> FluentCMS.Components.FlDirection
 FluentCMS.Components.FlField
 FluentCMS.Components.FlField.AdditionalAttributes.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object!>?
 FluentCMS.Components.FlField.AdditionalAttributes.set -> void
@@ -118,6 +142,21 @@ FluentCMS.Components.FlTextInputType.Search = 5 -> FluentCMS.Components.FlTextIn
 FluentCMS.Components.FlTextInputType.Tel = 3 -> FluentCMS.Components.FlTextInputType
 FluentCMS.Components.FlTextInputType.Text = 0 -> FluentCMS.Components.FlTextInputType
 FluentCMS.Components.FlTextInputType.Url = 2 -> FluentCMS.Components.FlTextInputType
+FluentCMS.Components.FlTheme
+FluentCMS.Components.FlTheme.Dark = 1 -> FluentCMS.Components.FlTheme
+FluentCMS.Components.FlTheme.Light = 0 -> FluentCMS.Components.FlTheme
+FluentCMS.Components.FlThemeProvider
+FluentCMS.Components.FlThemeProvider.AdditionalAttributes.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object!>?
+FluentCMS.Components.FlThemeProvider.AdditionalAttributes.set -> void
+FluentCMS.Components.FlThemeProvider.ChildContent.get -> Microsoft.AspNetCore.Components.RenderFragment?
+FluentCMS.Components.FlThemeProvider.ChildContent.set -> void
+FluentCMS.Components.FlThemeProvider.Density.get -> FluentCMS.Components.FlDensity?
+FluentCMS.Components.FlThemeProvider.Density.set -> void
+FluentCMS.Components.FlThemeProvider.Direction.get -> FluentCMS.Components.FlDirection?
+FluentCMS.Components.FlThemeProvider.Direction.set -> void
+FluentCMS.Components.FlThemeProvider.FlThemeProvider() -> void
+FluentCMS.Components.FlThemeProvider.Theme.get -> FluentCMS.Components.FlTheme?
+FluentCMS.Components.FlThemeProvider.Theme.set -> void
 FluentCMS.Components.IFlTextProvider
 FluentCMS.Components.IFlTextProvider.GetText(FluentCMS.Components.FlText text) -> string?
 Microsoft.Extensions.DependencyInjection.FluentCmsComponentsServiceCollectionExtensions
