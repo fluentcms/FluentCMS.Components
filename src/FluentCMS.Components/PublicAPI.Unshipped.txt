@@ -1,1 +1,139 @@
 #nullable enable
+FluentCMS.Components.FlIcon
+FluentCMS.Components.FlIcon.AdditionalAttributes.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object!>?
+FluentCMS.Components.FlIcon.AdditionalAttributes.set -> void
+FluentCMS.Components.FlIcon.Directional.get -> bool
+FluentCMS.Components.FlIcon.Directional.set -> void
+FluentCMS.Components.FlIcon.FlIcon() -> void
+FluentCMS.Components.FlIcon.Icon.get -> FluentCMS.Components.FlIconDefinition
+FluentCMS.Components.FlIcon.Icon.set -> void
+FluentCMS.Components.FlIcon.Label.get -> string?
+FluentCMS.Components.FlIcon.Label.set -> void
+FluentCMS.Components.FlIcon.Size.get -> FluentCMS.Components.FlSize
+FluentCMS.Components.FlIcon.Size.set -> void
+FluentCMS.Components.FlIcon.Spin.get -> bool
+FluentCMS.Components.FlIcon.Spin.set -> void
+FluentCMS.Components.FlIconDefinition
+FluentCMS.Components.FlIconDefinition.Content.get -> string!
+FluentCMS.Components.FlIconDefinition.FlIconDefinition() -> void
+FluentCMS.Components.FlIconDefinition.FlIconDefinition(string! content) -> void
+FluentCMS.Components.FlIcons
+FluentCMS.Components.FlSize
+FluentCMS.Components.FlSize.Large = 2 -> FluentCMS.Components.FlSize
+FluentCMS.Components.FlSize.Medium = 1 -> FluentCMS.Components.FlSize
+FluentCMS.Components.FlSize.Small = 0 -> FluentCMS.Components.FlSize
+FluentCMS.Components.FlText
+FluentCMS.Components.FlText.Close = 0 -> FluentCMS.Components.FlText
+FluentCMS.Components.FlText.Loading = 1 -> FluentCMS.Components.FlText
+FluentCMS.Components.IFlTextProvider
+FluentCMS.Components.IFlTextProvider.GetText(FluentCMS.Components.FlText text) -> string?
+Microsoft.Extensions.DependencyInjection.FluentCmsComponentsServiceCollectionExtensions
+static FluentCMS.Components.FlIcons.Activity.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.ArrowDown.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.ArrowLeft.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.ArrowRight.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.ArrowUp.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.ArrowUpDown.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.ArrowUpRight.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Bell.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Bold.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.BookOpen.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Bot.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Box.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Calendar.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Check.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.ChevronDown.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.ChevronLeft.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.ChevronRight.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.ChevronUp.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.ChevronsLeft.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.ChevronsRight.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.ChevronsUpDown.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Circle.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.CircleAlert.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.CircleCheck.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.CircleQuestionMark.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.CircleX.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Clock.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Code.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Columns3.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Command.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Copy.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Database.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Download.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Ellipsis.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.EllipsisVertical.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.ExternalLink.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Eye.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.EyeOff.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.File.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.FileText.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Folder.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.FolderOpen.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Funnel.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Globe.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.GripVertical.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Hash.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Heading.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.History.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.House.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Image.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Images.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Info.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Italic.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.KeyRound.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Languages.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Layers.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.LayoutDashboard.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.LayoutGrid.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Link.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.List.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.ListOrdered.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.LoaderCircle.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Lock.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.LockOpen.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.LogOut.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Mail.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Maximize2.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Menu.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.MessageSquare.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Minus.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Monitor.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Moon.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.PanelLeft.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.PanelRight.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Paperclip.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Pencil.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Plug.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Plus.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Quote.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Redo2.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.RefreshCw.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Rows3.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Save.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Search.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Send.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Server.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Settings.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Shield.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.SlidersHorizontal.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Smartphone.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Sparkles.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Star.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Sun.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Tag.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Terminal.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Timer.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Trash2.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.TrendingDown.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.TrendingUp.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.TriangleAlert.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Type.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Undo2.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Upload.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.User.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.UserCheck.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Users.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.X.get -> FluentCMS.Components.FlIconDefinition
+static FluentCMS.Components.FlIcons.Zap.get -> FluentCMS.Components.FlIconDefinition
+static Microsoft.Extensions.DependencyInjection.FluentCmsComponentsServiceCollectionExtensions.AddFluentCmsComponents(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!

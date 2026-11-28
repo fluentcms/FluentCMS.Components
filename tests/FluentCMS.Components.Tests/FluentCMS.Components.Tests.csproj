@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\FluentCMS.Components\FluentCMS.Components.csproj" />
+    <None Include="..\..\design\system\icons\lucide.svg" Link="lucide.svg" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
