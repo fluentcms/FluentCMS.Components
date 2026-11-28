@@ -1,0 +1,211 @@
+@page "/button"
+@using FluentCMS.Components
+
+<GalleryPage Title="Button" Level="ComponentLevel.Static">
+    <Lede>Use a button for an action and a link for a destination. Links and form submissions work without JavaScript. Click callbacks need an interactive render mode.</Lede>
+
+    @if (Result == "submitted")
+    {
+        <p class="gallery-note"><strong>Example submitted.</strong> The browser sent the form to this page.</p>
+    }
+
+    <Section Title="Variants">
+        <p>Give the main action the primary weight. Use danger for destructive actions at any weight.</p>
+        <Demo>
+            @foreach (var row in Variants)
+            {
+                <FlButton Variant="row.Variant" Danger="row.Danger">@(row.Danger ? "Delete" : row.Name)</FlButton>
+            }
+        </Demo>
+        <Example Code="@VariantsCode" />
+    </Section>
+
+    <Section Title="Sizes">
+        <Demo>
+            @foreach (FlSize size in Sizes)
+            {
+                <FlButton Size="size">@size</FlButton>
+            }
+            @foreach (FlSize size in Sizes)
+            {
+                <FlButton Variant="FlButtonVariant.Primary" Icon="FlIcons.Plus" Size="size">@size</FlButton>
+            }
+        </Demo>
+    </Section>
+
+    <Section Title="With an icon" Id="icons">
+        <p>Place a drawing before or after a label. On the link, the drawing follows the label and the link opens the Icon page.</p>
+        <Demo>
+            <FlButton Variant="FlButtonVariant.Primary" Icon="FlIcons.Plus">New item</FlButton>
+            <FlButton Icon="FlIcons.Funnel">Filter</FlButton>
+            <FlButton IconEnd="FlIcons.ChevronDown">Options</FlButton>
+            <FlButton Variant="FlButtonVariant.Subtle" Icon="FlIcons.Download">Export</FlButton>
+            <FlButton id="button-link" Href="@IconHref" IconEnd="FlIcons.ExternalLink">Open</FlButton>
+        </Demo>
+        <h3>Icon only</h3>
+        <p>Give a square button a name even though it has no visible text. The last two controls show how the same name stays in place when a toggle changes state.</p>
+        <Demo>
+            @foreach (FlSize size in Sizes)
+            {
+                <FlButton IconOnly Label="Edit" Icon="FlIcons.Pencil" Size="size" />
+            }
+            <FlButton IconOnly Label="Add" Variant="FlButtonVariant.Primary" Icon="FlIcons.Plus" />
+            <FlButton IconOnly Label="More" Variant="FlButtonVariant.Subtle" Icon="FlIcons.Ellipsis" />
+            <FlButton IconOnly Label="Delete" Variant="FlButtonVariant.Subtle" Danger Icon="FlIcons.Trash2" />
+            <FlButton IconOnly Label="Bold" Variant="FlButtonVariant.Subtle" Icon="FlIcons.Bold" Pressed="_bold" OnClick="@(() => _bold = !_bold)" />
+            <FlButton id="button-toggle" IconOnly Label="Italic" Variant="FlButtonVariant.Subtle" Icon="FlIcons.Italic" Pressed="_italic" OnClick="@(() => _italic = !_italic)" />
+        </Demo>
+        <Example Code="@IconsCode" />
+    </Section>
+
+    <Section Title="States" Id="button-matrix">
+        <p>Read across a row to compare states. Pressed is the instant a button is held down; selected is a toggle that stays on. Empty cells aren’t used in the design.</p>
+        <StateMatrix States="States">
+            @foreach (var row in Variants)
+            {
+                <StateRow Label="@row.Name">
+                    @foreach (string state in States)
+                    {
+                        <td>
+                            @if (state != "Selected" || (!row.Danger && row.Variant != FlButtonVariant.Primary))
+                            {
+                                <FlButton Variant="row.Variant" Danger="row.Danger" Icon="@(row.Danger ? FlIcons.Trash2 : FlIcons.Save)"
+                                          data-force="@Force(state)" Pressed="@(state == "Selected" ? true : (bool?)null)"
+                                          Disabled="@(state == "Disabled")" Busy="@(state == "Busy")">@(row.Danger ? "Delete" : "Save")</FlButton>
+                            }
+                        </td>
+                    }
+                </StateRow>
+            }
+        </StateMatrix>
+        <p>A busy button keeps its width, name and place in the tab order. The spinner covers the label. Its loading description comes from <code>FlText.Loading</code> and can be translated with a <PageLink Page="texts">text provider</PageLink>.</p>
+    </Section>
+
+    <Section Title="Full width">
+        <Demo Column>
+            <div class="fl-stack fl-stack--gap-3 gallery-button-width">
+                <FlButton Block Variant="FlButtonVariant.Primary">Continue</FlButton>
+                <FlButton Block>Back</FlButton>
+            </div>
+        </Demo>
+    </Section>
+
+    <Section Title="Actions and links" Id="actions">
+        <p>In Server or WebAssembly mode, the action updates the counter and the icon toggles above can be switched on or off. In static mode, neither callback runs.</p>
+        <Demo>
+            <FlButton id="button-action" Icon="FlIcons.Plus" OnClick="CountClick">Count a click</FlButton>
+            <span>Clicks: <output id="button-count" for="button-action">@_count</output></span>
+        </Demo>
+        <p>A busy link stays in the tab order. A disabled link does not. Neither goes to the destination.</p>
+        <Demo>
+            <FlButton id="button-busy-link" Href="@IconHref" IconEnd="FlIcons.ExternalLink" Busy OnClick="CountClick">Open</FlButton>
+            <FlButton id="button-disabled-link" Href="@IconHref" IconEnd="FlIcons.ExternalLink" Disabled OnClick="CountClick">Open</FlButton>
+        </Demo>
+    </Section>
+
+    <Section Title="In a form" Id="form">
+        <p>Submit the example to add its result to the address without changing gallery settings. Try editing the draft title: the busy reset cannot undo your edit, and the unavailable submit buttons cannot send the form.</p>
+        <Demo Column>
+            <form method="get" action="button" class="fl-stack">
+                @if (Context.Settings.Theme != "auto")
+                {
+                    <input type="hidden" name="theme" value="@Context.Settings.Theme" />
+                }
+                @if (Context.Settings.Density != "comfortable")
+                {
+                    <input type="hidden" name="density" value="@Context.Settings.Density" />
+                }
+                @if (Context.Settings.Direction != "ltr")
+                {
+                    <input type="hidden" name="dir" value="@Context.Settings.Direction" />
+                }
+                <div class="fl-field gallery-button-width">
+                    <label class="fl-field__label" for="button-reset-field">Draft title</label>
+                    <span class="fl-input"><input class="fl-input__control" id="button-reset-field" value="First draft" /></span>
+                </div>
+                <div class="fl-cluster">
+                    <FlButton id="button-submit" Variant="FlButtonVariant.Primary" Type="FlButtonType.Submit" name="button-result" value="submitted">Submit example</FlButton>
+                    <FlButton id="button-busy" Type="FlButtonType.Submit" Icon="FlIcons.Save" Busy OnClick="CountClick">Save changes</FlButton>
+                    <FlButton id="button-disabled" Type="FlButtonType.Submit" Icon="FlIcons.Save" Disabled OnClick="CountClick">Save changes</FlButton>
+                    <FlButton id="button-busy-reset" Type="FlButtonType.Reset" Busy OnClick="CountClick">Reset example</FlButton>
+                </div>
+            </form>
+        </Demo>
+        <Example Code="@FormCode" />
+    </Section>
+
+    <Section Title="Parameters">
+        <ParameterTable>
+            <ParameterRow Name="Variant" Type="FlButtonVariant" Default="Secondary">Secondary, Primary or Subtle.</ParameterRow>
+            <ParameterRow Name="Danger" Type="bool" Default="false">Use the destructive tone.</ParameterRow>
+            <ParameterRow Name="Size" Type="FlSize" Default="Medium">Small, Medium or Large.</ParameterRow>
+            <ParameterRow Name="Icon" Type="FlIconDefinition?" Default="null">Drawing before the label.</ParameterRow>
+            <ParameterRow Name="IconEnd" Type="FlIconDefinition?" Default="null">Drawing after the label.</ParameterRow>
+            <ParameterRow Name="IconOnly" Type="bool" Default="false">Show a square with one drawing. Supply <code>Icon</code> and <code>Label</code>, without <code>IconEnd</code> or child content.</ParameterRow>
+            <ParameterRow Name="Label" Type="string?" Default="null">Required accessible name for an icon-only button. For other buttons, use visible child content instead.</ParameterRow>
+            <ParameterRow Name="Href" Type="string?" Default="null">Use a link to this destination.</ParameterRow>
+            <ParameterRow Name="Type" Type="FlButtonType" Default="Button">Button, Submit or Reset. Only applies to buttons.</ParameterRow>
+            <ParameterRow Name="Pressed" Type="bool?" Default="null">Set to true or false for a toggle button. The caller owns its state. Not used on links.</ParameterRow>
+            <ParameterRow Name="Busy" Type="bool" Default="false">Show a spinner and prevent the action without dropping focus.</ParameterRow>
+            <ParameterRow Name="Disabled" Type="bool" Default="false">Prevent activation and remove the control from the tab order.</ParameterRow>
+            <ParameterRow Name="Block" Type="bool" Default="false">Fill the width of the container.</ParameterRow>
+            <ParameterRow Name="OnClick" Type="EventCallback<MouseEventArgs>" Default="None">Run a callback in an interactive mode.</ParameterRow>
+            <ParameterRow Name="ChildContent" Type="RenderFragment?" Default="null">The visible label. Required unless the button is icon only.</ParameterRow>
+            <ParameterRow Name="AdditionalAttributes" Type="IReadOnlyDictionary<string, object>?" Default="null">Other attributes go on the native element. Your classes are added to its own; its action and ARIA state cannot be overridden.</ParameterRow>
+        </ParameterTable>
+    </Section>
+
+    <Section Title="Spec">
+        <SpecTable>
+            <SpecRow Name="Element">A native <code>button</code>, or an <code>a</code> for a destination. Other attributes go on that element.</SpecRow>
+            <SpecRow Name="ARIA and keys">Enter or Space activates a button; Enter follows a link. Icon-only buttons use <code>aria-label</code>. Toggles expose <code>aria-pressed</code>.</SpecRow>
+            <SpecRow Name="Unavailable">Busy controls expose <code>aria-busy</code> and <code>aria-disabled</code>. Disabled buttons use <code>disabled</code>. Unavailable links keep their link role but have no <code>href</code>.</SpecRow>
+            <SpecRow Name="Level">Static. A native link or form needs no script; a click callback requires interactivity.</SpecRow>
+            <SpecRow Name="Classes"><code>fl-button</code> with <code>--primary</code>, <code>--subtle</code>, <code>--danger</code>, <code>--s</code>, <code>--l</code>, <code>--icon</code> or <code>--block</code>. Spinner: <code>fl-button__spinner</code>.</SpecRow>
+            <SpecRow Name="Tokens">Control height, padding and radius; the surface, text, accent, danger and disabled colours; and the shared focus ring and halo. The button exposes <code>--fl-button-height</code>, <code>--fl-button-bg</code>, <code>--fl-button-fg</code> and the other button tokens.</SpecRow>
+        </SpecTable>
+    </Section>
+</GalleryPage>
+
+@code {
+    [CascadingParameter] public GalleryContext Context { get; set; } = default!;
+    [SupplyParameterFromQuery(Name = "button-result")] private string? Result { get; set; }
+
+    private static readonly FlSize[] Sizes = [FlSize.Small, FlSize.Medium, FlSize.Large];
+    private static readonly string[] States = ["Rest", "Hover", "Focus", "Pressed", "Selected", "Disabled", "Busy"];
+    private static readonly (string Name, FlButtonVariant Variant, bool Danger)[] Variants =
+    [
+        ("Secondary", FlButtonVariant.Secondary, false), ("Primary", FlButtonVariant.Primary, false),
+        ("Subtle", FlButtonVariant.Subtle, false), ("Danger", FlButtonVariant.Secondary, true),
+        ("Primary, danger", FlButtonVariant.Primary, true), ("Subtle, danger", FlButtonVariant.Subtle, true),
+    ];
+
+    private bool _bold = true;
+    private bool _italic;
+    private int _count;
+    private string IconHref => Context.Href("icon");
+    private void CountClick() => _count++;
+
+    private static string? Force(string state) => state switch
+    {
+        "Hover" => "hover", "Focus" => "focus-visible", "Pressed" => "hover active", _ => null,
+    };
+
+    private const string VariantsCode = """
+        <FlButton>Secondary</FlButton>
+        <FlButton Variant="FlButtonVariant.Primary">Primary</FlButton>
+        <FlButton Variant="FlButtonVariant.Subtle" Danger>Delete</FlButton>
+        """;
+
+    private const string IconsCode = """
+        <FlButton Icon="FlIcons.Funnel">Filter</FlButton>
+        <FlButton IconEnd="FlIcons.ChevronDown">Options</FlButton>
+        <FlButton IconOnly Label="Edit" Icon="FlIcons.Pencil" />
+        """;
+
+    private const string FormCode = """
+        <form method="get" action="button">
+            <FlButton Type="FlButtonType.Submit" name="button-result" value="submitted">Submit example</FlButton>
+        </form>
+        """;
+}

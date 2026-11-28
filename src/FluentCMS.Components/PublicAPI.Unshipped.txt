@@ -1,4 +1,46 @@
 #nullable enable
+FluentCMS.Components.FlButton
+FluentCMS.Components.FlButton.AdditionalAttributes.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object!>?
+FluentCMS.Components.FlButton.AdditionalAttributes.set -> void
+FluentCMS.Components.FlButton.Block.get -> bool
+FluentCMS.Components.FlButton.Block.set -> void
+FluentCMS.Components.FlButton.Busy.get -> bool
+FluentCMS.Components.FlButton.Busy.set -> void
+FluentCMS.Components.FlButton.ChildContent.get -> Microsoft.AspNetCore.Components.RenderFragment?
+FluentCMS.Components.FlButton.ChildContent.set -> void
+FluentCMS.Components.FlButton.Danger.get -> bool
+FluentCMS.Components.FlButton.Danger.set -> void
+FluentCMS.Components.FlButton.Disabled.get -> bool
+FluentCMS.Components.FlButton.Disabled.set -> void
+FluentCMS.Components.FlButton.FlButton() -> void
+FluentCMS.Components.FlButton.Href.get -> string?
+FluentCMS.Components.FlButton.Href.set -> void
+FluentCMS.Components.FlButton.Icon.get -> FluentCMS.Components.FlIconDefinition?
+FluentCMS.Components.FlButton.Icon.set -> void
+FluentCMS.Components.FlButton.IconEnd.get -> FluentCMS.Components.FlIconDefinition?
+FluentCMS.Components.FlButton.IconEnd.set -> void
+FluentCMS.Components.FlButton.IconOnly.get -> bool
+FluentCMS.Components.FlButton.IconOnly.set -> void
+FluentCMS.Components.FlButton.Label.get -> string?
+FluentCMS.Components.FlButton.Label.set -> void
+FluentCMS.Components.FlButton.OnClick.get -> Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Web.MouseEventArgs!>
+FluentCMS.Components.FlButton.OnClick.set -> void
+FluentCMS.Components.FlButton.Pressed.get -> bool?
+FluentCMS.Components.FlButton.Pressed.set -> void
+FluentCMS.Components.FlButton.Size.get -> FluentCMS.Components.FlSize
+FluentCMS.Components.FlButton.Size.set -> void
+FluentCMS.Components.FlButton.Type.get -> FluentCMS.Components.FlButtonType
+FluentCMS.Components.FlButton.Type.set -> void
+FluentCMS.Components.FlButton.Variant.get -> FluentCMS.Components.FlButtonVariant
+FluentCMS.Components.FlButton.Variant.set -> void
+FluentCMS.Components.FlButtonType
+FluentCMS.Components.FlButtonType.Button = 0 -> FluentCMS.Components.FlButtonType
+FluentCMS.Components.FlButtonType.Reset = 2 -> FluentCMS.Components.FlButtonType
+FluentCMS.Components.FlButtonType.Submit = 1 -> FluentCMS.Components.FlButtonType
+FluentCMS.Components.FlButtonVariant
+FluentCMS.Components.FlButtonVariant.Primary = 1 -> FluentCMS.Components.FlButtonVariant
+FluentCMS.Components.FlButtonVariant.Secondary = 0 -> FluentCMS.Components.FlButtonVariant
+FluentCMS.Components.FlButtonVariant.Subtle = 2 -> FluentCMS.Components.FlButtonVariant
 FluentCMS.Components.FlIcon
 FluentCMS.Components.FlIcon.AdditionalAttributes.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object!>?
 FluentCMS.Components.FlIcon.AdditionalAttributes.set -> void

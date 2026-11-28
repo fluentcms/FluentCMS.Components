@@ -319,6 +319,10 @@ body.gallery {
   inline-size: 16rem;
 }
 
+.gallery-button-width {
+  max-inline-size: 26rem;
+}
+
 /* Example: the source of a demo, to be copied. */
 
 .gallery-example {
