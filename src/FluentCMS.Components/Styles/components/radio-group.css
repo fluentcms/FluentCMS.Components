@@ -1,5 +1,6 @@
 /* Radio group: native radio inputs that share a name, in a column or in a row.
-   It sits in a field that is a <fieldset>, whose <legend> names the group. */
+   It sits in a field, which carries role="radiogroup" and the name of the
+   group. With no field around it the block carries the role itself. */
 
 @layer fl.components {
   .fl-radio-group {
@@ -130,6 +131,8 @@
 
     /* States of the group and of an item */
 
+    /* Invalid is on the element with the role: the field, or the block itself. */
+    [aria-invalid="true"] > & > .fl-radio-group__item > .fl-radio-group__control:not(:checked, :disabled),
     &[aria-invalid="true"] > .fl-radio-group__item > .fl-radio-group__control:not(:checked, :disabled) {
       --fl-radio-group-border: var(--fl-color-danger-solid);
       --fl-radio-group-border-hover: var(--fl-color-danger-solid);

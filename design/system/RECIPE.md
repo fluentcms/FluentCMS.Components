@@ -244,7 +244,7 @@ The header, the list of sections and the switches are built by the script. The c
 - No action depends on hover alone: what hover shows, focus shows too, and a touch can reach it.
 - Colour is never the only sign: an error has an icon and a text, a selected thing has a mark or a weight, a link in text is underlined.
 - Text has 4.5:1 on its background, and a border or mark that is needed to see a control has 3:1. `node design/tools/contrast.mjs` checks the token pairs; a pair it does not list is not to be used for text.
-- Every control has a name: a `<label>`, or `aria-label` when there is no visible text.
+- Every control has a name: a `<label>`, or `aria-label` when there is no visible text. A group of controls has one too: the field around it carries `role="group"`, or `role="radiogroup"` for radios, and `aria-labelledby` its label. No `<fieldset>`: its `<legend>` does not lay out alike in every engine.
 
 ## 11. Before the pull request
 

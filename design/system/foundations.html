@@ -191,16 +191,16 @@
 
 <h3>A group of controls</h3>
 <div class="docs-demo docs-demo--column docs-demo--narrow">
-  <fieldset class="fl-field">
-    <legend class="fl-field__label">Size</legend>
+  <div class="fl-field" role="group" aria-labelledby="field-h-label" aria-describedby="field-h-help">
+    <div class="fl-field__label" id="field-h-label">Size</div>
     <div class="fl-cluster fl-cluster--nowrap">
       <span class="fl-input"><input class="fl-input__control" type="text" value="1200" aria-label="Width"><span class="fl-input__affix">px</span></span>
       <span class="fl-input"><input class="fl-input__control" type="text" value="630" aria-label="Height"><span class="fl-input__affix">px</span></span>
     </div>
-    <p class="fl-field__help">Width and height of the preview.</p>
-  </fieldset>
+    <p class="fl-field__help" id="field-h-help">Width and height of the preview.</p>
+  </div>
 </div>
-<h4>On a <code>&lt;fieldset&gt;</code> the label is the <code>&lt;legend&gt;</code>; each control inside has its own name</h4>
+<h4>Around a group the field carries <code>role="group"</code> and is named by its label, a <code>&lt;div&gt;</code>, through <code>aria-labelledby</code>; each control inside has its own name</h4>
 
 <h3>Dark, compact, right to left</h3>
 <div class="docs-modes docs-demo--column">
@@ -220,8 +220,8 @@
 <table class="docs-spec">
 <caption>Spec</caption>
 <tbody>
-<tr><th scope="row">Element</th><td><code>&lt;div&gt;</code> with a <code>&lt;label for&gt;</code>; for a group of controls a <code>&lt;fieldset&gt;</code> with a <code>&lt;legend&gt;</code>. In the markup the order is label, control, error, help, counter, which is the order a screen reader meets them.</td></tr>
-<tr><th scope="row">ARIA and keys</th><td><ul><li>The label names the control through <code>for</code> and <code>id</code>.</li><li>The control lists the error, the help and the counter in <code>aria-describedby</code>, the error first.</li><li>Invalid: <code>aria-invalid="true"</code> on the control. Required: <code>required</code> on the control; the asterisk is <code>aria-hidden</code>.</li><li>No keys of its own.</li></ul></td></tr>
+<tr><th scope="row">Element</th><td>Always a <code>&lt;div&gt;</code>. Around one control its label is a <code>&lt;label for&gt;</code>. Around a group of controls the field has a role and its label is a <code>&lt;div class="fl-field__label"&gt;</code> with an <code>id</code>: never a <code>&lt;label&gt;</code>, which would have no control to point at, and never a <code>&lt;fieldset&gt;</code>, whose <code>&lt;legend&gt;</code> does not lay out alike in every engine. In the markup the order is label, control, error, help, counter, which is the order a screen reader meets them.</td></tr>
+<tr><th scope="row">ARIA and keys</th><td><ul><li>The label names the control through <code>for</code> and <code>id</code>.</li><li>The control lists the error, the help and the counter in <code>aria-describedby</code>, the error first.</li><li>Invalid: <code>aria-invalid="true"</code> on the control. Required: <code>required</code> on the control; the asterisk is <code>aria-hidden</code>.</li><li>Around a group: <code>role="group"</code> on the field, or <code>role="radiogroup"</code> when the group is one of radios, so that the group is announced once. <code>aria-labelledby</code> names it by its label, and <code>aria-describedby</code> lists its error and its help on the same element. A radio group also takes <code>aria-required</code> and <code>aria-invalid</code> there.</li><li>A field cannot disable its group: each control carries <code>disabled</code>.</li><li>No keys of its own.</li></ul></td></tr>
 <tr><th scope="row">Level</th><td>Static</td></tr>
 <tr><th scope="row">Parameters</th><td><ul><li><code>Label</code>; <code>Help</code>; <code>Error</code>: shown when set, or taken from the <code>EditForm</code></li><li><code>Required</code>: shows the mark</li><li><code>Hint</code>: short text at the end of the label row, such as Optional</li><li><code>MaxLength</code>: shows the counter</li><li><code>Horizontal</code>: the layout for settings</li><li><code>For</code>: the id of the control, generated when absent</li></ul></td></tr>
 <tr><th scope="row">Classes</th><td><code>fl-field</code>; <code>--horizontal</code>; parts <code>fl-field__label</code>, <code>__required</code>, <code>__meta</code> (with <code>--over</code>), <code>__error</code>, <code>__help</code></td></tr>

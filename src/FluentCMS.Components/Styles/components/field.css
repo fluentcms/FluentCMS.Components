@@ -1,5 +1,7 @@
 /* Field: the label, the control, the error, the help text and the counter of
-   one value. On a <div>, or on a <fieldset> when the control is a group. */
+   one value. Always on a <div>, in two forms. Around one control the label is
+   a <label for>. Around a group of controls the field carries the role, group
+   or radiogroup, and its label is a <div> that names it by aria-labelledby. */
 
 @layer fl.components {
   .fl-field {
@@ -8,9 +10,6 @@
     column-gap: var(--fl-space-3);
     row-gap: var(--fl-space-1-5);
     min-inline-size: 0;
-    margin: 0;
-    padding: 0;
-    border: 0;
     color: var(--fl-color-text);
     font-family: var(--fl-font-family);
     font-size: var(--fl-font-size-m);
@@ -26,9 +25,6 @@
       gap: var(--fl-space-1);
       grid-column: 1;
       grid-row: 1;
-      /* A floated legend lays out as a grid item like any other child. */
-      float: inline-start;
-      padding: 0;
       font-size: var(--fl-font-size-s);
       font-weight: var(--fl-font-weight-medium);
     }
