@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build, pack and size report
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - &checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup-dotnet
+      - name: Build with warnings as errors
+        run: dotnet build -c Release -warnaserror
+      - name: Pack library
+        run: dotnet pack src/FluentCMS.Components -c Release --no-build -o "$RUNNER_TEMP/package"
+      - name: Test size report
+        run: python3 .github/scripts/test_package_size.py
+      - name: Summarize shipping assets
+        run: python3 .github/scripts/package_size.py "$RUNNER_TEMP"/package/*.nupkg >> "$GITHUB_STEP_SUMMARY"
+
+  component:
+    name: Component tests (bUnit)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - *checkout
+      - uses: ./.github/actions/setup-dotnet
+      - run: dotnet test --project tests/FluentCMS.Components.Tests
+
+  browser:
+    name: Browser tests (Chromium)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - *checkout
+      - uses: ./.github/actions/browser-tests
+        with:
+          browser: chromium
+
+  design:
+    name: Design system
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - *checkout
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Contrast
+        run: node design/tools/contrast.mjs
+      - name: Markdownlint
+        if: ${{ !cancelled() }}
+        run: npx --yes markdownlint-cli2@0.24.2 "**/*.md"

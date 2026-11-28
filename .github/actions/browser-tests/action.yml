@@ -1,0 +1,33 @@
+name: Run the gallery browser tests
+description: Build the gallery and run the entire Playwright project in all render modes.
+inputs:
+  browser:
+    description: Playwright engine (chromium, firefox or webkit).
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/setup-dotnet
+
+    - name: Build browser tests and gallery
+      shell: bash
+      run: dotnet build tests/FluentCMS.Components.Browser
+
+    - name: Cache Playwright engine
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-ubuntu-24.04-${{ runner.arch }}-${{ inputs.browser }}-${{ hashFiles('tests/FluentCMS.Components.Browser/bin/Debug/net10.0/.playwright/package/browsers.json') }}
+
+    - name: Install engine and Linux dependencies
+      shell: bash
+      env:
+        BROWSER: ${{ inputs.browser }}
+      run: pwsh tests/FluentCMS.Components.Browser/bin/Debug/net10.0/playwright.ps1 install --with-deps "$BROWSER"
+
+    - name: Run browser tests
+      shell: bash
+      env:
+        FLUENTCMS_BROWSER: ${{ inputs.browser }}
+        FLUENTCMS_MODES: static,server,wasm
+      run: dotnet test --project tests/FluentCMS.Components.Browser --no-build
