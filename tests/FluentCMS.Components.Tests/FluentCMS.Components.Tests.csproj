@@ -4,6 +4,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <RootNamespace>FluentCMS.Components.Tests</RootNamespace>
+    <!-- bUnit brings in Blazor transitively; test against the same patch as the gallery. -->
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
 
   <ItemGroup>
