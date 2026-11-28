@@ -27,7 +27,9 @@ jobs:
       - name: Test size report
         run: python3 .github/scripts/test_package_size.py
       - name: Summarize shipping assets
-        run: python3 .github/scripts/package_size.py "$RUNNER_TEMP"/package/*.nupkg >> "$GITHUB_STEP_SUMMARY"
+        run: |
+          python3 .github/scripts/package_size.py "$RUNNER_TEMP"/package/*.nupkg >> "$GITHUB_STEP_SUMMARY"
+          cat "$GITHUB_STEP_SUMMARY"
 
   component:
     name: Component tests (bUnit)
