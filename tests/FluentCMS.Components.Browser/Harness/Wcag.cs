@@ -7,18 +7,11 @@ public static class Wcag
 {
     private const int ReflowWidth = 320;
 
-    // Success criterion 2.5.8, target size (minimum): every target is at least 24 by 24 CSS pixels.
-    // The criterion has exceptions, and two are applied here:
-    //   - spacing: a target under 24 pixels passes when a circle of 24 pixels across, centred on it,
-    //     meets no other target and no such circle of another small target;
-    //   - inline: a link in a sentence or block of text.
-    // The others (an equivalent control on the same page, a size set by the browser, an essential
-    // size) cannot be read from the page. A check box or radio button counts together with its
-    // label, since the label is what a pointer can hit; a disabled control is no target.
+    // RECIPE §10 is stricter than WCAG 2.5.8: spacing and inline text do not excuse a small target.
     public static async Task AssertTargetSizesAsync(IPage page)
     {
         string[] findings = await page.EvaluateAsync<string[]>(TargetSizes);
-        Fail(findings, "Targets under 24 by 24 CSS pixels (WCAG 2.2, 2.5.8)");
+        Fail(findings, "Targets under the project minimum of 24 by 24 CSS pixels");
     }
 
     // Success criterion 1.4.10, reflow: at 320 CSS pixels wide the page does not scroll sideways.
@@ -41,14 +34,25 @@ public static class Wcag
         }
     }
 
-    // Success criterion 2.3.3, animation from interactions, and the browser's own reduced-motion
-    // setting: with the setting on, no animation or transition runs for more than a blink, the
-    // page does not scroll smoothly, and nothing on it changes place while it sits.
-    public static async Task AssertNoMotionAsync(IPage page)
+    // Observe the current document before, during and briefly after an optional interaction.
+    public static async Task AssertNoMotionAsync(IPage page, Func<Task>? interact = null)
     {
         await page.EmulateMediaAsync(new PageEmulateMediaOptions { ReducedMotion = ReducedMotion.Reduce });
-        string[] findings = await page.EvaluateAsync<string[]>(Motion);
-        Fail(findings, "Motion under reduced motion (WCAG 2.2, 2.3.3)");
+        await using IJSHandle observer = await page.EvaluateHandleAsync(Motion);
+        try
+        {
+            if (interact is not null)
+            {
+                await interact();
+            }
+
+            string[] findings = await observer.EvaluateAsync<string[]>("watch => watch.finish()");
+            Fail(findings, "Motion under reduced motion (WCAG 2.2, 2.3.3)");
+        }
+        finally
+        {
+            await observer.EvaluateAsync("watch => watch.stop()");
+        }
     }
 
     private static void Fail(string[] findings, string title)
@@ -72,58 +76,25 @@ public static class Wcag
     private const string TargetSizes = "() => {" + Describe + """
         const SELECTOR = 'a[href], button, input:not([type=hidden]), select, textarea, summary, ' +
           '[role=button], [role=link], [role=checkbox], [role=radio], [role=switch], [role=tab], ' +
-          '[role=menuitem], [role=option], [role=slider], [tabindex]:not([tabindex="-1"])';
+          '[role=menuitem], [role=option], [role=slider], [role=treeitem], [tabindex]:not([tabindex="-1"])';
         const MIN = 24;
-        const targets = [];
-        for (const el of document.querySelectorAll(SELECTOR)) {
-          if (el.disabled || el.closest('[inert], [hidden]')) continue;
+        const hitRects = el => {
           const style = getComputedStyle(el);
-          if (style.display === 'none' || style.visibility === 'hidden') continue;
-          const box = el.getBoundingClientRect();
-          let rect = { left: box.left, top: box.top, right: box.right, bottom: box.bottom };
+          if (el.closest('[hidden], [inert]') || style.visibility !== 'visible' || style.pointerEvents === 'none') return [];
+          return [...el.getClientRects()].filter(r => r.width > 0 && r.height > 0);
+        };
+        const findings = [];
+        for (const el of document.querySelectorAll(SELECTOR)) {
+          if (el.matches(':disabled') || el.closest('[inert]')) continue;
+          const rects = hitRects(el);
           if (el.matches('input[type=checkbox], input[type=radio]')) {
-            for (const label of el.labels) {
-              const l = label.getBoundingClientRect();
-              rect = {
-                left: Math.min(rect.left, l.left), top: Math.min(rect.top, l.top),
-                right: Math.max(rect.right, l.right), bottom: Math.max(rect.bottom, l.bottom),
-              };
-            }
+            for (const label of el.labels) rects.push(...hitRects(label));
           }
-          const width = rect.right - rect.left;
-          const height = rect.bottom - rect.top;
-          // Not rendered, or hidden by clipping to a pixel, as a skip link is until it has focus.
-          if (width <= 1 && height <= 1) continue;
-          targets.push({ el, rect, width, height, small: width < MIN - 0.01 || height < MIN - 0.01 });
+          if (rects.length === 0 || rects.some(r => r.width >= MIN && r.height >= MIN)) continue;
+          const sizes = rects.map(r => `${r.width.toFixed(1)} by ${r.height.toFixed(1)} px`);
+          findings.push(`${describe(el)}: ${sizes.join('; ')}`);
         }
-
-        const hasLetters = text => /[\p{L}\p{N}]/u.test(text);
-        const inText = el => {
-          for (let node = el.parentElement; node; node = node.parentElement) {
-            const text = [...node.childNodes].filter(n => n.nodeType === Node.TEXT_NODE).map(n => n.textContent).join('');
-            if (hasLetters(text)) return true;
-            if (getComputedStyle(node).display !== 'inline') return false;
-          }
-          return false;
-        };
-
-        const centre = t => ({ x: (t.rect.left + t.rect.right) / 2, y: (t.rect.top + t.rect.bottom) / 2 });
-        const gapToRect = (c, r) => Math.hypot(Math.max(r.left - c.x, 0, c.x - r.right), Math.max(r.top - c.y, 0, c.y - r.bottom));
-        const spaced = target => {
-          const c = centre(target);
-          return targets.every(other => {
-            if (other === target || other.el.contains(target.el) || target.el.contains(other.el)) return true;
-            return other.small
-              ? Math.hypot(c.x - centre(other).x, c.y - centre(other).y) >= MIN - 0.01
-              : gapToRect(c, other.rect) >= MIN / 2 - 0.01;
-          });
-        };
-
-        return targets
-          .filter(t => t.small)
-          .filter(t => !(getComputedStyle(t.el).display === 'inline' && inText(t.el)))
-          .filter(t => !spaced(t))
-          .map(t => `${describe(t.el)} is ${t.width.toFixed(1)} by ${t.height.toFixed(1)} px`);
+        return findings;
         }
         """;
 
@@ -149,7 +120,7 @@ public static class Wcag
         }
         """;
 
-    private const string Motion = "async () => {" + Describe + """
+    private const string Motion = "() => {" + Describe + """
         const findings = [];
         if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
           findings.push('The browser does not report reduced motion.');
@@ -157,26 +128,34 @@ public static class Wcag
         if (getComputedStyle(document.documentElement).scrollBehavior === 'smooth') {
           findings.push('The page scrolls smoothly.');
         }
-        for (const animation of document.getAnimations()) {
-          const end = animation.effect?.getComputedTiming().endTime ?? 0;
-          if (animation.playState === 'running' && end > 100) {
-            findings.push(`${describe(animation.effect.target)} runs ${animation.animationName ?? animation.transitionProperty}`);
+        const moved = new Set();
+        let last = new Map();
+        let frame;
+        const sample = () => {
+          const current = new Map();
+          for (const el of document.body.querySelectorAll('*')) {
+            const box = el.getBoundingClientRect();
+            if (!box.width && !box.height) continue;
+            const style = getComputedStyle(el);
+            const geometry = [box.x, box.y, box.width, box.height, style.transform, style.rotate, style.scale, style.translate].join('|');
+            const previous = last.get(el);
+            const changed = previous && geometry !== previous.geometry;
+            // An instant open or reflow jumps once; motion passes through intermediate frames.
+            if (changed && previous.changed) moved.add(el);
+            current.set(el, { geometry, changed });
           }
-        }
-
-        const frame = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-        const snapshot = () => new Map([...document.body.querySelectorAll('*')].map(el => [el, el.getBoundingClientRect()]));
-        await frame();
-        const first = snapshot();
-        await new Promise(resolve => setTimeout(resolve, 400));
-        await frame();
-        const moved = [...snapshot()].filter(([el, box]) => {
-          const before = first.get(el);
-          return before && (Math.abs(before.left - box.left) > 0.5 || Math.abs(before.top - box.top) > 0.5);
-        }).map(([el]) => el);
-        const outermost = moved.filter(el => !moved.includes(el.parentElement));
-        findings.push(...outermost.slice(0, 5).map(el => `${describe(el)} changes place while the page sits`));
-        return findings;
+          last = current;
+          frame = requestAnimationFrame(sample);
+        };
+        sample();
+        return {
+          stop: () => cancelAnimationFrame(frame),
+          finish: async () => {
+            await new Promise(resolve => setTimeout(resolve, 400));
+            const outermost = [...moved].filter(el => !moved.has(el.parentElement));
+            return findings.concat(outermost.slice(0, 5).map(el => `${describe(el)} changes geometry across frames`));
+          }
+        };
         }
         """;
 }

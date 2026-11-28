@@ -57,16 +57,41 @@ public sealed class GalleryFixture : IAsyncLifetime
         try
         {
             IPage page = await context.NewPageAsync();
-            await page.GotoAsync(new Uri(BaseAddress, $"{mode.Segment()}/{path}{options.Query}").AbsoluteUri);
+            var address = new Uri(BaseAddress, $"{mode.Segment()}/{path}{options.Query}");
+            IResponse? response = await page.GotoAsync(address.AbsoluteUri);
+            if (response is null || !response.Ok)
+            {
+                string status = response is null ? "no document response" : $"HTTP {response.Status}";
+                throw new InvalidOperationException($"Opening {address} returned {status}.");
+            }
 
             string ready = $"main[data-render-mode='{mode.Segment()}']" + (mode.IsInteractive() ? "[data-interactive='true']" : "");
             await page.WaitForSelectorAsync(ready, new PageWaitForSelectorOptions { Timeout = (float)InteractiveTimeout.TotalMilliseconds });
+            if (options.Theme is "light" or "dark")
+            {
+                await CheckAppearanceAsync(page, "theme", options.Theme, "color-scheme");
+            }
+
+            if (options.Direction is not null)
+            {
+                await CheckAppearanceAsync(page, "direction", options.Direction, "direction");
+            }
+
             return new GalleryPage(context, page, mode, path);
         }
         catch
         {
             await context.CloseAsync();
             throw;
+        }
+    }
+
+    private static async Task CheckAppearanceAsync(IPage page, string name, string expected, string property)
+    {
+        string actual = await page.EvaluateAsync<string>("property => getComputedStyle(document.documentElement).getPropertyValue(property)", property);
+        if (actual != expected)
+        {
+            throw new InvalidOperationException($"{page.Url} {name}: expected '{expected}', got '{actual}'.");
         }
     }
 
@@ -88,28 +113,31 @@ public sealed class GalleryFixture : IAsyncLifetime
 
     private async Task<Uri> StartGalleryAsync()
     {
-        string output = typeof(GalleryFixture).Assembly
+        string targetPath = typeof(GalleryFixture).Assembly
             .GetCustomAttributes<AssemblyMetadataAttribute>()
-            .Single(attribute => attribute.Key == "GalleryOutput").Value!;
-        if (!File.Exists(Path.Combine(output, "Gallery.dll")))
+            .Single(attribute => attribute.Key == "GalleryTargetPath").Value!;
+        if (!File.Exists(targetPath))
         {
-            throw new FileNotFoundException($"The gallery is not built in {output}. Build the solution first.");
+            throw new FileNotFoundException("The referenced gallery is not built.", targetPath);
         }
 
         var start = new ProcessStartInfo("dotnet")
         {
-            WorkingDirectory = output,
+            WorkingDirectory = Path.GetDirectoryName(targetPath)!,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
             CreateNoWindow = true,
         };
-        start.ArgumentList.Add("Gallery.dll");
+        start.ArgumentList.Add(targetPath);
         start.ArgumentList.Add("--urls");
         start.ArgumentList.Add("http://127.0.0.1:0");
         // Development, as under dotnet run: the host then finds the static files of the
         // build output through the manifest the build wrote.
         start.Environment["ASPNETCORE_ENVIRONMENT"] = "Development";
+        start.Environment["DOTNET_ENVIRONMENT"] = "Development";
+        // The lifetime logger announces the port Kestrel picked, even if the parent logs only warnings.
+        start.Environment["Logging__LogLevel__Microsoft.Hosting.Lifetime"] = "Information";
         start.Environment["DOTNET_NOLOGO"] = "1";
 
         _process = Process.Start(start) ?? throw new InvalidOperationException("The gallery did not start.");

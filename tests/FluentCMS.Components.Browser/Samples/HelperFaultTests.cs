@@ -60,11 +60,77 @@ public sealed class HelperFaultTests(GalleryFixture gallery)
     }
 
     [Fact]
-    public async Task TargetSizeAllowsTheExceptionsOfTheCriterion()
+    public async Task TargetSizeRejectsAnIsolatedSmallTargetAndAnInlineLink()
     {
-        // A small target with room around it, and a link inside a sentence.
         await using GalleryPage page = await gallery.OpenBlankAsync(
-            $"{Head}<body><button style='width:20px;height:20px;padding:0;margin:40px'>A</button><p>Read the <a href='#x'>guide</a> first.</p></body></html>");
+            $"{Head}<body><button id='alone' style='width:20px;height:20px;padding:0;margin:40px'>A</button><p>Read the <a id='guide' href='#x'>guide</a> first.</p></body></html>");
+
+        XunitException failure = await Assert.ThrowsAnyAsync<XunitException>(() => Wcag.AssertTargetSizesAsync(page.Page));
+
+        Assert.Contains("button#alone", failure.Message);
+        Assert.Contains("a#guide", failure.Message);
+    }
+
+    [Fact]
+    public async Task TargetSizeRejectsTouchingThinButtons()
+    {
+        await using GalleryPage page = await gallery.OpenBlankAsync(Head + """
+            <body style="display:flex"><button id="short" style="width:10px;height:10px;padding:0">A</button>
+            <button id="long" style="width:100px;height:10px;padding:0">B</button></body></html>
+            """);
+
+        XunitException failure = await Assert.ThrowsAnyAsync<XunitException>(() => Wcag.AssertTargetSizesAsync(page.Page));
+
+        Assert.Contains("button#short", failure.Message);
+        Assert.Contains("button#long", failure.Message);
+    }
+
+    [Fact]
+    public async Task TargetSizeDoesNotCountTheGapBetweenCheckboxesAndTheirLabels()
+    {
+        await using GalleryPage page = await gallery.OpenBlankAsync(Head + """
+            <body><style>main {display:flex} input {width:12px;height:12px;margin:0} label {display:block;width:40px;height:12px}</style>
+            <main><input id="a" type="checkbox"><input id="b" type="checkbox"></main>
+            <div style="margin:60px"><label for="a">One</label><label for="b">Two</label></div></body></html>
+            """);
+
+        XunitException failure = await Assert.ThrowsAnyAsync<XunitException>(() => Wcag.AssertTargetSizesAsync(page.Page));
+
+        Assert.Contains("input#a", failure.Message);
+        Assert.Contains("input#b", failure.Message);
+    }
+
+    [Fact]
+    public async Task TargetSizeChecksTreeItemsOutsideTheTabOrder()
+    {
+        await using GalleryPage page = await gallery.OpenBlankAsync(Head + """
+            <body><div role="tree"><div role="treeitem" tabindex="0" style="height:24px">First</div>
+            <div id="second" role="treeitem" tabindex="-1" onclick="this.focus()" style="height:12px">Second</div></div></body></html>
+            """);
+
+        XunitException failure = await Assert.ThrowsAnyAsync<XunitException>(() => Wcag.AssertTargetSizesAsync(page.Page));
+
+        Assert.Contains("div#second", failure.Message);
+    }
+
+    [Fact]
+    public async Task TargetSizeExcludesControlsDisabledByAFieldset()
+    {
+        await using GalleryPage page = await gallery.OpenBlankAsync(Head + """
+            <body><fieldset disabled style="display:flex"><button style="width:10px;height:10px;padding:0">A</button>
+            <button style="width:10px;height:10px;padding:0">B</button></fieldset></body></html>
+            """);
+
+        await Wcag.AssertTargetSizesAsync(page.Page);
+    }
+
+    [Fact]
+    public async Task TargetSizeAcceptsAnActual24PixelTargetOrAssociatedLabel()
+    {
+        await using GalleryPage page = await gallery.OpenBlankAsync(Head + """
+            <body><button style="width:24px;height:24px;padding:0">A</button><input id="opt" type="checkbox">
+            <label for="opt" style="display:inline-block;width:24px;height:24px">B</label></body></html>
+            """);
 
         await Wcag.AssertTargetSizesAsync(page.Page);
     }
@@ -105,6 +171,66 @@ public sealed class HelperFaultTests(GalleryFixture gallery)
         await using GalleryPage page = await gallery.OpenBlankAsync(
             $"{Head}<style>@keyframes slide {{ from {{ margin-left: 0 }} to {{ margin-left: 200px }} }} @media (prefers-reduced-motion: no-preference) {{ #mover {{ animation: slide 2s infinite alternate }} }}</style><body><div id='mover'>Still</div></body></html>");
 
+        await Wcag.AssertNoMotionAsync(page.Page);
+    }
+
+    [Fact]
+    public async Task MotionFailsDuringATwoSecondHoverTransition()
+    {
+        await using GalleryPage page = await gallery.OpenBlankAsync(Head + """
+            <body><style>#marker {width:20px;transition:transform 2s linear} button:hover + #marker {transform:translateX(120px)}</style>
+            <button>Hover me</button><div id="marker" ontransitionend="this.dataset.done='true'">→</div></body></html>
+            """);
+
+        XunitException failure = await Assert.ThrowsAnyAsync<XunitException>(() => Wcag.AssertNoMotionAsync(page.Page, async () =>
+        {
+            await page.Page.Locator("button").HoverAsync();
+            await page.Page.Locator("#marker[data-done=true]").WaitForAsync();
+        }));
+
+        Assert.Contains("div#marker", failure.Message);
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task MotionDistinguishesADrawerSlideFromAnInstantOpen(bool slide)
+    {
+        string transition = slide ? "transition:transform 400ms linear" : "";
+        await using GalleryPage page = await gallery.OpenBlankAsync(Head + $$"""
+            <body><style>aside {width:150px;transform:translateX(-180px);{{transition}}
+            } aside.open {transform:none}</style>
+            <button onclick="document.querySelector('aside').classList.add('open')">Open</button>
+            <aside id="drawer" ontransitionend="this.dataset.done='true'">Drawer</aside></body></html>
+            """);
+
+        async Task OpenDrawerAsync()
+        {
+            await page.Page.Locator("button").ClickAsync();
+            await page.Page.Locator(slide ? "#drawer.open[data-done=true]" : "#drawer.open").WaitForAsync();
+            Assert.Equal("none", await page.Page.Locator("#drawer").EvaluateAsync<string>("el => getComputedStyle(el).transform"));
+        }
+
+        if (slide)
+        {
+            XunitException failure = await Assert.ThrowsAnyAsync<XunitException>(() => Wcag.AssertNoMotionAsync(page.Page, OpenDrawerAsync));
+            Assert.Contains("aside#drawer", failure.Message);
+        }
+        else
+        {
+            await Wcag.AssertNoMotionAsync(page.Page, OpenDrawerAsync);
+        }
+    }
+
+    [Fact]
+    public async Task MotionPassesAStationaryColorAnimation()
+    {
+        await using GalleryPage page = await gallery.OpenBlankAsync(Head + """
+            <body><style>@keyframes tint {from {color:red} to {color:blue}} #still {animation:tint 2s infinite alternate}</style>
+            <div id="still">Still</div></body></html>
+            """);
+
+        Assert.True(await page.Page.Locator("#still").EvaluateAsync<bool>("el => el.getAnimations().some(a => a.playState === 'running')"));
         await Wcag.AssertNoMotionAsync(page.Page);
     }
 

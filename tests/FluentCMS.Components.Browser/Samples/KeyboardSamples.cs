@@ -13,11 +13,8 @@ public sealed class KeyboardSamples(GalleryFixture gallery)
         KeyboardDriver keys = page.Page.Keys();
         await keys.StartAtTopAsync();
 
-        await keys.TabToAsync("nav[aria-label='Pages'] a[href^='tokens']");
-
-        FocusInfo focus = await keys.FocusAsync();
-        Assert.Equal("Tokens", focus.Name);
-        Assert.True(focus.HasIndicator, $"{focus} shows no focus indicator.");
+        await keys.TabToAndAssertPaintChangeAsync("nav[aria-label='Pages'] a[href^='tokens']", xFromLeft: -3);
+        await keys.AssertFocusNameAsync("Tokens");
 
         await keys.PressAsync("Enter");
 

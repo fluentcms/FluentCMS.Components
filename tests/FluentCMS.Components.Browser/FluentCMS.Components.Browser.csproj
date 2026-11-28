@@ -14,15 +14,13 @@
 
   <!-- The gallery is a separate process, so it is built here but not referenced as a library. -->
   <ItemGroup>
-    <ProjectReference Include="..\..\gallery\Gallery\Gallery.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\..\gallery\Gallery\Gallery.csproj" ReferenceOutputAssembly="false" OutputItemType="GalleryTarget" />
   </ItemGroup>
 
-  <!-- Where the build of the gallery ends up, for the fixture that starts it. -->
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
-      <_Parameter1>GalleryOutput</_Parameter1>
-      <_Parameter2>$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)', '..', '..', 'gallery', 'Gallery', 'bin', '$(Configuration)', '$(TargetFramework)'))</_Parameter2>
-    </AssemblyAttribute>
-  </ItemGroup>
+  <Target Name="RecordGalleryTargetPath" DependsOnTargets="ResolveProjectReferences" BeforeTargets="GetAssemblyAttributes">
+    <ItemGroup>
+      <AssemblyMetadata Include="GalleryTargetPath" Value="@(GalleryTarget->'%(FullPath)')" />
+    </ItemGroup>
+  </Target>
 
 </Project>

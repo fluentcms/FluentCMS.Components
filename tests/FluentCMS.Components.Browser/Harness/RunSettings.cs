@@ -24,14 +24,20 @@ public static class RunSettings
         _ => throw new InvalidOperationException($"{BrowserVariable} is '{Browser}'. Use chromium, firefox or webkit."),
     };
 
-    private static RenderMode[] ParseModes(string? value)
+    internal static RenderMode[] ParseModes(string? value)
     {
-        if (string.IsNullOrWhiteSpace(value))
+        if (value is null)
         {
             return [.. Enum.GetValues<RenderMode>()];
         }
 
-        return [.. value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Select(ParseMode)];
+        string[] names = value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (names.Length == 0)
+        {
+            throw new InvalidOperationException($"{ModesVariable} must select at least one mode: static, server or wasm.");
+        }
+
+        return [.. names.Select(ParseMode)];
     }
 
     private static RenderMode ParseMode(string name) =>

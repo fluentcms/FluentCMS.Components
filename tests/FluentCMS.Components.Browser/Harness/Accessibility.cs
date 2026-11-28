@@ -9,8 +9,8 @@ public static class Accessibility
     // The three looks every page must pass in: light, dark, and right to left (in light).
     private static readonly (string Name, GalleryOptions Options)[] Schemes =
     [
-        ("light", new GalleryOptions { Theme = "light" }),
-        ("dark", new GalleryOptions { Theme = "dark" }),
+        ("light", new GalleryOptions { Theme = "light", Direction = "ltr" }),
+        ("dark", new GalleryOptions { Theme = "dark", Direction = "ltr" }),
         ("right to left", new GalleryOptions { Theme = "light", Direction = "rtl" }),
     ];
 
