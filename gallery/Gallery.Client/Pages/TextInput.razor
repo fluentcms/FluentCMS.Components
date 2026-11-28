@@ -1,0 +1,160 @@
+@page "/text-input"
+@using FluentCMS.Components
+
+<GalleryPage Title="Text input" Level="ComponentLevel.Static">
+    <Lede>One line of text in a bordered box, with an optional icon, fixed text before or after the value, and actions. It posts as a form field in static rendering.</Lede>
+
+    <Section Title="Parts">
+        <p>Outside a field, give the input a name with <code>aria-label</code>. The actions are buttons after the input in the tab order. They need the library's script, and are left out where scripting is off.</p>
+        <Demo Column Narrow>
+            <FlTextInput @bind-Value="_empty" name="plain" placeholder="Placeholder" aria-label="Plain" />
+            <FlTextInput @bind-Value="_filled" name="filled" aria-label="Filled" />
+            <FlTextInput Icon="FlIcons.Search" @bind-Value="_empty" name="search" placeholder="Search" aria-label="Search" />
+            <FlTextInput Prefix="https://" @bind-Value="_site" name="site" aria-label="Web address" />
+            <FlTextInput Suffix="kg" @bind-Value="_weight" name="weight" aria-label="Weight" />
+            <FlTextInput id="input-clear" Clearable @bind-Value="_clearable" name="title" aria-label="With a clear action" />
+            <FlTextInput id="input-password" Type="FlTextInputType.Password" @bind-Value="_password" name="password" aria-label="Password" />
+            <FlTextInput Mono Prefix="/projects/" @bind-Value="_path" name="path" aria-label="Path" />
+        </Demo>
+        <Example Code="@PartsCode" />
+    </Section>
+
+    <Section Title="Sizes">
+        <Demo>
+            @foreach (FlSize size in Sizes)
+            {
+                <FlTextInput Size="size" Value="@size.ToString()" ValueExpression="() => _filled" name="size" class="gallery-narrow" aria-label="@size.ToString()" />
+            }
+        </Demo>
+        <Demo>
+            @foreach (FlSize size in Sizes)
+            {
+                <FlTextInput Size="size" Icon="FlIcons.Search" @bind-Value="_empty" name="filter" placeholder="Search" class="gallery-narrow" aria-label="Search" />
+                <FlButton Size="size" Icon="FlIcons.Funnel">Filter</FlButton>
+            }
+        </Demo>
+        <p>An input and a button of the same size line up.</p>
+    </Section>
+
+    <Section Title="States" Id="input-matrix">
+        <p>Read across a row to compare states. Read-only keeps the value in the tab order and in the form; disabled leaves both.</p>
+        <StateMatrix States="States">
+            @foreach (string row in Rows)
+            {
+                <StateRow Label="@row">
+                    @foreach (string state in States)
+                    {
+                        <td>
+                            <FlTextInput Value="@(row == "Empty" ? null : row == "Affix, action" ? "example.com" : "Value")" ValueExpression="() => _sample"
+                                         Icon="@(row == "Icon" ? FlIcons.Search : null)" Prefix="@(row == "Affix, action" ? "https://" : null)"
+                                         Clearable="@(row == "Affix, action")" ReadOnly="@(state == "Read-only")" Disabled="@(state == "Disabled")"
+                                         class="gallery-narrow" name="sample" placeholder="Placeholder" aria-label="Sample"
+                                         aria-invalid="@(state == "Invalid" ? "true" : null)" data-force="@Force(state)" />
+                        </td>
+                    }
+                </StateRow>
+            }
+        </StateMatrix>
+        <p>A read-only input has no clear action, since its value cannot change.</p>
+    </Section>
+
+    <Section Title="Search field" Id="search">
+        <p>Search is a pattern, not a component of its own: a <code>search</code> input in a form with the search role. The list and how it filters belong to the page. Enter submits the form; the clear action shows when there is something to clear.</p>
+        <Demo Column>
+            <form class="fl-cluster" role="search" aria-label="Projects" method="get" action="text-input">
+                @if (Context.Settings.Theme != "auto")
+                {
+                    <input type="hidden" name="theme" value="@Context.Settings.Theme" />
+                }
+                @if (Context.Settings.Density != "comfortable")
+                {
+                    <input type="hidden" name="density" value="@Context.Settings.Density" />
+                }
+                @if (Context.Settings.Direction != "ltr")
+                {
+                    <input type="hidden" name="dir" value="@Context.Settings.Direction" />
+                }
+                <FlTextInput id="input-search" Type="FlTextInputType.Search" Icon="FlIcons.Search" Clearable @bind-Value="Query" name="q"
+                             placeholder="Search projects" aria-label="Search projects" />
+                <FlButton Type="FlButtonType.Submit" Icon="FlIcons.Search">Search</FlButton>
+            </form>
+            <p id="input-search-count" role="status">@Results.Count of @Projects.Length projects</p>
+            <ul id="input-search-results">
+                @foreach (string project in Results)
+                {
+                    <li>@project</li>
+                }
+            </ul>
+        </Demo>
+        <Example Code="@SearchCode" />
+    </Section>
+
+    <Section Title="Parameters">
+        <ParameterTable>
+            <ParameterRow Name="Value" Type="string?" Default="null">Bind with <code>@@bind-Value</code>. A one-way value also needs <code>ValueExpression</code>.</ParameterRow>
+            <ParameterRow Name="Type" Type="FlTextInputType" Default="Text">Text, Email, Url, Tel, Password or Search. A password gets its show action; Search uses the search field pattern.</ParameterRow>
+            <ParameterRow Name="Size" Type="FlSize" Default="Medium">Small, Medium or Large.</ParameterRow>
+            <ParameterRow Name="Icon" Type="FlIconDefinition?" Default="null">A decorative drawing at the start. Not with <code>Prefix</code>.</ParameterRow>
+            <ParameterRow Name="Prefix" Type="string?" Default="null">Fixed text before the value.</ParameterRow>
+            <ParameterRow Name="Suffix" Type="string?" Default="null">Fixed text after the value.</ParameterRow>
+            <ParameterRow Name="Clearable" Type="bool" Default="false">Adds a Clear action. It is left out while read-only.</ParameterRow>
+            <ParameterRow Name="Mono" Type="bool" Default="false">For a value that is code: a path, a key, an identifier.</ParameterRow>
+            <ParameterRow Name="ReadOnly" Type="bool" Default="false">Focusable and posted, but not editable.</ParameterRow>
+            <ParameterRow Name="Disabled" Type="bool" Default="false">Not focusable and not posted.</ParameterRow>
+            <ParameterRow Name="MaxLength" Type="int?" Default="null">The native limit. In a field it also shows the counter.</ParameterRow>
+            <ParameterRow Name="AdditionalAttributes" Type="IReadOnlyDictionary<string, object>?" Default="null"><code>class</code> goes on the box. Other attributes, such as <code>name</code>, <code>placeholder</code>, <code>autocomplete</code> and <code>aria-label</code>, go on the input; a <code>name</code> of your own replaces the one from the expression.</ParameterRow>
+        </ParameterTable>
+    </Section>
+
+    <Section Title="Spec">
+        <SpecTable>
+            <SpecRow Name="Element">A <code>span</code> box around a native <code>input</code>, with <code>type</code> text, email, url, tel, password or search.</SpecRow>
+            <SpecRow Name="ARIA and keys">A native text box, named by its field's label or by <code>aria-label</code>. Invalid: <code>aria-invalid="true"</code>. An action is a <code>button</code> with its own name; Show password carries <code>aria-pressed</code>. After Clear, focus returns to the input.</SpecRow>
+            <SpecRow Name="Level">Static. The value posts with its form. The clear and show actions use the library's script and are hidden where scripting is off; the input still works without them.</SpecRow>
+            <SpecRow Name="Classes"><code>fl-input</code> with <code>--s</code>, <code>--l</code>, <code>--mono</code>; parts <code>fl-input__control</code>, <code>__icon</code>, <code>__affix</code>, <code>__action</code>. Search adds <code>fl-search-field</code> and its parts.</SpecRow>
+            <SpecRow Name="Tokens">Control height, padding and radius; the surface, border, text, accent, danger and disabled colours; the focus ring on the border of the box. The input exposes <code>--fl-input-height</code>, <code>-padding</code>, <code>-font-size</code> and <code>-inner-radius</code>.</SpecRow>
+        </SpecTable>
+    </Section>
+</GalleryPage>
+
+@code {
+    [CascadingParameter] public GalleryContext Context { get; set; } = default!;
+    [SupplyParameterFromQuery(Name = "q")] private string? Query { get; set; }
+
+    private static readonly FlSize[] Sizes = [FlSize.Small, FlSize.Medium, FlSize.Large];
+    private static readonly string[] States = ["Rest", "Hover", "Focus", "Read-only", "Invalid", "Disabled"];
+    private static readonly string[] Rows = ["Empty", "Filled", "Icon", "Affix, action"];
+    private static readonly string[] Projects = ["Quarterly report", "Annual report", "Brand refresh", "Customer survey", "Office move"];
+
+    private string? _empty;
+    private string? _filled = "Quarterly report";
+    private string? _site = "example.com";
+    private string? _weight = "12.5";
+    private string? _clearable = "Quarterly report";
+    private string? _password = "correct horse battery";
+    private string? _path = "quarterly-report-2026";
+    private readonly string? _sample = null;
+
+    private List<string> Results => [.. Projects.Where(project => string.IsNullOrWhiteSpace(Query) || project.Contains(Query.Trim(), StringComparison.OrdinalIgnoreCase))];
+
+    private static string? Force(string state) => state switch { "Hover" => "hover", "Focus" => "focus-visible", _ => null };
+
+    private const string PartsCode = """
+        <FlTextInput @bind-Value="query" Icon="FlIcons.Search" placeholder="Search" aria-label="Search" />
+        <FlTextInput @bind-Value="site" Prefix="https://" aria-label="Web address" />
+        <FlTextInput @bind-Value="title" Clearable aria-label="Title" />
+        <FlTextInput @bind-Value="password" Type="FlTextInputType.Password" aria-label="Password" />
+        """;
+
+    private const string SearchCode = """
+        <form role="search" aria-label="Projects" method="get" action="projects">
+            <FlTextInput Type="FlTextInputType.Search" Icon="FlIcons.Search" Clearable @bind-Value="Query" name="q"
+                         placeholder="Search projects" aria-label="Search projects" />
+            <FlButton Type="FlButtonType.Submit">Search</FlButton>
+        </form>
+
+        @code {
+            [SupplyParameterFromQuery(Name = "q")] private string? Query { get; set; }
+        }
+        """;
+}

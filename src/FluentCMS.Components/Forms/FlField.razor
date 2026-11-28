@@ -1,0 +1,30 @@
+@namespace FluentCMS.Components
+
+<div @attributes="HostAttributes" class="@CssClass" role="@_context.GroupRole" aria-labelledby="@_context.LabelId"
+     aria-describedby="@GroupDescribedBy" aria-required="@GroupRequired" aria-invalid="@GroupInvalid">
+    @if (_context.IsGroup)
+    {
+        <div class="fl-field__label" id="@_context.LabelId">@Label@RequiredMark</div>
+    }
+    else
+    {
+        <label class="fl-field__label" for="@_context.BaseId">@Label@RequiredMark</label>
+    }
+    <CascadingValue Value="_context">@ChildContent</CascadingValue>
+    @if (_context.ErrorText is { } error)
+    {
+        <p class="fl-field__error" id="@_context.ErrorId"><FlIcon Icon="FlIcons.CircleAlert" Size="FlSize.Small" />@error</p>
+    }
+    @if (!string.IsNullOrWhiteSpace(Help))
+    {
+        <p class="fl-field__help" id="@_context.HelpId">@Help</p>
+    }
+    @if (_context.MetaText is { } meta)
+    {
+        <span class="@(_context.MetaOver ? "fl-field__meta fl-field__meta--over" : "fl-field__meta")" id="@_context.MetaId">@meta</span>
+    }
+</div>
+
+@code {
+    private RenderFragment? RequiredMark => Required ? @<text> <span class="fl-field__required" aria-hidden="true">*</span></text> : null;
+}

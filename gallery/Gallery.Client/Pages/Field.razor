@@ -1,0 +1,226 @@
+@page "/field"
+@using System.ComponentModel.DataAnnotations
+@using FluentCMS.Components
+@using Microsoft.AspNetCore.Components.Forms
+
+<GalleryPage Title="Field" Level="ComponentLevel.Static">
+    <Lede>Wraps a control with its label, error, help text and counter, and wires them to it. A field posts with its form in static rendering and shows the validation of an <code>EditForm</code> in every mode.</Lede>
+
+    <Section Title="Anatomy">
+        <p>The label names the control. The error, the help and the counter describe it, in that order, and the asterisk is hidden from assistive technology because the control is <code>required</code>.</p>
+        <Demo Column Narrow>
+            <FlField Label="Project name" Required Help="Shown in lists and in the address of the project.">
+                <FlTextInput @bind-Value="_project" MaxLength="60" name="project" />
+            </FlField>
+        </Demo>
+        <Example Code="@AnatomyCode" />
+    </Section>
+
+    <Section Title="Invalid">
+        <p>Outside a form, set <code>Error</code>. The error comes first in the description and carries an icon, so colour is not its only sign. A counter past its limit turns to the danger tone.</p>
+        <Demo Column Narrow>
+            <FlField Label="Email" Required Error="Enter an address with a domain, such as name@example.com." Help="Used for sign-in and for notifications.">
+                <FlTextInput Type="FlTextInputType.Email" @bind-Value="_email" name="email" />
+            </FlField>
+            <FlField Label="Summary" Error="Shorten the summary to 40 characters.">
+                <FlTextInput @bind-Value="_summary" MaxLength="40" name="summary" />
+            </FlField>
+        </Demo>
+        <Example Code="@ErrorCode" />
+    </Section>
+
+    <Section Title="Optional, and a hint in the label row" Id="hint">
+        <Demo Column Narrow>
+            <FlField Label="Company" Hint="Optional">
+                <FlTextInput @bind-Value="_company" name="company" />
+            </FlField>
+        </Demo>
+    </Section>
+
+    <Section Title="Horizontal">
+        <p>For a form of settings: the label and the help at the start, the control at the end. Below 30rem of its own width the field stacks.</p>
+        <Demo Column>
+            <FlField Label="Workspace name" Horizontal Help="The name that members see in the header and in invitations.">
+                <FlTextInput @bind-Value="_workspace" name="workspace" />
+            </FlField>
+            <hr class="fl-divider" />
+            <FlField Label="Support address" Horizontal Required Error="Enter a full email address." Help="Replies to notifications go here.">
+                <FlTextInput Type="FlTextInputType.Email" @bind-Value="_support" name="support" />
+            </FlField>
+        </Demo>
+    </Section>
+
+    <Section Title="A group of controls" Id="group">
+        <p>Around several controls the field becomes a group named by its label, with no <code>fieldset</code>. Each control inside needs its own name.</p>
+        <Demo Column Narrow>
+            <FlField Label="Size" Help="Width and height of the preview.">
+                <div class="fl-cluster fl-cluster--nowrap">
+                    <FlTextInput @bind-Value="_width" Suffix="px" name="width" aria-label="Width" />
+                    <FlTextInput @bind-Value="_height" Suffix="px" name="height" aria-label="Height" />
+                </div>
+            </FlField>
+        </Demo>
+    </Section>
+
+    <Section Title="Binding" Id="binding">
+        <p>Bind with <code>@@bind-Value</code>, with or without an <code>EditForm</code>. The value reaches .NET on change, when the control loses focus or Enter is pressed. In static mode nothing runs until the form is posted.</p>
+        <Demo Column Narrow>
+            <FlField Label="Title" Help="Type, then press Tab.">
+                <FlTextInput id="field-title" @bind-Value="_title" name="title" />
+            </FlField>
+            <p>Bound value: <output id="field-title-value" for="field-title">@_title</output></p>
+        </Demo>
+        <p>A one-way value needs its expression too. Without <code>ValueExpression</code> the framework throws, naming the missing parameter.</p>
+        <Example Code="@BindingCode" />
+    </Section>
+
+    <Section Title="In a form" Id="form">
+        <p>This <code>EditForm</code> posts as an ordinary form in static mode and validates with <code>DataAnnotationsValidator</code>. Enter an address with a space to see the server's error. A read-only field is posted; a disabled one is not.</p>
+        @if (_saved is not null)
+        {
+            <p class="gallery-note" role="status" id="field-saved"><strong>Saved.</strong> @_saved</p>
+        }
+        <Demo Column Narrow>
+            <EditForm EditContext="_editContext" FormName="field-settings" OnValidSubmit="Save" class="fl-stack">
+                <DataAnnotationsValidator />
+                <FlField Label="Workspace name" Required>
+                    <FlTextInput @bind-Value="Settings!.Name" />
+                </FlField>
+                <FlField Label="Address" Required Help="Lowercase letters, digits and single hyphens." Hint="example.com/…">
+                    <FlTextInput @bind-Value="Settings!.Slug" Mono />
+                </FlField>
+                <FlField Label="Workspace ID" Help="Assigned when the workspace was created.">
+                    <FlTextInput @bind-Value="Settings!.Workspace" ReadOnly Mono />
+                </FlField>
+                <FlField Label="Plan" Help="Change the plan from billing.">
+                    <FlTextInput @bind-Value="Settings!.Plan" Disabled />
+                </FlField>
+                <div class="fl-cluster">
+                    <FlButton id="field-submit" Variant="FlButtonVariant.Primary" Type="FlButtonType.Submit">Save</FlButton>
+                </div>
+            </EditForm>
+        </Demo>
+        <Example Code="@FormCode" />
+    </Section>
+
+    <Section Title="Names" Id="names">
+        <p>The input posts under the name the framework derives from its expression, such as <code>Settings.Slug</code>, or under a <code>name</code> you give it. By default the framework derives names only where .NET runs on the server: in WebAssembly an input outside an <code>EditForm</code>, or in a form whose <code>EditContext</code> keeps <code>ShouldUseFieldIdentifiers</code> false, renders no <code>name</code>. These two inputs show that default; the library's input behaves as the framework's <code>InputText</code>.</p>
+        <Demo Column Narrow>
+            <FlTextInput id="field-default-name" @bind-Value="_defaultName" aria-label="Library input with the default name" />
+            <span class="fl-input"><InputText id="field-default-input-text" class="fl-input__control" @bind-Value="_defaultName" aria-label="Framework input with the default name" /></span>
+        </Demo>
+        <p>To keep the names in every mode, give each input a <code>name</code>, or create the form's <code>EditContext</code> with <code>ShouldUseFieldIdentifiers = true</code> before its inputs render, as the form above does. Ids do not depend on names: they come from the bound member.</p>
+        <Example Code="@NamesCode" />
+    </Section>
+
+    <Section Title="Parameters">
+        <ParameterTable>
+            <ParameterRow Name="Label" Type="string" Default="required">The visible name of the control, or of the group.</ParameterRow>
+            <ParameterRow Name="Help" Type="string?" Default="null">Help text under the control.</ParameterRow>
+            <ParameterRow Name="Error" Type="string?" Default="null">An error to show. When it is not set, the field shows the <code>EditContext</code> messages of its control.</ParameterRow>
+            <ParameterRow Name="Required" Type="bool" Default="false">Shows the mark and makes the control <code>required</code>.</ParameterRow>
+            <ParameterRow Name="Hint" Type="string?" Default="null">Short text at the end of the label row, such as Optional. A counter takes its place.</ParameterRow>
+            <ParameterRow Name="Horizontal" Type="bool" Default="false">The layout for settings.</ParameterRow>
+            <ParameterRow Name="For" Type="string?" Default="null">The id of the control. Generated from the bound member when absent; an <code>id</code> on the control also works.</ParameterRow>
+            <ParameterRow Name="ChildContent" Type="RenderFragment?" Default="null">The control, or the controls of a group.</ParameterRow>
+            <ParameterRow Name="AdditionalAttributes" Type="IReadOnlyDictionary<string, object>?" Default="null">Other attributes go on the field's <code>div</code>; your classes are added to its own.</ParameterRow>
+        </ParameterTable>
+    </Section>
+
+    <Section Title="Spec">
+        <SpecTable>
+            <SpecRow Name="Element">A <code>div</code>. Around one control its label is a <code>label for</code>. Around several, the field has <code>role="group"</code> and its label is a <code>div</code> with an <code>id</code>. The order is label, control, error, help, counter.</SpecRow>
+            <SpecRow Name="ARIA and keys">The control lists the error, the help and the counter in <code>aria-describedby</code>, the error first, followed by any references of your own. Invalid sets <code>aria-invalid="true"</code> on the control. A group carries <code>aria-labelledby</code> and <code>aria-describedby</code>. No keys of its own.</SpecRow>
+            <SpecRow Name="Ids">Made from the bound member, such as <code>fl-name</code>, so the prerendered and the interactive markup agree. A second control bound to a member of the same name gets <code>fl-name-2</code>.</SpecRow>
+            <SpecRow Name="Level">Static. In static mode the counter shows the value that was rendered; in an interactive mode it follows typing.</SpecRow>
+            <SpecRow Name="Classes"><code>fl-field</code>, <code>--horizontal</code>; parts <code>fl-field__label</code>, <code>__required</code>, <code>__meta</code> with <code>--over</code>, <code>__error</code>, <code>__help</code>.</SpecRow>
+            <SpecRow Name="Tokens">Text, subtle text and danger text colours; the space and gap scale; the small and extra-small font sizes and the medium weight.</SpecRow>
+        </SpecTable>
+    </Section>
+</GalleryPage>
+
+@code {
+    [SupplyParameterFromForm(FormName = "field-settings")] private WorkspaceSettings? Settings { get; set; }
+
+    private string? _project = "Quarterly report";
+    private string? _email = "ada@example";
+    private string? _summary = "A summary that runs past the limit of forty characters";
+    private string? _company;
+    private string? _workspace = "Northwind";
+    private string? _support = "support";
+    private string? _width = "1200";
+    private string? _height = "630";
+    private string? _title = "First draft";
+    private string? _defaultName = "Default";
+    private string? _saved;
+    private EditContext _editContext = default!;
+
+    protected override void OnInitialized()
+    {
+        Settings ??= new() { Name = "Northwind", Slug = "northwind", Workspace = "ws-1042", Plan = "Team" };
+        // The host opts in before the inputs are created, so the framework names the fields in every mode.
+        _editContext = new EditContext(Settings) { ShouldUseFieldIdentifiers = true };
+    }
+
+    private void Save() => _saved = $"Name “{Settings!.Name}”, address “{Settings.Slug}”, ID “{Settings.Workspace}”, plan {(Settings.Plan is null ? "not sent" : $"“{Settings.Plan}”")}.";
+
+    public sealed class WorkspaceSettings
+    {
+        [Required(ErrorMessage = "Enter a name.")]
+        public string? Name { get; set; }
+
+        [Required(ErrorMessage = "Enter an address.")]
+        [RegularExpression("^[a-z0-9]+(-[a-z0-9]+)*$", ErrorMessage = "Use lowercase letters, digits and single hyphens.")]
+        public string? Slug { get; set; }
+
+        public string? Workspace { get; set; }
+
+        public string? Plan { get; set; }
+    }
+
+    private const string AnatomyCode = """
+        <FlField Label="Project name" Required Help="Shown in lists and in the address of the project.">
+            <FlTextInput @bind-Value="project.Name" MaxLength="60" />
+        </FlField>
+        """;
+
+    private const string ErrorCode = """
+        <FlField Label="Email" Error="@emailError" Help="Used for sign-in and for notifications.">
+            <FlTextInput Type="FlTextInputType.Email" @bind-Value="user.Email" />
+        </FlField>
+        """;
+
+    private const string BindingCode = """
+        <FlTextInput @bind-Value="title" aria-label="Title" />
+        <FlTextInput Value="@id" ValueExpression="() => id" ReadOnly aria-label="ID" />
+        """;
+
+    private const string FormCode = """
+        <EditForm EditContext="editContext" FormName="settings" OnValidSubmit="Save">
+            <DataAnnotationsValidator />
+            <FlField Label="Address" Required Help="Lowercase letters, digits and single hyphens.">
+                <FlTextInput @bind-Value="Settings!.Slug" />
+            </FlField>
+            <FlButton Type="FlButtonType.Submit">Save</FlButton>
+        </EditForm>
+
+        @code {
+            [SupplyParameterFromForm(FormName = "settings")] private WorkspaceSettings? Settings { get; set; }
+            private EditContext editContext = default!;
+
+            protected override void OnInitialized()
+            {
+                Settings ??= new();
+                editContext = new EditContext(Settings) { ShouldUseFieldIdentifiers = true };
+            }
+        }
+        """;
+
+    private const string NamesCode = """
+        @* Posts as "q" in every mode. *@
+        <FlTextInput @bind-Value="query" name="q" aria-label="Search" />
+
+        @* Posts as "query" where .NET runs on the server; no name in WebAssembly. *@
+        <FlTextInput @bind-Value="query" aria-label="Search" />
+        """;
+}

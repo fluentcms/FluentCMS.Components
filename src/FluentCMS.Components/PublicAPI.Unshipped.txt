@@ -41,6 +41,26 @@ FluentCMS.Components.FlButtonVariant
 FluentCMS.Components.FlButtonVariant.Primary = 1 -> FluentCMS.Components.FlButtonVariant
 FluentCMS.Components.FlButtonVariant.Secondary = 0 -> FluentCMS.Components.FlButtonVariant
 FluentCMS.Components.FlButtonVariant.Subtle = 2 -> FluentCMS.Components.FlButtonVariant
+FluentCMS.Components.FlField
+FluentCMS.Components.FlField.AdditionalAttributes.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object!>?
+FluentCMS.Components.FlField.AdditionalAttributes.set -> void
+FluentCMS.Components.FlField.ChildContent.get -> Microsoft.AspNetCore.Components.RenderFragment?
+FluentCMS.Components.FlField.ChildContent.set -> void
+FluentCMS.Components.FlField.Error.get -> string?
+FluentCMS.Components.FlField.Error.set -> void
+FluentCMS.Components.FlField.FlField() -> void
+FluentCMS.Components.FlField.For.get -> string?
+FluentCMS.Components.FlField.For.set -> void
+FluentCMS.Components.FlField.Help.get -> string?
+FluentCMS.Components.FlField.Help.set -> void
+FluentCMS.Components.FlField.Hint.get -> string?
+FluentCMS.Components.FlField.Hint.set -> void
+FluentCMS.Components.FlField.Horizontal.get -> bool
+FluentCMS.Components.FlField.Horizontal.set -> void
+FluentCMS.Components.FlField.Label.get -> string!
+FluentCMS.Components.FlField.Label.set -> void
+FluentCMS.Components.FlField.Required.get -> bool
+FluentCMS.Components.FlField.Required.set -> void
 FluentCMS.Components.FlIcon
 FluentCMS.Components.FlIcon.AdditionalAttributes.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object!>?
 FluentCMS.Components.FlIcon.AdditionalAttributes.set -> void
@@ -65,8 +85,39 @@ FluentCMS.Components.FlSize.Large = 2 -> FluentCMS.Components.FlSize
 FluentCMS.Components.FlSize.Medium = 1 -> FluentCMS.Components.FlSize
 FluentCMS.Components.FlSize.Small = 0 -> FluentCMS.Components.FlSize
 FluentCMS.Components.FlText
+FluentCMS.Components.FlText.Clear = 2 -> FluentCMS.Components.FlText
 FluentCMS.Components.FlText.Close = 0 -> FluentCMS.Components.FlText
 FluentCMS.Components.FlText.Loading = 1 -> FluentCMS.Components.FlText
+FluentCMS.Components.FlText.ShowPassword = 3 -> FluentCMS.Components.FlText
+FluentCMS.Components.FlTextInput
+FluentCMS.Components.FlTextInput.Clearable.get -> bool
+FluentCMS.Components.FlTextInput.Clearable.set -> void
+FluentCMS.Components.FlTextInput.Disabled.get -> bool
+FluentCMS.Components.FlTextInput.Disabled.set -> void
+FluentCMS.Components.FlTextInput.FlTextInput() -> void
+FluentCMS.Components.FlTextInput.Icon.get -> FluentCMS.Components.FlIconDefinition?
+FluentCMS.Components.FlTextInput.Icon.set -> void
+FluentCMS.Components.FlTextInput.MaxLength.get -> int?
+FluentCMS.Components.FlTextInput.MaxLength.set -> void
+FluentCMS.Components.FlTextInput.Mono.get -> bool
+FluentCMS.Components.FlTextInput.Mono.set -> void
+FluentCMS.Components.FlTextInput.Prefix.get -> string?
+FluentCMS.Components.FlTextInput.Prefix.set -> void
+FluentCMS.Components.FlTextInput.ReadOnly.get -> bool
+FluentCMS.Components.FlTextInput.ReadOnly.set -> void
+FluentCMS.Components.FlTextInput.Size.get -> FluentCMS.Components.FlSize
+FluentCMS.Components.FlTextInput.Size.set -> void
+FluentCMS.Components.FlTextInput.Suffix.get -> string?
+FluentCMS.Components.FlTextInput.Suffix.set -> void
+FluentCMS.Components.FlTextInput.Type.get -> FluentCMS.Components.FlTextInputType
+FluentCMS.Components.FlTextInput.Type.set -> void
+FluentCMS.Components.FlTextInputType
+FluentCMS.Components.FlTextInputType.Email = 1 -> FluentCMS.Components.FlTextInputType
+FluentCMS.Components.FlTextInputType.Password = 4 -> FluentCMS.Components.FlTextInputType
+FluentCMS.Components.FlTextInputType.Search = 5 -> FluentCMS.Components.FlTextInputType
+FluentCMS.Components.FlTextInputType.Tel = 3 -> FluentCMS.Components.FlTextInputType
+FluentCMS.Components.FlTextInputType.Text = 0 -> FluentCMS.Components.FlTextInputType
+FluentCMS.Components.FlTextInputType.Url = 2 -> FluentCMS.Components.FlTextInputType
 FluentCMS.Components.IFlTextProvider
 FluentCMS.Components.IFlTextProvider.GetText(FluentCMS.Components.FlText text) -> string?
 Microsoft.Extensions.DependencyInjection.FluentCmsComponentsServiceCollectionExtensions

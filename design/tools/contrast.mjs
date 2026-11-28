@@ -46,6 +46,8 @@ const pairs = [
   ['text-subtle', ['hover', 'surface'], TEXT],
   ['text-subtle', ['hover', 'canvas'], TEXT],
   ['text-subtle', 'accent-soft', TEXT],
+  // The affix of a disabled input keeps its unit or prefix legible on the disabled fill.
+  ['text-subtle', 'disabled-fill', TEXT],
   ['text-inverse', 'surface-inverse', TEXT],
   ['text-inverse-subtle', 'surface-inverse', TEXT],
   ...surfaces.map(s => ['accent-text', s, TEXT]),

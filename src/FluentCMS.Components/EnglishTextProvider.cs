@@ -8,6 +8,8 @@ internal sealed class EnglishTextProvider : IFlTextProvider
     {
         FlText.Close => "Close",
         FlText.Loading => "Loading",
+        FlText.Clear => "Clear",
+        FlText.ShowPassword => "Show password",
         _ => throw new ArgumentOutOfRangeException(nameof(text), text, "No English text is defined."),
     };
 }

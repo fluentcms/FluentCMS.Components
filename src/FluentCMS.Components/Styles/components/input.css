@@ -135,6 +135,13 @@
       }
     }
 
+    /* Clear and show password run in the library's script; with scripting off they are left out. */
+    @media (scripting: none) {
+      & > .fl-input__action:is([data-fl-clear], [data-fl-reveal]) {
+        display: none;
+      }
+    }
+
     /* Modifiers set tokens only. */
 
     &.fl-input--s {
@@ -197,12 +204,21 @@
         background-color: transparent;
         color: var(--fl-color-disabled-text);
       }
+
+      /* A unit or a prefix can still carry meaning on a disabled input, so its text stays at 4.5:1 on the disabled fill. */
+      & > .fl-input__affix {
+        color: var(--fl-color-text-subtle);
+      }
     }
 
     @media (forced-colors: active) {
       &:has(> .fl-input__control:disabled) {
         border-color: GrayText;
         color: GrayText;
+
+        & > .fl-input__affix {
+          color: GrayText;
+        }
       }
     }
   }

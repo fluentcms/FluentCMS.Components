@@ -2,15 +2,28 @@
 const sheetLink = 'link[data-gallery-button-states]';
 const processed = new WeakSet();
 
+// The button matrix forces states on the button itself. The input matrix puts the attribute on
+// the native control, since the host's other attributes go there, and the box reads it through :has().
+const blocks = {
+  '.fl-button': {
+    pattern: /^&:(hover|active|focus-visible)$/,
+    twin: state => `&[data-force~="${state}"]:where(#button-matrix .gallery-matrix button)`,
+  },
+  '.fl-input': {
+    pattern: /^&(?::(hover)|:has\(> \.fl-input__control:(focus-visible)\))$/,
+    twin: state => `&:has(> .fl-input__control[data-force~="${state}"]):where(#input-matrix .gallery-matrix .fl-input)`,
+  },
+};
+
 function addTwins(parent) {
   for (const rule of parent.cssRules) {
-    if (rule.selectorText === '.fl-button') {
+    const block = blocks[rule.selectorText];
+    if (block) {
       for (let i = 0; i < rule.cssRules.length; i++) {
         const state = rule.cssRules[i];
-        const match = /^&:(hover|active|focus-visible)$/.exec(state.selectorText);
+        const match = block.pattern.exec(state.selectorText);
         if (match) {
-          const selector = `&[data-force~="${match[1]}"]:where(#button-matrix .gallery-matrix button)`;
-          rule.insertRule(`${selector} { ${state.style.cssText} }`, ++i);
+          rule.insertRule(`${block.twin(match[1] ?? match[2])} { ${state.style.cssText} }`, ++i);
         }
       }
     } else if (!rule.selectorText && rule.cssRules) {

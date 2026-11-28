@@ -11,6 +11,8 @@ const number = 'input.fl-number-input__control[type="number"]';
 const stepButton = 'button.fl-number-input__step';
 const panel = ':is(.fl-popover, .fl-menu)[popover][id]';
 const invoker = 'button[popovertarget]:not([popovertargetaction="hide" i])';
+const clearButton = '.fl-input > button.fl-input__action[data-fl-clear]';
+const revealButton = '.fl-input > button.fl-input__action[data-fl-reveal]';
 const needsSetup = `${checkbox}[${mixedAttribute}], ${numberBox}, ${panel}, ${invoker}`;
 
 function syncInvokers(id, open) {
@@ -69,6 +71,27 @@ function syncNumber(input) {
   if (box) syncSteps(box);
 }
 
+// Clear empties the input the way typing would, so a bound value hears the same input and change events.
+function onInputAction({ target }) {
+  const button = target.closest?.(`${clearButton}, ${revealButton}`);
+  const input = button?.parentElement.querySelector(':scope > input.fl-input__control');
+  if (!input || button.disabled || input.disabled) return;
+
+  if (button.matches(revealButton)) {
+    const show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    button.setAttribute('aria-pressed', String(show));
+    return;
+  }
+  if (input.readOnly) return;
+  if (input.value !== '') {
+    input.value = '';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+  input.focus();
+}
+
 function onReset(event) {
   if (!(event.target instanceof HTMLFormElement)) return;
   // The cancelable reset event precedes the browser's restoration of the form values.
@@ -123,6 +146,7 @@ function start() {
   if (started) return;
   started = true;
   if (supports.popover) document.addEventListener('toggle', onToggle, true);
+  document.addEventListener('click', onInputAction);
   if (supports.steps) {
     document.addEventListener('click', onStep);
     document.addEventListener('reset', onReset, true);

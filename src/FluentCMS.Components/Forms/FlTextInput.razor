@@ -1,0 +1,34 @@
+@namespace FluentCMS.Components
+@using Microsoft.AspNetCore.Components.Web
+@inherits Microsoft.AspNetCore.Components.Forms.InputBase<string?>
+
+<span class="@BoxClass">
+    @if (Icon is { } icon)
+    {
+        <FlIcon Icon="icon" class="fl-input__icon" />
+    }
+    @if (Prefix is not null)
+    {
+        <span class="fl-input__affix">@Prefix</span>
+    }
+    <input @attributes="ControlAttributes" class="@ControlClass" type="@NativeType" id="@_id" name="@NameAttribute"
+           @bind="CurrentValueAsString" @oninput="InputHandler" maxlength="@MaxLength" readonly="@ReadOnly" disabled="@Disabled"
+           required="@IsRequired" aria-invalid="@AriaInvalid" aria-describedby="@DescribedBy" />
+    @if (Suffix is not null)
+    {
+        <span class="fl-input__affix">@Suffix</span>
+    }
+    @if (Clearable && !ReadOnly)
+    {
+        <button type="button" class="@ClearClass" aria-label="@Services.GetText(FlText.Clear)" disabled="@Disabled" data-fl-clear>
+            <FlIcon Icon="FlIcons.X" />
+        </button>
+    }
+    @if (Type == FlTextInputType.Password)
+    {
+        <button type="button" class="fl-input__action" aria-label="@Services.GetText(FlText.ShowPassword)" aria-pressed="false"
+                disabled="@Disabled" data-fl-reveal>
+            <FlIcon Icon="FlIcons.Eye" />
+        </button>
+    }
+</span>

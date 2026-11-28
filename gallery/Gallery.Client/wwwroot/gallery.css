@@ -306,6 +306,10 @@ body.gallery {
   align-items: stretch;
 }
 
+.gallery-demo--narrow > * {
+  max-inline-size: 26rem;
+}
+
 /* Widths for a control that fills its container. These are the only gallery
    classes that go on library markup. */
 
