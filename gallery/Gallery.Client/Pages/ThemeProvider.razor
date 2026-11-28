@@ -1,0 +1,90 @@
+@page "/theme-provider"
+@using FluentCMS.Components
+
+<GalleryPage Title="Theme provider" Level="ComponentLevel.Static">
+    <Lede>Change the theme, density or reading direction in one part of a page without changing the rest.</Lede>
+
+    <Section Title="Nested scopes">
+        <p>Compare the page’s settings with a dark, compact panel. The panel reads right to left; its nested preview starts with light, comfortable, left-to-right settings.</p>
+        <div class="gallery-theme-samples" id="theme-samples">
+            <div class="gallery-theme-panel">
+                <h3>Page settings</h3>
+                <FlButton id="theme-page-action" Href="@ExampleHref" Size="FlSize.Small" Variant="FlButtonVariant.Primary">View example</FlButton>
+            </div>
+            <FlThemeProvider id="theme-outer" class="gallery-theme-panel gallery-theme-teal" data-fl-accent="teal"
+                             Theme="FlTheme.Dark" Density="FlDensity.Compact" Direction="FlDirection.Rtl">
+                <h3>Outer scope</h3>
+                <FlButton id="theme-outer-action" Href="@ExampleHref" Size="FlSize.Small" Variant="FlButtonVariant.Primary">View example</FlButton>
+                <FlThemeProvider id="theme-inner" class="@(Inherit ? "gallery-theme-panel" : "gallery-theme-panel gallery-theme-plum")"
+                                 data-fl-accent="@(Inherit ? null : "plum")"
+                                 Theme="@(Inherit ? null : FlTheme.Light)" Density="@(Inherit ? null : FlDensity.Comfortable)"
+                                 Direction="@(Inherit ? null : FlDirection.Ltr)">
+                    <h4>Inner scope</h4>
+                    <FlButton id="theme-inner-action" Href="@ExampleHref" Size="FlSize.Small" Variant="FlButtonVariant.Primary">View example</FlButton>
+                </FlThemeProvider>
+            </FlThemeProvider>
+        </div>
+        <p>In Server or WASM mode, switch the inner scope between its explicit settings and inheritance. In static mode, the scopes and example links work without JavaScript.</p>
+        <Demo>
+            <FlButton id="theme-change" OnClick="ChangeInnerScope">Change inner settings</FlButton>
+            <output id="theme-state" for="theme-change">@(Inherit ? "Inheriting outer settings" : "Using explicit settings")</output>
+        </Demo>
+    </Section>
+
+    <Section Title="Copy the example" Id="copy-example">
+        <p>Leave a setting unset, or pass <code>null</code>, to inherit it. Use explicit values such as <code>FlTheme.Light</code> to override a dark ancestor.</p>
+        <Example Code="@MarkupExample" />
+        <p>Put the CSS in an external stylesheet served by your app. <code>data-fl-accent</code> tells the library to recalculate the derived colours on that element. Its value is a name, not a colour; the stylesheet supplies both colour tokens. Choose colours that keep text and focus indicators readable in the themes you use.</p>
+        <Example Code="@AccentExample" />
+    </Section>
+
+    <Section Title="Parameters">
+        <ParameterTable>
+            <ParameterRow Name="Theme" Type="FlTheme?" Default="null">Light, Dark or inherit.</ParameterRow>
+            <ParameterRow Name="Density" Type="FlDensity?" Default="null">Comfortable, Compact or inherit.</ParameterRow>
+            <ParameterRow Name="Direction" Type="FlDirection?" Default="null">Ltr, Rtl or inherit.</ParameterRow>
+            <ParameterRow Name="ChildContent" Type="RenderFragment?" Default="null">Content inside the scope.</ParameterRow>
+            <ParameterRow Name="AdditionalAttributes" Type="IReadOnlyDictionary<string, object>?" Default="null">Attributes such as id, class and data-fl-accent go on the wrapper. Set theme, density and direction with their parameters.</ParameterRow>
+        </ParameterTable>
+        <SpecTable>
+            <SpecRow Name="Element">One div.</SpecRow>
+            <SpecRow Name="ARIA and keys">No added role, focus stop or key handling. Children keep their own behavior.</SpecRow>
+            <SpecRow Name="Level">Static. A host can change the parameters in an interactive render mode.</SpecRow>
+            <SpecRow Name="Tokens">Theme and density tokens inherit. Scoped accent tokens are set by host CSS.</SpecRow>
+        </SpecTable>
+    </Section>
+</GalleryPage>
+
+@code {
+    [CascadingParameter] public GalleryContext Context { get; set; } = default!;
+
+    private string ExampleHref => Context.Href(Context.Page, "copy-example");
+    private bool Inherit { get; set; }
+
+    private void ChangeInnerScope() => Inherit = !Inherit;
+
+    private const string MarkupExample = """
+        @using FluentCMS.Components
+
+        <FlThemeProvider Theme="FlTheme.Dark" Density="FlDensity.Compact"
+                         Direction="FlDirection.Rtl" class="gallery-theme-teal" data-fl-accent="teal">
+            <FlButton Variant="FlButtonVariant.Primary">Save</FlButton>
+            <FlThemeProvider Theme="FlTheme.Light" Density="FlDensity.Comfortable"
+                             Direction="FlDirection.Ltr" class="gallery-theme-plum" data-fl-accent="plum">
+                <FlButton Variant="FlButtonVariant.Primary">Preview</FlButton>
+            </FlThemeProvider>
+        </FlThemeProvider>
+        """;
+
+    private const string AccentExample = """
+        .gallery-theme-teal[data-fl-accent] {
+          --fl-color-accent: #1B756A;
+          --fl-color-on-accent: #F7FFFD;
+        }
+
+        .gallery-theme-plum[data-fl-accent] {
+          --fl-color-accent: #763A90;
+          --fl-color-on-accent: #FCF5FF;
+        }
+        """;
+}

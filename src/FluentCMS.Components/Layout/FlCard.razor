@@ -1,0 +1,37 @@
+@namespace FluentCMS.Components
+
+@if (Href is not null)
+{
+    <a class="@CssClass" href="@Href" @attributes="HostAttributes"><span class="fl-card__body">@ChildContent</span></a>
+}
+else
+{
+    <section class="@CssClass" aria-labelledby="@LabelledBy" aria-label="@Label" @attributes="HostAttributes">
+        @if (Title is not null)
+        {
+            <header class="fl-card__header">
+                @Heading
+                @if (Actions is not null)
+                {
+                    <div class="fl-card__actions">@Actions</div>
+                }
+            </header>
+        }
+        <div class="@BodyClass">@ChildContent</div>
+        @if (Footer is not null)
+        {
+            <footer class="fl-card__footer">@Footer</footer>
+        }
+    </section>
+}
+
+@code {
+    private RenderFragment Heading => builder =>
+    {
+        builder.OpenElement(0, "h" + HeadingLevel);
+        builder.AddAttribute(1, "class", "fl-card__title");
+        builder.AddAttribute(2, "id", TitleId);
+        builder.AddContent(3, Title);
+        builder.CloseElement();
+    };
+}

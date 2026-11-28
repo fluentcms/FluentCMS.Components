@@ -179,7 +179,6 @@
     --fl-color-focus-halo: light-dark(#FFFFFF, #0D1118);
     --fl-focus-ring-width: 2px;
     --fl-focus-ring-offset: 2px;
-    --fl-focus-ring: var(--fl-focus-ring-width) solid var(--fl-color-focus);
     --fl-focus-halo: 0 0 0 var(--fl-focus-ring-offset) var(--fl-color-focus-halo);
 
     /* Icons */
@@ -200,7 +199,8 @@
 
   /* Derived from the accent, so one token carries a brand. Declared again on
      [data-fl-accent] for an accent set below the root. Hover and pressed darken
-     in both themes, which keeps the text on them readable. */
+     in both themes, which keeps the text on them readable. The ring must also
+     resolve here so it does not inherit the root accent through its alias. */
   :root,
   [data-fl-accent] {
     --fl-color-accent-hover: color-mix(in oklab, var(--fl-color-accent), #000000 14%);
@@ -210,6 +210,7 @@
     --fl-color-accent-border: light-dark(color-mix(in oklab, var(--fl-color-accent) 30%, #FFFFFF), color-mix(in oklab, var(--fl-color-accent) 55%, #141922));
     --fl-color-accent-text: light-dark(var(--fl-color-accent), color-mix(in oklab, var(--fl-color-accent), #FFFFFF 45%));
     --fl-color-focus: var(--fl-color-accent-text);
+    --fl-focus-ring: var(--fl-focus-ring-width) solid var(--fl-color-focus);
   }
 
   [data-fl-theme="light"] {
