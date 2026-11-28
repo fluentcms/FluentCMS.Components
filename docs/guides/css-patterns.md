@@ -1,6 +1,6 @@
 # Composing screens with CSS patterns
 
-Load the package's [`fluentcms-components.css`](../../README.md) once, then put the classes on ordinary HTML. These patterns do not need Razor wrappers, a render mode or JavaScript. Run the gallery and open `/static/patterns` for the working examples; the same page is available at `/server/patterns` and `/wasm/patterns`.
+Load the package stylesheet at `_content/FluentCMS.Components/fluentcms-components.css` once, then put the classes on ordinary HTML. These patterns do not need Razor wrappers, a render mode or JavaScript. Run the gallery and open `/static/patterns` for the working examples; the same page is available at `/server/patterns` and `/wasm/patterns`.
 
 | Pattern | HTML and classes | Where to use it |
 | --- | --- | --- |
