@@ -4,7 +4,7 @@ FluentCMS Components is under the [MIT license](LICENSE). This file lists what t
 
 ## Lucide
 
-The icon set of the design system, `design/system/icons/lucide.svg`, is a subset of [Lucide](https://lucide.dev), built by `design/tools/icons.mjs` from the `lucide-static` package. The icons of the reference design, `design/reference/admin.html`, are drawn after Lucide. No package of the library carries them yet.
+The icon set of the design system, `design/system/icons/lucide.svg`, is a subset of [Lucide](https://lucide.dev), built by `design/tools/icons.mjs` from `lucide-static@1.81.0`. FluentCMS.Components carries those drawings as individual `FlIcons` members generated from the sprite. The icons of the reference design, `design/reference/admin.html`, are drawn after Lucide. The pinned package's license follows:
 
 ```text
 ISC License
@@ -22,12 +22,14 @@ ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
 WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-```
 
-Some Lucide icons are derived from the Feather project, which is under the MIT license:
+---
 
-```text
-The MIT License (MIT)
+The following Lucide icons are derived from the Feather project:
+
+airplay, alert-circle, alert-octagon, alert-triangle, aperture, arrow-down-circle, arrow-down-left, arrow-down-right, arrow-down, arrow-left-circle, arrow-left, arrow-right-circle, arrow-right, arrow-up-circle, arrow-up-left, arrow-up-right, arrow-up, at-sign, calendar, cast, check, chevron-down, chevron-left, chevron-right, chevron-up, chevrons-down, chevrons-left, chevrons-right, chevrons-up, circle, clipboard, clock, code, columns, command, compass, corner-down-left, corner-down-right, corner-left-down, corner-left-up, corner-right-down, corner-right-up, corner-up-left, corner-up-right, crosshair, database, divide-circle, divide-square, dollar-sign, download, external-link, feather, frown, hash, headphones, help-circle, info, italic, key, layout, life-buoy, link-2, link, loader, lock, log-in, log-out, maximize, meh, minimize, minimize-2, minus-circle, minus-square, minus, monitor, moon, more-horizontal, more-vertical, move, music, navigation-2, navigation, octagon, pause-circle, percent, plus-circle, plus-square, plus, power, radio, rss, search, server, share, shopping-bag, sidebar, smartphone, smile, square, table-2, tablet, target, terminal, trash-2, trash, triangle, tv, type, upload, x-circle, x-octagon, x-square, x, zoom-in, zoom-out
+
+The MIT License (MIT) (for the icons listed above)
 
 Copyright (c) 2013-present Cole Bemis
 

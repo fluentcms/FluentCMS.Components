@@ -8,6 +8,7 @@ public static class GalleryPages
     public static readonly IReadOnlyList<GalleryPageInfo> All =
     [
         new("", "Start"),
+        new("icon", "Icon"),
         new("tokens", "Tokens"),
         new("texts", "Texts"),
         new("render-modes", "Render modes"),

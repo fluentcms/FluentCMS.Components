@@ -48,6 +48,8 @@ Then open `http://localhost:5600/design/system/index.html`. The switches in the 
 node design/tools/contrast.mjs
 ```
 
+`FlIcons` and the gallery's icon list are generated offline from the committed Lucide sprite. Run `node design/tools/generate-icons.mjs` after a sprite change, then `node --test design/tools/generate-icons.test.mjs` to check the naming rules and both generated files. The generator converts kebab-case to PascalCase (so a C# keyword such as `class` becomes `Class`) and prefixes a leading digit with `Icon`.
+
 ## The gallery
 
 The gallery is the documentation of the library and the target of its browser tests. `gallery/Gallery` is the host, for static server-side rendering and interactive server mode. `gallery/Gallery.Client` holds the layout and the pages, and is the WebAssembly build.

@@ -61,6 +61,8 @@ jobs:
           node-version: 24
       - name: Contrast
         run: node design/tools/contrast.mjs
+      - name: Check generated icons
+        run: node --test design/tools/generate-icons.test.mjs
       - name: Markdownlint
         if: ${{ !cancelled() }}
         run: npx --yes markdownlint-cli2@0.24.2 "**/*.md"
