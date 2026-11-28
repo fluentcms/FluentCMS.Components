@@ -193,6 +193,23 @@ node tests/FluentCMS.Components.Browser/test-startup.mjs
 
 In the WebKit build that Playwright installs on Windows, links are left out of the Tab order, so a keyboard test that needs a link fails there.
 
+## Continuous integration
+
+Every pull request and push to `main` runs four checks in parallel on Ubuntu: **Build, pack and size report**, **Component tests (bUnit)**, **Browser tests (Chromium)**, and **Design system**. The browser check runs static SSR, interactive server and WebAssembly. The nightly workflow runs the same suite in Firefox and WebKit; a Linux WebKit run is not a Safari run. Both workflows can also be started from the Actions tab.
+
+To repeat the PR checks locally, install the Chromium engine as described above, then run from the repository root:
+
+```powershell
+dotnet build -c Release -warnaserror
+dotnet pack src/FluentCMS.Components -c Release --no-build -o artifacts/package
+dotnet test --project tests/FluentCMS.Components.Tests
+dotnet test --project tests/FluentCMS.Components.Browser
+node design/tools/contrast.mjs
+npx --yes markdownlint-cli2@0.24.2 "**/*.md" "#**/bin" "#**/obj"
+```
+
+The build summary reports gzip bytes for each shipping asset, not the size of the whole NuGet archive. To reproduce it, pass the packed `.nupkg` to `python .github/scripts/package_size.py`. An absent initializer is reported as absent, not as zero bytes. Size is measured now; budgets are set in #48.
+
 ## Markdown
 
 Every Markdown file passes markdownlint with the rules in `.markdownlint-cli2.jsonc`:

@@ -1,0 +1,18 @@
+name: Set up .NET and NuGet
+description: Use the .NET 10 SDK and cache the packages restored by this job.
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+      id: sdk
+      env:
+        # global.json selects the test runner but not an SDK. Isolate 10 from newer hosted SDKs.
+        DOTNET_INSTALL_DIR: ${{ runner.temp }}/dotnet-10
+      with:
+        dotnet-version: 10.0.x
+        skip-lts-prepass: true
+
+    - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ~/.nuget/packages
+        key: nuget-${{ runner.os }}-${{ runner.arch }}-${{ steps.sdk.outputs.dotnet-version }}-${{ github.job }}-${{ hashFiles('global.json', 'nuget.config', '**/Directory.*.props', '**/*.csproj', '*.slnx') }}
