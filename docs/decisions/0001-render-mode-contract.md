@@ -20,7 +20,7 @@ Components also differ in how much they can do with no code running. A button or
 3. **Rules for every component:**
    - no service that exists in one mode only, so `AddFluentCmsComponents()` registers the same things for all of them;
    - nothing in `OnInitialized` that needs the browser (JavaScript interop, the user's clock, `window`); work that needs the browser waits for `OnAfterRenderAsync`;
-   - prerendering followed by interactivity does not flash or lose focus, so the interactive render produces the markup the prerender produced;
+   - prerendering followed by interactivity does not flash ~~or lose focus~~, so the interactive render produces the markup the prerender produced (the [update below](#update-focus-across-prerendering) supersedes the focus promise);
    - no synchronous JavaScript interop, which exists in WebAssembly only.
 4. **The browser tests run every gallery page in the three modes**, so a violation fails a pull request and not a user.
 
@@ -31,3 +31,11 @@ Components also differ in how much they can do with no code running. A button or
 - The gallery needs a host that can run the same page in each mode (issue C-05 of the plan).
 - A host that wants one mode everywhere sets it once at its root and loses nothing.
 - A feature that cannot meet these rules is not part of the library until it can. It is not allowed to work in one mode only.
+
+## Update: focus across prerendering
+
+As decided in [issue 41](https://github.com/fluentcms/FluentCMS.Components/issues/41), rule 3 still requires the transition to interactivity not to flash. Browser tests must compare the component's prerendered markup with its first interactive render: the markup must match, including IDs. Matching markup does not mean that the same DOM nodes survive.
+
+Blazor replaces the prerendered contents of the interactive root, not static siblings elsewhere on the page. Focus and uncaptured edits inside that region can be lost. A host can capture an input's value before replacement, but the library restores neither focus nor edits across this transition. Returning focus to an overlay's opener when it closes is a separate rule in the [script policy](0003-script-policy.md#what-the-script-covers-because-a-target-browser-lacks-it).
+
+A host that cannot accept this loss can [disable prerendering](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/prerender?view=aspnetcore-10.0#disable-prerendering) by setting `prerender: false` on the render mode of the top-level interactive boundary. For gallery pages that boundary is `Routes` in `App.razor`. A nested page cannot override its interactive parent's prerender setting.

@@ -1,6 +1,6 @@
 # FluentCMS Components: implementation plan
 
-Status: draft for review, 26 November 2026. The design system of section 6 is drawn; nothing else in this plan is built yet.
+Status: draft for review, 27 November 2026. The decision records, the design system of section 6, the stylesheet and the gallery are built; no component is.
 
 FluentCMS Components is an opinionated, minimal Blazor component library. It is the user interface layer of the [FluentCMS](https://github.com/fluentcms/FluentCMS) admin, and it can be used without the CMS. This document says what the library is, how it is built and tested, in which order, and how the FluentCMS admin is rebuilt on it.
 
@@ -32,14 +32,15 @@ FluentCMS Components is an opinionated, minimal Blazor component library. It is 
 | D13 | The typeface is the system font stack by default. The family is one token, `--fl-font-family`, so a host can set Inter and serve it; the library bundles no font. |
 | D14 | Date and time inputs are the browser's own `date`, `time` and `datetime-local` inputs in the box of the text input. A range is two inputs. A custom calendar is not part of the library; it would be a later component, only for a range in one control or a format fixed by the application. What the native control cannot do is listed on the forms page of the design system. |
 | D15 | Both candidates are in. The command palette is what the global search of the app shell opens, on every screen. The sortable list orders the columns of a list and the ordered fields of an editor; it stays one level and one list, and its move buttons work without dragging. |
+| D16 | The package targets `net10.0` only, as FluentCMS. A second target is added when someone asks for it. |
+| D17 | A preview is published on a maintainer's tag (`v0.3.0-preview.2`) and never on a merge, since a version on nuget.org can be unlisted but never deleted. The local source switch of section 9.3 covers daily work. |
+| D18 | The gallery is hosted on GitHub Pages of this repository, as the WebAssembly build. The other two render modes run in CI and locally. |
+| D19 | The package requires `Microsoft.AspNetCore.Components.Web` 10.0.0, so that a host on any 10.0 patch is not pushed to a newer one. The gallery and the tests run on the newest patch. |
 
 ### 2.2 Open, with a recommendation
 
 | # | Question | Recommendation |
 | --- | --- | --- |
-| O2 | Target frameworks. | `net10.0` only, as FluentCMS. A second target is added when someone asks for it. |
-| O5 | How often a preview is published. | On a maintainer's tag (`v0.3.0-preview.2`), not on every merge: a version on nuget.org can be unlisted but never deleted. The local source switch of section 9.3 covers daily work. |
-| O6 | Where the gallery is hosted. | GitHub Pages of this repository, as the WebAssembly build. The other two render modes run in CI and locally. |
 | O7 | Scope of the table. | Columns, external sort with several keys, row selection, loading and empty states, keyboard movement between rows. No virtual scrolling, no inline editing, no column resizing. |
 | O10 | Version at which the library is stable. | `1.0.0` before FluentCMS `1.0.0`, which freezes its contract; plugin authors compile against both. |
 
@@ -82,7 +83,7 @@ The gallery is the documentation site and the test target at once. It holds one 
 ### 4.2 Styling
 
 - **One class-based stylesheet**, `fluentcms-components.css`, served as a static web asset. Components render plain elements with `fl-` classes, so plain HTML with the same classes looks the same, and Razor Pages can use it without Blazor. Blazor's CSS isolation is not used, since its scope attributes tie the styles to the components.
-- **Plain CSS, with no framework, no preprocessor and no build tool.** A library has to sit beside whatever its host uses. Bundling Bootstrap or Tailwind would clash with a host's own copy, and their global resets would restyle the host's pages. Utility classes would also end the plain-HTML use above, and would bring a Node toolchain into a .NET repository. Nesting, custom properties, cascade layers, `:has()`, container queries and `color-mix()` are in every target browser, and cover what those frameworks were needed for. The stylesheet is written as one file per component and joined at build by MSBuild. Sass is left out for the same reason of weight: its variables cannot change at run time as themes need, and nesting is native. What it still offers alone, mixins and loops, is replaced by tokens set per variant and by grouped selectors. The choice is cheap to reverse, since plain CSS is valid SCSS and the reverse is not: a compiler or a minifier is added as a build-time step only when the size check or real repetition asks for it. The design system page and the gallery load the same stylesheet the package ships, with no translation between them.
+- **Plain CSS, with no framework, no preprocessor and no build tool.** A library has to sit beside whatever its host uses. Bundling Bootstrap or Tailwind would clash with a host's own copy, and their global resets would restyle the host's pages. Utility classes would also end the plain-HTML use above, and would bring a Node toolchain into a .NET repository. Nesting, custom properties, cascade layers, `:has()`, container queries and `color-mix()` are in every target browser, and cover what those frameworks were needed for. The stylesheet is written as one file per component and joined at build by MSBuild. Sass is left out for the same reason of weight: its variables cannot change at run time as themes need, and nesting is native. What it still offers alone, mixins and loops, is replaced by tokens set per variant and by grouped selectors. The choice is cheap to reverse, since plain CSS is valid SCSS and the reverse is not: a compiler or a minifier is added as a build-time step only when the size check or real repetition asks for it.
 - **Tokens** are CSS custom properties in two tiers: global (`--fl-color-accent`, `--fl-space-3`, `--fl-radius-m`, `--fl-font-family`) and per component where a component needs its own (`--fl-button-height`). Components read tokens only; no colour or size is written into a component rule.
 - **Cascade layers** (`fl.base`, `fl.tokens`, `fl.components`) keep the library's rules below a host's own styles without specificity fights.
 - **Themes and density** are attributes on any ancestor: `data-fl-theme="light|dark"`, following `prefers-color-scheme` when absent, and `data-fl-density="comfortable|compact"`.
@@ -106,7 +107,9 @@ Each component declares one of three levels, shown on its gallery page.
 | Native | Behaviour from native elements and the script. Works fully in static SSR. | dialog, drawer, menu, popover, tooltip, tabs, disclosure |
 | Interactive | Needs an interactive mode for its full function, and renders a documented static fallback. | table with sort and selection callbacks, combobox, file drop zone with progress, tree with lazy loading, toasts raised from code |
 
-Rules for every component: no `@rendermode` inside the library; no service that exists in one mode only; nothing done in `OnInitialized` that needs the browser; prerendering followed by interactivity must not flash or lose focus.
+Rules for every component: no `@rendermode` inside the library; no service that exists in one mode only; nothing done in `OnInitialized` that needs the browser. The transition from prerendering to interactivity must not flash. Browser tests must check that the component's first interactive render matches its prerendered markup, including IDs.
+
+Blazor replaces the contents of the interactive root, not its static siblings. Focus and uncaptured edits in the replaced region can be lost. The library restores neither, though a host can capture text before replacement. To avoid the swap, the host sets `prerender: false` on the render mode at the top-level interactive boundary (`Routes` for gallery pages). A nested page cannot override its interactive parent's setting. See the [update to decision record 0001](../decisions/0001-render-mode-contract.md#update-focus-across-prerendering).
 
 ### 4.5 Forms
 
@@ -195,7 +198,7 @@ What the design system fixed about this list:
 
 ## 6. The design system
 
-Static HTML and CSS in `design/system/`, made before any component is written. It is the visual contract the components are built and reviewed against, and the source of the inventory.
+The static HTML pages in `design/system/` are the visual contract the components are built and reviewed against, and the source of the inventory.
 
 - **Tokens**: colour (neutrals, accent, the status colours, both themes), type scale, spacing scale, radius, borders, elevation, motion, focus ring, the two densities.
 - **Every component of section 5** with its variants, sizes and states: rest, hover, focus, pressed, disabled, read-only, invalid, loading, selected, empty.
@@ -203,25 +206,25 @@ Static HTML and CSS in `design/system/`, made before any component is written. I
 - **The reference screens** of section 4.8, composed from the parts, to prove they hold together.
 - **Light, dark and right-to-left** views of all of it.
 
-It settled the icon family, the typeface, the date and time inputs and the two candidates (D12 to D15). Its CSS is the first draft of the library's stylesheet: the tokens and the component files are copied into the library as they are.
+The design system settled the icon family, the typeface, the date and time inputs and the two candidates (D12 to D15). The design pages load individual CSS source files from `src/FluentCMS.Components/Styles/` without a build. MSBuild joins those same files into `fluentcms-components.css`, which the gallery loads as a static web asset from the library. See the [styling decision](../decisions/0002-styling-architecture.md#update-where-the-files-live-and-how-they-are-joined).
 
 ```text
-design/system/index.html                  overview and the tokens
-design/system/RECIPE.md                   how a component is drawn and specified
-design/system/css/tokens.css              the tokens; becomes the library's
-design/system/css/base.css                layers, base rules, stack and cluster
-design/system/css/components/<name>.css   one file per component; becomes the library's
-design/system/css/patterns/<name>.css     one file per CSS-only pattern
-design/system/foundations.html            icon, button, field, text input and the base patterns
-design/system/forms.html                  the form controls
-design/system/actions-overlays.html       split button, menu, overlays, alert, toast, command palette
-design/system/data.html                   badge, tag, avatar, table, pagination, tree and the data patterns
-design/system/layout-navigation.html      card, app shell, navigation, breadcrumb, tabs, disclosure
-design/system/screens/                    the four reference screens, their layout rules and their script
-design/system/icons/lucide.svg            the icon set
-design/system/docs/                       the chrome of the pages; never the library's
-design/tools/contrast.mjs                 checks the colour tokens against WCAG AA
-design/tools/icons.mjs                    builds the icon set from a pinned version
+design/system/index.html                              overview and the tokens
+design/system/RECIPE.md                               how a component is drawn and specified
+src/FluentCMS.Components/Styles/tokens.css            the tokens
+src/FluentCMS.Components/Styles/base.css              layers, base rules, stack and cluster
+src/FluentCMS.Components/Styles/components/<name>.css one file per component
+src/FluentCMS.Components/Styles/patterns/<name>.css   one file per CSS-only pattern
+design/system/foundations.html                        icon, button, field, text input and the base patterns
+design/system/forms.html                              the form controls
+design/system/actions-overlays.html                   split button, menu, overlays, alert, toast, command palette
+design/system/data.html                               badge, tag, avatar, table, pagination, tree and the data patterns
+design/system/layout-navigation.html                  card, app shell, navigation, breadcrumb, tabs, disclosure
+design/system/screens/                                the four reference screens, their layout rules and their script
+design/system/icons/lucide.svg                        the icon set
+design/system/docs/                                   the chrome of the pages; never the library's
+design/tools/contrast.mjs                             checks the colour tokens against WCAG AA
+design/tools/icons.mjs                                builds the icon set from a pinned version
 ```
 
 ## 7. Testing
@@ -243,8 +246,8 @@ A screen reader pass (NVDA and VoiceOver) of every Native and Interactive compon
 ## 8. CI and releases
 
 - **CI** on every pull request: build with warnings as errors, component tests, browser tests in the three render modes, pack, size check, markdownlint.
-- **Gallery**: built as WebAssembly and deployed to GitHub Pages on each merge to `main` (O6).
-- **Previews**: a tag `v0.3.0-preview.2` publishes that version to nuget.org (O5).
+- **Gallery**: built as WebAssembly and deployed to GitHub Pages on each merge to `main` (D18).
+- **Previews**: a tag `v0.3.0-preview.2` publishes that version to nuget.org, and a merge never does (D17).
 - **Releases**: a tag `v0.3.0` publishes the stable version and creates the GitHub release with its notes.
 - **Signing in to nuget.org** uses trusted publishing, as FluentCMS does. The maintainer adds a trusted publishing policy for this repository on nuget.org and the `NUGET_USER` secret of a `release` environment.
 - **Versioning** is semantic. Before `1.0.0` a minor version may break the API, and says so in its notes. The version comes from the tag; no versioning tool is added.
