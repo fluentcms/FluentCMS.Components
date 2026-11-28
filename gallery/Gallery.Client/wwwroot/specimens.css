@@ -380,3 +380,38 @@
 [data-ink="accent-border"] { color: var(--fl-color-accent-border); }
 [data-ink="accent-text"] { color: var(--fl-color-accent-text); }
 [data-ink="focus"] { color: var(--fl-color-focus); }
+
+/* Theme provider: the panels paint their own surface; the wrapper only supplies settings. */
+.gallery-theme-samples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--fl-space-4);
+  align-items: start;
+}
+
+.gallery-theme-panel {
+  padding: var(--fl-inset-m);
+  border: var(--fl-border-width) solid var(--fl-color-border);
+  border-radius: var(--fl-radius-l);
+  background-color: var(--fl-color-surface);
+  color: var(--fl-color-text);
+}
+
+.gallery-theme-panel > :is(h3, h4) {
+  margin-block: 0 var(--fl-space-2);
+  color: inherit;
+}
+
+.gallery-theme-panel .gallery-theme-panel {
+  margin-block-start: var(--fl-space-3);
+}
+
+.gallery-theme-teal[data-fl-accent] {
+  --fl-color-accent: #1B756A;
+  --fl-color-on-accent: #F7FFFD;
+}
+
+.gallery-theme-plum[data-fl-accent] {
+  --fl-color-accent: #763A90;
+  --fl-color-on-accent: #FCF5FF;
+}

@@ -41,6 +41,12 @@ FluentCMS.Components.FlButtonVariant
 FluentCMS.Components.FlButtonVariant.Primary = 1 -> FluentCMS.Components.FlButtonVariant
 FluentCMS.Components.FlButtonVariant.Secondary = 0 -> FluentCMS.Components.FlButtonVariant
 FluentCMS.Components.FlButtonVariant.Subtle = 2 -> FluentCMS.Components.FlButtonVariant
+FluentCMS.Components.FlDensity
+FluentCMS.Components.FlDensity.Comfortable = 0 -> FluentCMS.Components.FlDensity
+FluentCMS.Components.FlDensity.Compact = 1 -> FluentCMS.Components.FlDensity
+FluentCMS.Components.FlDirection
+FluentCMS.Components.FlDirection.Ltr = 0 -> FluentCMS.Components.FlDirection
+FluentCMS.Components.FlDirection.Rtl = 1 -> FluentCMS.Components.FlDirection
 FluentCMS.Components.FlIcon
 FluentCMS.Components.FlIcon.AdditionalAttributes.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object!>?
 FluentCMS.Components.FlIcon.AdditionalAttributes.set -> void
@@ -67,6 +73,21 @@ FluentCMS.Components.FlSize.Small = 0 -> FluentCMS.Components.FlSize
 FluentCMS.Components.FlText
 FluentCMS.Components.FlText.Close = 0 -> FluentCMS.Components.FlText
 FluentCMS.Components.FlText.Loading = 1 -> FluentCMS.Components.FlText
+FluentCMS.Components.FlTheme
+FluentCMS.Components.FlTheme.Dark = 1 -> FluentCMS.Components.FlTheme
+FluentCMS.Components.FlTheme.Light = 0 -> FluentCMS.Components.FlTheme
+FluentCMS.Components.FlThemeProvider
+FluentCMS.Components.FlThemeProvider.AdditionalAttributes.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object!>?
+FluentCMS.Components.FlThemeProvider.AdditionalAttributes.set -> void
+FluentCMS.Components.FlThemeProvider.ChildContent.get -> Microsoft.AspNetCore.Components.RenderFragment?
+FluentCMS.Components.FlThemeProvider.ChildContent.set -> void
+FluentCMS.Components.FlThemeProvider.Density.get -> FluentCMS.Components.FlDensity?
+FluentCMS.Components.FlThemeProvider.Density.set -> void
+FluentCMS.Components.FlThemeProvider.Direction.get -> FluentCMS.Components.FlDirection?
+FluentCMS.Components.FlThemeProvider.Direction.set -> void
+FluentCMS.Components.FlThemeProvider.FlThemeProvider() -> void
+FluentCMS.Components.FlThemeProvider.Theme.get -> FluentCMS.Components.FlTheme?
+FluentCMS.Components.FlThemeProvider.Theme.set -> void
 FluentCMS.Components.IFlTextProvider
 FluentCMS.Components.IFlTextProvider.GetText(FluentCMS.Components.FlText text) -> string?
 Microsoft.Extensions.DependencyInjection.FluentCmsComponentsServiceCollectionExtensions
