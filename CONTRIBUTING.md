@@ -12,7 +12,7 @@ These are the rules of FluentCMS, kept here so that one habit serves both reposi
 4. **Short, imperative titles** for commits and pull requests: "Add the button", "Fix focus return in the dialog". No full stop, and no prefix such as `feat:`.
 5. **Decision records.** A choice that is costly to reverse, or that a later reader would ask about, is written in [docs/decisions](docs/decisions/README.md) as a short record with a context, a decision and its consequences. A record is not edited to change history: a new record replaces it, and the old one says so.
 6. **Tests with behaviour.** A change in behaviour comes with a test that fails without it. The rules for a component are in section 11 of the plan.
-7. **No new dependency without saying so.** The library's only package reference is `Microsoft.AspNetCore.Components.Web`. A change that seems to need another package says so in its issue first.
+7. **No new dependency without saying so.** The library's only runtime package dependency is `Microsoft.AspNetCore.Components.Web`. Its public API analyzer runs at build time and is not shipped. A change that needs another package says so in its issue first.
 
 ## Building
 
@@ -26,7 +26,11 @@ The build treats every warning as an error and runs the trim and AOT analyzers, 
 
 The build also joins the stylesheet files under `src/FluentCMS.Components/Styles/` into `wwwroot/fluentcms-components.css`. That file is generated and not committed: edit the source files, never the joined one.
 
-Packages are restored from nuget.org only (`nuget.config`). Package versions are set once, in `Directory.Packages.props`; a project file names a package without a version. The version of the library itself is not set in the repository: it comes from the release tag.
+Packages are restored from nuget.org only (`nuget.config`). The library requires `Microsoft.AspNetCore.Components.Web` 10.0.0 or later so it does not force a host onto a newer patch. The gallery and tests use the current patch recorded in `Directory.Packages.props`. The library's own release version comes from the tag.
+
+## Public API
+
+When adding a public type or member to the library, add its signature to `src/FluentCMS.Components/PublicAPI.Unshipped.txt`, in sorted order. Include nullable annotations: `string` and `string?` are different contracts. `dotnet build` reports `RS0016` as an error if a public symbol is missing. Keep `PublicAPI.Shipped.txt` for released signatures; do not edit it to make a new member pass.
 
 ## The design system
 
