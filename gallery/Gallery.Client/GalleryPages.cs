@@ -10,6 +10,7 @@ public static class GalleryPages
         new("", "Start"),
         new("icon", "Icon"),
         new("button", "Button"),
+        new("card", "Card"),
         new("tokens", "Tokens"),
         new("theme-provider", "Theme provider"),
         new("texts", "Texts"),

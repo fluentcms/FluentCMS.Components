@@ -41,6 +41,24 @@ FluentCMS.Components.FlButtonVariant
 FluentCMS.Components.FlButtonVariant.Primary = 1 -> FluentCMS.Components.FlButtonVariant
 FluentCMS.Components.FlButtonVariant.Secondary = 0 -> FluentCMS.Components.FlButtonVariant
 FluentCMS.Components.FlButtonVariant.Subtle = 2 -> FluentCMS.Components.FlButtonVariant
+FluentCMS.Components.FlCard
+FluentCMS.Components.FlCard.Actions.get -> Microsoft.AspNetCore.Components.RenderFragment?
+FluentCMS.Components.FlCard.Actions.set -> void
+FluentCMS.Components.FlCard.AdditionalAttributes.get -> System.Collections.Generic.IReadOnlyDictionary<string!, object!>?
+FluentCMS.Components.FlCard.AdditionalAttributes.set -> void
+FluentCMS.Components.FlCard.ChildContent.get -> Microsoft.AspNetCore.Components.RenderFragment?
+FluentCMS.Components.FlCard.ChildContent.set -> void
+FluentCMS.Components.FlCard.FlCard() -> void
+FluentCMS.Components.FlCard.Flush.get -> bool
+FluentCMS.Components.FlCard.Flush.set -> void
+FluentCMS.Components.FlCard.Footer.get -> Microsoft.AspNetCore.Components.RenderFragment?
+FluentCMS.Components.FlCard.Footer.set -> void
+FluentCMS.Components.FlCard.HeadingLevel.get -> int
+FluentCMS.Components.FlCard.HeadingLevel.set -> void
+FluentCMS.Components.FlCard.Href.get -> string?
+FluentCMS.Components.FlCard.Href.set -> void
+FluentCMS.Components.FlCard.Title.get -> string?
+FluentCMS.Components.FlCard.Title.set -> void
 FluentCMS.Components.FlDensity
 FluentCMS.Components.FlDensity.Comfortable = 0 -> FluentCMS.Components.FlDensity
 FluentCMS.Components.FlDensity.Compact = 1 -> FluentCMS.Components.FlDensity
