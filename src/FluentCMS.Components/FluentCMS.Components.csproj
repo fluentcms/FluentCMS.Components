@@ -33,7 +33,7 @@
   <!-- The stylesheet is written as one file per component and joined here, so that the package ships one file.
        Order: tokens, base, patterns, components, each group by name. The joined file is generated and not committed. -->
   <PropertyGroup>
-    <FlStylesheet>wwwroot\fluentcms-components.css</FlStylesheet>
+    <FlStylesheet>$([System.IO.Path]::Combine('wwwroot', 'fluentcms-components.css'))</FlStylesheet>
   </PropertyGroup>
 
   <ItemGroup>
