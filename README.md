@@ -2,7 +2,11 @@
 
 An opinionated, minimal Blazor component library: the user interface layer of the [FluentCMS](https://github.com/fluentcms/FluentCMS) admin, usable with or without the CMS.
 
-> **State.** The design system is drawn, and the library project is scaffolded. No component exists yet. The [implementation plan](docs/planning/implementation-plan.md) says what the library is, how it is built and tested, and in which order; the choices made so far are in [docs/decisions](docs/decisions/README.md).
+> **State.** The first component, `FlIcon`, is available. The [implementation plan](docs/planning/implementation-plan.md) says what the library is, how it is built and tested, and in which order; the choices made so far are in [docs/decisions](docs/decisions/README.md).
+
+## Icons
+
+Use `<FlIcon Icon="FlIcons.Search" Label="Search" />` for a standalone image. Omit `Label` for a decorative icon next to text. A host may also construct a `FlIconDefinition` from trusted, noninteractive SVG drawing markup on the Lucide 24 by 24 grid. The markup is rendered as supplied, not sanitized or encoded; never pass user input to the constructor.
 
 ## Building
 

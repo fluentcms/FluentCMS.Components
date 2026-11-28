@@ -1,0 +1,84 @@
+@page "/icon"
+@using FluentCMS.Components
+
+<GalleryPage Title="Icon" Level="ComponentLevel.Static">
+    <Lede>A Lucide drawing in the colour of the surrounding text. Use an icon beside a word, or give it a label when it stands alone.</Lede>
+
+    <Section Title="Sizes">
+        <Demo>
+            <span class="fl-cluster"><FlIcon Icon="FlIcons.Search" Size="FlSize.Small" /> Small · 14 px</span>
+            <span class="fl-cluster"><FlIcon Icon="FlIcons.Search" Size="FlSize.Medium" /> Medium · 16 px</span>
+            <span class="fl-cluster"><FlIcon Icon="FlIcons.Search" Size="FlSize.Large" /> Large · 20 px</span>
+        </Demo>
+        <Example Code="@SizesCode" />
+    </Section>
+
+    <Section Title="Colour and labels" Id="colour">
+        <p>These drawings inherit their text colour. Their words give them meaning, so a screen reader skips the icons.</p>
+        <Demo>
+            <span class="fl-cluster" data-ink="accent-text"><FlIcon Icon="FlIcons.Star" /> Favourite</span>
+            <span class="fl-cluster" data-ink="danger-text"><FlIcon Icon="FlIcons.TriangleAlert" /> Error</span>
+            <span class="fl-cluster" data-ink="text-subtle"><FlIcon Icon="FlIcons.Clock" /> Scheduled</span>
+        </Demo>
+        <p>When the icon is the only content, give it a label. This one is announced as “Search”. It is an image, not a button.</p>
+        <Demo><FlIcon Icon="FlIcons.Search" Label="Search" /></Demo>
+        <Example Code="@LabelCode" />
+    </Section>
+
+    <Section Title="Direction and motion" Id="direction">
+        <p>Mark an arrow as directional when it means “next”. It points along the reading direction. A spinner turns in either direction of text, but stays still when reduced motion is requested.</p>
+        <Demo>
+            <span class="fl-cluster" dir="ltr">Left to right <FlIcon Icon="FlIcons.ArrowRight" Directional /></span>
+            <span class="fl-cluster" dir="rtl">Right to left <FlIcon Icon="FlIcons.ArrowRight" Directional /></span>
+            <span class="fl-cluster"><FlIcon Icon="FlIcons.LoaderCircle" Spin /> Loading</span>
+        </Demo>
+        <Example Code="@MotionCode" />
+    </Section>
+
+    <Section Title="Parameters">
+        <ParameterTable>
+            <ParameterRow Name="Icon" Type="FlIconDefinition" Default="Required">The drawing, such as <code>FlIcons.Search</code>.</ParameterRow>
+            <ParameterRow Name="Size" Type="FlSize" Default="Medium">Small, Medium or Large.</ParameterRow>
+            <ParameterRow Name="Label" Type="string?" Default="null">Accessible name for an icon that stands alone.</ParameterRow>
+            <ParameterRow Name="Directional" Type="bool" Default="false">Mirror the drawing in right-to-left text.</ParameterRow>
+            <ParameterRow Name="Spin" Type="bool" Default="false">Turn continuously unless the reader prefers reduced motion.</ParameterRow>
+        </ParameterTable>
+    </Section>
+
+    <Section Title="Spec">
+        <SpecTable>
+            <SpecRow Name="Element">An inline <code>svg</code> with a <code>0 0 24 24</code> view box. Its drawing is embedded, with no external sprite. Host attributes go on the SVG.</SpecRow>
+            <SpecRow Name="ARIA and keys">Decorative: <code>aria-hidden="true"</code>. With a label: <code>role="img"</code> and <code>aria-label</code>. The icon never takes focus.</SpecRow>
+            <SpecRow Name="Level">Static</SpecRow>
+            <SpecRow Name="Classes"><code>fl-icon</code>, <code>fl-icon--s</code>, <code>fl-icon--l</code>, <code>fl-icon--directional</code>, <code>fl-icon--spin</code></SpecRow>
+            <SpecRow Name="Tokens"><code>--fl-icon-size-s</code>, <code>--fl-icon-size-m</code>, <code>--fl-icon-size-l</code>, <code>--fl-icon-stroke</code> and <code>--fl-duration-spin</code>. The component sets <code>--fl-icon-size</code> for the current size.</SpecRow>
+        </SpecTable>
+    </Section>
+
+    <Section Title="Icon set">
+        <p>Use these names on <code>FlIcons</code>. The gallery shows the whole set; your app only needs to reference the drawings it uses.</p>
+        <div class="gallery-swatches">
+            @foreach (var entry in GalleryIcons.All)
+            {
+                <div class="gallery-swatch"><span><span class="fl-cluster"><FlIcon Icon="entry.Icon" /> <code>@entry.Name</code></span></span></div>
+            }
+        </div>
+    </Section>
+</GalleryPage>
+
+@code {
+    private const string SizesCode = """
+        <FlIcon Icon="FlIcons.Search" Size="FlSize.Small" />
+        <FlIcon Icon="FlIcons.Search" />
+        <FlIcon Icon="FlIcons.Search" Size="FlSize.Large" />
+        """;
+
+    private const string LabelCode = """
+        <FlIcon Icon="FlIcons.Search" Label="Search" />
+        """;
+
+    private const string MotionCode = """
+        Next <FlIcon Icon="FlIcons.ArrowRight" Directional />
+        <FlIcon Icon="FlIcons.LoaderCircle" Spin /> Loading
+        """;
+}
