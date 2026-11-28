@@ -1,0 +1,186 @@
+@page "/card"
+@using FluentCMS.Components
+
+<GalleryPage Title="Card" Level="ComponentLevel.Static">
+    <Lede>A bordered surface around one group of content. Use a section for a settings group or a dashboard panel, and a linked card when the whole surface is one destination. Everything works without a render mode.</Lede>
+
+    <Section Title="A section with a title" Id="section">
+        <p>The title names the section. The host sets the heading level, here <code>h3</code> under the section heading of this page. Give the card an <code>id</code> and its title takes the id <code>…-title</code>, the same on first render and when the page becomes interactive.</p>
+        <Demo Canvas Column>
+            <div class="gallery-card-width">
+                <FlCard id="card-identity" Title="Identity" HeadingLevel="3">
+                    <ChildContent>
+                        <div class="fl-field">
+                            <label class="fl-field__label" for="card-identity-name">Site name</label>
+                            <span class="fl-input"><input class="fl-input__control" id="card-identity-name" type="text" value="Northwind Journal" /></span>
+                        </div>
+                    </ChildContent>
+                    <Footer>
+                        <FlButton Variant="FlButtonVariant.Primary">Save</FlButton>
+                        <FlButton>Cancel</FlButton>
+                    </Footer>
+                </FlCard>
+            </div>
+        </Demo>
+        <Example Code="@SectionCode" />
+    </Section>
+
+    <Section Title="Actions beside the title" Id="actions">
+        <p>Put one or two small controls at the end of the header. A long title keeps to one line and the actions keep their place.</p>
+        <Demo Canvas>
+            <div class="gallery-card-medium">
+                <FlCard id="card-actions" Title="A title that is too long for its card" HeadingLevel="3">
+                    <Actions>
+                        <FlButton Variant="FlButtonVariant.Subtle" Size="FlSize.Small" IconOnly Label="Refresh" Icon="FlIcons.RefreshCw" />
+                        <FlButton Variant="FlButtonVariant.Subtle" Size="FlSize.Small" IconOnly Label="More" Icon="FlIcons.Ellipsis" />
+                    </Actions>
+                    <ChildContent>The title keeps to one line and the actions keep their place.</ChildContent>
+                </FlCard>
+            </div>
+            <div class="gallery-card-medium">
+                <FlCard id="card-text-action" Title="Recent projects" HeadingLevel="3">
+                    <Actions><a class="fl-link fl-link--standalone" href="@Context.Href("card")">View all</a></Actions>
+                    <ChildContent>Three projects changed this week.</ChildContent>
+                </FlCard>
+            </div>
+        </Demo>
+    </Section>
+
+    <Section Title="Flush body" Id="flush">
+        <p>A flush body has no padding, so a list or a table reaches the border and is clipped to the corners. A card with no title is named by <code>aria-label</code>. These rows stand in for the table of a later release.</p>
+        <Demo Canvas Column>
+            <div class="gallery-card-width fl-stack">
+                <FlCard id="card-members" Title="Members" HeadingLevel="3" Flush>
+                    <Actions><FlButton Size="FlSize.Small" Icon="FlIcons.Plus">Invite</FlButton></Actions>
+                    <ChildContent>
+                        <ul class="gallery-rows">
+                            <li><span>Ada Lindqvist</span><span>Owner</span></li>
+                            <li><span>Jonas Weber</span><span>Editor</span></li>
+                            <li><span>Priya Nair</span><span>Viewer</span></li>
+                        </ul>
+                    </ChildContent>
+                    <Footer>Showing 3 of 14 members</Footer>
+                </FlCard>
+                <FlCard id="card-files" aria-label="Files" Flush>
+                    <ul class="gallery-rows">
+                        <li><span>Brand guidelines.pdf</span><span>2.4 MB</span></li>
+                        <li><span>Roadmap.xlsx</span><span>180 kB</span></li>
+                    </ul>
+                </FlCard>
+            </div>
+        </Demo>
+        <Example Code="@FlushCode" />
+    </Section>
+
+    <Section Title="A card that is one link" Id="links">
+        <p>Give the card an <code>Href</code> and the whole surface is one link and one Tab stop. It has no title, actions, footer or flush body, because it cannot hold another link or button. Its content is the link's name; keep it to text, icons and spans.</p>
+        <Demo Canvas>
+            <div class="gallery-card-medium">
+                <FlCard id="card-link-projects" Href="@Context.Href("button")">
+                    <span class="fl-stack fl-stack--gap-2"><FlIcon Icon="FlIcons.Folder" Size="FlSize.Large" /><strong>Projects</strong><span class="gallery-muted">Plan the work and follow it.</span></span>
+                </FlCard>
+            </div>
+            <div class="gallery-card-medium">
+                <FlCard id="card-link-members" Href="@Context.Href("icon")">
+                    <span class="fl-stack fl-stack--gap-2"><FlIcon Icon="FlIcons.Users" Size="FlSize.Large" /><strong>Members</strong><span class="gallery-muted">Invite people and set their roles.</span></span>
+                </FlCard>
+            </div>
+            <div class="gallery-card-medium">
+                <FlCard id="card-link-settings" Href="@Context.Href("texts")">
+                    <span class="fl-stack fl-stack--gap-2"><FlIcon Icon="FlIcons.Settings" Size="FlSize.Large" /><strong>Settings</strong><span class="gallery-muted">Name, access and integrations.</span></span>
+                </FlCard>
+            </div>
+        </Demo>
+        <Example Code="@LinkCode" />
+    </Section>
+
+    <Section Title="Danger zone" Id="danger">
+        <p>The settings danger zone is an ordinary card. The danger comes from the button, not from a card tone. Here the button stands alone; a confirmation dialog comes in a later release.</p>
+        <Demo Canvas Column>
+            <div class="gallery-card-width">
+                <FlCard id="card-danger" Title="Danger zone" HeadingLevel="3">
+                    <div class="fl-field fl-field--horizontal">
+                        <span class="fl-field__label" id="card-delete-label">Delete this site</span>
+                        <div><FlButton id="card-delete" Danger Icon="FlIcons.Trash2" aria-describedby="card-delete-help">Delete the site…</FlButton></div>
+                        <p class="fl-field__help" id="card-delete-help">Its 210 entries, its media and every version are deleted, in all locales. This cannot be undone.</p>
+                    </div>
+                </FlCard>
+            </div>
+        </Demo>
+    </Section>
+
+    <Section Title="States" Id="card-states">
+        <p>Only the linked card has states. Empty cells aren’t used in the design.</p>
+        <StateMatrix States="States">
+            <StateRow Label="Link">
+                @foreach (string state in States)
+                {
+                    <td>
+                        <FlCard Href="@Context.Href("card")" data-force="@Force(state)" class="gallery-card-narrow">
+                            <strong>Projects</strong>
+                        </FlCard>
+                    </td>
+                }
+            </StateRow>
+        </StateMatrix>
+    </Section>
+
+    <Section Title="Parameters">
+        <ParameterTable>
+            <ParameterRow Name="Title" Type="string?" Default="null">The heading of a section. Without it the card has no header.</ParameterRow>
+            <ParameterRow Name="HeadingLevel" Type="int" Default="2">The level of the heading, 1 to 6. The host knows where the card sits in the page.</ParameterRow>
+            <ParameterRow Name="Actions" Type="RenderFragment?" Default="null">Controls or a short text at the end of the header. Needs a <code>Title</code>.</ParameterRow>
+            <ParameterRow Name="Flush" Type="bool" Default="false">Remove the padding of the body for a list or a table.</ParameterRow>
+            <ParameterRow Name="Footer" Type="RenderFragment?" Default="null">Text or the actions of a form, below the body.</ParameterRow>
+            <ParameterRow Name="Href" Type="string?" Default="null">Make the whole card one link. Cannot be combined with <code>Title</code>, <code>Actions</code>, <code>Footer</code> or <code>Flush</code>.</ParameterRow>
+            <ParameterRow Name="ChildContent" Type="RenderFragment?" Default="null">The body.</ParameterRow>
+            <ParameterRow Name="AdditionalAttributes" Type="IReadOnlyDictionary<string, object>?" Default="null">Other attributes go on the section or the link. Your classes are added to its own. A titled section keeps its own name; an untitled one needs <code>aria-label</code> or <code>aria-labelledby</code>.</ParameterRow>
+        </ParameterTable>
+    </Section>
+
+    <Section Title="Spec">
+        <SpecTable>
+            <SpecRow Name="Element">A <code>section</code> with a header, a body and a footer, or one <code>a</code> holding a body <code>span</code>.</SpecRow>
+            <SpecRow Name="Name">A section is named by its heading through <code>aria-labelledby</code> when it has an <code>id</code>, or by <code>aria-label</code> when it has not. The component never makes up an id. A link takes its name from its content.</SpecRow>
+            <SpecRow Name="Keyboard">A linked card is one Tab stop; Enter follows it. A section adds none of its own.</SpecRow>
+            <SpecRow Name="Level">Static. It renders the same markup in every render mode.</SpecRow>
+            <SpecRow Name="Classes"><code>fl-card</code> with <code>--link</code>. Parts: <code>fl-card__header</code>, <code>__title</code>, <code>__actions</code>, <code>__body</code> with <code>--flush</code>, and <code>__footer</code>.</SpecRow>
+            <SpecRow Name="Tokens">Radius, border, surface, text and spacing tokens. The card exposes <code>--fl-card-padding</code> and <code>--fl-card-border</code>.</SpecRow>
+        </SpecTable>
+    </Section>
+</GalleryPage>
+
+@code {
+    [CascadingParameter] public GalleryContext Context { get; set; } = default!;
+
+    private static readonly string[] States = ["Rest", "Hover", "Focus", "Pressed"];
+
+    private static string? Force(string state) => state switch
+    {
+        "Hover" => "hover", "Focus" => "focus-visible", "Pressed" => "hover active", _ => null,
+    };
+
+    private const string SectionCode = """
+        <FlCard id="card-identity" Title="Identity" HeadingLevel="3">
+            <ChildContent>…the fields…</ChildContent>
+            <Footer>
+                <FlButton Variant="FlButtonVariant.Primary">Save</FlButton>
+            </Footer>
+        </FlCard>
+        """;
+
+    private const string FlushCode = """
+        <FlCard Title="Members" Flush>
+            <Actions><FlButton Size="FlSize.Small">Invite</FlButton></Actions>
+            <ChildContent><ul>…</ul></ChildContent>
+            <Footer>Showing 3 of 14 members</Footer>
+        </FlCard>
+        """;
+
+    private const string LinkCode = """
+        <FlCard Href="/projects">
+            <strong>Projects</strong>
+            <span>Plan the work and follow it.</span>
+        </FlCard>
+        """;
+}

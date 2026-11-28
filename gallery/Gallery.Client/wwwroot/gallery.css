@@ -345,6 +345,62 @@ body.gallery {
   line-height: var(--fl-line-height-relaxed);
 }
 
+/* Card specimens: widths, and rows that stand in for a later table. */
+
+.gallery-card-width {
+  inline-size: 100%;
+  max-inline-size: 26rem;
+}
+
+.gallery-card-medium {
+  flex: none;
+  inline-size: 16rem;
+  max-inline-size: 100%;
+}
+
+.gallery-card-narrow {
+  inline-size: 11rem;
+}
+
+.gallery-muted {
+  color: var(--fl-color-text-muted);
+}
+
+.gallery-rows {
+  margin: 0;
+  padding: 0;
+  font-size: var(--fl-font-size-s);
+  list-style: none;
+}
+
+.gallery-rows > li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--fl-space-4);
+  min-block-size: var(--fl-row-height);
+  padding-inline: var(--fl-inset-m);
+  border-block-start: 1px solid var(--fl-color-border);
+}
+
+.gallery-rows > li:first-child {
+  border-block-start: 0;
+}
+
+.gallery-rows > li > span:first-child {
+  min-inline-size: 0;
+  font-weight: var(--fl-font-weight-medium);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gallery-rows > li > span:last-child {
+  flex: none;
+  color: var(--fl-color-text-subtle);
+  unicode-bidi: plaintext;
+}
+
 /* Matrix: variants down, states across. */
 
 .gallery-matrix {
