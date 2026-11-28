@@ -83,7 +83,7 @@ The gallery is the documentation site and the test target at once. It holds one 
 ### 4.2 Styling
 
 - **One class-based stylesheet**, `fluentcms-components.css`, served as a static web asset. Components render plain elements with `fl-` classes, so plain HTML with the same classes looks the same, and Razor Pages can use it without Blazor. Blazor's CSS isolation is not used, since its scope attributes tie the styles to the components.
-- **Plain CSS, with no framework, no preprocessor and no build tool.** A library has to sit beside whatever its host uses. Bundling Bootstrap or Tailwind would clash with a host's own copy, and their global resets would restyle the host's pages. Utility classes would also end the plain-HTML use above, and would bring a Node toolchain into a .NET repository. Nesting, custom properties, cascade layers, `:has()`, container queries and `color-mix()` are in every target browser, and cover what those frameworks were needed for. The stylesheet is written as one file per component and joined at build by MSBuild. Sass is left out for the same reason of weight: its variables cannot change at run time as themes need, and nesting is native. What it still offers alone, mixins and loops, is replaced by tokens set per variant and by grouped selectors. The choice is cheap to reverse, since plain CSS is valid SCSS and the reverse is not: a compiler or a minifier is added as a build-time step only when the size check or real repetition asks for it. The design system page and the gallery load the same stylesheet the package ships, with no translation between them.
+- **Plain CSS, with no framework, no preprocessor and no build tool.** A library has to sit beside whatever its host uses. Bundling Bootstrap or Tailwind would clash with a host's own copy, and their global resets would restyle the host's pages. Utility classes would also end the plain-HTML use above, and would bring a Node toolchain into a .NET repository. Nesting, custom properties, cascade layers, `:has()`, container queries and `color-mix()` are in every target browser, and cover what those frameworks were needed for. The stylesheet is written as one file per component and joined at build by MSBuild. Sass is left out for the same reason of weight: its variables cannot change at run time as themes need, and nesting is native. What it still offers alone, mixins and loops, is replaced by tokens set per variant and by grouped selectors. The choice is cheap to reverse, since plain CSS is valid SCSS and the reverse is not: a compiler or a minifier is added as a build-time step only when the size check or real repetition asks for it.
 - **Tokens** are CSS custom properties in two tiers: global (`--fl-color-accent`, `--fl-space-3`, `--fl-radius-m`, `--fl-font-family`) and per component where a component needs its own (`--fl-button-height`). Components read tokens only; no colour or size is written into a component rule.
 - **Cascade layers** (`fl.base`, `fl.tokens`, `fl.components`) keep the library's rules below a host's own styles without specificity fights.
 - **Themes and density** are attributes on any ancestor: `data-fl-theme="light|dark"`, following `prefers-color-scheme` when absent, and `data-fl-density="comfortable|compact"`.
@@ -107,7 +107,9 @@ Each component declares one of three levels, shown on its gallery page.
 | Native | Behaviour from native elements and the script. Works fully in static SSR. | dialog, drawer, menu, popover, tooltip, tabs, disclosure |
 | Interactive | Needs an interactive mode for its full function, and renders a documented static fallback. | table with sort and selection callbacks, combobox, file drop zone with progress, tree with lazy loading, toasts raised from code |
 
-Rules for every component: no `@rendermode` inside the library; no service that exists in one mode only; nothing done in `OnInitialized` that needs the browser; prerendering followed by interactivity must not flash, so the interactive render produces the markup the prerender produced, ids included. The framework's swap of the prerendered DOM loses the focus and the text typed into an input before it, and the library does not restore either. A host that cannot accept that turns prerendering off for that page or component. See the [update of decision record 0001](../decisions/0001-render-mode-contract.md#update-focus-across-prerendering).
+Rules for every component: no `@rendermode` inside the library; no service that exists in one mode only; nothing done in `OnInitialized` that needs the browser. The transition from prerendering to interactivity must not flash. Browser tests must check that the component's first interactive render matches its prerendered markup, including IDs.
+
+Blazor replaces the contents of the interactive root, not its static siblings. Focus and uncaptured edits in the replaced region can be lost. The library restores neither, though a host can capture text before replacement. To avoid the swap, the host sets `prerender: false` on the render mode at the top-level interactive boundary (`Routes` for gallery pages). A nested page cannot override its interactive parent's setting. See the [update to decision record 0001](../decisions/0001-render-mode-contract.md#update-focus-across-prerendering).
 
 ### 4.5 Forms
 
@@ -196,7 +198,7 @@ What the design system fixed about this list:
 
 ## 6. The design system
 
-Static HTML pages in `design/system/`, made before any component is written, which link the library's stylesheet under `src/FluentCMS.Components/Styles/`. It is the visual contract the components are built and reviewed against, and the source of the inventory.
+The static HTML pages in `design/system/` are the visual contract the components are built and reviewed against, and the source of the inventory.
 
 - **Tokens**: colour (neutrals, accent, the status colours, both themes), type scale, spacing scale, radius, borders, elevation, motion, focus ring, the two densities.
 - **Every component of section 5** with its variants, sizes and states: rest, hover, focus, pressed, disabled, read-only, invalid, loading, selected, empty.
@@ -204,7 +206,7 @@ Static HTML pages in `design/system/`, made before any component is written, whi
 - **The reference screens** of section 4.8, composed from the parts, to prove they hold together.
 - **Light, dark and right-to-left** views of all of it.
 
-It settled the icon family, the typeface, the date and time inputs and the two candidates (D12 to D15). Its CSS is the library's stylesheet: the tokens and the component files are in `src/FluentCMS.Components/Styles/`, unchanged from the design system, and that one copy is loaded by the design system pages and the gallery.
+The design system settled the icon family, the typeface, the date and time inputs and the two candidates (D12 to D15). The design pages load individual CSS source files from `src/FluentCMS.Components/Styles/` without a build. MSBuild joins those same files into `fluentcms-components.css`, which the gallery loads as a static web asset from the library. See the [styling decision](../decisions/0002-styling-architecture.md#update-where-the-files-live-and-how-they-are-joined).
 
 ```text
 design/system/index.html                              overview and the tokens

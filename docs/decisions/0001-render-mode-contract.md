@@ -20,7 +20,7 @@ Components also differ in how much they can do with no code running. A button or
 3. **Rules for every component:**
    - no service that exists in one mode only, so `AddFluentCmsComponents()` registers the same things for all of them;
    - nothing in `OnInitialized` that needs the browser (JavaScript interop, the user's clock, `window`); work that needs the browser waits for `OnAfterRenderAsync`;
-   - prerendering followed by interactivity does not flash or lose focus, so the interactive render produces the markup the prerender produced;
+   - prerendering followed by interactivity does not flash ~~or lose focus~~, so the interactive render produces the markup the prerender produced (the [update below](#update-focus-across-prerendering) supersedes the focus promise);
    - no synchronous JavaScript interop, which exists in WebAssembly only.
 4. **The browser tests run every gallery page in the three modes**, so a violation fails a pull request and not a user.
 
@@ -34,9 +34,8 @@ Components also differ in how much they can do with no code running. A button or
 
 ## Update: focus across prerendering
 
-Rule 3 said that "prerendering followed by interactivity does not flash or lose focus". The first half holds. The second cannot be kept, and this update replaces it.
+As decided in [issue 41](https://github.com/fluentcms/FluentCMS.Components/issues/41), rule 3 still requires the transition to interactivity not to flash. Browser tests must compare the component's prerendered markup with its first interactive render: the markup must match, including IDs. Matching markup does not mean that the same DOM nodes survive.
 
-- **What Blazor does.** When a prerendered page becomes interactive, Blazor replaces the prerendered DOM with the interactive one. An element that held focus loses it, and text typed into an input before that moment is gone.
-- **Why the library does not repair it.** A script could bring focus back to the element, but not the text that was typed, and a repair of focus alone would hide half of the loss. The [script policy](0003-script-policy.md) lists no such behaviour, and none is added.
-- **The rule that stays.** Nothing flashes: the interactive render produces the markup the prerender produced, ids included. That is tested, in the same browser tests as the rest of rule 3. Focus and typed text are lost by the framework's swap, and the library does not restore them.
-- **What a host can do.** A host that cannot accept the loss turns prerendering off for that page or component.
+Blazor replaces the prerendered contents of the interactive root, not static siblings elsewhere on the page. Focus and uncaptured edits inside that region can be lost. A host can capture an input's value before replacement, but the library restores neither focus nor edits across this transition. Returning focus to an overlay's opener when it closes is a separate rule in the [script policy](0003-script-policy.md#what-the-script-covers-because-a-target-browser-lacks-it).
+
+A host that cannot accept this loss can [disable prerendering](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/prerender?view=aspnetcore-10.0#disable-prerendering) by setting `prerender: false` on the render mode of the top-level interactive boundary. For gallery pages that boundary is `Routes` in `App.razor`. A nested page cannot override its interactive parent's prerender setting.
