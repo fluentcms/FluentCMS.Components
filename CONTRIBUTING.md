@@ -224,7 +224,7 @@ node design/tools/contrast.mjs
 npx --yes markdownlint-cli2@0.24.2 "**/*.md" "#**/bin" "#**/obj"
 ```
 
-The build summary reports gzip bytes for each shipping asset, not the size of the whole NuGet archive. To reproduce it, pass the packed `.nupkg` to `python .github/scripts/package_size.py`. An absent initializer is reported as absent, not as zero bytes. Size is measured now; budgets are set in #48.
+The build summary reports gzip bytes for the shipping stylesheet, initializer and assembly, not the size of the whole NuGet archive. To reproduce it, pass the packed `.nupkg` to `python .github/scripts/package_size.py`. The SDK can put a fingerprint in the initializer's filename; the report identifies the actual archive entry. A missing or ambiguous initializer fails the check. Size is measured now; budgets are set in #48.
 
 ## Markdown
 
