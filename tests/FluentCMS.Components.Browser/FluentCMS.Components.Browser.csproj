@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>FluentCMS.Components.Browser</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.Playwright" />
+    <PackageReference Include="Deque.AxeCore.Playwright" />
+  </ItemGroup>
+
+  <!-- The gallery is a separate process, so it is built here but not referenced as a library. -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\gallery\Gallery\Gallery.csproj" ReferenceOutputAssembly="false" OutputItemType="GalleryTarget" />
+  </ItemGroup>
+
+  <Target Name="RecordGalleryTargetPath" DependsOnTargets="ResolveProjectReferences" BeforeTargets="GetAssemblyAttributes">
+    <ItemGroup>
+      <AssemblyMetadata Include="GalleryTargetPath" Value="@(GalleryTarget->'%(FullPath)')" />
+    </ItemGroup>
+  </Target>
+
+</Project>

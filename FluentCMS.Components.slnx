@@ -3,6 +3,7 @@
     <File Path=".editorconfig" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
     <File Path="nuget.config" />
   </Folder>
   <Folder Name="/gallery/">
@@ -11,5 +12,9 @@
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/FluentCMS.Components/FluentCMS.Components.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/FluentCMS.Components.Browser/FluentCMS.Components.Browser.csproj" />
+    <Project Path="tests/FluentCMS.Components.Tests/FluentCMS.Components.Tests.csproj" />
   </Folder>
 </Solution>
