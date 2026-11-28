@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+using System.Web;
 using FluentCMS.Components.Browser.Harness;
 using Microsoft.Playwright;
 using static Microsoft.Playwright.Assertions;
@@ -47,7 +49,47 @@ public sealed class CardTests(GalleryFixture gallery)
         await keys.ShiftTabAsync();
         await keys.AssertFocusAsync("#card-link-projects");
         await keys.PressAsync("Enter");
-        await page.WaitForURLAsync("**/button*");
+        // An interactive mode follows an internal link without a new document, so wait for the address, not a response.
+        await page.WaitForURLAsync(new System.Text.RegularExpressions.Regex($"/{mode.Segment()}/button"));
+        await Expect(page.Locator("main h1")).ToHaveTextAsync("Button");
+    }
+
+    [Theory]
+    [ModeData(RenderMode.Static)]
+    public async Task NoScriptKeyboardFollowsTheLinkedSummaryToItsDocument(RenderMode mode)
+    {
+        await using IBrowserContext context = await gallery.Browser.NewContextAsync(new() { JavaScriptEnabled = false });
+        IPage page = await context.NewPageAsync();
+        Uri address = new(gallery.BaseAddress, $"{mode.Segment()}/card?theme=dark&dir=rtl");
+        Assert.True((await page.GotoAsync(address.AbsoluteUri))?.Ok);
+        var documents = new ConcurrentQueue<string>();
+        page.Request += (_, request) =>
+        {
+            if (request.IsNavigationRequest && request.Frame == page.MainFrame)
+            {
+                documents.Enqueue(request.Url);
+            }
+        };
+
+        KeyboardDriver keys = page.Keys();
+        await keys.StartAtTopAsync();
+        await keys.TabToAsync("#card-link-projects", maxPresses: 120);
+        Assert.Empty(documents);
+        IResponse response = await page.RunAndWaitForResponseAsync(
+            () => keys.PressAsync("Enter"),
+            res => res.Request.IsNavigationRequest && res.Request.Frame == page.MainFrame);
+
+        Assert.True(response.Ok);
+        Assert.Equal("document", response.Request.ResourceType);
+        Assert.Equal(response.Url, Assert.Single(documents));
+        Uri result = new(response.Url);
+        Assert.Equal($"/{mode.Segment()}/button", result.AbsolutePath);
+        var query = HttpUtility.ParseQueryString(result.Query);
+        Assert.Equal("dark", query["theme"]);
+        Assert.Equal("rtl", query["dir"]);
+        await Expect(page.Locator("main h1")).ToHaveTextAsync("Button");
+        await Expect(page.Locator($"main[data-render-mode='{mode.Segment()}']")).ToHaveAttributeAsync("data-interactive", "false");
+        Assert.Equal("rtl", await page.Locator("html").GetAttributeAsync("dir"));
     }
 
     [Theory]

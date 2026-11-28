@@ -73,7 +73,7 @@
     </Section>
 
     <Section Title="A card that is one link" Id="links">
-        <p>Give the card an <code>Href</code> and the whole surface is one link and one Tab stop. It has no title, actions, footer or flush body, because it cannot hold another link or button. Its content is the link's name; keep it to text, icons and spans.</p>
+        <p>Give the card an <code>Href</code> and the whole surface is one link and one Tab stop. It has no title, actions, footer or flush body parameter. The card does not inspect what you put in <code>ChildContent</code>: you keep it free of links, buttons and other controls, and give it text that names the destination. With no visible text, supply <code>aria-label</code> or <code>aria-labelledby</code>.</p>
         <Demo Canvas>
             <div class="gallery-card-medium">
                 <FlCard id="card-link-projects" Href="@Context.Href("button")">
@@ -132,8 +132,8 @@
             <ParameterRow Name="Actions" Type="RenderFragment?" Default="null">Controls or a short text at the end of the header. Needs a <code>Title</code>.</ParameterRow>
             <ParameterRow Name="Flush" Type="bool" Default="false">Remove the padding of the body for a list or a table.</ParameterRow>
             <ParameterRow Name="Footer" Type="RenderFragment?" Default="null">Text or the actions of a form, below the body.</ParameterRow>
-            <ParameterRow Name="Href" Type="string?" Default="null">Make the whole card one link. Cannot be combined with <code>Title</code>, <code>Actions</code>, <code>Footer</code> or <code>Flush</code>.</ParameterRow>
-            <ParameterRow Name="ChildContent" Type="RenderFragment?" Default="null">The body.</ParameterRow>
+            <ParameterRow Name="Href" Type="string?" Default="null">Make the whole card one link. Cannot be combined with <code>Title</code>, <code>Actions</code>, <code>Footer</code> or <code>Flush</code>. Needs <code>ChildContent</code> or a nonblank <code>aria-label</code> or <code>aria-labelledby</code>.</ParameterRow>
+            <ParameterRow Name="ChildContent" Type="RenderFragment?" Default="null">The body. On a linked card it becomes the link's name, so it needs meaningful text and must hold no interactive element; the card cannot check this.</ParameterRow>
             <ParameterRow Name="AdditionalAttributes" Type="IReadOnlyDictionary<string, object>?" Default="null">Other attributes go on the section or the link. Your classes are added to its own. A titled section keeps its own name; an untitled one needs <code>aria-label</code> or <code>aria-labelledby</code>.</ParameterRow>
         </ParameterTable>
     </Section>
@@ -141,7 +141,8 @@
     <Section Title="Spec">
         <SpecTable>
             <SpecRow Name="Element">A <code>section</code> with a header, a body and a footer, or one <code>a</code> holding a body <code>span</code>.</SpecRow>
-            <SpecRow Name="Name">A section is named by its heading through <code>aria-labelledby</code> when it has an <code>id</code>, or by <code>aria-label</code> when it has not. The component never makes up an id. A link takes its name from its content.</SpecRow>
+            <SpecRow Name="Name">A section is named by its heading through <code>aria-labelledby</code> when it has an <code>id</code>, or by <code>aria-label</code> when it has not. The component never makes up an id. A blank <code>Title</code> or a blank <code>aria-label</code> is rejected. A link takes its name from its content, or from a nonblank <code>aria-label</code> or <code>aria-labelledby</code>.</SpecRow>
+            <SpecRow Name="Your content">Content you pass is yours. The card renders it as is and does not check it for meaningful text, nested links or buttons, or an <code>aria-labelledby</code> id that exists. Keep a linked card's content non-interactive.</SpecRow>
             <SpecRow Name="Keyboard">A linked card is one Tab stop; Enter follows it. A section adds none of its own.</SpecRow>
             <SpecRow Name="Level">Static. It renders the same markup in every render mode.</SpecRow>
             <SpecRow Name="Classes"><code>fl-card</code> with <code>--link</code>. Parts: <code>fl-card__header</code>, <code>__title</code>, <code>__actions</code>, <code>__body</code> with <code>--flush</code>, and <code>__footer</code>.</SpecRow>

@@ -99,6 +99,8 @@ public sealed class CardAccessibilityTests(GalleryFixture gallery)
             }
             finally
             {
+                // Release away from the card: a release over it is a click and would navigate mid-observation.
+                await page.Mouse.MoveAsync(1, 1);
                 await page.Mouse.UpAsync();
             }
         });

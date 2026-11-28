@@ -24,6 +24,10 @@ public sealed partial class FlCard
     private string? TitleId => HostId is { } id ? id + "-title" : null;
     private string? LabelledBy => Title is not null && TitleId is not null ? TitleId : null;
     private string? Label => Title is not null && TitleId is null ? Title : null;
+    // A name only counts when it has text; the component cannot tell whether the id of aria-labelledby exists.
+    private bool HasHostName => AdditionalAttributes?.Any(a =>
+        NameAttributes.Contains(a.Key) && !string.IsNullOrWhiteSpace(a.Value?.ToString())) == true;
+
     private string BodyClass => Flush ? "fl-card__body fl-card__body--flush" : "fl-card__body";
 
     private IEnumerable<KeyValuePair<string, object>>? HostAttributes => AdditionalAttributes?.Where(a =>
@@ -58,9 +62,17 @@ public sealed partial class FlCard
             {
                 throw new InvalidOperationException($"A linked card is one link and cannot nest other controls; remove {part}.");
             }
+            if (ChildContent is null && !HasHostName)
+            {
+                throw new InvalidOperationException("A linked card needs ChildContent, or an aria-label or aria-labelledby with text, to have a name.");
+            }
             return;
         }
 
+        if (Title is not null && string.IsNullOrWhiteSpace(Title))
+        {
+            throw new InvalidOperationException("Title must contain text; omit it for a card with no header.");
+        }
         if (HeadingLevel is < 1 or > 6)
         {
             throw new InvalidOperationException("HeadingLevel must be from 1 to 6.");
@@ -71,7 +83,7 @@ public sealed partial class FlCard
             {
                 throw new InvalidOperationException("Actions sit beside the Title; supply a Title.");
             }
-            if (AdditionalAttributes is null || !AdditionalAttributes.Keys.Any(NameAttributes.Contains))
+            if (!HasHostName)
             {
                 throw new InvalidOperationException("A card section needs a Title, or an aria-label or aria-labelledby.");
             }

@@ -142,7 +142,74 @@ public sealed class FlCardTests : IDisposable
         Assert.Contains(parameter, error.Message, StringComparison.Ordinal);
     }
 
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void ABlankTitleIsRejected(string title)
+    {
+        var error = Assert.Throws<InvalidOperationException>(() => _context.Render<FlCard>(p => p
+            .Add(c => c.Title, title).AddUnmatched("aria-label", "Valid name").AddChildContent("x")));
+        Assert.Contains("Title", error.Message, StringComparison.Ordinal);
+    }
+
+    [Theory]
+    [InlineData("aria-label", "")]
+    [InlineData("aria-label", "  ")]
+    [InlineData("aria-labelledby", "")]
+    [InlineData("ARIA-LABELLEDBY", " ")]
+    public void BlankAriaNamesDoNotNameASection(string name, string value)
+    {
+        Assert.Throws<InvalidOperationException>(() => _context.Render<FlCard>(p => p.AddUnmatched(name, value).AddChildContent("x")));
+    }
+
+    [Fact]
+    public void ANullAriaNameDoesNotNameASection()
+    {
+        var host = new Dictionary<string, object> { ["aria-label"] = null! };
+        Assert.Throws<InvalidOperationException>(() => _context.Render<FlCard>(p => p
+            .Add(c => c.AdditionalAttributes, host).AddChildContent("x")));
+    }
+
+    [Theory]
+    [InlineData("aria-label", "Files")]
+    [InlineData("aria-labelledby", "files-heading")]
+    public void AValidAriaNameNamesAnUntitledSection(string name, string value)
+    {
+        var cut = _context.Render<FlCard>(p => p.AddUnmatched(name, value).AddChildContent("x"));
+        Assert.Equal(value, cut.Find("section").GetAttribute(name));
+    }
+
+    [Fact]
+    public void ALinkedCardWithNoContentAndNoNameIsRejected()
+    {
+        var error = Assert.Throws<InvalidOperationException>(() => _context.Render<FlCard>(p => p.Add(c => c.Href, "/projects")));
+        Assert.Contains("ChildContent", error.Message, StringComparison.Ordinal);
+    }
+
+    [Theory]
+    [InlineData("aria-label", "")]
+    [InlineData("aria-label", "  ")]
+    [InlineData("aria-labelledby", " ")]
+    public void ABlankAriaNameDoesNotNameAnEmptyLinkedCard(string name, string value)
+    {
+        Assert.Throws<InvalidOperationException>(() => _context.Render<FlCard>(p => p.Add(c => c.Href, "/projects").AddUnmatched(name, value)));
+    }
+
+    [Theory]
+    [InlineData("aria-label", "Projects")]
+    [InlineData("aria-labelledby", "projects-name")]
+    public void AnEmptyLinkedCardIsAcceptedWhenTheHostNamesIt(string name, string value)
+    {
+        var cut = _context.Render<FlCard>(p => p.Add(c => c.Href, "/projects").AddUnmatched(name, value));
+        Assert.Equal(value, cut.Find("a.fl-card--link").GetAttribute(name));
+    }
+
+    [Fact]
+    public void ALinkedCardWithContentNeedsNoExtraName()
+    {
+        var cut = _context.Render<FlCard>(p => p.Add(c => c.Href, "/projects").AddChildContent("Projects"));
+        Assert.Equal("Projects", cut.Find("a").TextContent);
+    }
+
     public void Dispose() => _context.Dispose();
 }
-
-
