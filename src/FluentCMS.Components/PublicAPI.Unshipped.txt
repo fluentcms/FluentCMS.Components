@@ -1,1 +1,8 @@
 #nullable enable
+FluentCMS.Components.FlText
+FluentCMS.Components.FlText.Close = 0 -> FluentCMS.Components.FlText
+FluentCMS.Components.FlText.Loading = 1 -> FluentCMS.Components.FlText
+FluentCMS.Components.IFlTextProvider
+FluentCMS.Components.IFlTextProvider.GetText(FluentCMS.Components.FlText text) -> string?
+Microsoft.Extensions.DependencyInjection.FluentCmsComponentsServiceCollectionExtensions
+static Microsoft.Extensions.DependencyInjection.FluentCmsComponentsServiceCollectionExtensions.AddFluentCmsComponents(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
