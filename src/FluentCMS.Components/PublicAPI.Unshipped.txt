@@ -22,6 +22,12 @@ FluentCMS.Components.FlSize
 FluentCMS.Components.FlSize.Large = 2 -> FluentCMS.Components.FlSize
 FluentCMS.Components.FlSize.Medium = 1 -> FluentCMS.Components.FlSize
 FluentCMS.Components.FlSize.Small = 0 -> FluentCMS.Components.FlSize
+FluentCMS.Components.FlText
+FluentCMS.Components.FlText.Close = 0 -> FluentCMS.Components.FlText
+FluentCMS.Components.FlText.Loading = 1 -> FluentCMS.Components.FlText
+FluentCMS.Components.IFlTextProvider
+FluentCMS.Components.IFlTextProvider.GetText(FluentCMS.Components.FlText text) -> string?
+Microsoft.Extensions.DependencyInjection.FluentCmsComponentsServiceCollectionExtensions
 static FluentCMS.Components.FlIcons.Activity.get -> FluentCMS.Components.FlIconDefinition
 static FluentCMS.Components.FlIcons.ArrowDown.get -> FluentCMS.Components.FlIconDefinition
 static FluentCMS.Components.FlIcons.ArrowLeft.get -> FluentCMS.Components.FlIconDefinition
@@ -130,3 +136,4 @@ static FluentCMS.Components.FlIcons.UserCheck.get -> FluentCMS.Components.FlIcon
 static FluentCMS.Components.FlIcons.Users.get -> FluentCMS.Components.FlIconDefinition
 static FluentCMS.Components.FlIcons.X.get -> FluentCMS.Components.FlIconDefinition
 static FluentCMS.Components.FlIcons.Zap.get -> FluentCMS.Components.FlIconDefinition
+static Microsoft.Extensions.DependencyInjection.FluentCmsComponentsServiceCollectionExtensions.AddFluentCmsComponents(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!

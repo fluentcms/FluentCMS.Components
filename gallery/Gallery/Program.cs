@@ -3,6 +3,7 @@ using Gallery.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddFluentCmsComponents();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();

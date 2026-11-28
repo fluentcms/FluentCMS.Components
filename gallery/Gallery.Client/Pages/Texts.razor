@@ -1,0 +1,52 @@
+@page "/texts"
+@using FluentCMS.Components
+@inject IFlTextProvider TextProvider
+
+<GalleryPage Title="Texts">
+    <Lede>Components use built-in English for their own labels. A host can translate one label without having to translate the rest.</Lede>
+
+    <Section Title="Built-in English">
+        <p>Each key is a member of <code>FlText</code>. The gallery uses the library’s default text provider.</p>
+        <div class="gallery-scroll">
+            <table class="gallery-table">
+                <thead><tr><th scope="col">Key</th><th scope="col">English</th></tr></thead>
+                <tbody>
+                    @foreach (FlText key in Enum.GetValues<FlText>())
+                    {
+                        <tr><th scope="row"><code>@key</code></th><td>@TextProvider.GetText(key)</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </Section>
+
+    <Section Title="Translate a label">
+        <p>Implement <code>IFlTextProvider</code> and return a translation for the keys you want to change. Here, Close becomes “Fermer”. Returning <code>null</code> for Loading keeps its built-in English.</p>
+        <Example Code="@ProviderCode" />
+    </Section>
+
+    <Section Title="Register the provider">
+        <p>Register the provider with the services that render your components. If both the server and the WebAssembly client render them, register it in both programs.</p>
+        <Example Code="@RegistrationCode" />
+    </Section>
+</GalleryPage>
+
+@code {
+    private const string ProviderCode = """
+        using FluentCMS.Components;
+
+        public sealed class FrenchTexts : IFlTextProvider
+        {
+            public string? GetText(FlText text) => text switch
+            {
+                FlText.Close => "Fermer",
+                _ => null,
+            };
+        }
+        """;
+
+    private const string RegistrationCode = """
+        builder.Services.AddFluentCmsComponents();
+        builder.Services.AddScoped<IFlTextProvider, FrenchTexts>();
+        """;
+}
