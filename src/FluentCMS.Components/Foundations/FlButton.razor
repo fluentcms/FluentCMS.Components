@@ -1,0 +1,34 @@
+@namespace FluentCMS.Components
+@using Microsoft.AspNetCore.Components.Web
+
+@if (Href is not null)
+{
+    <a class="@CssClass" href="@(Unavailable ? null : Href)" role="@(Unavailable ? "link" : null)"
+       tabindex="@(ShowBusy ? "0" : null)" aria-disabled="@(Unavailable ? "true" : null)"
+       aria-label="@Label" aria-busy="@AriaBusy" aria-description="@BusyDescription"
+       @onclick="@ClickHandler" @attributes="HostAttributes">@Contents</a>
+}
+else
+{
+    <button class="@CssClass" type="@NativeType" disabled="@Disabled" aria-pressed="@AriaPressed"
+            aria-label="@Label" aria-busy="@AriaBusy" aria-disabled="@AriaBusy" aria-description="@BusyDescription"
+            @onclick="@ClickHandler" @attributes="HostAttributes">@Contents</button>
+}
+
+@code {
+    private RenderFragment Contents => @<text>
+        @if (Icon is { } leading)
+        {
+            <FlIcon Icon="leading" />
+        }
+        @ChildContent
+        @if (IconEnd is { } trailing)
+        {
+            <FlIcon Icon="trailing" />
+        }
+        @if (ShowBusy)
+        {
+            <FlIcon Icon="FlIcons.LoaderCircle" Spin="true" class="fl-button__spinner" />
+        }
+    </text>;
+}
