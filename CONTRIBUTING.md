@@ -122,6 +122,20 @@ dotnet publish gallery/Gallery.Client -c Release -o artifacts/gallery
 
 `artifacts/gallery/wwwroot` is then a static site that runs the gallery in WebAssembly alone, from `index.html`. The client tells the two cases apart by the base of the address: under the host it ends with a mode, such as `/wasm/`. So the static site must not be served from a folder named `static`, `server` or `wasm`.
 
+## The script
+
+`src/FluentCMS.Components/wwwroot/FluentCMS.Components.lib.module.js` is the package's JavaScript initializer. A Blazor host does not add a script tag for it. A plain HTML page can import `_content/FluentCMS.Components/FluentCMS.Components.lib.module.js` as an external module. The initializer enhances existing HTML; it does not select a render mode or restore focus across prerendering.
+
+Start with the native element and its attributes. If a browser already performs the interaction, do not implement it again. Where an event suffices, listen on the document so that replacement markup and enhanced navigation do not require new listeners. Use `data-fl-*` for a library state that HTML cannot express. Prefer a bubbling native `input` or `change` event over a .NET call per interaction.
+
+The first behaviours keep a popover trigger's `aria-expanded` in sync, set a checkbox's `indeterminate` property from `data-fl-indeterminate`, and operate the two step buttons of a number input. In the interactive number example, `data-fl-value` mirrors the bound model so a render can tell the initializer to recheck the limits. The live input remains the source of the number. If plain JavaScript assigns `.value` directly, dispatch a bubbling `input` event; a property assignment by itself raises no event and does not change the HTML attribute.
+
+If the native event does not carry the data a component needs, register a distinct custom event name with `blazor.registerCustomEventType`, and declare its `on…` name and argument type with `[EventHandler]` on an `EventHandlers` class in scope for the Razor page. The gallery's `Gallery.Client.lib.module.js` and `EventHandlers.cs` show `flsamplechange` mapped to native `change` and `ChangeEventArgs`. This example is not part of the library package.
+
+To add a behaviour, include a real specimen and a browser test of the interaction, both on direct entry and after navigation. Run it in static SSR, interactive server and WebAssembly. For an interactive binding, assert the value received by .NET, not just the value in the input. Verify custom event arguments in a trimmed publish as well.
+
+For the standalone check, publish and serve the gallery as described above under **The static site**. Set `FLUENTCMS_PUBLISHED_URL` to the served site's address, then run `dotnet test --project tests/FluentCMS.Components.Browser --explicit only --filter-method "*PublishedStandaloneRegistersTypedEvent" --minimum-expected-tests 1`. This test requires the published site; a normal browser run reports it as explicitly skipped.
+
 ## Tests
 
 There are two test projects, both xUnit v3 on the Microsoft Testing Platform. `global.json` switches `dotnet test` to that platform, which the .NET 10 SDK needs for xUnit v3. Both run from the root, and building is part of the run:

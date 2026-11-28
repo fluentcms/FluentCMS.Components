@@ -10,5 +10,6 @@ public static class GalleryPages
         new("", "Start"),
         new("tokens", "Tokens"),
         new("render-modes", "Render modes"),
+        new("script", "Script"),
     ];
 }

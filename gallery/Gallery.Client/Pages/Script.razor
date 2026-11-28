@@ -1,0 +1,51 @@
+@page "/script"
+
+<GalleryPage Title="Script">
+    <Lede>Three controls on plain HTML. The library script keeps their state in step with the browser, even on a static page.</Lede>
+
+    <Section Title="Popover">
+        <p>Open the note, then press Escape to close it. The button reports whether the note is expanded.</p>
+        <Demo>
+            <button class="fl-button" type="button" id="script-trigger" popovertarget="script-popover" aria-expanded="false">Show note</button>
+            <div class="fl-popover" id="script-popover" popover="auto">
+                <div class="fl-popover__body"><p>This note stays open until you dismiss it.</p></div>
+            </div>
+        </Demo>
+    </Section>
+
+    <Section Title="Mixed checkbox">
+        <p>The dash means that some items are selected. Press Space or select the label to choose all items.</p>
+        <Demo>
+            <div class="fl-checkbox">
+                <input class="fl-checkbox__control" type="checkbox" id="script-checkbox" data-fl-indeterminate />
+                <label class="fl-checkbox__label" for="script-checkbox">Select all items</label>
+            </div>
+        </Demo>
+    </Section>
+
+    <Section Title="Number input">
+        <p>Choose a quantity from 0 to 2. Use the minus and plus buttons, or the arrow keys in the field. Each button stops at its limit.</p>
+        <Demo Column>
+            <div class="fl-field">
+                <label class="fl-field__label" for="script-number">Quantity</label>
+                <span class="fl-input fl-number-input gallery-narrow">
+                    <input class="fl-input__control fl-number-input__control" type="number" id="script-number"
+                           min="0" max="2" step="1" data-fl-value="@_quantity" @bind="_quantity" @onflsamplechange="OnSampleChange" />
+                    <button class="fl-number-input__step" type="button" tabindex="-1" aria-label="Decrease"><svg class="fl-icon" aria-hidden="true"><use href="design/icons/lucide.svg#minus" /></svg></button>
+                    <button class="fl-number-input__step" type="button" tabindex="-1" aria-label="Increase"><svg class="fl-icon" aria-hidden="true"><use href="design/icons/lucide.svg#plus" /></svg></button>
+                </span>
+            </div>
+            <div>Bound value: <output id="script-bound-value" for="script-number">@_quantity</output></div>
+            <div>Value from the sample event: <output id="script-event-value" for="script-number">@_eventValue</output></div>
+            <div><button class="fl-button" type="button" id="script-set-one" disabled="@(!RendererInfo.IsInteractive)" @onclick="() => _quantity = 1">Set quantity to 1 from .NET</button></div>
+        </Demo>
+        <p>In server and WebAssembly modes, .NET receives the native change and a typed sample event for the same field. The last button sets the quantity from .NET instead. In static mode only the field changes and the last button is disabled.</p>
+    </Section>
+</GalleryPage>
+
+@code {
+    private int _quantity = 1;
+    private string? _eventValue = "No change yet";
+
+    private void OnSampleChange(ChangeEventArgs args) => _eventValue = args.Value?.ToString();
+}
